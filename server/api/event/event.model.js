@@ -6,7 +6,9 @@ var Schema = mongoose.Schema;
 var EventSchema = new Schema({
   title: String,
   description: String,
-  course: {type: Schema.Types.ObjectId, ref: 'Course'},
+  author: {type: Schema.Types.ObjectId, ref: 'User'},
+  creationDate: Date,
+  courses: []{type: Schema.Types.ObjectId, ref: 'Course'}],
   submissions: [{type : Schema.Types.ObjectId, ref: 'Submission '}],
   locations: [String], // TODO, what format should this be in?
   times: [{

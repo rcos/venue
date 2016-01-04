@@ -8,8 +8,14 @@ var SubmissionSchema = new Schema({
   content: String,
   images: [String], // path to image on static image server?
   time: Date,
+  submitter: {type : Schema.Types.ObjectId, ref: 'User'},
   authors: [{type : Schema.Types.ObjectId, ref: 'User'}],
-  location: String // TODO format?
+  location: {
+    address: String,
+    description: String,
+    type: [Number],        // [<longitude>, <latitude>]
+    index: '2dsphere'      
+  }
 });
 
 module.exports = mongoose.model('Submission', SubmissionSchema);
