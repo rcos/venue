@@ -8,7 +8,7 @@ var EventSchema = new Schema({
   description: String,
   author: {type: Schema.Types.ObjectId, ref: 'User'},
   creationDate: Date,
-  courses: []{type: Schema.Types.ObjectId, ref: 'Course'}],
+  courses: [{type: Schema.Types.ObjectId, ref: 'Course'}],
   submissions: [{type : Schema.Types.ObjectId, ref: 'Submission '}],
   locations: [String], // TODO, what format should this be in?
   times: [{
