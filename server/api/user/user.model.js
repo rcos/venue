@@ -45,8 +45,8 @@ UserSchema
     .get(function() {
         return !this.isInstructor;
     })
-    .set(function(){
-        return this.isInstructor;
+    .set(function(isStudent){
+        this.isInstructor = !isStudent;
     });
 
 // Non-sensitive info we'll be putting in the token
