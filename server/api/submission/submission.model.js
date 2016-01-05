@@ -13,8 +13,7 @@ var SubmissionSchema = new Schema({
   location: {
     address: String,
     description: String,
-    type: [Number],        // [<longitude>, <latitude>]
-    index: '2dsphere'      
+    coordinates: [Number]        // [<longitude>, <latitude>]
   }
 });
 

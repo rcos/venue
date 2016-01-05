@@ -10,7 +10,11 @@ var EventSchema = new Schema({
   creationDate: Date,
   courses: [{type: Schema.Types.ObjectId, ref: 'Course'}],
   submissions: [{type : Schema.Types.ObjectId, ref: 'Submission '}],
-  locations: [String], // TODO, what format should this be in?
+  location: {
+    address: String,
+    description: String,
+    coordinates: [Number]        // [<longitude>, <latitude>]
+  },
   times: [{
       start: Date,
       end: Date
