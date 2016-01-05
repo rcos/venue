@@ -35,8 +35,8 @@ describe('Submission API:', function() {
       request(app)
         .post('/api/submissions')
         .send({
-          name: 'New Submission',
-          info: 'This is the brand new submission!!!'
+          title: 'New Submission',
+          content: 'This is the brand new submission!!!'
         })
         .expect(201)
         .expect('Content-Type', /json/)
@@ -50,8 +50,8 @@ describe('Submission API:', function() {
     });
 
     it('should respond with the newly created submission', function() {
-      expect(newSubmission.name).to.equal('New Submission');
-      expect(newSubmission.info).to.equal('This is the brand new submission!!!');
+      expect(newSubmission.title).to.equal('New Submission');
+      expect(newSubmission.content).to.equal('This is the brand new submission!!!');
     });
 
   });
@@ -78,8 +78,8 @@ describe('Submission API:', function() {
     });
 
     it('should respond with the requested submission', function() {
-      expect(submission.name).to.equal('New Submission');
-      expect(submission.info).to.equal('This is the brand new submission!!!');
+      expect(submission.title).to.equal('New Submission');
+      expect(submission.content).to.equal('This is the brand new submission!!!');
     });
 
   });
@@ -91,8 +91,8 @@ describe('Submission API:', function() {
       request(app)
         .put('/api/submissions/' + newSubmission._id)
         .send({
-          name: 'Updated Submission',
-          info: 'This is the updated submission!!!'
+          title: 'Updated Submission',
+          content: 'This is the updated submission!!!'
         })
         .expect(200)
         .expect('Content-Type', /json/)
@@ -110,8 +110,8 @@ describe('Submission API:', function() {
     });
 
     it('should respond with the updated submission', function() {
-      expect(updatedSubmission.name).to.equal('Updated Submission');
-      expect(updatedSubmission.info).to.equal('This is the updated submission!!!');
+      expect(updatedSubmission.title).to.equal('Updated Submission');
+      expect(updatedSubmission.content).to.equal('This is the updated submission!!!');
     });
 
   });
