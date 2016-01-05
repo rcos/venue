@@ -18,6 +18,10 @@ module.exports = {
   GOOGLE_ID:        'app-id',
   GOOGLE_SECRET:    'secret',
 
+  // Mail Server Settings
+  SENDGRID_KEY:     '',
+  SERVER_EMAIL:     'noreply_venue_team@venue_url.com',
+
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''
 };
