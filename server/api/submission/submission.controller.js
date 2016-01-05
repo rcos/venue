@@ -1,16 +1,16 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/things              ->  index
- * POST    /api/things              ->  create
- * GET     /api/things/:id          ->  show
- * PUT     /api/things/:id          ->  update
- * DELETE  /api/things/:id          ->  destroy
+ * GET     /api/submissions              ->  index
+ * POST    /api/submissions              ->  create
+ * GET     /api/submissions/:id          ->  show
+ * PUT     /api/submissions/:id          ->  update
+ * DELETE  /api/submissions/:id          ->  destroy
  */
 
 'use strict';
 
-import _ from 'lodash';
-var Thing = require('./thing.model');
+var _ = require('lodash');
+var Submission = require('./submission.model');
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -42,7 +42,7 @@ function saveUpdates(updates) {
   return function(entity) {
     var updated = _.merge(entity, updates);
     return updated.saveAsync()
-      .spread(updated => {
+      .spread(function(updated) {
         return updated;
       });
   };
@@ -52,51 +52,51 @@ function removeEntity(res) {
   return function(entity) {
     if (entity) {
       return entity.removeAsync()
-        .then(() => {
+        .then(function() {
           res.status(204).end();
         });
     }
   };
 }
 
-// Gets a list of Things
-export function index(req, res) {
-  Thing.findAsync()
+// Gets a list of Submissions
+exports.index = function(req, res) {
+  Submission.findAsync()
     .then(responseWithResult(res))
     .catch(handleError(res));
-}
+};
 
-// Gets a single Thing from the DB
-export function show(req, res) {
-  Thing.findByIdAsync(req.params.id)
+// Gets a single Submission from the DB
+exports.show = function(req, res) {
+  Submission.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));
-}
+};
 
-// Creates a new Thing in the DB
-export function create(req, res) {
-  Thing.createAsync(req.body)
+// Creates a new Submission in the DB
+exports.create = function(req, res) {
+  Submission.createAsync(req.body)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
-}
+};
 
-// Updates an existing Thing in the DB
-export function update(req, res) {
+// Updates an existing Submission in the DB
+exports.update = function(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Thing.findByIdAsync(req.params.id)
+  Submission.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(responseWithResult(res))
     .catch(handleError(res));
-}
+};
 
-// Deletes a Thing from the DB
-export function destroy(req, res) {
-  Thing.findByIdAsync(req.params.id)
+// Deletes a Submission from the DB
+exports.destroy = function(req, res) {
+  Submission.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
-}
+};

@@ -4,21 +4,21 @@
 
 'use strict';
 
-var ThingEvents = require('./thing.events');
+var CourseEvents = require('./course.events');
 
 // Model events to emit
 var events = ['save', 'remove'];
 
-export function register(socket) {
+exports.register = function(socket) {
   // Bind model events to socket events
   for (var i = 0, eventsLength = events.length; i < eventsLength; i++) {
     var event = events[i];
-    var listener = createListener('thing:' + event, socket);
+    var listener = createListener('course:' + event, socket);
 
-    ThingEvents.on(event, listener);
+    CourseEvents.on(event, listener);
     socket.on('disconnect', removeListener(event, listener));
   }
-}
+};
 
 
 function createListener(event, socket) {
@@ -29,6 +29,6 @@ function createListener(event, socket) {
 
 function removeListener(event, listener) {
   return function() {
-    ThingEvents.removeListener(event, listener);
+    CourseEvents.removeListener(event, listener);
   };
 }
