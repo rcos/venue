@@ -36,7 +36,7 @@ describe('Course API:', function() {
         .post('/api/courses')
         .send({
           name: 'New Course',
-          info: 'This is the brand new course!!!'
+          description: 'This is the brand new course!!!'
         })
         .expect(201)
         .expect('Content-Type', /json/)
@@ -51,7 +51,7 @@ describe('Course API:', function() {
 
     it('should respond with the newly created course', function() {
       expect(newCourse.name).to.equal('New Course');
-      expect(newCourse.info).to.equal('This is the brand new course!!!');
+      expect(newCourse.description).to.equal('This is the brand new course!!!');
     });
 
   });
@@ -79,7 +79,7 @@ describe('Course API:', function() {
 
     it('should respond with the requested course', function() {
       expect(course.name).to.equal('New Course');
-      expect(course.info).to.equal('This is the brand new course!!!');
+      expect(course.description).to.equal('This is the brand new course!!!');
     });
 
   });
@@ -92,7 +92,7 @@ describe('Course API:', function() {
         .put('/api/courses/' + newCourse._id)
         .send({
           name: 'Updated Course',
-          info: 'This is the updated course!!!'
+          description: 'This is the updated course!!!'
         })
         .expect(200)
         .expect('Content-Type', /json/)
@@ -111,7 +111,7 @@ describe('Course API:', function() {
 
     it('should respond with the updated course', function() {
       expect(updatedCourse.name).to.equal('Updated Course');
-      expect(updatedCourse.info).to.equal('This is the updated course!!!');
+      expect(updatedCourse.description).to.equal('This is the updated course!!!');
     });
 
   });
