@@ -11,9 +11,9 @@ export default function(app) {
   // Insert routes below
   app.use('/api/users', require('./api/user'));
 
-  app.use('/api/course', require('./api/course'));
-  app.use('/api/event', require('./api/event'));
-  app.use('/api/submission', require('./api/submission'));
+  app.use('/api/courses', require('./api/course'));
+  app.use('/api/events', require('./api/event'));
+  app.use('/api/submissions', require('./api/submission'));
 
   app.use('/auth', require('./auth'));
 
