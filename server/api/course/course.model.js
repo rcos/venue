@@ -9,9 +9,9 @@ var CourseSchema = new Schema({
   department: String,
   courseNumber: Number,
   description: String,
-  semseter: String,
+  semester: String,
   students: [{type : Schema.Types.ObjectId, ref: 'User'}],
-  instructor: {type : Schema.Types.ObjectId, ref: 'User'},
+  instructors: [{type : Schema.Types.ObjectId, ref: 'User'}],
   active: Boolean
 });
 
