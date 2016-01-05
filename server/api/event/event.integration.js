@@ -35,8 +35,8 @@ describe('Event API:', function() {
       request(app)
         .post('/api/events')
         .send({
-          name: 'New Event',
-          info: 'This is the brand new event!!!'
+          title: 'New Event',
+          description: 'This is the brand new event!!!'
         })
         .expect(201)
         .expect('Content-Type', /json/)
@@ -50,8 +50,8 @@ describe('Event API:', function() {
     });
 
     it('should respond with the newly created event', function() {
-      expect(newEvent.name).to.equal('New Event');
-      expect(newEvent.info).to.equal('This is the brand new event!!!');
+      expect(newEvent.title).to.equal('New Event');
+      expect(newEvent.description).to.equal('This is the brand new event!!!');
     });
 
   });
@@ -78,8 +78,8 @@ describe('Event API:', function() {
     });
 
     it('should respond with the requested event', function() {
-      expect(event.name).to.equal('New Event');
-      expect(event.info).to.equal('This is the brand new event!!!');
+      expect(event.title).to.equal('New Event');
+      expect(event.description).to.equal('This is the brand new event!!!');
     });
 
   });
@@ -91,8 +91,8 @@ describe('Event API:', function() {
       request(app)
         .put('/api/events/' + newEvent._id)
         .send({
-          name: 'Updated Event',
-          info: 'This is the updated event!!!'
+          title: 'Updated Event',
+          description: 'This is the updated event!!!'
         })
         .expect(200)
         .expect('Content-Type', /json/)
@@ -110,8 +110,8 @@ describe('Event API:', function() {
     });
 
     it('should respond with the updated event', function() {
-      expect(updatedEvent.name).to.equal('Updated Event');
-      expect(updatedEvent.info).to.equal('This is the updated event!!!');
+      expect(updatedEvent.title).to.equal('Updated Event');
+      expect(updatedEvent.description).to.equal('This is the updated event!!!');
     });
 
   });
