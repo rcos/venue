@@ -4,40 +4,9 @@
  */
 
 'use strict';
-import Thing from '../api/thing/thing.model';
 import User from '../api/user/user.model';
-
-Thing.find({}).removeAsync()
-  .then(() => {
-    Thing.create({
-      name: 'Development Tools',
-      info: 'Integration with popular tools such as Bower, Grunt, Babel, Karma, ' +
-             'Mocha, JSHint, Node Inspector, Livereload, Protractor, Jade, ' +
-             'Stylus, Sass, and Less.'
-    }, {
-      name: 'Server and Client integration',
-      info: 'Built with a powerful and fun stack: MongoDB, Express, ' +
-             'AngularJS, and Node.'
-    }, {
-      name: 'Smart Build System',
-      info: 'Build system ignores `spec` files, allowing you to keep ' +
-             'tests alongside code. Automatic injection of scripts and ' +
-             'styles into your index.html'
-    }, {
-      name: 'Modular Structure',
-      info: 'Best practice client and server structures allow for more ' +
-             'code reusability and maximum scalability'
-    }, {
-      name: 'Optimized Build',
-      info: 'Build process packs up your templates as a single JavaScript ' +
-             'payload, minifies your scripts/css/images, and rewrites asset ' +
-             'names for caching.'
-    }, {
-      name: 'Deployment Ready',
-      info: 'Easily deploy your app to Heroku or Openshift with the heroku ' +
-             'and openshift subgenerators'
-    });
-  });
+import Course from '../api/course/course.model';
+import Event from '../api/event/event.model';
 
 User.find({}).removeAsync()
   .then(() => {
@@ -52,8 +21,141 @@ User.find({}).removeAsync()
       name: 'Admin',
       email: 'admin@example.com',
       password: 'admin'
+    }, {
+      provider: 'local',
+      name: 'bob',
+      email: 'bob@example.com',
+      password: 'password',
+      isInstructor: true
+    }, {
+      provider: 'local',
+      name: 'foo',
+      email: 'foo@example.com',
+      password: 'password',
+      isInstructor: false
+    }, {
+      provider: 'local',
+      name: 'jane',
+      email: 'jane@example.com',
+      password: 'password',
+      isInstructor: false
     })
     .then(() => {
       console.log('finished populating users');
+      createCourses();
     });
   });
+
+function createCourses(){
+  Course.find({}).removeAsync()
+    .then(() => {
+      Course.createAsync({
+        name: 'machine learning',
+        courseReferenceNumber: 1111111,
+        department: "CSCI",
+        courseNumber: 4100,
+        description: "Learn about machines ",
+        semester: "F2015",
+        students: [],
+        instructors: [],
+        active: false
+      }, {
+        name: 'Intro to comp sci',
+        courseReferenceNumber: 1111112,
+        department: "CSCI",
+        courseNumber: 1200,
+        description: "Learn about coding!",
+        semester: "S2016",
+        active: true
+      })
+      .then(() => {
+        console.log('finished populating courses');
+        createEvents();
+        addStudents();
+      });
+    });
+}
+
+function addStudents(){
+  // Find users
+  User.findOne({'name':"bob"}, function(err, user){
+    Course.find({}, function(err, courses){
+      for (var i=0; i< courses.length; i++) {
+        courses[i].instructors.push(user._id);
+        courses[i].save(function(err) {
+          if (err) return console.log(err);
+        });
+      }
+    });
+  });
+
+  User.findOne({'name':"foo"}, function(err, user){
+    Course.find({}, function(err, courses){
+      for (var i=0; i< courses.length; i++) {
+        courses[i].students.push(user._id);
+        courses[i].save(function(err) {
+          if (err) return console.log(err);
+        });
+      }
+    });
+  });
+
+  User.findOne({'name':"jane"}, function(err, user){
+    Course.find({}, function(err, courses){
+      for (var i=0; i< courses.length; i++) {
+        courses[i].students.push(user._id);
+        courses[i].save(function(err) {
+          if (err) return console.log(err);
+        });
+      }
+    });
+  });
+}
+
+
+function createEvents(){
+
+Event.find({}).removeAsync()
+  .then(() => {
+    Event.createAsync({
+      title: "RCOS meeting",
+      description: "RCOS is awesome",
+      creationDate: new Date(),
+
+    }, {
+      title: "artx",
+      description: "artx is awesome",
+      creationDate: new Date(),
+    })
+    .then(() => {
+      console.log('finished populating courses');
+      addCourses();
+    });
+  });
+}
+
+function addCourses(){
+  // Find users
+  Course.findOne({ 'courseReferenceNumber': 1111111}, function(err, course){
+    Event.find({}, function(err, events){
+      for (var i=0; i< events.length; i++) {
+        events[i].courses.push(course._id);
+        events[i].save(function(err) {
+          if (err) return console.log(err);
+        });
+      }
+    });
+  });
+
+  Course.findOne({'courseReferenceNumber':1111112}, function(err, course){
+    Event.find({}, function(err, events){
+      for (var i=0; i< events.length; i++) {
+        events[i].courses.push(course._id);
+        events[i].save(function(err) {
+          if (err) return console.log(err);
+        });
+      }
+    });
+  });
+
+}
