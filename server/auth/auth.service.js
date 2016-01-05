@@ -59,11 +59,29 @@ export function hasRole(roleRequired) {
     });
 }
 
+/**
+ * Checks if user is an instructor
+ */
 export function isInstructor(){
     return compose()
         .use(isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
             if (req.user.isInstructor){
+                next();
+            }else{
+                res.status(403).send('Forbidden');
+            }
+        });
+}
+
+/**
+ * Checks if user is a student
+ */
+export function isStudent(){
+    return compose()
+        .use(isAuthenticated())
+        .use(function meetsRequirements(req, res, next) {
+            if (!req.user.isInstructor){
                 next();
             }else{
                 res.status(403).send('Forbidden');
