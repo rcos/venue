@@ -16,6 +16,7 @@ var UserSchema = new Schema({
     type: String,
     default: 'user'
   },
+  isInstructor: Boolean,
   password: String,
   provider: String,
   salt: String,
@@ -38,6 +39,15 @@ UserSchema
       'role': this.role
     };
   });
+
+UserSchema
+    .virtual('isStudent')
+    .get(function() {
+        return !this.isInstructor;
+    })
+    .set(function(isStudent){
+        this.isInstructor = !isStudent;
+    });
 
 // Non-sensitive info we'll be putting in the token
 UserSchema
