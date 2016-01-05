@@ -7,11 +7,8 @@
     return $resource('/api/submissions/:id', {
       id: '@_id'
     }, {
-      getAll: {
-        method: 'GET',
-        param: {
-          id: ""
-        }
+      get: {
+        method: 'GET'
       },
       getAll: {
         method: 'GET',
