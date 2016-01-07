@@ -23,7 +23,7 @@ var CourseSchema = new Schema({
  */
 CourseSchema.methods = {
 
-  getEvents(cb){
+  getFullEvents(cb){
     var asyncTasks = [];
     var events = [];
     this.events.forEach(function(eventId){

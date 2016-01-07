@@ -133,7 +133,7 @@ export function courses(req, res, next) {
       if (!user) {
         return res.status(401).end();
       }
-      user.getCourses((courses)=>{
+      user.getFullCourses((courses)=>{
         res.json(courses)
       })
     })
@@ -151,7 +151,7 @@ export function events(req, res, next) {
       if (!user) {
         return res.status(401).end();
       }
-      user.getEvents((events)=>{
+      user.getFullEvents((events)=>{
         res.json(events)
       })
     })

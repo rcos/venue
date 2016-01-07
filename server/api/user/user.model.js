@@ -239,7 +239,7 @@ UserSchema.methods = {
     });
   },
 
-  getCourses(cb){
+  getFullCourses(cb){
     var asyncTasks = [];
     var courses = [];
     this.courses.forEach(function(courseId){
@@ -257,13 +257,13 @@ UserSchema.methods = {
     });
   },
 
-  getEvents(cb){
-    this.getCourses( courses => {
+  getFullEvents(cb){
+    this.getFullCourses( courses => {
       var events = [];
       var asyncTasks = [];
       courses.forEach(function(course){
         asyncTasks.push(function(callback){
-          course.getEvents( (evnt) => {
+          course.getFullEvents( (evnt) => {
             events = events.concat(evnt);
             callback();
           });
