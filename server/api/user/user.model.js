@@ -3,6 +3,10 @@
 import crypto from 'crypto';
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 import {Schema} from 'mongoose';
+import async from 'async';
+import Course from '../course/course.model';
+
+
 
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
 
@@ -233,6 +237,43 @@ UserSchema.methods = {
         callback(null, key.toString('base64'));
       }
     });
+  },
+
+  getCourses(cb){
+    var asyncTasks = [];
+    var courses = [];
+    this.courses.forEach(function(courseId){
+      asyncTasks.push(function(callback){
+        Course.findById(courseId.toString())
+        .then(course => {
+          courses.push(course);
+          callback();
+        });
+      });
+    });
+
+    async.parallel(asyncTasks, () => {
+      cb(courses)
+    });
+  },
+
+  getEvents(cb){
+    this.getCourses( courses => {
+      var events = [];
+      var asyncTasks = [];
+      courses.forEach(function(course){
+        asyncTasks.push(function(callback){
+          course.getEvents( (evnt) => {
+            events = events.concat(evnt);
+            callback();
+          });
+        });
+      });
+
+      async.parallel(asyncTasks, () => {
+        cb(events)
+      });
+    })
   }
 };
 

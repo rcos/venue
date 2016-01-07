@@ -1,12 +1,9 @@
 'use strict';
 
 import User from './user.model';
-import Course from '../course/course.model';
-import Event from '../event/event.model';
 import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
-import async from 'async';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -28,62 +25,6 @@ function respondWith(res, statusCode) {
     res.status(statusCode).end();
   };
 }
-
-function sendCourses(res, user) {
-
-  var asyncTasks = [];
-  var courses = [];
-  user.courses.forEach(function(courseId){
-    asyncTasks.push(function(callback){
-      Course.findById(courseId.toString())
-      .then(course => {
-        courses.push(course);
-        callback();
-      });
-    });
-  });
-
-  async.parallel(asyncTasks, function(){
-    res.json(courses);
-  });
-}
-
-function sendEvents(res, user) {
-
-  var asyncTasks = [];
-  var courses = [];
-  var events = [];
-
-  user.courses.forEach(function(courseId){
-    asyncTasks.push(function(callback){
-      Course.findById(courseId.toString())
-      .then(course => {
-        courses.push(course);
-        callback();
-      });
-    });
-  });
-
-  async.parallel(asyncTasks, function(){
-    asyncTasks = [];
-    courses.forEach(function(course){
-      course.events.forEach(function(eventId){
-        asyncTasks.push(function(callback){
-          Event.findById(eventId.toString())
-          .then(evnt => {
-            events.push(evnt);
-            callback();
-          });
-        });
-      });
-    });
-    async.parallel(asyncTasks, function(){
-      res.json(events);
-    });
-  });
-
-}
-
 
 /**
  * Get list of users
@@ -192,7 +133,9 @@ export function courses(req, res, next) {
       if (!user) {
         return res.status(401).end();
       }
-      sendCourses(res, user);
+      user.getCourses((courses)=>{
+        res.json(courses)
+      })
     })
     .catch(err => next(err));
 }
@@ -208,7 +151,9 @@ export function events(req, res, next) {
       if (!user) {
         return res.status(401).end();
       }
-      sendEvents(res, user);
+      user.getEvents((events)=>{
+        res.json(events)
+      })
     })
     .catch(err => next(err));
 }
