@@ -24,6 +24,13 @@ function UserResource($resource) {
         controller:'courses'
       },
       isArray: true
+    },
+    getEvents: {
+      method: 'GET',
+      params: {
+        controller:'events'
+      },
+      isArray: true
     }
   });
 

@@ -110,7 +110,6 @@ function addStudentsHelper(student){
           if (err) return console.log(err);
         });
       }
-      console.log(courseIds);
       addStudentToCourse(student, courseIds);
     });
   });
@@ -127,7 +126,6 @@ function addInstructorHelper(instr){
           if (err) return console.log(err);
         });
       }
-      console.log(courseIds);
       addStudentToCourse(instr, courseIds);
     });
   });

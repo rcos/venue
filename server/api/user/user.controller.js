@@ -2,6 +2,7 @@
 
 import User from './user.model';
 import Course from '../course/course.model';
+import Event from '../event/event.model';
 import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
@@ -28,13 +29,14 @@ function respondWith(res, statusCode) {
   };
 }
 
-function findCourses(res, user) {
+function sendCourses(res, user) {
 
   var asyncTasks = [];
   var courses = [];
   user.courses.forEach(function(courseId){
     asyncTasks.push(function(callback){
-      Course.findById(courseId, function(course){
+      Course.findById(courseId.toString())
+      .then(course => {
         courses.push(course);
         callback();
       });
@@ -42,14 +44,45 @@ function findCourses(res, user) {
   });
 
   async.parallel(asyncTasks, function(){
-    sendCourses(res, courses);
+    res.json(courses);
   });
 }
 
-function sendCourses(res, courses){
-  res.send(courses);
-}
+function sendEvents(res, user) {
 
+  var asyncTasks = [];
+  var courses = [];
+  var events = [];
+
+  user.courses.forEach(function(courseId){
+    asyncTasks.push(function(callback){
+      Course.findById(courseId.toString())
+      .then(course => {
+        courses.push(course);
+        callback();
+      });
+    });
+  });
+
+  async.parallel(asyncTasks, function(){
+    asyncTasks = [];
+    courses.forEach(function(course){
+      course.events.forEach(function(eventId){
+        asyncTasks.push(function(callback){
+          Event.findById(eventId.toString())
+          .then(evnt => {
+            events.push(evnt);
+            callback();
+          });
+        });
+      });
+    });
+    async.parallel(asyncTasks, function(){
+      res.json(events);
+    });
+  });
+
+}
 
 
 /**
@@ -149,17 +182,33 @@ export function me(req, res, next) {
 }
 
 /**
- * Get current courses
+ * Get user's courses
  */
 export function courses(req, res, next) {
-  var userId = req.user._id;
+  var userId = req.params.id;
 
   User.findOneAsync({ _id: userId }, '-salt -password')
     .then(user => { // don't ever give out the password or salt
       if (!user) {
         return res.status(401).end();
       }
-      findCourses(res, user);
+      sendCourses(res, user);
+    })
+    .catch(err => next(err));
+}
+
+/**
+ * Get user's events
+ */
+export function events(req, res, next) {
+  var userId = req.params.id;
+
+  User.findOneAsync({ _id: userId }, '-salt -password')
+    .then(user => { // don't ever give out the password or salt
+      if (!user) {
+        return res.status(401).end();
+      }
+      sendEvents(res, user);
     })
     .catch(err => next(err));
 }
