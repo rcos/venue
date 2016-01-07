@@ -5,6 +5,6 @@ angular.module('venueApp')
     $routeProvider
       .when('/student/dashboard', {
         templateUrl: 'app/student/dashboard/dashboard.html',
-        controller: 'DashboardCtrl'
+        controller: 'StudentDashboardCtrl'
       });
   });
