@@ -12,6 +12,7 @@ var CourseSchema = new Schema({
   semester: String,
   students: [{type : Schema.Types.ObjectId, ref: 'User'}],
   instructors: [{type : Schema.Types.ObjectId, ref: 'User'}],
+  events: [{type : Schema.Types.ObjectId, ref: 'Event'}],
   active: Boolean
 });
 

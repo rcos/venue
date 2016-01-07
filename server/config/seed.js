@@ -7,7 +7,9 @@
 import User from '../api/user/user.model';
 import Course from '../api/course/course.model';
 import Event from '../api/event/event.model';
+import mongoose from 'mongoose';
 
+// Create Users
 User.find({}).removeAsync()
   .then(() => {
     User.createAsync({
@@ -46,6 +48,7 @@ User.find({}).removeAsync()
     });
   });
 
+// Create Courses
 function createCourses(){
   Course.find({}).removeAsync()
     .then(() => {
@@ -76,86 +79,115 @@ function createCourses(){
     });
 }
 
+// Add the students to the courses
 function addStudents(){
-  // Find users
-  User.findOne({'name':"bob"}, function(err, user){
+  var students = [
+    {'name': 'foo'},
+    {'name': 'jane'}
+  ]
+
+  for (var i=0; i< students.length; i++) {
+    addStudentsHelper(students[i]);
+  }
+
+  var instr = [
+    {'name': 'bob'}
+  ]
+  for (var i=0; i< instr.length; i++) {
+    addInstructorHelper(instr[i]);
+  }
+}
+
+function addStudentsHelper(student){
+  User.findOne(student, function(err, user){
     Course.find({}, function(err, courses){
+      var courseIds = [];
       for (var i=0; i< courses.length; i++) {
+        courseIds.push(courses[i]._id);
+        //  Add student to course's model
+        courses[i].students.push(user._id);
+        courses[i].save(function(err) {
+          if (err) return console.log(err);
+        });
+      }
+      addStudentToCourse(student, courseIds);
+    });
+  });
+}
+
+function addInstructorHelper(instr){
+  User.findOne(instr, function(err, user){
+    Course.find({}, function(err, courses){
+      var courseIds = [];
+      for (var i=0; i< courses.length; i++) {
+        courseIds.push(courses[i]._id);
         courses[i].instructors.push(user._id);
         courses[i].save(function(err) {
           if (err) return console.log(err);
         });
       }
-    });
-  });
-
-  User.findOne({'name':"foo"}, function(err, user){
-    Course.find({}, function(err, courses){
-      for (var i=0; i< courses.length; i++) {
-        courses[i].students.push(user._id);
-        courses[i].save(function(err) {
-          if (err) return console.log(err);
-        });
-      }
-    });
-  });
-
-  User.findOne({'name':"jane"}, function(err, user){
-    Course.find({}, function(err, courses){
-      for (var i=0; i< courses.length; i++) {
-        courses[i].students.push(user._id);
-        courses[i].save(function(err) {
-          if (err) return console.log(err);
-        });
-      }
+      addStudentToCourse(instr, courseIds);
     });
   });
 }
 
+function addStudentToCourse(student, courses){
+  User.findOne(student, function(err, user){
+    user.courses = courses;
+    user.save(function(err) {
+      if (err) return console.log(err);
+    });
+  });
+}
 
+// Create Events
 function createEvents(){
-
-Event.find({}).removeAsync()
-  .then(() => {
-    Event.createAsync({
-      title: "RCOS meeting",
-      description: "RCOS is awesome",
-      creationDate: new Date(),
-
-    }, {
-      title: "artx",
-      description: "artx is awesome",
-      creationDate: new Date(),
-    })
+  Event.find({}).removeAsync()
     .then(() => {
-      console.log('finished populating courses');
-      addCourses();
+      Event.createAsync({
+        title: "RCOS meeting",
+        description: "RCOS is awesome",
+        creationDate: new Date(),
+
+      }, {
+        title: "artx",
+        description: "artx is awesome",
+        creationDate: new Date(),
+      })
+      .then(() => {
+        console.log('finished populating events');
+        addCourses();
+      });
     });
-  });
 }
 
+// Add courses to those events
 function addCourses(){
-  // Find users
-  Course.findOne({ 'courseReferenceNumber': 1111111}, function(err, course){
+  var referecnceNumber = [
+    { 'courseReferenceNumber': 1111111},
+    { 'courseReferenceNumber': 1111112}
+  ]
+  for(var num in referecnceNumber){
+    addCoursesHelper(referecnceNumber[num])
+  }
+
+}
+
+function addCoursesHelper(ref){
+  Course.findOne(ref, function(err, course){
     Event.find({}, function(err, events){
       for (var i=0; i< events.length; i++) {
         events[i].courses.push(course._id);
         events[i].save(function(err) {
           if (err) return console.log(err);
         });
+        if(course.events.indexOf(mongoose.Types.ObjectId(events[i]._id)) == -1){
+          course.events.push(events[i]._id);
+          course.save(function(err) {
+            if (err) return console.log(err);
+          });
+        }
       }
     });
   });
-
-  Course.findOne({'courseReferenceNumber':1111112}, function(err, course){
-    Event.find({}, function(err, events){
-      for (var i=0; i< events.length; i++) {
-        events[i].courses.push(course._id);
-        events[i].save(function(err) {
-          if (err) return console.log(err);
-        });
-      }
-    });
-  });
-
 }

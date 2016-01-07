@@ -3,7 +3,7 @@
 (function() {
 
 function UserResource($resource) {
-  return $resource('/api/users/:id/:controller', {
+  var User = $resource('/api/users/:id/:controller', {
     id: '@_id'
   }, {
     changePassword: {
@@ -17,8 +17,24 @@ function UserResource($resource) {
       params: {
         id:'me'
       }
+    },
+    getCourses: {
+      method: 'GET',
+      params: {
+        controller:'courses'
+      },
+      isArray: true
+    },
+    getEvents: {
+      method: 'GET',
+      params: {
+        controller:'events'
+      },
+      isArray: true
     }
   });
+
+  return User;
 }
 
 angular.module('venueApp.auth')
