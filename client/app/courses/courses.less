@@ -30,6 +30,7 @@
   border-radius:4px;
   position:relative;
   background-color: #fff;
+  transition: box-shadow .25s;
 
   .course-name{
     font-size:20px;
@@ -59,5 +60,9 @@
     right:0px;
     padding:14px;
   }
+}
 
+.class-card:hover{
+  box-shadow: 0px 0px 16px rgba(0,0,0,.5);
+  cursor:pointer;
 }

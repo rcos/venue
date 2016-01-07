@@ -74,6 +74,17 @@ exports.show = function(req, res) {
     .catch(handleError(res));
 };
 
+// Gets the full events for a course
+exports.getFullEvents = (req, res) => {
+  Course.findByIdAsync(req.params.id)
+    .then(course => {
+      course.getFullEvents(events => {
+        res.json(events);
+      });
+    })
+    .catch(handleError(res));
+};
+
 // Creates a new Course in the DB
 exports.create = function(req, res) {
   Course.createAsync(req.body)

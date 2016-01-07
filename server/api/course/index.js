@@ -6,6 +6,8 @@ var controller = require('./course.controller');
 var router = express.Router();
 
 router.get('/', controller.index);
+// router.get('/hey', controller.getFullEvents);
+router.get('/:id/fullEvents', controller.getFullEvents);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.put('/:id', controller.update);
