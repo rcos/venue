@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('DashboardCtrl', function ($scope, $routeParams, User, Auth, Course, Event) {
+  .controller('DashboardCtrl', ($scope, $routeParams, User, Auth, Course, Event) => {
 
     $scope.user = {};
     $scope.courses = [];
