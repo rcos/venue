@@ -1,1 +1,32 @@
-<div>This is the courses view.</div>
+<navbar></navbar>
+
+<div class='row'>
+  <div class='col-xs-12 search-bar-container'>
+    <div class="search-bar">
+      <div class="input-group">
+         <input type="text" ng-model='searchText' class="form-control" placeholder="Search classes">
+         <span class="input-group-btn">
+           <button class="btn btn-default" type="button">
+             <span class='glyphicon glyphicon-search'></span>
+           </button>
+         </span>
+       </div>
+     </div>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='col-xs-12 class-card-container'>
+    <div ng-repeat='course in filteredCourses = (courses | filter:searchText)' class='class-card'>
+      <div class='course-name'> {{ course.name }} </div>
+      <div class='course-desc'> {{ course.description }} </div>
+      <div class='course-ref'> {{ course.department }} {{course.courseNumber}} </div>
+      <div class='course-students'> {{course.students.length}} enrolled</div>
+    </div>
+    <div class='no-courses' ng-show='filteredCourses.length == 0'>
+      no courses found matching search term
+    </div>
+  </div>
+</div>
+
+<footer></footer>
