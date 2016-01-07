@@ -17,6 +17,7 @@ var UserSchema = new Schema({
     default: 'user'
   },
   isInstructor: Boolean,
+  courses: [{type : Schema.Types.ObjectId, ref: 'Course'}],
   password: String,
   provider: String,
   salt: String,
@@ -36,7 +37,8 @@ UserSchema
   .get(function() {
     return {
       'name': this.name,
-      'role': this.role
+      'role': this.role,
+      'courses': this.courses
     };
   });
 

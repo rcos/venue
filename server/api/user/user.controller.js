@@ -1,9 +1,11 @@
 'use strict';
 
 import User from './user.model';
+import Course from '../course/course.model';
 import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
+import async from 'async';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -25,6 +27,30 @@ function respondWith(res, statusCode) {
     res.status(statusCode).end();
   };
 }
+
+function findCourses(res, user) {
+
+  var asyncTasks = [];
+  var courses = [];
+  user.courses.forEach(function(courseId){
+    asyncTasks.push(function(callback){
+      Course.findById(courseId, function(course){
+        courses.push(course);
+        callback();
+      });
+    });
+  });
+
+  async.parallel(asyncTasks, function(){
+    sendCourses(res, courses);
+  });
+}
+
+function sendCourses(res, courses){
+  res.send(courses);
+}
+
+
 
 /**
  * Get list of users
@@ -118,6 +144,22 @@ export function me(req, res, next) {
         return res.status(401).end();
       }
       res.json(user);
+    })
+    .catch(err => next(err));
+}
+
+/**
+ * Get current courses
+ */
+export function courses(req, res, next) {
+  var userId = req.user._id;
+
+  User.findOneAsync({ _id: userId }, '-salt -password')
+    .then(user => { // don't ever give out the password or salt
+      if (!user) {
+        return res.status(401).end();
+      }
+      findCourses(res, user);
     })
     .catch(err => next(err));
 }

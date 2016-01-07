@@ -1,1 +1,45 @@
-<div>This is the dashboard view.</div>
+<navbar></navbar>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a>Overview <span class="sr-only">(current)</span></a></li>
+            <li><a>Courses</a></li>
+            <li><a>Events</a></li>
+          </ul>
+        </div>
+        {{test}}
+        <div class="col-sm-9 main">
+          <h1 class="page-header">Dashboard</h1>
+          <h3> Courses </h3>
+          <div class= "courses">
+            <div class = "course row" ng-repeat="course in courses">
+              <div class = "col-sm-3">
+                <div class="course-titles">
+                  {{course.name}}
+                </div>
+                <div class="course-identifier">
+                {{course.department}} {{course.courseNumber}}
+              </div>
+              </div>
+            </div>
+          </div>
+
+    		  <h3> Events </h3>
+          <div class="events">
+      		  <div class = "event" ng-repeat="event in events">
+      		    <div class = "events-titles">
+      		      {{event.title}}
+      		    </div>
+              <div>
+                {{event.date}}
+              </div>
+      		    {{event.description}}
+      		    <br/>
+      		  </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+<footer></footer>
