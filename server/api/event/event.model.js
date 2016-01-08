@@ -6,6 +6,7 @@ var Schema = mongoose.Schema;
 var EventSchema = new Schema({
   title: String,
   description: String,
+  imageURL: String, // url to image
   author: {type: Schema.Types.ObjectId, ref: 'User'},
   creationDate: Date,
   courses: [{type: Schema.Types.ObjectId, ref: 'Course'}],

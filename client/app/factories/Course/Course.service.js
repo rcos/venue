@@ -9,11 +9,15 @@
       create: {
         method: 'POST'
       },
-      get: {
-        method: 'GET'
-      },
       getAll: {
         method: 'GET',
+        isArray:true
+      },
+      fullEvents: {
+        method: 'GET',
+        params:{
+          controller: 'fullEvents'
+        },
         isArray:true
       },
       update: {
