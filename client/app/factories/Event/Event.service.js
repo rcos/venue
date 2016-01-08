@@ -2,7 +2,7 @@
 
 (function() {
 
-  function EventResource($resource, $http) {
+  function EventResource($resource) {
     var Event = $resource('/api/events/:id/:controller', {
       id: '@_id'
     }, {

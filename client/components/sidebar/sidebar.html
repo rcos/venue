@@ -1,0 +1,15 @@
+<div ng-if="user.isInstructor">
+  <ul class="nav nav-sidebar">
+    <li ng-class="{active: isActive('/instructor/dashboard')}"><a href="/instructor/dashboard">Overview</a></li>
+    <li ng-class="{active: isActive('/instructor/courses')}"><a href="/instructor/courses">Courses</a></li>
+    <li ng-class="{active: isActive('/instructor/events')}"><a href="/instructor/events">Events</a></li>
+  </ul>
+</div>
+
+<div ng-if="!user.isInstructor">
+  <ul class="nav nav-sidebar">
+    <li ng-class="{active: isActive('/student/dashboard')}"><a href="/student/dashboard">Overview</a></li>
+    <li ng-class="{active: isActive('/student/courses')}"><a href="/student/courses">Courses</a></li>
+    <li ng-class="{active: isActive('/student/events')}"><a href="/student/events">Events</a></li>
+  </ul>
+</div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('StudentDashboardCtrl', ($scope, $routeParams, User, Auth) => {
+  .controller('InstructorDashboardCtrl', ($scope, $routeParams, User, Auth) => {
 
     $scope.user = {};
     $scope.courses = [];
@@ -9,20 +9,10 @@ angular.module('venueApp')
 
     Auth.getCurrentUser((user) => {
       $scope.user = user;
-      getCoursesEvents();
-    });
-
-    function getCoursesEvents(){
       User.getCourses({id:$scope.user._id})
       .$promise.then((courses) => {
         $scope.courses = courses;
       });
-
-      User.getEvents({id:$scope.user._id})
-      .$promise.then((events) => {
-        $scope.events = events;
-      });
-    }
-
+    });
 
   });

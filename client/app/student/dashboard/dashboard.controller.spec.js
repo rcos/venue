@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: DashboardCtrl', function () {
+describe('Controller: StudentDashboardCtrl', function () {
 
   // load the controller's module
   beforeEach(module('venueApp'));
@@ -10,7 +10,7 @@ describe('Controller: DashboardCtrl', function () {
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    DashboardCtrl = $controller('DashboardCtrl', {
+    DashboardCtrl = $controller('StudentDashboardCtrl', {
       $scope: scope
     });
   }));

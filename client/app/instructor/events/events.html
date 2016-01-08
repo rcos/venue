@@ -1,0 +1,33 @@
+<navbar></navbar>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="/instructor/dashboard">Overview</a></li>
+            <li><a href="/instructor/courses">Courses</a></li>
+            <li class = "active"><a href="/instructor/events">Events</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 main">
+          <h1 class="page-header">Events</h1>
+          <div class="events">
+      		  <div class = "event" ng-repeat="event in events">
+              <div class = "row">
+        		    <div class = "col-sm-5 event-title">
+        		      {{event.title}}
+        		    </div>
+                <div class = "col-sm-4 col-sm-offset-3 event-date">
+                  {{event.date}}
+                </div>
+              </div>
+              <div>
+                {{event.description}}
+              </div>
+      		    <br/>
+      		  </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+<footer></footer>

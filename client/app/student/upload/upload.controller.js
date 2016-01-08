@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('UploadCtrl', function ($scope, Submission) {
+  .controller('UploadCtrl', function ($scope) {
     $scope.message = 'Hello';
   });
