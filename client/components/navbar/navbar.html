@@ -1,29 +1,31 @@
-<div class="navbar navbar-default navbar-static-top" ng-controller="NavbarController">
-  <div class="container">
-    <div class="navbar-header">
-      <button class="navbar-toggle" type="button" ng-click="nav.isCollapsed = !nav.isCollapsed">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a href="/" class="navbar-brand">venue</a>
-    </div>
-    <div collapse="nav.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
-      <ul class="nav navbar-nav">
-        <li ng-repeat="item in nav.menu" ng-class="{active: nav.isActive(item.link)}">
-            <a ng-href="{{item.link}}" ng-show="{{nav.isMenuAccessible(item.forInstructor)}}">{{item.title}}</a>
-        </li>
-        <li ng-show="nav.isAdmin()" ng-class="{active: nav.isActive('/admin')}"><a href="/admin">Admin</a></li>
-      </ul>
+<div class='navbar-container'>
+  <div class='container'>
+    <div class="navbar navbar-default venue-nav navbar-static-top" ng-controller="NavbarController">
+      <div class="navbar-header">
+        <button class="navbar-toggle" type="button" ng-click="nav.isCollapsed = !nav.isCollapsed">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="/" class="navbar-brand">venue</a>
+      </div>
+      <div collapse="nav.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
+        <ul class="nav navbar-nav">
+          <li ng-repeat="item in nav.menu" ng-class="{active: nav.isActive(item.link)}">
+              <a ng-href="{{item.link}}" ng-show="{{nav.isMenuAccessible(item)}}">{{item.title}}</a>
+          </li>
+          <li ng-show="nav.isAdmin()" ng-class="{active: nav.isActive('/admin')}"><a href="/admin">Admin</a></li>
+        </ul>
 
-      <ul class="nav navbar-nav navbar-right">
-        <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/signup')}"><a href="/signup">Sign up</a></li>
-        <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/login')}"><a href="/login">Login</a></li>
-        <li ng-show="nav.isLoggedIn()"><p class="navbar-text">Hello {{ nav.user.name }}</p> </li>
-        <li ng-show="nav.isLoggedIn()" ng-class="{active: nav.isActive('/settings')}"><a href="/settings"><span class="glyphicon glyphicon-cog"></span></a></li>
-        <li ng-show="nav.isLoggedIn()"><a href="/logout">Logout</a></li>
-      </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/signup')}"><a href="/signup">Sign up</a></li>
+          <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/login')}"><a href="/login">Login</a></li>
+          <li ng-show="nav.isLoggedIn()"><p class="navbar-text">Hello {{ nav.user.name }}</p> </li>
+          <li ng-show="nav.isLoggedIn()" ng-class="{active: nav.isActive('/settings')}"><a href="/settings"><span class="glyphicon glyphicon-cog"></span></a></li>
+          <li ng-show="nav.isLoggedIn()"><a href="/logout">Logout</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
