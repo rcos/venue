@@ -3,12 +3,19 @@
 <div class='container courseview'>
   <div class='row'>
     <div class='col-sm-7 left-column'>
-      <h2> {{ course.name }} </h2>
+      <h2> {{ course.name }}
+        <div class='course-number'>{{course.department}} {{course.courseNumber}}</div>
+      </h2>
       <div class='course-desc'>{{ course.description }} </div>
       <button class='enroll btn'> Enroll </button>
     </div>
     <div class='col-sm-5'>
       <h2> Events </h2>
+      <div class='course-event' ng-repeat='event in events'>
+        <div class='title'>{{event.title}}</div>
+        <div class='description'>{{event.description}}</div>
+        <div class='times'>{{event.times}}</div>
+      </div>
     </div>
   </div>
 </div>

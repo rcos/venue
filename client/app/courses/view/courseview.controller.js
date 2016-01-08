@@ -6,7 +6,7 @@ angular.module('venueApp')
       $scope.course = course;
       Course.fullEvents({id: $routeParams.id}).$promise
         .then(events => {
-          console.log(events);
+          $scope.events = events;
         });
     });
   });
