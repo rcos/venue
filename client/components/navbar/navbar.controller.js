@@ -6,7 +6,7 @@ class NavbarController {
     'title': 'Home',
     'link': '/'
   }, {
-    'title': 'Courses',
+    'title': 'Search Courses',
     'link': '/courses'
   },{
     'title': 'Dashboard',
