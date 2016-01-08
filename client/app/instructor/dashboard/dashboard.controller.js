@@ -7,17 +7,12 @@ angular.module('venueApp')
     $scope.courses = [];
     $scope.events = [];
 
-    Auth.getCurrentUser(function(user){
+    Auth.getCurrentUser((user) => {
       $scope.user = user;
-      getCourses();
-    });
-
-    function getCourses(){
       User.getCourses({id:$scope.user._id})
       .$promise.then((courses) => {
         $scope.courses = courses;
       });
-    }
-
+    });
 
   });
