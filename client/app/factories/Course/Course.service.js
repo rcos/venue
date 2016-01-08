@@ -2,7 +2,7 @@
 
 (function() {
 
-  function CourseResource($resource, $http) {
+  function CourseResource($resource) {
     var Course = $resource('/api/courses/:id/:controller', {
       id: '@_id'
     }, {
