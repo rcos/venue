@@ -12,7 +12,13 @@ var EventInfoSchema = new Schema({
   location: {
     address: String,
     description: String,
-    coordinates: [Number]
+    geo: {
+      type: {
+        type: String,
+        default: 'Point'
+      },
+      coordinates: [Number]
+    }
   },
   times: [
     {
@@ -21,6 +27,7 @@ var EventInfoSchema = new Schema({
     }
   ]
 });
+EventInfoSchema.index({ 'location.geo' : '2dsphere'});
 
 // VIRTUALS
 EventInfoSchema

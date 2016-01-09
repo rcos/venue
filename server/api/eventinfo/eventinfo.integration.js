@@ -35,8 +35,14 @@ describe('EventInfo API:', function() {
       request(app)
         .post('/api/eventinfos')
         .send({
-          name: 'New EventInfo',
-          info: 'This is the brand new eventinfo!!!'
+          title: 'New EventInfo',
+          description: 'This is the brand new event!!!',
+          location: {
+            geo: {
+              type: 'Point',
+              coordinates: [42.7203888,-73.6735074]
+            }
+          },
         })
         .expect(201)
         .expect('Content-Type', /json/)
