@@ -11,7 +11,7 @@
 
 var _ = require('lodash');
 var Submission = require('./submission.model');
-var Event = require('../event/event.model');
+var Event = require('../sectionevent/sectionevent.model');
 var multiparty = require('multiparty');
 var User = require('../user/user.model');
 var fs = require('fs');
@@ -119,8 +119,9 @@ exports.create = function(req, res) {
         time: Date.now(),
         content: fields.content[0]
       };
-      console.log("here");
       console.log(submit);
+      console.log("req body");
+      console.log(req.body);
 
       Submission.create(submit, (err, submission) => {
         if (err) return handleError(res);

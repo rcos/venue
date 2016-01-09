@@ -6,6 +6,7 @@ angular.module('venueApp')
     $scope.user = {};
     $scope.events = [];
     $scope.eventId = "";
+    $scope.imgWidth = window.innerWidth/5;
 
     Auth.getCurrentUser(function(user){
       $scope.user = user;
@@ -18,10 +19,7 @@ angular.module('venueApp')
     geolocation.getLocation()
       .then((data) => {
         $scope.coords = [data.coords.longitude, data.coords.latitude]; // [<longitude>, <latitude>]
-        console.log($scope.coords);
       });
-
-    $scope.imgWidth = window.innerWidth/5;
 
     $scope.submitEvent = (form)=>{
       $scope.submitted = true;

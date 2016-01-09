@@ -12,4 +12,18 @@ var SectionEventSchema = new Schema({
   submissions: [{type : Schema.Types.ObjectId, ref: 'Submission '}]
 });
 
+/**
+ * Methods
+ */
+SectionEventSchema.methods = {
+
+  addSubmission(submissionId, callback){
+    this.submissions.push(submissionId);
+    this.save( () => {
+      callback();
+    });
+  }
+
+};
+
 module.exports = mongoose.model('SectionEvent', SectionEventSchema);
