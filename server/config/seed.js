@@ -22,6 +22,7 @@ function createUsers(){
       lastName: 'User',
       email: 'test@test.com',
       password: 'test',
+      isInstructor: false,
       _id: mongoose.Types.ObjectId('000000000000000000000000'),
     }, {
       provider: 'local',
@@ -30,6 +31,7 @@ function createUsers(){
       lastName: 'User',
       email: 'admin@admin.com',
       password: 'admin',
+      isInstructor: true,
       _id: mongoose.Types.ObjectId('000000000000000000000001'),
 
     }, {
