@@ -8,7 +8,7 @@ var SectionSchema = new Schema({
   instructors: [{type : Schema.Types.ObjectId, ref: 'User'}],
   students: [{type : Schema.Types.ObjectId, ref: 'User'}],
   events: [{type : Schema.Types.ObjectId, ref: 'SectionEvent'}],
-  active: Boolean
+  sectionNumber: Number
 });
 
 /**
