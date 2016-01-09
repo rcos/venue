@@ -19,7 +19,7 @@
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-          <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/signup')}"><a href="/signup">Sign up</a></li>
+          <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/signup')}"><a href="/student/signup">Sign up</a></li>
           <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/login')}"><a href="/login">Login</a></li>
           <li ng-show="nav.isLoggedIn()"><p class="navbar-text">Hello {{ nav.user.name }}</p> </li>
           <li ng-show="nav.isLoggedIn()" ng-class="{active: nav.isActive('/settings')}"><a href="/settings"><span class="glyphicon glyphicon-cog"></span></a></li>
