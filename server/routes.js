@@ -9,15 +9,12 @@ import path from 'path';
 
 export default function(app) {
   // Insert routes below
-  app.use('/api/sectionevents', require('./api/sectionevent'));
+  app.use('/api/courses', require('./api/course'));
   app.use('/api/eventinfos', require('./api/eventinfo'));
   app.use('/api/sections', require('./api/section'));
-  app.use('/api/users', require('./api/user'));
-
-  app.use('/api/courses', require('./api/course'));
-  app.use('/api/events', require('./api/event'));
+  app.use('/api/sectionevents', require('./api/sectionevent'));
   app.use('/api/submissions', require('./api/submission'));
-
+  app.use('/api/users', require('./api/user'));
   app.use('/auth', require('./auth'));
 
   // All undefined asset or api routes should return a 404

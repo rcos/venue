@@ -177,6 +177,17 @@ function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
      */
     getToken() {
       return $cookies.get('token');
+    },
+
+    /**
+     * Checks if the server is being served via localhost i.e. in dev mode
+     *
+     * @return {Bool} - isInDevelopmentMode
+     */
+    isDeveloper(){
+      var host = $location.host();
+      var port = $location.port();
+      return (host == "localhost" || host == "127.0.0.1" || location.port == 9000);
     }
   };
 
