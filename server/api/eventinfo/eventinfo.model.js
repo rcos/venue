@@ -3,27 +3,27 @@
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
 
-var EventSchema = new Schema({
+var EventInfoSchema = new Schema({
   title: String,
   description: String,
-  imageURL: String, // url to image
-  author: {type: Schema.Types.ObjectId, ref: 'User'},
+  imageURL: String,
+  author: {type:Schema.Types.ObjectId, ref: 'User'},
   creationDate: Date,
-  courses: [{type: Schema.Types.ObjectId, ref: 'Course'}],
-  submissions: [{type : Schema.Types.ObjectId, ref: 'Submission '}],
   location: {
     address: String,
     description: String,
-    coordinates: [Number]        // [<longitude>, <latitude>]
+    coordinates: [Number]
   },
-  times: [{
+  times: [
+    {
       start: Date,
       end: Date
-  }]
+    }
+  ]
 });
 
 // VIRTUALS
-EventSchema
+EventInfoSchema
     .virtual("isHappeningNow")
     .get(function(){
         var now = new Date();
@@ -31,11 +31,11 @@ EventSchema
         return true;
     });
 
-EventSchema
+EventInfoSchema
     .virtual("attendees")
     .get(function(){
         // TODO iterate through submissions and generate list of attendees
         return [];
     });
 
-module.exports = mongoose.model('Event', EventSchema);
+module.exports = mongoose.model('EventInfo', EventInfoSchema);
