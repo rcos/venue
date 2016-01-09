@@ -9,8 +9,14 @@
     </div>
     <div class="col-sm-12">
       <div ng-show='vm.Auth.isDeveloper()'>
-        <a href='#' ng-click="vm._devLoginAs('foo')"> Login as foo (student) </a> <br/>
-        <a href='#' ng-click="vm._devLoginAs('bob')"> Login as bob (instructor)</a> <br/>
+        <a href='#' ng-click="vm._devLoginAs('bob')"> Login as Bob (instructor) </a> <br/>
+        <a href='#' ng-click="vm._devLoginAs('travis')"> Login as Travis (instructor)</a> <br/>
+        <a href='#' ng-click="vm._devLoginAs('foo')"> Login as Foo (student)</a> <br/>
+        <a href='#' ng-click="vm._devLoginAs('kelly')"> Login as Kelly (student)</a> <br/>
+        <a href='#' ng-click="vm._devLoginAs('jane')"> Login as Jane (student)</a> <br/>
+        <a href='#' ng-click="vm._devLoginAs('test')"> Login as Test (student)</a> <br/>
+        <a href='#' ng-click="vm._devLoginAs('admin')"> Login as Admin (admin)</a> <br/>
+        <br/>
       </div>
       <form class="form" name="form" ng-submit="vm.login(form)" novalidate>
 

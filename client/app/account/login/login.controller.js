@@ -31,8 +31,8 @@ class LoginController {
   }
 
   _devLoginAs(user){
-    var email = user + "@example.com";
-    var pass = "password";
+    var email = user + "@"+user+".com";
+    var pass = user;
     this.Auth.login({
       email: email,
       password: pass
