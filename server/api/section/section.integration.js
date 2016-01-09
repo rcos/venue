@@ -3,40 +3,40 @@
 var app = require('../..');
 var request = require('supertest');
 
-var newEvent;
+var newSection;
 
-describe('Event API:', function() {
+describe('Section API:', function() {
 
-  describe('GET /api/events', function() {
-    var events;
+  describe('GET /api/sections', function() {
+    var sections;
 
     beforeEach(function(done) {
       request(app)
-        .get('/api/events')
+        .get('/api/sections')
         .expect(200)
         .expect('Content-Type', /json/)
         .end(function(err, res) {
           if (err) {
             return done(err);
           }
-          events = res.body;
+          sections = res.body;
           done();
         });
     });
 
     it('should respond with JSON array', function() {
-      expect(events).to.be.instanceOf(Array);
+      expect(sections).to.be.instanceOf(Array);
     });
 
   });
 
-  describe('POST /api/events', function() {
+  describe('POST /api/sections', function() {
     beforeEach(function(done) {
       request(app)
-        .post('/api/events')
+        .post('/api/sections')
         .send({
-          title: 'New Event',
-          description: 'This is the brand new event!!!'
+          name: 'New Section',
+          info: 'This is the brand new section!!!'
         })
         .expect(201)
         .expect('Content-Type', /json/)
@@ -44,55 +44,55 @@ describe('Event API:', function() {
           if (err) {
             return done(err);
           }
-          newEvent = res.body;
+          newSection = res.body;
           done();
         });
     });
 
-    it('should respond with the newly created event', function() {
-      expect(newEvent.title).to.equal('New Event');
-      expect(newEvent.description).to.equal('This is the brand new event!!!');
+    it('should respond with the newly created section', function() {
+      expect(newSection.name).to.equal('New Section');
+      expect(newSection.info).to.equal('This is the brand new section!!!');
     });
 
   });
 
-  describe('GET /api/events/:id', function() {
-    var event;
+  describe('GET /api/sections/:id', function() {
+    var section;
 
     beforeEach(function(done) {
       request(app)
-        .get('/api/events/' + newEvent._id)
+        .get('/api/sections/' + newSection._id)
         .expect(200)
         .expect('Content-Type', /json/)
         .end(function(err, res) {
           if (err) {
             return done(err);
           }
-          event = res.body;
+          section = res.body;
           done();
         });
     });
 
     afterEach(function() {
-      event = {};
+      section = {};
     });
 
-    it('should respond with the requested event', function() {
-      expect(event.title).to.equal('New Event');
-      expect(event.description).to.equal('This is the brand new event!!!');
+    it('should respond with the requested section', function() {
+      expect(section.name).to.equal('New Section');
+      expect(section.info).to.equal('This is the brand new section!!!');
     });
 
   });
 
-  describe('PUT /api/events/:id', function() {
-    var updatedEvent
+  describe('PUT /api/sections/:id', function() {
+    var updatedSection
 
     beforeEach(function(done) {
       request(app)
-        .put('/api/events/' + newEvent._id)
+        .put('/api/sections/' + newSection._id)
         .send({
-          title: 'Updated Event',
-          description: 'This is the updated event!!!'
+          name: 'Updated Section',
+          info: 'This is the updated section!!!'
         })
         .expect(200)
         .expect('Content-Type', /json/)
@@ -100,27 +100,27 @@ describe('Event API:', function() {
           if (err) {
             return done(err);
           }
-          updatedEvent = res.body;
+          updatedSection = res.body;
           done();
         });
     });
 
     afterEach(function() {
-      updatedEvent = {};
+      updatedSection = {};
     });
 
-    it('should respond with the updated event', function() {
-      expect(updatedEvent.title).to.equal('Updated Event');
-      expect(updatedEvent.description).to.equal('This is the updated event!!!');
+    it('should respond with the updated section', function() {
+      expect(updatedSection.name).to.equal('Updated Section');
+      expect(updatedSection.info).to.equal('This is the updated section!!!');
     });
 
   });
 
-  describe('DELETE /api/events/:id', function() {
+  describe('DELETE /api/sections/:id', function() {
 
     it('should respond with 204 on successful removal', function(done) {
       request(app)
-        .delete('/api/events/' + newEvent._id)
+        .delete('/api/sections/' + newSection._id)
         .expect(204)
         .end(function(err, res) {
           if (err) {
@@ -130,9 +130,9 @@ describe('Event API:', function() {
         });
     });
 
-    it('should respond with 404 when event does not exist', function(done) {
+    it('should respond with 404 when section does not exist', function(done) {
       request(app)
-        .delete('/api/events/' + newEvent._id)
+        .delete('/api/sections/' + newSection._id)
         .expect(404)
         .end(function(err, res) {
           if (err) {
