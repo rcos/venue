@@ -9,18 +9,25 @@ var EventSchema = new Schema({
   imageURL: String, // url to image
   author: {type: Schema.Types.ObjectId, ref: 'User'},
   creationDate: Date,
-  courses: [{type: Schema.Types.ObjectId, ref: 'Course'}],
+  course: {type: Schema.Types.ObjectId, ref: 'Course'},
   submissions: [{type : Schema.Types.ObjectId, ref: 'Submission '}],
   location: {
     address: String,
     description: String,
-    coordinates: [Number]        // [<longitude>, <latitude>]
+    geo: {
+      type: {
+        type: String,
+        default: 'Point'
+      },
+      coordinates: [Number]
+    }
   },
   times: [{
       start: Date,
       end: Date
   }]
 });
+EventSchema.index({ 'location.geo' : '2dsphere'});
 
 // VIRTUALS
 EventSchema

@@ -12,7 +12,9 @@ var CourseSchema = new Schema({
   courseNumber: Number,
   description: String,
   semester: String,
+  enrollmentPolicy: {type: String, enum: ['open', 'closed', 'verification required']},
   students: [{type : Schema.Types.ObjectId, ref: 'User'}],
+  pendingStudents: [{type : Schema.Types.ObjectId, ref: 'User'}],
   instructors: [{type : Schema.Types.ObjectId, ref: 'User'}],
   events: [{type : Schema.Types.ObjectId, ref: 'Event'}],
   active: Boolean
