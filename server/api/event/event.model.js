@@ -38,4 +38,16 @@ EventSchema
         return [];
     });
 
+/**
+ * Methods
+ */
+EventSchema.methods = {
+  addSubmission(submission, callback){
+    this.submissions.push(submission);
+    this.save( ()=>{
+      callback();
+    })
+  }
+};
+
 module.exports = mongoose.model('Event', EventSchema);

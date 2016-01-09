@@ -11,11 +11,13 @@
 
 var _ = require('lodash');
 var Submission = require('./submission.model');
+var Event = require('../event/event.model');
 var multiparty = require('multiparty');
 var User = require('../user/user.model');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var config = require('../../config/environment');
+import async from 'async';
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -81,53 +83,58 @@ exports.show = function(req, res) {
 
 // Creates a new Submission in the DB
 exports.create = function(req, res) {
-  Submission.createAsync(req.body)
-    .then(responseWithResult(res, 201))
-    .catch(handleError(res));
-
-    console.log(req.body);
-      var form = new multiparty.Form();
-      form.parse(req, function(err, fields, files) {
-        Object.keys(fields).forEach(function(name) {
-          console.log('got field named ' + name);
-        });
-
-        Object.keys(files).forEach(function(name) {
-          console.log('got file named ' + name);
-          var file = files[name][0]
-          console.log(file);
-          var name = file.path.substring(file.path.lastIndexOf('/')).substring(1);
-          var path = config.imageUploadPath  + fields.userId + '/' + fields.eventId;
-          var destPath = path + '/' + name;
-          if(!fs.existsSync(path)){
-            mkdirp.sync(path);
-          }
-          // Copy file from temp to uploads folder with streams.
-          // Allows upload across partitions unlike fs.renameSync
-          var is = fs.createReadStream(file.path);
-          var os = fs.createWriteStream(destPath);
-          is.pipe(os);
-          is.on('end', function() {
-              fs.unlinkSync(file.path);
-          });
-
-          User.findById(req.body._id)
-          .then((user) => {
-              if(!user) { return res.send(404); }
-              user.photos.push(name);
-              user.save(function (err) {
-                if(err){
-                  res.status(500).send(err);
-                }
-                else{
-                  res.json(201, name);
-                }
-              });
-          })
-          .catch(handleError(res));
-        });
-
+  var form = new multiparty.Form();
+  var imagePaths = [];
+  form.parse(req, (err, fields, files) => {
+    Object.keys(files).forEach(function(name) {
+      var file = files[name][0]
+      var name = file.path.substring(file.path.lastIndexOf('/')).substring(1);
+      var path = config.imageUploadPath  + fields.userId + '/' + fields.eventId;
+      imagePaths.push(path);
+      var destPath = path + '/' + name;
+      if(!fs.existsSync(path)){
+        mkdirp.sync(path);
+      }
+      var is = fs.createReadStream(file.path);
+      var os = fs.createWriteStream(destPath);
+      is.pipe(os);
+      is.on('end', function() {
+          fs.unlinkSync(file.path);
       });
+
+    });
+
+    var asyncTasks = [];
+    var submissionId = '';
+    fields.images = imagePaths;
+
+    asyncTasks.push((callback) => {
+      Submission.create(fields, (err, submission) => {
+        if (err) return handleError(res);
+        submissionId = submission._id.toString();
+        console.log("created submission");
+        callback();
+      })
+    });
+
+    asyncTasks.push((callback) => {
+      console.log(fields);
+      var eventId = fields.eventId[0];
+      Event.findById(eventId, (err, evnt) => {
+        if(err) return handleError(res);
+        evnt.addSubmission(submissionId, () =>{
+          console.log("got to the event");
+          callback();
+        });
+      });
+    });
+
+    async.series(asyncTasks, () => {
+      console.log('hit');
+      res.json({'success':true});
+    });
+
+  });
 };
 
 // Updates an existing Submission in the DB
