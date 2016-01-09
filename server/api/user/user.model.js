@@ -11,7 +11,8 @@ import Course from '../course/course.model';
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
 
 var UserSchema = new Schema({
-  name: String,
+  lastName: String,
+  firstName: String,
   email: {
     type: String,
     lowercase: true
