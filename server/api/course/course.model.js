@@ -3,7 +3,6 @@
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
 import async from 'async';
-import Event from '../event/event.model';
 
 var CourseSchema = new Schema({
   name: String,

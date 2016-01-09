@@ -7,8 +7,10 @@ var SectionSchema = new Schema({
   course: {type : Schema.Types.ObjectId, ref: 'Course'},
   instructors: [{type : Schema.Types.ObjectId, ref: 'User'}],
   students: [{type : Schema.Types.ObjectId, ref: 'User'}],
+  pendingStudents: [{type : Schema.Types.ObjectId, ref: 'User'}],
   events: [{type : Schema.Types.ObjectId, ref: 'SectionEvent'}],
-  sectionNumber: Number
+  sectionNumber: [Number],
+  enrollmentPolicy: {type: String, enum: ['open', 'closed', 'verification required']},
 });
 
 /**

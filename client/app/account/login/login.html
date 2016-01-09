@@ -8,6 +8,16 @@
       <p>Admin account is <code>admin@example.com</code> / <code>admin</code></p>
     </div>
     <div class="col-sm-12">
+      <div ng-show='vm.Auth.isDeveloper()'>
+        <a href='#' ng-click="vm._devLoginAs('bob')"> Login as Bob (instructor) </a> <br/>
+        <a href='#' ng-click="vm._devLoginAs('travis')"> Login as Travis (instructor)</a> <br/>
+        <a href='#' ng-click="vm._devLoginAs('foo')"> Login as Foo (student)</a> <br/>
+        <a href='#' ng-click="vm._devLoginAs('kelly')"> Login as Kelly (student)</a> <br/>
+        <a href='#' ng-click="vm._devLoginAs('jane')"> Login as Jane (student)</a> <br/>
+        <a href='#' ng-click="vm._devLoginAs('test')"> Login as Test (student)</a> <br/>
+        <a href='#' ng-click="vm._devLoginAs('admin')"> Login as Admin (admin)</a> <br/>
+        <br/>
+      </div>
       <form class="form" name="form" ng-submit="vm.login(form)" novalidate>
 
         <div class="form-group">
@@ -40,13 +50,6 @@
           <a class="btn btn-default btn-lg btn-register" href="/signup">
             Register
           </a>
-        </div>
-
-        <hr/>
-        <div class="row">
-          <div class="col-sm-4 col-md-3">
-            <oauth-buttons classes="btn-block"></oauth-buttons>
-          </div>
         </div>
       </form>
     </div>

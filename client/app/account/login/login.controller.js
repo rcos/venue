@@ -29,6 +29,21 @@ class LoginController {
       });
     }
   }
+
+  _devLoginAs(user){
+    var email = user + "@"+user+".com";
+    var pass = user;
+    this.Auth.login({
+      email: email,
+      password: pass
+    }).then(() => {
+      // Logged in, redirect to home
+      this.$location.path('/');
+    }).catch(err => {
+      this.errors.other = err.message;
+    });
+  }
+
 }
 
 angular.module('venueApp')
