@@ -14,21 +14,35 @@
 
         <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
                                             'has-error': form.name.$invalid && submitted }">
-          <label>Name</label>
+          <label>Title</label>
 
-          <input type="text" name="name" class="form-control" ng-model="user.name"
+          <input type="text" name="title" class="form-control" ng-model="title"
                  required/>
-          <p class="help-block" ng-show="form.name.$error.required && submitted">
-            A name is required
+          <p class="help-block" ng-show="form.title.$error.required && submitted">
+            A title is required
+          </p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
+                                            'has-error': form.name.$invalid && submitted }">
+          <label>Content</label>
+
+          <textarea type="text" name="content" class="form-control" ng-model="content"
+                 required/>
+          <p class="help-block" ng-show="form.content.$error.required && submitted">
+            Content is required
           </p>
         </div>
 
         <div class="form-group" ng-class="{ 'has-success': form.event.$valid && submitted,
                                             'has-error': form.event.$invalid && submitted }">
           <label for="sel1">Select Event:</label>
-          <select class="form-control" id="sel1" ng-model="eventSelected" >
+          <select class="form-control" name="selectEvent" ng-model="eventSelected" >
             <option ng-repeat = "event in events" value = "{{event._id}}"> {{event.title}}</option>
           </select>
+          <p class="help-block" ng-show="!selectEvent && submitted">
+            Event selection is required
+          </p>
         </div>
 
         <div class="form-group" ng-class="{ 'has-success': form.password.$valid && submitted,
@@ -40,7 +54,6 @@
           ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB">Select File</div>
           <br />
 
-          Drop File:
           <div ngf-drop ngf-select ng-model="files" class="drop-box"
               ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
               accept="image/*"
@@ -52,8 +65,9 @@
                 <img ngf-src="f" width = {{imgWidth}}/>
               </li>
           </ul>
-
-
+          <p class="help-block" ng-show="!files && submitted">
+            image selection is required
+          </p>
         </div>
 
         <div>
@@ -67,7 +81,6 @@
       <div style="width:{{progress}}%" ng-bind="progress + '%'"></div>
       here
     </span>
-       {{log}}
 
   </div>
 </div>

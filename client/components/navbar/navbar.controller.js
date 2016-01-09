@@ -4,10 +4,12 @@ class NavbarController {
   //start-non-standard
   menu = [{
     'title': 'Home',
-    'link': '/'
+    'link': '/',
+    "noauth": true
   }, {
     'title': 'Search Courses',
-    'link': '/courses'
+    'link': '/courses',
+    "noauth": true
   },{
     'title': 'Dashboard',
     'link': '/student/dashboard',
@@ -41,11 +43,11 @@ class NavbarController {
     });
   }
 
-  isMenuAccessible(forInstructor){
-    // console.log(user, forInstructor. user.isStudent, user.isInstructor);
-    if (forInstructor === undefined) return true;
-    if (this.isStudent && (!forInstructor)) return true;
-    if (this.isInstructor && (forInstructor)) return true;
+  isMenuAccessible(navItem){
+    if (!this.isLoggedIn() && !navItem.noauth) return false;
+    if (navItem.forInstructor === undefined) return true;
+    if (this.isStudent && (!navItem.forInstructor)) return true;
+    if (this.isInstructor && (navItem.forInstructor)) return true;
     return false;
   }
 

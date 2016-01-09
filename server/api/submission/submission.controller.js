@@ -85,6 +85,7 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   var form = new multiparty.Form();
   var imagePaths = [];
+
   form.parse(req, (err, fields, files) => {
     Object.keys(files).forEach(function(name) {
       var file = files[name][0]
@@ -101,18 +102,29 @@ exports.create = function(req, res) {
       is.on('end', function() {
           fs.unlinkSync(file.path);
       });
-
     });
 
     var asyncTasks = [];
     var submissionId = '';
-    fields.images = imagePaths;
 
     asyncTasks.push((callback) => {
-      Submission.create(fields, (err, submission) => {
+      console.log(fields);
+      var submit = {
+        images : imagePaths,
+        author : [fields.userId[0]],
+        events : [fields.eventId[0]],
+        location : {
+          coordinates : [Number(fields['coordinates[0]'][0]), Number(fields['coordinates[1]'][0])]
+        },
+        time: Date.now(),
+        content: fields.content[0]
+      };
+      console.log("here");
+      console.log(submit);
+
+      Submission.create(submit, (err, submission) => {
         if (err) return handleError(res);
         submissionId = submission._id.toString();
-        console.log("created submission");
         callback();
       })
     });

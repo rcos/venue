@@ -32,7 +32,9 @@ angular.module('venueApp')
                 userId: $scope.user._id,
                 eventId: $scope.eventSelected,
                 files: $scope.files,
-                location: {coordinates: $scope.coords}
+                coordinates: $scope.coords,
+                content: $scope.content,
+                title: $scope.title
               }
           }).progress(function (evt) {
               var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);

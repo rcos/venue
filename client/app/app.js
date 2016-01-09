@@ -10,7 +10,9 @@ angular.module('venueApp', [
   'ngRoute',
   'btford.socket-io',
   'ui.bootstrap',
-  'validation.match'
+  'validation.match',
+  'ngFileUpload',
+  'geolocation'
 ])
   .config(function($routeProvider, $locationProvider) {
     $routeProvider
