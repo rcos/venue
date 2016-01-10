@@ -168,10 +168,9 @@ export function fullSections(req, res, next) {
     .findOne({ _id: userId }, '-salt -password')
     .populate({
       path: 'sections',
-      populate: { path: 'pendingStudents' }
+      populate: { model:'User', path: 'pendingStudents' }
     })
     .exec((err, user) => {
-      console.log(user);
       if (err) return handleError(err);
       res.json(user);
     })

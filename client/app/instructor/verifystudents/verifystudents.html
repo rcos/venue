@@ -8,18 +8,25 @@
           <h1 class="page-header">Verify Students</h1>
             <div class = "row">
               <div class="col-sm-12">
-                <div class="well">
-                  <ul id="check-list-box" class="list-group checked-list-box">
-                     <li class="list-group-item" ng-repeat="student in verifyStudents">
-                       <!-- <label> -->
-                         <input type="checkbox" ng-click="toggleSelection(fruitName)" />
-                           {{student.firstName}} {{student.lastName}}
-                       <!-- </label> -->
-                     </li>
-                  </ul>
-                  <button class="btn btn-primary col-xs-12"> Verify Students</button>
-                  <br />
-                </div>
+                <div class="well" ng-repeat="section in sections">
+                  <div class = "section-number">
+                    <h3 class = "section-number" >Sections: <div class = "section-number" ng-repeat="num in section.sectionNumbers"> {{num}} 	&nbsp;</div> </h3>
+                  </div>
+                  <div ng-if="section.pendingStudents.length == 0">
+                    No Pending Students
+                  </div>
+                  <div ng-if="section.pendingStudents.length != 0">
+
+                    <ul id="check-list-box" class="list-group checked-list-box">
+                       <li class="list-group-item student-name" ng-repeat="pendingStudent in section.pendingStudents">
+                          <h5> {{pendingStudent.firstName}} {{pendingStudent.lastName}} </h5>
+                          <button class="btn btn-primary" ng-click="verifyStudent(section, pendingStudent)"> Verify </button>
+                       </li>
+                    </ul>
+                    <br />
+
+                  </div>
+              </div>
               </div>
             </div>
 
