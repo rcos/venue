@@ -66,6 +66,68 @@ function removeEntity(res) {
   };
 }
 
+function saveSubmissionImage(files, fields){
+  var imagePaths = [];
+  Object.keys(files).forEach(function(name) {
+    var file = files[name][0]
+    var name = file.path.substring(file.path.lastIndexOf('/')).substring(1);
+    var path = config.imageUploadPath  + fields.userId + '/' + fields.eventId;
+    imagePaths.push(path);
+    var destPath = path + '/' + name;
+    if(!fs.existsSync(path)){
+      mkdirp.sync(path);
+    }
+    var is = fs.createReadStream(file.path);
+    var os = fs.createWriteStream(destPath);
+    is.pipe(os);
+    is.on('end', function() {
+        fs.unlinkSync(file.path);
+    });
+  });
+  return imagePaths;
+}
+
+function createSubmission(imagePaths, fields, callback){
+  var asyncTasks = [];
+  var submissionId = '';
+
+  asyncTasks.push((callback) => {
+    console.log(fields);
+    var submit = {
+      images : imagePaths,
+      author : [fields.userId[0]],
+      events : [fields.eventId[0]],
+      location : {
+        coordinates : [Number(fields['coordinates[0]'][0]), Number(fields['coordinates[1]'][0])]
+      },
+      time: Date.now(),
+      content: fields.content[0]
+    };
+
+    Submission.create(submit, (err, submission) => {
+      if (err) return handleError(res);
+      submissionId = submission._id.toString();
+      console.log("created submission");
+      callback();
+    })
+  });
+
+  asyncTasks.push((callback) => {
+    Event.findById(fields.eventId[0], (err, evnt) => {
+      if(err) return handleError(res);
+      evnt.addSubmission(submissionId, () =>{
+        console.log("got to the event");
+        callback();
+      });
+    });
+  });
+
+  async.series(asyncTasks, () => {
+    callback();
+  });
+
+}
+
 // Gets a list of Submissions
 exports.index = function(req, res) {
   Submission.findAsync()
@@ -84,65 +146,11 @@ exports.show = function(req, res) {
 // Creates a new Submission in the DB
 exports.create = function(req, res) {
   var form = new multiparty.Form();
-  var imagePaths = [];
 
   form.parse(req, (err, fields, files) => {
-    Object.keys(files).forEach(function(name) {
-      var file = files[name][0]
-      var name = file.path.substring(file.path.lastIndexOf('/')).substring(1);
-      var path = config.imageUploadPath  + fields.userId + '/' + fields.eventId;
-      imagePaths.push(path);
-      var destPath = path + '/' + name;
-      if(!fs.existsSync(path)){
-        mkdirp.sync(path);
-      }
-      var is = fs.createReadStream(file.path);
-      var os = fs.createWriteStream(destPath);
-      is.pipe(os);
-      is.on('end', function() {
-          fs.unlinkSync(file.path);
-      });
-    });
 
-    var asyncTasks = [];
-    var submissionId = '';
-
-    asyncTasks.push((callback) => {
-      console.log(fields);
-      var submit = {
-        images : imagePaths,
-        author : [fields.userId[0]],
-        events : [fields.eventId[0]],
-        location : {
-          coordinates : [Number(fields['coordinates[0]'][0]), Number(fields['coordinates[1]'][0])]
-        },
-        time: Date.now(),
-        content: fields.content[0]
-      };
-      console.log(submit);
-      console.log("req body");
-      console.log(req.body);
-
-      Submission.create(submit, (err, submission) => {
-        if (err) return handleError(res);
-        submissionId = submission._id.toString();
-        callback();
-      })
-    });
-
-    asyncTasks.push((callback) => {
-      console.log(fields);
-      var eventId = fields.eventId[0];
-      Event.findById(eventId, (err, evnt) => {
-        if(err) return handleError(res);
-        evnt.addSubmission(submissionId, () =>{
-          console.log("got to the event");
-          callback();
-        });
-      });
-    });
-
-    async.series(asyncTasks, () => {
+    var imagePaths = saveSubmissionImage(files, fields);
+    createSubmission(imagePaths, fields, ()=>{
       console.log('hit');
       res.json({'success':true});
     });

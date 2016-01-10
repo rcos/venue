@@ -40,7 +40,7 @@
           <select class="form-control" name="selectEvent" ng-model="eventSelected" >
             <option ng-repeat = "event in events" value = "{{event._id}}"> {{event.title}}</option>
           </select>
-          <p class="help-block" ng-show="!selectEvent && submitted">
+          <p class="help-block" ng-show="!eventSelected && submitted">
             Event selection is required
           </p>
         </div>

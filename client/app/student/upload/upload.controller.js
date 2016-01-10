@@ -10,10 +10,11 @@ angular.module('venueApp')
 
     Auth.getCurrentUser(function(user){
       $scope.user = user;
-      User.getEvents({id:$scope.user._id})
-      .$promise.then((events) => {
-        $scope.events = events;
-      });
+      // User.getEvents({id:$scope.user._id})
+      // .$promise.then((events) => {
+      //   $scope.events = events;
+      // });
+      $scope.events = [{_id:'56918d2f9a8ed7ee3d955c77', title:"test"}];
     });
 
     geolocation.getLocation()
@@ -33,7 +34,9 @@ angular.module('venueApp')
                 coordinates: $scope.coords,
                 content: $scope.content,
                 title: $scope.title
-              }
+              },
+              objectKey: '.k',
+              arrayKey: '[i]'
           }).progress(function (evt) {
               var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
               $scope.progress = progressPercentage;
