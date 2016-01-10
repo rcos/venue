@@ -10,7 +10,8 @@ angular.module('venueApp', [
   'ngRoute',
   'btford.socket-io',
   'ui.bootstrap',
-  'validation.match'
+  'validation.match',
+  'dibari.angular-ellipsis'
 ])
   .config(function($routeProvider, $locationProvider) {
     $routeProvider

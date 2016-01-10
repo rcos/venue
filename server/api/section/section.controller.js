@@ -1,16 +1,16 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/courses              ->  index
- * POST    /api/courses              ->  create
- * GET     /api/courses/:id          ->  show
- * PUT     /api/courses/:id          ->  update
- * DELETE  /api/courses/:id          ->  destroy
+ * GET     /api/sections              ->  index
+ * POST    /api/sections              ->  create
+ * GET     /api/sections/:id          ->  show
+ * PUT     /api/sections/:id          ->  update
+ * DELETE  /api/sections/:id          ->  destroy
  */
 
 'use strict';
 
 var _ = require('lodash');
-var Course = require('./course.model');
+var Section = require('./section.model');
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -59,54 +59,54 @@ function removeEntity(res) {
   };
 }
 
-// Gets a list of Courses
+// Gets a list of Sections
 exports.index = function(req, res) {
-  Course.findAsync()
+  Section.findAsync()
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Gets a single Course from the DB
+// Gets a single Section from the DB
 exports.show = function(req, res) {
-  Course.findByIdAsync(req.params.id)
+  Section.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Gets the full events for a course
-exports.getFullSections = (req, res) => {
-  Course.findByIdAsync(req.params.id)
-    .then(course => {
-      course.getFullSections(sections => {
-        res.json(sections);
+// Gets the full events for a section
+exports.getFullEvents = (req, res) => {
+  Section.findByIdAsync(req.params.id)
+    .then(section => {
+      section.getFullEvents(events => {
+        res.json(events);
       });
     })
     .catch(handleError(res));
 };
 
-// Creates a new Course in the DB
+// Creates a new Section in the DB
 exports.create = function(req, res) {
-  Course.createAsync(req.body)
+  Section.createAsync(req.body)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
 };
 
-// Updates an existing Course in the DB
+// Updates an existing Section in the DB
 exports.update = function(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Course.findByIdAsync(req.params.id)
+  Section.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Deletes a Course from the DB
+// Deletes a Section from the DB
 exports.destroy = function(req, res) {
-  Course.findByIdAsync(req.params.id)
+  Section.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
