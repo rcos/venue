@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .factory('Section', function () {
+  .factory('Section', function ($resource) {
     var Section = $resource('/api/sections/:id/:controller', {
       id: '@_id'
     }, {

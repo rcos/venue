@@ -35,8 +35,7 @@ describe('SectionEvent API:', function() {
       request(app)
         .post('/api/sectionevents')
         .send({
-          name: 'New SectionEvent',
-          info: 'This is the brand new sectionevent!!!'
+          additionalNotes: 'New SectionEvent',
         })
         .expect(201)
         .expect('Content-Type', /json/)
@@ -50,8 +49,7 @@ describe('SectionEvent API:', function() {
     });
 
     it('should respond with the newly created sectionevent', function() {
-      expect(newSectionEvent.name).to.equal('New SectionEvent');
-      expect(newSectionEvent.info).to.equal('This is the brand new sectionevent!!!');
+      expect(newSectionEvent.additionalNotes).to.equal('New SectionEvent');
     });
 
   });
@@ -78,8 +76,7 @@ describe('SectionEvent API:', function() {
     });
 
     it('should respond with the requested sectionevent', function() {
-      expect(sectionevent.name).to.equal('New SectionEvent');
-      expect(sectionevent.info).to.equal('This is the brand new sectionevent!!!');
+      expect(sectionevent.additionalNotes).to.equal('New SectionEvent');
     });
 
   });
@@ -91,8 +88,7 @@ describe('SectionEvent API:', function() {
       request(app)
         .put('/api/sectionevents/' + newSectionEvent._id)
         .send({
-          name: 'Updated SectionEvent',
-          info: 'This is the updated sectionevent!!!'
+          additionalNotes: 'Updated SectionEvent',
         })
         .expect(200)
         .expect('Content-Type', /json/)
@@ -110,8 +106,7 @@ describe('SectionEvent API:', function() {
     });
 
     it('should respond with the updated sectionevent', function() {
-      expect(updatedSectionEvent.name).to.equal('Updated SectionEvent');
-      expect(updatedSectionEvent.info).to.equal('This is the updated sectionevent!!!');
+      expect(updatedSectionEvent.additionalNotes).to.equal('Updated SectionEvent');
     });
 
   });
