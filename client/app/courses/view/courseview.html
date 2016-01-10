@@ -7,14 +7,24 @@
         <div class='course-number'>{{course.department}} {{course.courseNumber}}</div>
       </h2>
       <div class='course-desc'>{{ course.description }} </div>
-      <button class='enroll btn'> Enroll </button>
     </div>
     <div class='col-sm-5'>
       <h2> Enroll </h2>
-      <div class='course-section' ng-repeat='section in sections'>
-        <div class='number'>{{section.sectionNumber}}</div>
-        <div class='instructors'> Instructor ids : {{section.instructors}}</div>
-        <div class='studentCount'>{{section.students.length}}</div>
+      <div class='course-section' ng-repeat='section in course.sections'>
+        <div class='numbers'>
+          Sections:
+          <span ng-repeat='sectionNumber in section.sectionNumbers'>
+            {{sectionNumber}}
+          </span>
+        </div>
+        <div class='instructors'>
+            <span ng-repeat='instructor in section.instructors'>
+              {{instructor.firstName}} {{instructor.lastName}}
+            </span>
+        </div>
+        <div class='studentCount'>Enrolled Students: {{section.students.length}}</div>
+        <button ng-click='enroll(section)' class='enroll btn'> Enroll </button>
+        <div ng-show
       </div>
     </div>
   </div>

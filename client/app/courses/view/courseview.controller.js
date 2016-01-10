@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('CourseViewCtrl', ($scope, Course, $routeParams) => {
-    Course.get({id: $routeParams.id}, course => {
+  .controller('CourseViewCtrl', ($scope, Course, User, Auth, $routeParams) => {
+    Course.get({id: $routeParams.id, withSections:true, withSectionInstructors: true}, course => {
       $scope.course = course;
-      Course.fullSections({id: $routeParams.id}).$promise
-        .then(sections => {
-          $scope.sections = sections;
-        });
     });
+
+    $scope.enroll = function(section){
+      User.enroll({_id: Auth.getCurrentUser()._id, sectionid: section._id});
+    };
   });
