@@ -1,16 +1,16 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/events              ->  index
- * POST    /api/events              ->  create
- * GET     /api/events/:id          ->  show
- * PUT     /api/events/:id          ->  update
- * DELETE  /api/events/:id          ->  destroy
+ * GET     /api/eventinfos              ->  index
+ * POST    /api/eventinfos              ->  create
+ * GET     /api/eventinfos/:id          ->  show
+ * PUT     /api/eventinfos/:id          ->  update
+ * DELETE  /api/eventinfos/:id          ->  destroy
  */
 
 'use strict';
 
 var _ = require('lodash');
-var Event = require('./event.model');
+var EventInfo = require('./eventinfo.model');
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -59,43 +59,43 @@ function removeEntity(res) {
   };
 }
 
-// Gets a list of Events
+// Gets a list of EventInfos
 exports.index = function(req, res) {
-  Event.findAsync()
+  EventInfo.findAsync()
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Gets a single Event from the DB
+// Gets a single EventInfo from the DB
 exports.show = function(req, res) {
-  Event.findByIdAsync(req.params.id)
+  EventInfo.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Creates a new Event in the DB
+// Creates a new EventInfo in the DB
 exports.create = function(req, res) {
-  Event.createAsync(req.body)
+  EventInfo.createAsync(req.body)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
 };
 
-// Updates an existing Event in the DB
+// Updates an existing EventInfo in the DB
 exports.update = function(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Event.findByIdAsync(req.params.id)
+  EventInfo.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Deletes a Event from the DB
+// Deletes a EventInfo from the DB
 exports.destroy = function(req, res) {
-  Event.findByIdAsync(req.params.id)
+  EventInfo.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));

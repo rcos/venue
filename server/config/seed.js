@@ -6,7 +6,7 @@
 'use strict';
 import User from '../api/user/user.model';
 import Course from '../api/course/course.model';
-import Event from '../api/event/event.model';
+import Event from '../api/eventinfo/eventinfo.model';
 var mongoose = require('mongoose');
 createUsers();
 createCourses();
