@@ -6,18 +6,18 @@ angular.module('venueApp')
       $scope.user = user;
       User.getFullSections({id:$scope.user._id})
       .$promise.then((user) => {
-        console.log(user);
         $scope.sections = user.sections;
       });
     });
 
     $scope.verifyStudent = (section, pendingStudent) => {
-      console.log(section);
       var sec = $scope.sections.indexOf(section);
-      console.log(sec);
       var student = $scope.sections[sec].pendingStudents.indexOf(pendingStudent);
       $scope.sections[sec].pendingStudents.splice(student, 1);
-      // TODO: Send backend request
+    Section.update({id: section._id}, {pendingStudent: pendingStudent._id})
+        .$promise.then((res) => {
+          console.log(res);
+        });
     }
 
   });

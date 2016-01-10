@@ -10,7 +10,9 @@
 'use strict';
 
 var _ = require('lodash');
+var async = require("async");
 var Section = require('./section.model');
+var User = require('../user/user.model');
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -59,6 +61,30 @@ function removeEntity(res) {
   };
 }
 
+function addStudentSection(section, pendingStudent, callback){
+  var asyncTasks = [];
+  asyncTasks.push((callback)=>{
+    section.students.push(pendingStudent);
+    section.save(()=>{
+      callback();
+    });
+  });
+
+  asyncTasks.push(()=>{
+    User.findByIdAsync(pendingStudent)
+    .then( (student) => {
+      student.sections.push(section._id);
+      student.save( () =>{
+        callback();
+      })
+    });
+  });
+
+  async.parallel(asyncTasks, ()=>{
+    callback();
+  });
+}
+
 // Gets a list of Sections
 exports.index = function(req, res) {
   Section.findAsync()
@@ -99,8 +125,18 @@ exports.update = function(req, res) {
   }
   Section.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
-    .then(saveUpdates(req.body))
-    .then(responseWithResult(res))
+    .then( (section) => {
+      var pendingStudent = req.body.pendingStudent;
+      // If student can be removed
+      if(section.pendingStudents.remove(pendingStudent)){
+        addStudentSection(section, pendingStudent, ()=>{
+          res.json({success:"true"});
+        });
+      }
+      else{
+        return res.json({success:"false"})
+      }
+    })
     .catch(handleError(res));
 };
 
