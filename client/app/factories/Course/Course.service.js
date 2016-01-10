@@ -13,13 +13,6 @@
         method: 'GET',
         isArray:true
       },
-      fullSections: {
-        method: 'GET',
-        isArray:true,
-        params:{
-          controller: 'fullsections',
-        }
-      },
       update: {
         method: 'PUT'
       },

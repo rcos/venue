@@ -68,20 +68,23 @@ exports.index = function(req, res) {
 
 // Gets a single Course from the DB
 exports.show = function(req, res) {
-  Course.findByIdAsync(req.params.id)
+  var dbquery = Course.findById(req.params.id);
+  if (req.query.withSections){
+    if (!req.query.withSectionInstructors){
+      dbquery.populate('sections');
+    }else{
+      dbquery.populate({
+        path:'sections',
+        populate: {
+          model: 'User',
+          path: 'instructors'
+        }
+      });
+    }
+  }
+  dbquery.execAsync()
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
-    .catch(handleError(res));
-};
-
-// Gets the full events for a course
-exports.getFullSections = (req, res) => {
-  Course.findByIdAsync(req.params.id)
-    .then(course => {
-      course.getFullSections(sections => {
-        res.json(sections);
-      });
-    })
     .catch(handleError(res));
 };
 
