@@ -10,7 +10,6 @@ var SectionSchema = new Schema({
   instructors: [{type : Schema.Types.ObjectId, ref: 'User'}],
   students: [{type : Schema.Types.ObjectId, ref: 'User'}],
   pendingStudents: [{type : Schema.Types.ObjectId, ref: 'User'}],
-  events: [{type : Schema.Types.ObjectId, ref: 'SectionEvent'}],
   sectionNumbers: [Number],
   enrollmentPolicy: {type: String, enum: ['open', 'closed', 'approvalRequired']},
 });
@@ -19,22 +18,6 @@ var SectionSchema = new Schema({
  * Methods
  */
 SectionSchema.methods = {
-  getFullEvents(cb){
-    var asyncTasks = [];
-    var events = [];
-    this.events.forEach(function(eventId){
-      asyncTasks.push(function(callback){
-        Event.findById(eventId.toString())
-        .then(evnt => {
-          events.push(evnt);
-          callback();
-        });
-      });
-    });
-    async.parallel(asyncTasks, () => {
-      cb(events)
-    });
-  }
 };
 
 module.exports = mongoose.model('Section', SectionSchema);

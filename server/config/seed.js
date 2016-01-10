@@ -25,7 +25,6 @@ function allUsers(){return {
     email: 'test@test.com',
     password: 'test',
     isInstructor: false,
-    sections: [],
     _id: mongoose.Types.ObjectId('000000000000000000000000'),
   },
   admin: {
@@ -36,7 +35,6 @@ function allUsers(){return {
     email: 'admin@admin.com',
     password: 'admin',
     isInstructor: true,
-    sections: [],
     _id: mongoose.Types.ObjectId('000000000000000000000001'),
 
   },
@@ -47,7 +45,6 @@ function allUsers(){return {
     email: 'bob@bob.com',
     password: 'bob',
     isInstructor: true,
-    sections: [baseSections().netArt12._id, baseSections().netArt34._id, baseSections().robotics1._id, baseSections().art234._id, baseSections().openSource1._id],//Net Art sections 1,2 and 3,4 Mestizo Robotics section 1 and Art, Community and Technology sections 2,3,4 and Introduction to Open Source section 1
     _id: mongoose.Types.ObjectId('000000000000000000000002'),
   },
   travis: {
@@ -57,7 +54,6 @@ function allUsers(){return {
     email: 'travis@travis.com',
     password: 'travis',
     isInstructor: true,
-    sections: [baseSections().robotics1._id,baseSections().art1._id,baseSections().imaging1234._id,baseSections().citiesLands1._id], //Mestizo Robotics section 1 Art, Community and Technology section 1 and Media Studio: Imaging section 1,2,3,4 and Cities/Lands section 1
     _id: mongoose.Types.ObjectId('000000000000000000000003'),
   },
   foo: {
@@ -67,7 +63,6 @@ function allUsers(){return {
     email: 'foo@foo.com',
     password: 'foo',
     isInstructor: false,
-    sections: [baseSections().netArt34._id,baseSections().imaging1234._id,baseSections().openSource1._id,baseSections().art234._id],//Net Art sections 3,4 and Introduction to Open Source section 1 and Media Studio: Imaging sections 1,2,3,4 and Art, Community and Technology sections 2,3,4
     _id: mongoose.Types.ObjectId('000000000000000000000004'),
   },
   kelly: {
@@ -77,7 +72,6 @@ function allUsers(){return {
     email: 'kelly@kelly.com',
     password: 'kelly',
     isInstructor: false,
-    sections: [baseSections().imaging1234._id,baseSections().robotics1._id], //Media Studio: Imaging sections 1,2,3,4 and Mestizo Robotics section 1
     _id: mongoose.Types.ObjectId('000000000000000000000005'),
   },
   jane: {
@@ -87,7 +81,6 @@ function allUsers(){return {
     email: 'jane@jane.com',
     password: 'jane',
     isInstructor: false,
-    sections: [baseSections().imaging1234._id,baseSections().netArt12._id,],//Media Studio: Imaging sections 1,2,3,4 and Net Art sections 1,2
     _id: mongoose.Types.ObjectId('000000000000000000000006'),
   }}
 }
@@ -99,7 +92,6 @@ function allCourses(){return {
       courseNumber: 2030,
       description: "Net Art is a hands-on studio course that uses the examination of the historical and theoretical aspects of Web-based art and virtual social spaces as a launching pad for individual student work. Considerable work at the conceptual level and a survey of Web-oriented software and programming enable students to create new works in net-based art.",
       semester: "F2015",
-      sections: [baseSections().netArt12._id,baseSections().netArt34._id],
       active: false,
       _id: mongoose.Types.ObjectId('000000000000000000000010'),
     },
@@ -109,7 +101,6 @@ function allCourses(){return {
       courseNumber: 2963,
       description: "The goal of this course is to provide a strong foundation in open source software development in preparation for jobs in industry or for more advanced courses. An important component of this course is participation in a community and contributing to an open source project. This course also provides an understanding of open source software tools and community, an understanding of open source licensing, an understanding of testing, version control, and open source software stacks. Students must come with a desire to learn new things, as well as the ability to adapt to open source tools and packages.",
       semester: "S2015",
-      sections: [baseSections().openSource1._id],
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000011'),
     },
@@ -119,7 +110,6 @@ function allCourses(){return {
       courseNumber: 4968,
       description: "Students will participate in the development of an artistic academic project comprised of an interconnected spherical robotic community dispersed and developed by different research units throughout the Americas.",
       semester: "S2015",
-      sections: [baseSections().robotics1._id],
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000012'),
     },
@@ -129,7 +119,6 @@ function allCourses(){return {
       courseNumber: 4080,
       description: "Through direct experience in the community, this course explores the complex roles and relationships of art, education and technology, students will develop a plan to work with a media arts center, community organization or school; final teams will produce real-world arts and education projects that ultimately will be realized as significant additions to their professional portfolio.  The projects can include a range from traditional arts practice to creative writing, creative IT models to community art and activism. We will examine diverse case studies, with special focus on the development and sustainability of a new local media arts center in Troy, the Sanctuary for Independent Media.  Students from a wide interdisciplinary range of studies are encouraged to enroll: a strong interest in how you can integrate creativity into your own knowledge base, and a desire to do field work in the community, are all that is required.",
       semester: "S2015",
-      sections: [baseSections().art1._id, baseSections().art234._id],
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000013'),
     },
@@ -139,8 +128,6 @@ function allCourses(){return {
       courseNumber: 1020,
       description: "This course introduces students to digital photography, web design, and interactive multimedia in making art. Students broaden their understanding of such topics as composition, effective use of images, color theory, typography, and narrative flow. Inquiry and experimentation are encouraged, leading towards the development of the skill and techniques needed to create visual art with electronic media.",
       semester: "S2015",
-      sections: [baseSections().imaging1234._id],
-
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000014'),
     },
@@ -150,7 +137,6 @@ function allCourses(){return {
       courseNumber: 2510,
       description: "This course establishes an understanding of the most common materials, their properties and resulting uses, and the implications of their uses in the larger context of material life cycles. The structural makeup of metals, ceramics, polymers, and composite materials is discovered and their resulting properties, costs, and life cycle consequences are clarified. An understanding of basic mechanical properties is established hands on by conducting tension, compression, and 3-point bending tests (mse-lab). Physical performance of material constructs as synergy between form and material properties is further illustrated. Experiments are conducted that introduce such major concepts as structural loading, properties of sections, and resulting system performance. Sustainability: The concept of life cycles is introduced; material and energy flows are tracked throughout the entire material life cycle. This will be accomplished alongside introducing major material groupings (metals, polymers, ceramics, and composites). Students come to realize that environmental concerns are directly related to structural composition and material availability. Consequences of resource extraction, distribution, manipulation, use, and disposal, reuse or recycle are addressed at both local and global scales. Selected field trips to materials extraction, processing, manufacturing, disposal, and recycling facilities are aimed to give physical meaning to the concept of life cycle.",
       semester: "S2015",
-      sections: [],
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000015'),
     },
@@ -160,7 +146,6 @@ function allCourses(){return {
       courseNumber: 2200,
       description: "Design studio introducing students from all disciplines to general design through a series of short projects. The projects stress critical and creative thinking and invention, interdisciplinary collaboration, observation and perception, communication and visualization. Students will begin open-ended investigations using sketching, photography, model making, and computing.",
       semester: "S2015",
-      sections: [baseSections().designStudio1._id],
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000016'),
     },
@@ -170,119 +155,97 @@ function allCourses(){return {
       courseNumber: 4040,
       description: "This lecture-seminar is an examination of the parallel historical formation and operation of human settlements together with the territories associated with them, and the interrelations among them in Western Europe, North America, China, the Middle East, and North Africa. The purpose is to better understand the role spatial organization plays in the construction of social practices, human subjectivities, and technologies of power. While the differing paradigmatic notions of architectural and landscape practices will be explored in each cultural situation, the emphasis will be on the formative processes operating at all scales and among scales, and the more general design practices that have emerged, and could emerge, from these understandings.",
       semester: "S2015",
-      sections: [baseSections().citiesLands1._id],
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000017'),
     }
   }
 }
 
-function baseSections(){ return {
+function allSections(){ return {
     netArt12: {
       sectionNumbers: [1,2],
       enrollmentPolicy: "closed",
       _id:mongoose.Types.ObjectId('000000000000000000000120'),
+      course : allCourses().netArt._id, //Net Art
+      students : [allUsers().jane._id], //Jane
+      pendingStudents : [],
+      instructors : [allUsers().bob._id] //Bob
     },
     netArt34: {
       sectionNumbers: [3,4],
       enrollmentPolicy: "closed",
       _id:mongoose.Types.ObjectId('000000000000000000000220'),
+      course : allCourses().netArt._id, //Net Art
+      students : [allUsers().foo._id], //Foo
+      pendingStudents : [],
+      instructors : [allUsers().bob._id], //Bob
     },
     openSource1: {
+      course : allCourses().openSource._id, //Introduction to Open Source
+      students : [allUsers().foo._id], //Foo
+      pendingStudents : [allUsers().jane._id], //Jane
+      instructors : [allUsers().bob._id], //Bob
       sectionNumbers: [1],
       enrollmentPolicy: "approvalRequired",
       _id:mongoose.Types.ObjectId('000000000000000000000121'),
     },
     robotics1: {
+      course : allCourses().robotics._id, //Mestizo Robotics
+      students : [allUsers().foo._id, allUsers().kelly._id], //Foo and Kelly
+      pendingStudents : [],
+      instructors : [allUsers().travis._id,allUsers().bob._id], //Travis & Bob
       sectionNumbers: [1],
       enrollmentPolicy: "approvalRequired",
       _id:mongoose.Types.ObjectId('000000000000000000000122'),
     },
     art1: {
+      course : allCourses().art._id, //Art, Community and Technology
+      students : [],
+      pendingStudents : [],
+      instructors : [allUsers().travis._id], //Travis
       sectionNumbers: [1],
       enrollmentPolicy: "open",
       _id:mongoose.Types.ObjectId('000000000000000000000123'),
     },
     art234: {
+      course : allCourses().art._id, //Art, Community and Technology
+      students : [allUsers().foo._id], //foo
+      pendingStudents : [],
+      instructors : [allUsers().bob._id], //Bob
       sectionNumbers: [2,3,4],
       enrollmentPolicy: "open",
       _id:mongoose.Types.ObjectId('000000000000000000000223'),
     },
     imaging1234: {
+      course : allCourses().imaging._id, //Media Studio: Imaging
+      students :  [allUsers().foo._id ,allUsers().kelly._id ,allUsers().jane._id ], //foo, kelly, jane
+      pendingStudents :  [],
+      instructors :  [allUsers().travis._id ], //Travis
       sectionNumbers: [1,2,3,4],
       enrollmentPolicy: "closed",
       _id:mongoose.Types.ObjectId('000000000000000000000124'),
     },
     designStudio1: {
+      course : allCourses().designStudio._id, //Design Studio
+      students : [],
+      pendingStudents : [allUsers().foo._id ,allUsers().kelly._id ,allUsers().jane._id ], //foo, kelly, jane
+      instructors : [],
       sectionNumbers: [1],
       enrollmentPolicy: "closed",
       _id:mongoose.Types.ObjectId('000000000000000000000125'),
     },
     citiesLands1: {
+      course : allCourses().citiesLands._id, //Cities/Lands
+      students : [],
+      pendingStudents : [allUsers().foo._id ,allUsers().kelly._id ,allUsers().jane._id ], //foo, kelly, jane
+      instructors : [allUsers().travis._id ], //Travis
       sectionNumbers: [1],
       enrollmentPolicy: "closed",
       _id:mongoose.Types.ObjectId('000000000000000000000126'),
     }
   }
 }
-function allSections(){
-  var sections = baseSections();
-  sections.netArt12.course = allCourses().netArt._id; //Net Art
-  sections.netArt12.students = [allUsers().jane._id]; //Jane
-  sections.netArt12.pendingStudents = [];
-  sections.netArt12.instructors = [allUsers().bob._id]; //Bob
-  sections.netArt12.events = [allSectionEvents().netArt12Concerts._id];
 
-  sections.netArt34.course = allCourses().netArt._id; //Net Art
-  sections.netArt34.students = [allUsers().foo._id]; //Foo
-  sections.netArt34.pendingStudents = [];
-  sections.netArt34.instructors = [allUsers().bob._id]; //Bob
-  sections.netArt34.events = [allSectionEvents().netArt34Concerts._id, allSectionEvents().netArt34Dancing._id];
-
-  sections.openSource1.course = allCourses().openSource._id; //Introduction to Open Source
-  sections.openSource1.students = [allUsers().foo._id]; //Foo
-  sections.openSource1.pendingStudents = [allUsers().jane._id]; //Jane
-  sections.openSource1.instructors = [allUsers().bob._id]; //Bob
-  sections.openSource1.events = [allSectionEvents().openSource1Concerts._id];
-
-  sections.robotics1.course = allCourses().robotics._id; //Mestizo Robotics
-  sections.robotics1.students = [allUsers().foo._id, allUsers().kelly._id]; //Foo and Kelly
-  sections.robotics1.pendingStudents = [];
-  sections.robotics1.instructors = [allUsers().travis._id,allUsers().bob._id]; //Travis & Bob
-  sections.robotics1.events = [];
-
-  sections.art1.course = allCourses().art._id; //Art, Community and Technology
-  sections.art1.students = [];
-  sections.art1.pendingStudents = [];
-  sections.art1.instructors = [allUsers().travis._id]; //Travis
-  sections.art1.events = [allSectionEvents().art1Dancing._id];
-
-  sections.art234.course = allCourses().art._id; //Art, Community and Technology
-  sections.art234.students = [allUsers().foo._id]; //foo
-  sections.art234.pendingStudents = [];
-  sections.art234.instructors = [allUsers().bob._id]; //Bob
-  sections.art234.events = [];
-
-  sections.imaging1234.course = allCourses().imaging._id; //Media Studio: Imaging
-  sections.imaging1234.students =  [allUsers().foo._id ,allUsers().kelly._id ,allUsers().jane._id ]; //foo, kelly, jane
-  sections.imaging1234.pendingStudents =  [];
-  sections.imaging1234.instructors =  [allUsers().travis._id ]; //Travis
-  sections.imaging1234.events =  [allSectionEvents().imaging1234Concerts._id, allSectionEvents().imaging1234Dancing._id];
-
-  sections.designStudio1.course = allCourses().designStudio._id; //Design Studio
-  sections.designStudio1.students = [];
-  sections.designStudio1.pendingStudents = [allUsers().foo._id ,allUsers().kelly._id ,allUsers().jane._id ]; //foo, kelly, jane
-  sections.designStudio1.instructors = [];
-  sections.designStudio1.events = [];
-
-  sections.citiesLands1.course = allCourses().citiesLands._id; //Cities/Lands
-  sections.citiesLands1.students = [];
-  sections.citiesLands1.pendingStudents = [allUsers().foo._id ,allUsers().kelly._id ,allUsers().jane._id ]; //foo, kelly, jane
-  sections.citiesLands1.instructors = [allUsers().travis._id ]; //Travis
-  sections.citiesLands1.events = [];
-
-  return sections;
-}
 
 function allEvents(){
   return {
@@ -336,7 +299,8 @@ function allEvents(){
 function allSectionEvents(){
   return{
     netArt12Concerts: {
-      section: baseSections().netArt12._id,//Net art sections 1,2
+      section: allSections().netArt12._id,//Net art sections 1,2
+      course: allCourses().netArt._id,//Net art
       additionalNotes:"Make sure to take a photo with the program.",
       author: allUsers().travis._id, //Travis
       creationDate: new Date("January 1, 2016 03:24:00"),
@@ -344,7 +308,8 @@ function allSectionEvents(){
       _id: mongoose.Types.ObjectId('000000000000000000001000')
     },
     netArt34Concerts: {
-      section: baseSections().netArt34._id,//Net art sections 3,4
+      section: allSections().netArt34._id,//Net art sections 3,4
+      course: allCourses().netArt._id,//Net art
       additionalNotes:"Make sure to take a photo in front of the building.",
       author: allUsers().travis._id, //Travis
       creationDate: new Date("January 1, 2016 03:24:00"),
@@ -352,7 +317,8 @@ function allSectionEvents(){
       _id: mongoose.Types.ObjectId('000000000000000000001001')
     },
     openSource1Concerts: {
-      section: baseSections().openSource1._id,//Introduction to Open Source sections 1
+      section: allSections().openSource1._id,//Introduction to Open Source sections 1
+      course: allCourses().openSource._id,//Introduction to Open Source
       additionalNotes:"Make sure to take a photo in front of the building.",
       author: allUsers().travis._id, //Travis
       creationDate: new Date("January 1, 2016 03:24:00"),
@@ -360,7 +326,8 @@ function allSectionEvents(){
       _id: mongoose.Types.ObjectId('000000000000000000001002')
     },
     imaging1234Concerts: {
-      section:baseSections().imaging1234._id,// Media Studio: Imaging section 1
+      section: allSections().imaging1234._id,// Media Studio: Imaging section 1
+      course: allCourses().imaging._id,//Media Studio: Imaging
       additionalNotes:"Make sure to take a photo in front of the building.",
       author: allUsers().travis._id, //Travis
       creationDate: new Date("January 1, 2016 03:24:00"),
@@ -368,7 +335,8 @@ function allSectionEvents(){
       _id: mongoose.Types.ObjectId('000000000000000000001003')
     },
     art1Dancing: {
-      section:baseSections().art1._id,// Art, Community and Technology section 1
+      section: allSections().art1._id,// Art, Community and Technology section 1
+      course: allCourses().art._id,//Art, Community and Technology
       additionalNotes:"",
       author: allUsers().bob._id, //Bob
       creationDate: new Date("January 4, 2016 05:49:06"),
@@ -376,7 +344,8 @@ function allSectionEvents(){
       _id: mongoose.Types.ObjectId('000000000000000000001004')
     },
     imaging1234Dancing: {
-      section:baseSections().imaging1234._id,// Media Studio: Imaging section 1
+      section:allSections().imaging1234._id,// Media Studio: Imaging section 1
+      course: allCourses().imaging._id,//Media Studio: Imaging
       additionalNotes:"",
       author: allUsers().bob._id, //Bob
       creationDate: new Date("January 4, 2016 05:49:06"),
@@ -384,7 +353,8 @@ function allSectionEvents(){
       _id: mongoose.Types.ObjectId('000000000000000000001005')
     },
     netArt34Dancing: {
-      section: baseSections().netArt34._id,//Net art sections 3,4
+      section: allSections().netArt34._id,//Net art sections 3,4
+      course: allCourses().netArt._id,//Net art
       additionalNotes:"",
       author: allUsers().bob._id, //Bob
       creationDate: new Date("January 4, 2016 05:49:06"),

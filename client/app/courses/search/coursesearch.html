@@ -22,7 +22,6 @@
     <div class='course-name'> {{ course.name }} </div>
     <div class='course-desc' data-ng-bind="course.description" data-ellipsis> </div>
     <div class='course-ref'> {{ course.department }} {{course.courseNumber}} </div>
-    <div class='course-students'> {{course.students.length}} enrolled</div>
   </div>
   <div class='no-courses' ng-show='filteredCourses.length == 0'>
     no courses found matching search term
