@@ -107,6 +107,17 @@ export function changePassword(req, res, next) {
 }
 
 /**
+ * Enroll in a section
+ */
+export function enrollInSection(req, res, next) {
+  var userId = req.user._id;
+  var sectionId = req.body.sectionid;
+
+  
+
+}
+
+/**
  * Get my info
  */
 export function me(req, res, next) {
