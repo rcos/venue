@@ -2,10 +2,6 @@
 
 angular.module('venueApp')
   .controller('VerifystudentsCtrl', function ($scope, Auth, User, Section) {
-    $scope.message = 'Hello';
-
-    $scope.verifyStudents = [{firstName:"seve", lastName:"ibarlz"}, {firstName:"seve", lastName:"ibarlz"}, {firstName:"seve", lastName:"ibarlz"}];
-
     Auth.getCurrentUser((user) => {
       $scope.user = user;
       User.getFullSections({id:$scope.user._id})
