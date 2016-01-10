@@ -11,7 +11,7 @@ var CourseSchema = new Schema({
   description: String,
   semester: String,
   active: Boolean,
-  author: {type:Schema.Types.ObjectId, ref: 'Section'},
+  sections: [{type:Schema.Types.ObjectId, ref: 'Section'}],
 
 });
 
