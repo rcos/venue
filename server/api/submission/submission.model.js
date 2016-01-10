@@ -10,6 +10,7 @@ var SubmissionSchema = new Schema({
   time: Date,
   submitter: {type : Schema.Types.ObjectId, ref: 'User'},
   authors: [{type : Schema.Types.ObjectId, ref: 'User'}],
+  sectionEvent: [{type : Schema.Types.ObjectId, ref: 'SectionEvent'}],
   location: {
     address: String,
     description: String,

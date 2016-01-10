@@ -22,7 +22,6 @@ var UserSchema = new Schema({
     default: 'user'
   },
   isInstructor: Boolean,
-  sections: [{type : Schema.Types.ObjectId, ref: 'Section'}],
   password: String,
   provider: String,
   salt: String,
