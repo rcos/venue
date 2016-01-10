@@ -2,6 +2,8 @@
 
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
+
+import Section from '../section/section.model';
 import async from 'async';
 
 var CourseSchema = new Schema({
@@ -17,21 +19,19 @@ var CourseSchema = new Schema({
  * Methods
  */
 CourseSchema.methods = {
-  getFullSections(cb){
-    var asyncTasks = [];
-    var fullSections = [];
-    this.sections.forEach(function(sectionId){
-      asyncTasks.push(function(callback){
-        Section.findById(sectionId.toString())
-        .then(section => {
-          fullSections.push(section);
-          callback();
-        });
-      });
-    });
-    async.parallel(asyncTasks, () => {
-      cb(fullSections)
-    });
+
+  /**
+   * Returns sections for a course
+   * @param opts: [optional] Additional flags e.g. {withInstructors:true}
+   * @param cb: Function callback
+   **/
+  getSections(opts, cb){
+    if (!cb) cb,opts = opts, {};
+    var withInstructors = opts.withInstructors;
+
+    var query = Section.find({course: this._id});
+    if (withInstructors) query.populate("instructors");
+    query.then(cb);
   }
 };
 

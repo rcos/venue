@@ -12,6 +12,7 @@ router.get('/me', auth.isAuthenticated(), controller.me);
 router.get('/:id/courses', auth.isAuthenticated(), controller.courses);
 router.get('/:id/events', auth.isAuthenticated(), controller.events);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
+router.put('/:id/enroll', auth.isAuthenticated(), controller.enrollInSection);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
 
