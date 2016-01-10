@@ -74,6 +74,17 @@ exports.show = function(req, res) {
     .catch(handleError(res));
 };
 
+// Gets the full events for a section
+exports.getFullEvents = (req, res) => {
+  Section.findByIdAsync(req.params.id)
+    .then(section => {
+      section.getFullEvents(events => {
+        res.json(events);
+      });
+    })
+    .catch(handleError(res));
+};
+
 // Creates a new Section in the DB
 exports.create = function(req, res) {
   Section.createAsync(req.body)
