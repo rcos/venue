@@ -239,7 +239,6 @@ UserSchema.methods = {
 
   getSectionsAsync(){
     var sections = [];
-    console.log("id",this._id)
     if (this.isInstructor){
         return Section.findAsync({instructors: mongoose.Types.ObjectId(this._id) })
     }
