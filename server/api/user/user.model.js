@@ -240,10 +240,14 @@ UserSchema.methods = {
   getSectionsAsync(){
     var sections = [];
     if (this.isInstructor){
-        return Section.findAsync({instructors: mongoose.Types.ObjectId(this._id) })
+        return Section.find({instructors: mongoose.Types.ObjectId(this._id) })
+        .populate('course')
+        .execAsync()
     }
     else{
-        return Section.findAsync({ students : mongoose.Types.ObjectId(this._id)})
+        return Section.find({ students : mongoose.Types.ObjectId(this._id)})
+        .populate('course')
+        .execAsync()
     }
   },
 

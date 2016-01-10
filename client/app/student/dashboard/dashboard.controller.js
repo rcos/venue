@@ -9,18 +9,19 @@ angular.module('venueApp')
 
     Auth.getCurrentUser((user) => {
       $scope.user = user;
-      getCoursesEvents();
+      getSectionsEvents();
     });
 
-    function getCoursesEvents(){
-      User.getCourses({id:$scope.user._id})
-      .$promise.then((courses) => {
-        $scope.courses = courses;
+    function getSectionsEvents(){
+      User.getSections({id:$scope.user._id})
+      .$promise.then((sections) => {
+        $scope.sections = sections;
       });
 
       User.getEvents({id:$scope.user._id})
       .$promise.then((events) => {
         $scope.events = events;
+
       });
     }
 

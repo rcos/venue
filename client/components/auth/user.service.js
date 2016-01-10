@@ -24,10 +24,10 @@ function UserResource($resource) {
         controller: 'enroll'
       }
     },
-    getCourses: {
+    getSections: {
       method: 'GET',
       params: {
-        controller:'courses'
+        controller:'sections'
       },
       isArray: true
     },
