@@ -4,9 +4,9 @@ angular.module('venueApp')
   .controller('CourseViewCtrl', ($scope, Course, $routeParams) => {
     Course.get({id: $routeParams.id}, course => {
       $scope.course = course;
-      Course.fullEvents({id: $routeParams.id}).$promise
-        .then(events => {
-          $scope.events = events;
+      Course.fullSections({id: $routeParams.id}).$promise
+        .then(sections => {
+          $scope.sections = sections;
         });
     });
   });
