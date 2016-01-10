@@ -35,8 +35,7 @@ describe('Section API:', function() {
       request(app)
         .post('/api/sections')
         .send({
-          name: 'New Section',
-          info: 'This is the brand new section!!!'
+          sectionNumbers: [1,2,3]
         })
         .expect(201)
         .expect('Content-Type', /json/)
@@ -50,8 +49,7 @@ describe('Section API:', function() {
     });
 
     it('should respond with the newly created section', function() {
-      expect(newSection.name).to.equal('New Section');
-      expect(newSection.info).to.equal('This is the brand new section!!!');
+      assert.deepEqual(newSection.sectionNumbers, [1,2,3]);
     });
 
   });
@@ -78,8 +76,7 @@ describe('Section API:', function() {
     });
 
     it('should respond with the requested section', function() {
-      expect(section.name).to.equal('New Section');
-      expect(section.info).to.equal('This is the brand new section!!!');
+      assert.deepEqual(section.sectionNumbers, [1,2,3]);
     });
 
   });
@@ -91,8 +88,7 @@ describe('Section API:', function() {
       request(app)
         .put('/api/sections/' + newSection._id)
         .send({
-          name: 'Updated Section',
-          info: 'This is the updated section!!!'
+          sectionNumbers: [1,3,5]
         })
         .expect(200)
         .expect('Content-Type', /json/)
@@ -110,8 +106,7 @@ describe('Section API:', function() {
     });
 
     it('should respond with the updated section', function() {
-      expect(updatedSection.name).to.equal('Updated Section');
-      expect(updatedSection.info).to.equal('This is the updated section!!!');
+      assert.deepEqual(updatedSection.sectionNumbers, [1,3,5]);
     });
 
   });
