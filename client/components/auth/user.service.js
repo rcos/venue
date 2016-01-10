@@ -24,6 +24,12 @@ function UserResource($resource) {
         controller: 'enroll'
       }
     },
+    unenroll: {
+      method: 'PUT',
+      params: {
+        controller: 'unenroll'
+      }
+    },
     getCourses: {
       method: 'GET',
       params: {
