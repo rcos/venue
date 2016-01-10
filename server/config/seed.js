@@ -165,7 +165,7 @@ function createCourses(){
       courseNumber: 2200,
       description: "Design studio introducing students from all disciplines to general design through a series of short projects. The projects stress critical and creative thinking and invention, interdisciplinary collaboration, observation and perception, communication and visualization. Students will begin open-ended investigations using sketching, photography, model making, and computing.",
       semester: "S2015",
-      sections: [],
+      sections: [mongoose.Types.ObjectId('000000000000000000000124')],
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000016'),
     },
