@@ -37,7 +37,7 @@ function createUsers(){
       email: 'admin@admin.com',
       password: 'admin',
       isInstructor: true,
-      sections: [{type : Schema.Types.ObjectId, ref: 'Course'}],
+      sections: [],
       _id: mongoose.Types.ObjectId('000000000000000000000001'),
 
     }, {
@@ -155,7 +155,7 @@ function createSections(){
   .then(() => {
     Section.createAsync({
       course: mongoose.Types.ObjectId('000000000000000000000010'), //Net Art
-      sectionNumbers: [1,2]
+      sectionNumbers: [1,2],
       enrollmentPolicy: "closed",
       students: [mongoose.Types.ObjectId('000000000000000000000006')],//Jane
       pendingStudents: [],
@@ -164,7 +164,7 @@ function createSections(){
       _id:mongoose.Types.ObjectId('000000000000000000000120'),
     },{
       course: mongoose.Types.ObjectId('000000000000000000000010'), //Net Art
-      sectionNumbers: [3,4]
+      sectionNumbers: [3,4],
       enrollmentPolicy: "closed",
       students: [mongoose.Types.ObjectId('000000000000000000000004')],//Foo
       pendingStudents: [],
@@ -174,8 +174,8 @@ function createSections(){
     },
     {
       course: mongoose.Types.ObjectId('000000000000000000000011'), //Introduction to Open Source
-      sectionNumbers: [1]
-      enrollmentPolicy: "verification required",
+      sectionNumbers: [1],
+      enrollmentPolicy: "approvalRequired",
       students: [mongoose.Types.ObjectId('000000000000000000000004')],//Foo
       pendingStudents: [mongoose.Types.ObjectId('000000000000000000000006')],//Jane
       instructors: [],
@@ -184,8 +184,8 @@ function createSections(){
     },
     {
       course: mongoose.Types.ObjectId('000000000000000000000012'), //Mestizo Robotics
-      sectionNumbers: [1]
-      enrollmentPolicy: "verification required",
+      sectionNumbers: [1],
+      enrollmentPolicy: "approvalRequired",
       students: [mongoose.Types.ObjectId('000000000000000000000004'),mongoose.Types.ObjectId('000000000000000000000005')], //Foo and Kelly
       pendingStudents: [],
       instructors: [mongoose.Types.ObjectId('000000000000000000000003'),mongoose.Types.ObjectId('000000000000000000000002')], //Travis & Bob
@@ -194,7 +194,7 @@ function createSections(){
     },
     {
       course: mongoose.Types.ObjectId('000000000000000000000013'), //Art, Community and Technology
-      sectionNumbers: [1]
+      sectionNumbers: [1],
       enrollmentPolicy: "open",
       students: [],
       pendingStudents: [],
@@ -203,7 +203,7 @@ function createSections(){
       _id:mongoose.Types.ObjectId('000000000000000000000123'),
     },{
       course: mongoose.Types.ObjectId('000000000000000000000013'), //Art, Community and Technology
-      sectionNumbers: [2,3,4]
+      sectionNumbers: [2,3,4],
       enrollmentPolicy: "open",
       students: [mongoose.Types.ObjectId('000000000000000000000004')], //foo
       pendingStudents: [],
@@ -213,7 +213,7 @@ function createSections(){
     },
     {
       course: mongoose.Types.ObjectId('000000000000000000000014'), //Media Studio: Imaging
-      sectionNumbers: [1,2,3,4]
+      sectionNumbers: [1,2,3,4],
       enrollmentPolicy: "closed",
       students: [mongoose.Types.ObjectId('000000000000000000000004'),mongoose.Types.ObjectId('000000000000000000000005'),mongoose.Types.ObjectId('000000000000000000000006')], //foo, kelly, jane
       pendingStudents: [],
@@ -293,7 +293,7 @@ function createSectionEvents(){
         author: mongoose.Types.ObjectId('000000000000000000000003'), //Travis
         creationDate: new Date("January 1, 2016 03:24:00"),
         info: mongoose.Types.ObjectId('000000000000000000000020'),//Art_X Concerts: Examine Intersections of Science, Art
-        _id: mongoose.Types.ObjectId('000000000000000000001020')
+        _id: mongoose.Types.ObjectId('000000000000000000001000')
       },
       {
         section: mongoose.Types.ObjectId('000000000000000000000220'),//Net art sections 3,4
@@ -301,7 +301,7 @@ function createSectionEvents(){
         author: mongoose.Types.ObjectId('000000000000000000000003'), //Travis
         creationDate: new Date("January 1, 2016 03:24:00"),
         info: mongoose.Types.ObjectId('000000000000000000000020'),//Art_X Concerts: Examine Intersections of Science, Art
-        _id: mongoose.Types.ObjectId('000000000000000000001020')
+        _id: mongoose.Types.ObjectId('000000000000000000001001')
       },
       {
         section: mongoose.Types.ObjectId('000000000000000000000121'),//Introduction to Open Source sections 1
@@ -309,7 +309,7 @@ function createSectionEvents(){
         author: mongoose.Types.ObjectId('000000000000000000000003'), //Travis
         creationDate: new Date("January 1, 2016 03:24:00"),
         info: mongoose.Types.ObjectId('000000000000000000000020'),//Art_X Concerts: Examine Intersections of Science, Art
-        _id: mongoose.Types.ObjectId('000000000000000000001020')
+        _id: mongoose.Types.ObjectId('000000000000000000001002')
       },
       {
         section:mongoose.Types.ObjectId('000000000000000000000124'),// Media Studio: Imaging section 1
@@ -317,7 +317,7 @@ function createSectionEvents(){
         author: mongoose.Types.ObjectId('000000000000000000000003'), //Travis
         creationDate: new Date("January 1, 2016 03:24:00"),
         info: mongoose.Types.ObjectId('000000000000000000000020'),//Art_X Concerts: Examine Intersections of Science, Art
-        _id: mongoose.Types.ObjectId('000000000000000000001020')
+        _id: mongoose.Types.ObjectId('000000000000000000001003')
       },
       {
         section:mongoose.Types.ObjectId('000000000000000000000123'),// Art, Community and Technology section 1
@@ -325,7 +325,7 @@ function createSectionEvents(){
         author: mongoose.Types.ObjectId('000000000000000000000002'), //Bob
         creationDate: new Date("January 4, 2016 05:49:06"),
         info: mongoose.Types.ObjectId('000000000000000000000021'),//Dancing Through the Years
-        _id: mongoose.Types.ObjectId('000000000000000000001021')
+        _id: mongoose.Types.ObjectId('000000000000000000001004')
 
 
       },
@@ -335,7 +335,7 @@ function createSectionEvents(){
         author: mongoose.Types.ObjectId('000000000000000000000002'), //Bob
         creationDate: new Date("January 4, 2016 05:49:06"),
         info: mongoose.Types.ObjectId('000000000000000000000021'),//Dancing Through the Years
-        _id: mongoose.Types.ObjectId('000000000000000000001021')
+        _id: mongoose.Types.ObjectId('000000000000000000001005')
 
 
       },
@@ -345,7 +345,7 @@ function createSectionEvents(){
         author: mongoose.Types.ObjectId('000000000000000000000002'), //Bob
         creationDate: new Date("January 4, 2016 05:49:06"),
         info: mongoose.Types.ObjectId('000000000000000000000021'),//Dancing Through the Years
-        _id: mongoose.Types.ObjectId('000000000000000000001021')
+        _id: mongoose.Types.ObjectId('000000000000000000001006')
 
 
       })
