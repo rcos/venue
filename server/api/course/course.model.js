@@ -10,7 +10,30 @@ var CourseSchema = new Schema({
   courseNumber: Number,
   description: String,
   semester: String,
+  sections: [{type : Schema.Types.ObjectId, ref: 'Section'}],
   active: Boolean
 });
+
+/**
+ * Methods
+ */
+CourseSchema.methods = {
+  getFullSections(cb){
+    var asyncTasks = [];
+    var fullSections = [];
+    this.sections.forEach(function(sectionId){
+      asyncTasks.push(function(callback){
+        Section.findById(sectionId.toString())
+        .then(section => {
+          fullSections.push(section);
+          callback();
+        });
+      });
+    });
+    async.parallel(asyncTasks, () => {
+      cb(fullSections)
+    });
+  }
+};
 
 module.exports = mongoose.model('Course', CourseSchema);
