@@ -68,20 +68,24 @@ exports.index = function(req, res) {
 
 // Gets a single Section from the DB
 exports.show = function(req, res) {
-  Section.findByIdAsync(req.params.id)
+  var query = Section.findByIdAsync(req.params.id);
+
+  if (req.query.withEvents){
+    query = query.populate("events");
+  }
+  if (req.query.withCourses){
+    query = query.populate("courses");
+  }
+  if (req.query.withStudents){
+    query = query.populate("students");
+  }
+  if (req.query.withInstructors){
+    query = query.populate("instructors");
+  }
+
+  query
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
-    .catch(handleError(res));
-};
-
-// Gets the full events for a section
-exports.getFullEvents = (req, res) => {
-  Section.findByIdAsync(req.params.id)
-    .then(section => {
-      section.getFullEvents(events => {
-        res.json(events);
-      });
-    })
     .catch(handleError(res));
 };
 

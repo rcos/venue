@@ -17,22 +17,6 @@ var SectionSchema = new Schema({
  * Methods
  */
 SectionSchema.methods = {
-  getFullEvents(cb){
-    var asyncTasks = [];
-    var events = [];
-    this.events.forEach(function(eventId){
-      asyncTasks.push(function(callback){
-        Event.findById(eventId.toString())
-        .then(evnt => {
-          events.push(evnt);
-          callback();
-        });
-      });
-    });
-    async.parallel(asyncTasks, () => {
-      cb(events)
-    });
-  }
 };
 
 module.exports = mongoose.model('Section', SectionSchema);
