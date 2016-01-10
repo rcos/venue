@@ -47,7 +47,7 @@ function createUsers(){
       email: 'bob@bob.com',
       password: 'bob',
       isInstructor: true,
-      sections: [mongoose.Types.ObjectId('000000000000000000000120'),mongoose.Types.ObjectId('000000000000000000000122')],//Net Art sections 1,2 and 3,4 Mestizo Robotics section 1 and Art, Community and Technology sections 2,3,4
+      sections: [mongoose.Types.ObjectId('000000000000000000000120'),mongoose.Types.ObjectId('000000000000000000000122'),mongoose.Types.ObjectId('000000000000000000000121')],//Net Art sections 1,2 and 3,4 Mestizo Robotics section 1 and Art, Community and Technology sections 2,3,4 and Introduction to Open Source section 1
       _id: mongoose.Types.ObjectId('000000000000000000000002'),
     },
     {
@@ -57,7 +57,7 @@ function createUsers(){
       email: 'travis@travis.com',
       password: 'travis',
       isInstructor: true,
-      sections: [mongoose.Types.ObjectId('000000000000000000000122'),], //Mestizo Robotics section 1 Art, Community and Technology section 1 and Media Studio: Imaging section 1,2,3,4
+      sections: [mongoose.Types.ObjectId('000000000000000000000122'),mongoose.Types.ObjectId('000000000000000000000123'),mongoose.Types.ObjectId('000000000000000000000124'),mongoose.Types.ObjectId('000000000000000000000126')], //Mestizo Robotics section 1 Art, Community and Technology section 1 and Media Studio: Imaging section 1,2,3,4 and Cities/Lands section 1
       _id: mongoose.Types.ObjectId('000000000000000000000003'),
     }, {
       provider: 'local',
@@ -104,6 +104,7 @@ function createCourses(){
       courseNumber: 2030,
       description: "Net Art is a hands-on studio course that uses the examination of the historical and theoretical aspects of Web-based art and virtual social spaces as a launching pad for individual student work. Considerable work at the conceptual level and a survey of Web-oriented software and programming enable students to create new works in net-based art.",
       semester: "F2015",
+      sections: [mongoose.Types.ObjectId('000000000000000000000120'),mongoose.Types.ObjectId('000000000000000000000220')],
       active: false,
       _id: mongoose.Types.ObjectId('000000000000000000000010'),
     },
@@ -113,6 +114,7 @@ function createCourses(){
       courseNumber: 2963,
       description: "The goal of this course is to provide a strong foundation in open source software development in preparation for jobs in industry or for more advanced courses. An important component of this course is participation in a community and contributing to an open source project. This course also provides an understanding of open source software tools and community, an understanding of open source licensing, an understanding of testing, version control, and open source software stacks. Students must come with a desire to learn new things, as well as the ability to adapt to open source tools and packages.",
       semester: "S2015",
+      sections: [mongoose.Types.ObjectId('000000000000000000000121')],
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000011'),
     },
@@ -122,6 +124,7 @@ function createCourses(){
       courseNumber: 4968,
       description: "Students will participate in the development of an artistic academic project comprised of an interconnected spherical robotic community dispersed and developed by different research units throughout the Americas.",
       semester: "S2015",
+      sections: [mongoose.Types.ObjectId('000000000000000000000122')],
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000012'),
     },
@@ -131,6 +134,7 @@ function createCourses(){
       courseNumber: 4080,
       description: "Through direct experience in the community, this course explores the complex roles and relationships of art, education and technology, students will develop a plan to work with a media arts center, community organization or school; final teams will produce real-world arts and education projects that ultimately will be realized as significant additions to their professional portfolio.  The projects can include a range from traditional arts practice to creative writing, creative IT models to community art and activism. We will examine diverse case studies, with special focus on the development and sustainability of a new local media arts center in Troy, the Sanctuary for Independent Media.  Students from a wide interdisciplinary range of studies are encouraged to enroll: a strong interest in how you can integrate creativity into your own knowledge base, and a desire to do field work in the community, are all that is required.",
       semester: "S2015",
+      sections: [mongoose.Types.ObjectId('000000000000000000000123'),mongoose.Types.ObjectId('000000000000000000000223')],
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000013'),
     },
@@ -140,8 +144,40 @@ function createCourses(){
       courseNumber: 1020,
       description: "This course introduces students to digital photography, web design, and interactive multimedia in making art. Students broaden their understanding of such topics as composition, effective use of images, color theory, typography, and narrative flow. Inquiry and experimentation are encouraged, leading towards the development of the skill and techniques needed to create visual art with electronic media.",
       semester: "S2015",
+      sections: [mongoose.Types.ObjectId('000000000000000000000124')],
+
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000014'),
+    },
+    {
+      name: "Materials and Design",
+      department: "ARCH",
+      courseNumber: 2510,
+      description: "This course establishes an understanding of the most common materials, their properties and resulting uses, and the implications of their uses in the larger context of material life cycles. The structural makeup of metals, ceramics, polymers, and composite materials is discovered and their resulting properties, costs, and life cycle consequences are clarified. An understanding of basic mechanical properties is established hands on by conducting tension, compression, and 3-point bending tests (mse-lab). Physical performance of material constructs as synergy between form and material properties is further illustrated. Experiments are conducted that introduce such major concepts as structural loading, properties of sections, and resulting system performance. Sustainability: The concept of life cycles is introduced; material and energy flows are tracked throughout the entire material life cycle. This will be accomplished alongside introducing major material groupings (metals, polymers, ceramics, and composites). Students come to realize that environmental concerns are directly related to structural composition and material availability. Consequences of resource extraction, distribution, manipulation, use, and disposal, reuse or recycle are addressed at both local and global scales. Selected field trips to materials extraction, processing, manufacturing, disposal, and recycling facilities are aimed to give physical meaning to the concept of life cycle.",
+      semester: "S2015",
+      sections: [],
+      active: true,
+      _id: mongoose.Types.ObjectId('000000000000000000000015'),
+    },
+    {
+      name: "Design Studio",
+      department: "ARCH",
+      courseNumber: 2200,
+      description: "Design studio introducing students from all disciplines to general design through a series of short projects. The projects stress critical and creative thinking and invention, interdisciplinary collaboration, observation and perception, communication and visualization. Students will begin open-ended investigations using sketching, photography, model making, and computing.",
+      semester: "S2015",
+      sections: [],
+      active: true,
+      _id: mongoose.Types.ObjectId('000000000000000000000016'),
+    },
+    {
+      name: "Cities/Lands",
+      department: "ARCH",
+      courseNumber: 4040,
+      description: "This lecture-seminar is an examination of the parallel historical formation and operation of human settlements together with the territories associated with them, and the interrelations among them in Western Europe, North America, China, the Middle East, and North Africa. The purpose is to better understand the role spatial organization plays in the construction of social practices, human subjectivities, and technologies of power. While the differing paradigmatic notions of architectural and landscape practices will be explored in each cultural situation, the emphasis will be on the formative processes operating at all scales and among scales, and the more general design practices that have emerged, and could emerge, from these understandings.",
+      semester: "S2015",
+      sections: [mongoose.Types.ObjectId('000000000000000000000125')],
+      active: true,
+      _id: mongoose.Types.ObjectId('000000000000000000000017'),
     })
     .then(() => {
       console.log('finished populating courses');
@@ -178,7 +214,7 @@ function createSections(){
       enrollmentPolicy: "approvalRequired",
       students: [mongoose.Types.ObjectId('000000000000000000000004')],//Foo
       pendingStudents: [mongoose.Types.ObjectId('000000000000000000000006')],//Jane
-      instructors: [],
+      instructors: [mongoose.Types.ObjectId('000000000000000000000002')],//Bob
       events: [],
       _id:mongoose.Types.ObjectId('000000000000000000000121'),
     },
@@ -220,6 +256,26 @@ function createSections(){
       instructors: [mongoose.Types.ObjectId('000000000000000000000003')], //Travis
       events: [],
       _id:mongoose.Types.ObjectId('000000000000000000000124'),
+    },
+    {
+      course: mongoose.Types.ObjectId('000000000000000000000016'), //Design Studio
+      sectionNumbers: [1],
+      enrollmentPolicy: "closed",
+      students: [],
+      pendingStudents: [mongoose.Types.ObjectId('000000000000000000000004'),mongoose.Types.ObjectId('000000000000000000000005'),mongoose.Types.ObjectId('000000000000000000000006')], //foo, kelly, jane
+      instructors: [],
+      events: [],
+      _id:mongoose.Types.ObjectId('000000000000000000000125'),
+    },
+    {
+      course: mongoose.Types.ObjectId('000000000000000000000017'), //Cities/Lands
+      sectionNumbers: [1],
+      enrollmentPolicy: "closed",
+      students: [],
+      pendingStudents: [mongoose.Types.ObjectId('000000000000000000000004'),mongoose.Types.ObjectId('000000000000000000000005'),mongoose.Types.ObjectId('000000000000000000000006')], //foo, kelly, jane
+      instructors: [mongoose.Types.ObjectId('000000000000000000000003')], //Travis
+      events: [],
+      _id:mongoose.Types.ObjectId('000000000000000000000126'),
     })
     .then(() => {
       console.log('finished populating courses');
