@@ -33,7 +33,7 @@ function UserResource($resource) {
     getCourses: {
       method: 'GET',
       params: {
-        controller:'courses'
+        controller:'sections'
       },
       isArray: true
     },

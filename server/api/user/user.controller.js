@@ -153,9 +153,9 @@ export function me(req, res, next) {
 }
 
 /**
- * Get user's courses
+ * Get user's sections
  */
-export function courses(req, res, next) {
+export function sections(req, res, next) {
   var userId = req.params.id;
 
   User.findOneAsync({ _id: userId }, '-salt -password')
@@ -163,9 +163,11 @@ export function courses(req, res, next) {
       if (!user) {
         return res.status(401).end();
       }
-      user.getFullCourses((courses)=>{
-        res.json(courses)
+      user.getSectionsAsync().then((sections)=>{
+        return res.json(sections)
       })
+      .catch(err => next(err));
+
     })
     .catch(err => next(err));
 }
@@ -181,9 +183,11 @@ export function events(req, res, next) {
       if (!user) {
         return res.status(401).end();
       }
-      user.getFullEvents((events)=>{
-        res.json(events)
+      user.getEventsAsync().then((events)=>{
+        return res.json(events)
       })
+      .catch(err => next(err));
+
     })
     .catch(err => next(err));
 }
