@@ -248,13 +248,11 @@ UserSchema.methods = {
     }
   },
 
-  getEvents(cb){
-    this.getSections( (sections) => {
-      SectionEvent.find({section : {$in: sections}})
+  getEventsAsync(){
+    return this.getSectionsAsync().then((sections) => {
+      return SectionEvent.find({section : {$in: sections}})
       .populate('info')
-      .exec((sectionEvents) => {
-        return cb(sectionEvents);
-      })
+      .execAsync();
     })
   }
 };

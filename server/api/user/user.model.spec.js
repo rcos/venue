@@ -64,6 +64,27 @@ describe('User Model', function() {
     });
   });
 
+  describe('#getEvents', function() {
+    var seed = require('../../config/seed');
+    beforeEach(function(done) {
+      return Promise.all([seed.createUsers(), seed.createCourses(), seed.createSections(), seed.createEvents(), seed.createSectionEvents()]).then(()=>{console.log("done");done()});
+    });
+
+    it('should be able to get a seed user\'s events', function(done) {
+      User.findOneAsync({"firstName" : "Jane"}).then(function
+        (user){
+          user.getEventsAsync().should.eventually.have.length(3).notify(done);
+        });
+    });
+
+    it('should be able to get a seed instructor\'s events', function(done) {
+      User.findOneAsync({"firstName" : "Bob"}).then(function
+        (user){
+          user.getEventsAsync().should.eventually.have.length(4).notify(done);
+        });
+    });
+  });
+
   describe('#password', function() {
     beforeEach(function() {
       return user.saveAsync();
