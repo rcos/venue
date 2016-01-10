@@ -2,16 +2,19 @@
 
 import app from '../..';
 import User from './user.model';
+
 var user;
 var genUser = function() {
   user = new User({
     provider: 'local',
-    name: 'Fake User',
+    firstName: 'Fake',
+    lastName: 'User',
     email: 'test@example.com',
     password: 'password'
   });
   return user;
 };
+
 
 describe('User Model', function() {
   before(function() {
@@ -40,10 +43,24 @@ describe('User Model', function() {
       })).to.be.rejected;
   });
 
-  describe('#email', function() {
-    it('should fail when saving without an email', function() {
-      user.email = '';
-      return expect(user.saveAsync()).to.be.rejected;
+  describe('#getSections', function() {
+    var seed = require('../../config/seed');
+    beforeEach(function(done) {
+      return Promise.all([seed.createUsers(), seed.createCourses(), seed.createSections(), seed.createEvents(), seed.createSectionEvents()]).then(()=>{console.log("done");done()});
+    });
+
+    it('should be able to get a seed user\'s sections', function(done) {
+      User.findOneAsync({"firstName" : "Jane"}).then(function
+        (user){
+          user.getSectionsAsync().should.eventually.have.length(2).notify(done);
+        });
+    });
+
+    it('should be able to get a seed instructor\'s sections', function(done) {
+      User.findOneAsync({"firstName" : "Bob"}).then(function
+        (user){
+          user.getSectionsAsync().should.eventually.have.length(5).notify(done);
+        });
     });
   });
 

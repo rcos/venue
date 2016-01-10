@@ -2,11 +2,10 @@
 
 import crypto from 'crypto';
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
-import {Schema} from 'mongoose';
+var Schema = mongoose.Schema;
 import async from 'async';
 import Section from '../section/section.model';
 import SectionEvent from '../sectionevent/sectionevent.model';
-
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
 
 var UserSchema = new Schema({
@@ -238,26 +237,24 @@ UserSchema.methods = {
     });
   },
 
-  getSections(cb){
+  getSectionsAsync(){
     var sections = [];
-      Section.find({ $or: [ {students : this._id }, { instructors : this._id }] })
-      .exec((sections) => {
-        return cb(sections);
-      });
-    });
+    console.log("id",this._id)
+    if (this.isInstructor){
+        return Section.findAsync({instructors: mongoose.Types.ObjectId(this._id) })
+    }
+    else{
+        return Section.findAsync({ students : mongoose.Types.ObjectId(this._id)})
+    }
   },
 
   getEvents(cb){
     this.getSections( (sections) => {
-      Section.find({ $or: [ {students : this._id }, { instructors : this._id }] })
-      .then((sections) => {
-        SectionEvent.find({section : {$in: sections}})
-        .populate('info')
-        .exec((sectionEvents) => {
-          return cb(sectionEvents);
-        })
-      });
-
+      SectionEvent.find({section : {$in: sections}})
+      .populate('info')
+      .exec((sectionEvents) => {
+        return cb(sectionEvents);
+      })
     })
   }
 };
