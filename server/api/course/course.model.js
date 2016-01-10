@@ -10,9 +10,8 @@ var CourseSchema = new Schema({
   courseNumber: Number,
   description: String,
   semester: String,
-  active: Boolean,
   sections: [{type:Schema.Types.ObjectId, ref: 'Section'}],
-
+  active: Boolean
 });
 
 /**
