@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('InstructorSignupCtrl', (Auth, $scope)=>{
+  .controller('InstructorSignupCtrl', (Auth, $scope, $location)=>{
       $scope.user = {};
       $scope.errors = {};
 

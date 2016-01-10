@@ -4,7 +4,7 @@ import crypto from 'crypto';
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 import {Schema} from 'mongoose';
 import async from 'async';
-import Course from '../course/course.model';
+import Section from '../section/section.model';
 
 
 
@@ -22,7 +22,7 @@ var UserSchema = new Schema({
     default: 'user'
   },
   isInstructor: Boolean,
-  courses: [{type : Schema.Types.ObjectId, ref: 'Course'}],
+  sections: [{type : Schema.Types.ObjectId, ref: 'Section'}],
   password: String,
   provider: String,
   salt: String,
@@ -43,7 +43,7 @@ UserSchema
     return {
       'name': this.name,
       'role': this.role,
-      'courses': this.courses
+      'sections': this.sections
     };
   });
 
@@ -240,31 +240,31 @@ UserSchema.methods = {
     });
   },
 
-  getFullCourses(cb){
+  getFullSections(cb){
     var asyncTasks = [];
-    var courses = [];
-    this.courses.forEach(function(courseId){
+    var sections = [];
+    this.sections.forEach(function(sectionId){
       asyncTasks.push(function(callback){
-        Course.findById(courseId.toString())
-        .then(course => {
-          courses.push(course);
+        Section.findById(sectionId.toString())
+        .then(section => {
+          sections.push(section);
           callback();
         });
       });
     });
 
     async.parallel(asyncTasks, () => {
-      cb(courses)
+      cb(sections)
     });
   },
 
   getFullEvents(cb){
-    this.getFullCourses( courses => {
+    this.getFullSections( sections => {
       var events = [];
       var asyncTasks = [];
-      courses.forEach(function(course){
+      sections.forEach(function(section){
         asyncTasks.push(function(callback){
-          course.getFullEvents( (evnt) => {
+          section.getFullEvents( (evnt) => {
             events = events.concat(evnt);
             callback();
           });
