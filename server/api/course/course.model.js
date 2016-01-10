@@ -10,7 +10,9 @@ var CourseSchema = new Schema({
   courseNumber: Number,
   description: String,
   semester: String,
-  active: Boolean
+  active: Boolean,
+  author: {type:Schema.Types.ObjectId, ref: 'Section'},
+
 });
 
 module.exports = mongoose.model('Course', CourseSchema);
