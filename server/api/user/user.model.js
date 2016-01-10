@@ -5,8 +5,7 @@ var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 import {Schema} from 'mongoose';
 import async from 'async';
 import Section from '../section/section.model';
-
-
+import SectionEvent from '../sectionevent/sectionevent.model';
 
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
 
@@ -242,28 +241,23 @@ UserSchema.methods = {
   getSections(cb){
     var sections = [];
       Section.find({ $or: [ {students : this._id }, { instructors : this._id }] })
-      .then((sections) => {
-        cb(sections);
+      .exec((sections) => {
+        return cb(sections);
       });
     });
   },
 
   getEvents(cb){
-    this.getFullSections( sections => {
-      var events = [];
-      var asyncTasks = [];
-      sections.forEach(function(section){
-        asyncTasks.push(function(callback){
-          section.getFullEvents( (evnt) => {
-            events = events.concat(evnt);
-            cb();
-          });
-        });
+    this.getSections( (sections) => {
+      Section.find({ $or: [ {students : this._id }, { instructors : this._id }] })
+      .then((sections) => {
+        SectionEvent.find({section : {$in: sections}})
+        .populate('info')
+        .exec((sectionEvents) => {
+          return cb(sectionEvents);
+        })
       });
 
-      async.parallel(asyncTasks, () => {
-        cb(events)
-      });
     })
   }
 };
