@@ -16,7 +16,7 @@ class NavbarController {
     'forInstructor': false
   },{
     'title': 'Dashboard',
-    'link': '/instructor/dashbord',
+    'link': '/instructor/dashboard',
     'forInstructor': true
   },{
     'title': 'Upload',

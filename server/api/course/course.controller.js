@@ -75,11 +75,11 @@ exports.show = function(req, res) {
 };
 
 // Gets the full events for a course
-exports.getFullEvents = (req, res) => {
+exports.getFullSections = (req, res) => {
   Course.findByIdAsync(req.params.id)
     .then(course => {
-      course.getFullEvents(events => {
-        res.json(events);
+      course.getFullSections(sections => {
+        res.json(sections);
       });
     })
     .catch(handleError(res));

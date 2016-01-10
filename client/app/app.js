@@ -12,7 +12,8 @@ angular.module('venueApp', [
   'ui.bootstrap',
   'validation.match',
   'ngFileUpload',
-  'geolocation'
+  'geolocation',
+  'dibari.angular-ellipsis'
 ])
   .config(function($routeProvider, $locationProvider) {
     $routeProvider

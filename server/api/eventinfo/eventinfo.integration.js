@@ -36,7 +36,7 @@ describe('EventInfo API:', function() {
         .post('/api/eventinfos')
         .send({
           title: 'New EventInfo',
-          description: 'This is the brand new event!!!',
+          description: 'This is the brand new eventinfo!!!',
           location: {
             geo: {
               type: 'Point',
@@ -56,8 +56,8 @@ describe('EventInfo API:', function() {
     });
 
     it('should respond with the newly created eventinfo', function() {
-      expect(newEventInfo.name).to.equal('New EventInfo');
-      expect(newEventInfo.info).to.equal('This is the brand new eventinfo!!!');
+      expect(newEventInfo.title).to.equal('New EventInfo');
+      expect(newEventInfo.description).to.equal('This is the brand new eventinfo!!!');
     });
 
   });
@@ -84,8 +84,8 @@ describe('EventInfo API:', function() {
     });
 
     it('should respond with the requested eventinfo', function() {
-      expect(eventinfo.name).to.equal('New EventInfo');
-      expect(eventinfo.info).to.equal('This is the brand new eventinfo!!!');
+      expect(eventinfo.title).to.equal('New EventInfo');
+      expect(eventinfo.description).to.equal('This is the brand new eventinfo!!!');
     });
 
   });
@@ -97,8 +97,8 @@ describe('EventInfo API:', function() {
       request(app)
         .put('/api/eventinfos/' + newEventInfo._id)
         .send({
-          name: 'Updated EventInfo',
-          info: 'This is the updated eventinfo!!!'
+          title: 'Updated EventInfo',
+          description: 'This is the updated eventinfo!!!'
         })
         .expect(200)
         .expect('Content-Type', /json/)
@@ -116,8 +116,8 @@ describe('EventInfo API:', function() {
     });
 
     it('should respond with the updated eventinfo', function() {
-      expect(updatedEventInfo.name).to.equal('Updated EventInfo');
-      expect(updatedEventInfo.info).to.equal('This is the updated eventinfo!!!');
+      expect(updatedEventInfo.title).to.equal('Updated EventInfo');
+      expect(updatedEventInfo.description).to.equal('This is the updated eventinfo!!!');
     });
 
   });

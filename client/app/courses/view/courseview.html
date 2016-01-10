@@ -10,11 +10,11 @@
       <button class='enroll btn'> Enroll </button>
     </div>
     <div class='col-sm-5'>
-      <h2> Events </h2>
-      <div class='course-event' ng-repeat='event in events'>
-        <div class='title'>{{event.title}}</div>
-        <div class='description'>{{event.description}}</div>
-        <div class='times'>{{event.times}}</div>
+      <h2> Enroll </h2>
+      <div class='course-section' ng-repeat='section in sections'>
+        <div class='number'>{{section.sectionNumber}}</div>
+        <div class='instructors'> Instructor ids : {{section.instructors}}</div>
+        <div class='studentCount'>{{section.students.length}}</div>
       </div>
     </div>
   </div>
