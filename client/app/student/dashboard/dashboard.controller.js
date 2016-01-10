@@ -16,13 +16,11 @@ angular.module('venueApp')
       User.getSections({id:$scope.user._id})
       .$promise.then((sections) => {
         $scope.sections = sections;
-        console.log("sections",sections);
       });
 
       User.getEvents({id:$scope.user._id})
       .$promise.then((events) => {
         $scope.events = events;
-                console.log("events",events);
 
       });
     }
