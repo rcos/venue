@@ -8,13 +8,13 @@
           <h1 class="page-header">Dashboard</h1>
           <h3> Courses </h3>
           <div class= "courses">
-            <div class = "course row" ng-repeat="course in courses">
+            <div class = "course row" ng-repeat="section in sections">
               <div class = "col-sm-3">
                 <div class="course-title">
-                  {{course.name}}
+                  {{section.course.name}}
                 </div>
                 <div class="course-identifier">
-                {{course.department}} {{course.courseNumber}}
+                {{section.course.department}} {{section.course.courseNumber}}
               </div>
               </div>
             </div>
@@ -24,12 +24,12 @@
           <div class="events">
       		  <div class = "event" ng-repeat="event in events">
       		    <div class = "event-title">
-      		      {{event.title}}
+      		      {{event.info.title}}
       		    </div>
               <div>
-                {{event.date}}
+                {{event.info.date}}
               </div>
-      		    {{event.description}}
+      		    {{event.info.description}}
       		    <br/>
       		  </div>
           </div>
