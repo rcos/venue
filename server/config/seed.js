@@ -165,7 +165,7 @@ function createCourses(){
       courseNumber: 2200,
       description: "Design studio introducing students from all disciplines to general design through a series of short projects. The projects stress critical and creative thinking and invention, interdisciplinary collaboration, observation and perception, communication and visualization. Students will begin open-ended investigations using sketching, photography, model making, and computing.",
       semester: "S2015",
-      sections: [mongoose.Types.ObjectId('000000000000000000000124')],
+      sections: [mongoose.Types.ObjectId('000000000000000000000125')],
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000016'),
     },
@@ -175,7 +175,7 @@ function createCourses(){
       courseNumber: 4040,
       description: "This lecture-seminar is an examination of the parallel historical formation and operation of human settlements together with the territories associated with them, and the interrelations among them in Western Europe, North America, China, the Middle East, and North Africa. The purpose is to better understand the role spatial organization plays in the construction of social practices, human subjectivities, and technologies of power. While the differing paradigmatic notions of architectural and landscape practices will be explored in each cultural situation, the emphasis will be on the formative processes operating at all scales and among scales, and the more general design practices that have emerged, and could emerge, from these understandings.",
       semester: "S2015",
-      sections: [mongoose.Types.ObjectId('000000000000000000000125')],
+      sections: [mongoose.Types.ObjectId('000000000000000000000126')],
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000017'),
     })
