@@ -2,7 +2,7 @@
 
 import crypto from 'crypto';
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
-var Schema = mongoose.Schema;
+import {Schema} from 'mongoose';
 import async from 'async';
 import Section from '../section/section.model';
 import SectionEvent from '../sectionevent/sectionevent.model';
