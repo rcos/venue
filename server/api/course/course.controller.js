@@ -89,7 +89,16 @@ exports.show = function(req, res) {
 
 // Creates a new Course in the DB
 exports.create = function(req, res) {
-  Course.createAsync(req.body)
+  var course = req.body,
+      date = new Date();
+  course.active = true;
+  if(date.getMonth() < 5){
+    course.semester = "Spring" + (date.getYear() - 100).toString();
+  }
+  else{
+    course.semester = "Fall" + (date.getYear() - 100).toString();
+  }
+  Course.createAsync(course)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
 };
