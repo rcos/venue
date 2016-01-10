@@ -3,7 +3,7 @@
 (function() {
 
 function UserResource($resource) {
-  var User = $resource('/api/users/:id/:controller', {
+  var User = $resource('/api/users/:id/:controller/:options', {
     id: '@_id'
   }, {
     changePassword: {
@@ -31,6 +31,13 @@ function UserResource($resource) {
         controller:'events'
       },
       isArray: true
+    },
+    getFullSections: {
+      method: 'GET',
+      params: {
+        controller:'instructor',
+        options: 'fullsections'
+      }
     }
   });
 

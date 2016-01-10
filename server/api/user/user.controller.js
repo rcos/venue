@@ -159,6 +159,24 @@ export function events(req, res, next) {
 }
 
 /**
+ * Get instructor's sections
+ */
+export function fullSections(req, res, next) {
+  var userId = req.params.id;
+
+  User
+    .findOne({ _id: userId }, '-salt -password')
+    .populate({
+      path: 'courses',
+      populate: { path: 'sections' }
+    })
+    .exec((err, user) => {
+      if (err) return handleError(err);
+      res.json(user);
+    })
+}
+
+/**
  * Authentication callback
  */
 export function authCallback(req, res, next) {
