@@ -112,7 +112,9 @@ export function changePassword(req, res, next) {
 export function enrollInSection(req, res, next) {
   var userId = req.user._id;
   var sectionId = req.body.sectionid;
+
   
+
 }
 
 /**

@@ -69,22 +69,21 @@ exports.index = function(req, res) {
 // Gets a single Course from the DB
 exports.show = function(req, res) {
   var dbquery = Course.findById(req.params.id);
-  if (req.query.withSections){
-    if (!req.query.withSectionInstructors){
-      dbquery.populate('sections');
-    }else{
-      dbquery.populate({
-        path:'sections',
-        populate: {
-          model: 'User',
-          path: 'instructors'
-        }
-      });
-    }
-  }
   dbquery.execAsync()
     .then(handleEntityNotFound(res))
-    .then(responseWithResult(res))
+    .then((course) => {
+      if (req.query.withSections){
+        course.getSections({
+          withInstructors: req.query.withSectionInstructors,
+        }, (sections) => {
+          course = course.toObject();
+          course.sections = sections;
+          responseWithResult(res)(course);
+        })
+      }else{
+        responseWithResult(res)(course);
+      }
+    })
     .catch(handleError(res));
 };
 
