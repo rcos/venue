@@ -239,25 +239,16 @@ UserSchema.methods = {
     });
   },
 
-  getFullSections(cb){
-    var asyncTasks = [];
+  getSections(cb){
     var sections = [];
-    this.sections.forEach(function(sectionId){
-      asyncTasks.push(function(callback){
-        Section.findById(sectionId.toString())
-        .then(section => {
-          sections.push(section);
-          callback();
-        });
+      Section.find({ $or: [ {students : this._id }, { instructors : this._id }] })
+      .then((sections) => {
+        cb(sections);
       });
-    });
-
-    async.parallel(asyncTasks, () => {
-      cb(sections)
     });
   },
 
-  getFullEvents(cb){
+  getEvents(cb){
     this.getFullSections( sections => {
       var events = [];
       var asyncTasks = [];
@@ -265,7 +256,7 @@ UserSchema.methods = {
         asyncTasks.push(function(callback){
           section.getFullEvents( (evnt) => {
             events = events.concat(evnt);
-            callback();
+            cb();
           });
         });
       });
