@@ -11,11 +11,6 @@ import SectionEvent from '../api/sectionevent/sectionevent.model';
 import Section from '../api/section/section.model';
 
 var mongoose = require('mongoose');
-createUsers();
-createCourses();
-createSections();
-createEvents();
-createSectionEvents()
 
 function allUsers(){return {
   test: {
@@ -366,69 +361,75 @@ function allSectionEvents(){
 
 
 // Create Users
-function createUsers(){
-  User.find({}).removeAsync()
+module.exports.createUsers = function(){
+  return User.find({}).removeAsync()
   .then(() => {
     var users = allUsers();
 
-    User.createAsync(users.test, users.admin, users.bob, users.travis, users.foo, users.kelly, users.jane)
-    .then(() => {
-      console.log('finished populating users');
-    });
+    return User.createAsync(users.test, users.admin, users.bob, users.travis, users.foo, users.kelly, users.jane)
   });
 }
 
 
 // Create Courses
-function createCourses(){
-  Course.find({}).removeAsync()
+module.exports.createCourses = function(){
+  return Course.find({}).removeAsync()
   .then(() => {
     var courses = allCourses();
 
-    Course.createAsync(
+    return Course.createAsync(
       courses.netArt, courses.openSource, courses.robotics, courses.art, courses.imaging, courses.materials, courses.designStudio, courses.citiesLands)
-    .then(() => {
-      console.log('finished populating courses');
-    });
   });
 }
 
 // Create Courses
-function createSections(){
-  Section.find({}).removeAsync()
+module.exports.createSections = function(){
+  return Section.find({}).removeAsync()
   .then(() => {
     var sections = allSections();
 
-    Section.createAsync(
+    return Section.createAsync(
     sections.netArt12, sections.netArt34, sections.openSource1, sections.robotics1, sections.art1, sections.art234, sections.imaging1234, sections.designStudio1, sections.citiesLands1 )
-    .then(() => {
-      console.log('finished populating courses');
-    });
   });
 }
 
 // Create Events
-function createEvents(){
-  Event.find({}).removeAsync()
+module.exports.createEvents = function(){
+  return Event.find({}).removeAsync()
   .then(() => {
     var events = allEvents();
 
-    Event.createAsync(events.concerts, events.dancing)
-    .then(() => {
-      console.log('finished populating events');
-      });
+    return Event.createAsync(events.concerts, events.dancing)
+
   });
 }
 // Create Section Events
 
-function createSectionEvents(){
-  SectionEvent.find({}).removeAsync()
+module.exports.createSectionEvents = function(){
+  return SectionEvent.find({}).removeAsync()
   .then(() => {
     var sectionEvents = allSectionEvents();
 
-    SectionEvent.createAsync( sectionEvents.netArt12Concerts, sectionEvents.netArt34Concerts, sectionEvents.openSource1Concerts, sectionEvents.imaging1234Concerts, sectionEvents.art1Dancing, sectionEvents.imaging1234Dancing, sectionEvents.netArt34Dancing )
-    .then(() => {
-      console.log('finished populating events');
-      });
+    return SectionEvent.createAsync( sectionEvents.netArt12Concerts, sectionEvents.netArt34Concerts, sectionEvents.openSource1Concerts, sectionEvents.imaging1234Concerts, sectionEvents.art1Dancing, sectionEvents.imaging1234Dancing, sectionEvents.netArt34Dancing )
+
   });
+}
+
+module.exports.seed = function(){
+  module.exports.createUsers().then(() => {
+        console.log('finished populating users');
+      });
+  module.exports.createCourses().then(() => {
+        console.log('finished populating courses');
+      });
+
+  module.exports.createSections().then(() => {
+      console.log('finished populating courses');
+    });
+  module.exports.createEvents().then(() => {
+    console.log('finished populating events');
+    });
+  module.exports.createSectionEvents().then(() => {
+    console.log('finished populating events');
+    });
 }

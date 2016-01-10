@@ -5,9 +5,7 @@ var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 import {Schema} from 'mongoose';
 import async from 'async';
 import Section from '../section/section.model';
-
-
-
+import SectionEvent from '../sectionevent/sectionevent.model';
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
 
 var UserSchema = new Schema({
@@ -239,40 +237,21 @@ UserSchema.methods = {
     });
   },
 
-  getFullSections(cb){
-    var asyncTasks = [];
+  getSectionsAsync(){
     var sections = [];
-    this.sections.forEach(function(sectionId){
-      asyncTasks.push(function(callback){
-        Section.findById(sectionId.toString())
-        .then(section => {
-          sections.push(section);
-          callback();
-        });
-      });
-    });
-
-    async.parallel(asyncTasks, () => {
-      cb(sections)
-    });
+    if (this.isInstructor){
+        return Section.findAsync({instructors: mongoose.Types.ObjectId(this._id) })
+    }
+    else{
+        return Section.findAsync({ students : mongoose.Types.ObjectId(this._id)})
+    }
   },
 
-  getFullEvents(cb){
-    this.getFullSections( sections => {
-      var events = [];
-      var asyncTasks = [];
-      sections.forEach(function(section){
-        asyncTasks.push(function(callback){
-          section.getFullEvents( (evnt) => {
-            events = events.concat(evnt);
-            callback();
-          });
-        });
-      });
-
-      async.parallel(asyncTasks, () => {
-        cb(events)
-      });
+  getEventsAsync(){
+    return this.getSectionsAsync().then((sections) => {
+      return SectionEvent.find({section : {$in: sections}})
+      .populate('info')
+      .execAsync();
     })
   }
 };
