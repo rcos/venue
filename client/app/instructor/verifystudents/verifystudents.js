@@ -3,8 +3,8 @@
 angular.module('venueApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/instructor/verifyStudent', {
+      .when('/instructor/verifystudent', {
         templateUrl: 'app/instructor/verifystudents/verifystudents.html',
-        controller: 'VerifystudentsCtrl'
+        controller: 'VerifyStudentsCtrl'
       });
   });

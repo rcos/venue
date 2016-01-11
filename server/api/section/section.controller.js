@@ -11,8 +11,8 @@
 
 var _ = require('lodash');
 var async = require("async");
-var Section = require('./section.model');
-var User = require('../user/user.model');
+import Section from './section.model';
+import User from '../user/user.model';
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;

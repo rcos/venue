@@ -10,14 +10,16 @@
       		  <div class = "event" ng-repeat="event in events">
               <div class = "row">
         		    <div class = "col-sm-5 event-title">
-        		      {{event.title}}
+        		      {{event.info.title}}
         		    </div>
                 <div class = "col-sm-4 col-sm-offset-3 event-date">
-                  {{event.date}}
+                  <div ng-repeat="time in event.info.times">
+                    {{time.start}}
+                  </div>
                 </div>
               </div>
               <div>
-                {{event.description}}
+                {{event.info.description}}
               </div>
       		    <br/>
       		  </div>
