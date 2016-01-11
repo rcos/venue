@@ -61,17 +61,42 @@ export function create(req, res, next) {
  */
 export function show(req, res, next) {
   var userId = req.params.id;
+  User.findById(userId)
+  .select('-salt -password')
+  .execAsync()
+  .then((user) => {
+    if (!user) {
+      return res.status(404).end();
+    }
+    var profile = user.toJSON();
+    return Promise.all([user, profile]);
+  })
+  .spread((user,profile) =>{
+    if (req.query.withSections){
+      return user.getSectionsAsync(req.query).then((sections)=>{
+        profile.sections = sections;
 
-  User.findByIdAsync(userId)
-    .then(user => {
-      if (!user) {
-        return res.status(404).end();
-      }
-      res.json(user.profile);
-    })
-    .catch(err => next(err));
+        return Promise.all([user, profile]);
+      })
+    }else{
+        return Promise.all([user, profile]);
+    }
+  })
+  .spread((user,profile) =>{
+    if (req.query.withEvents){
+      return user.getEventsAsync(req.query).then((events)=>{
+        profile.events = events;
+        return Promise.all([user, profile]);
+      })
+    }else{
+        return Promise.all([user, profile]);
+    }
+  })
+  .spread((user,profile) => {
+    return res.json(profile);
+  })
+  .catch(err => next(err));
 }
-
 /**
  * Deletes a user
  * restriction: 'admin'
