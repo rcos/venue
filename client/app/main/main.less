@@ -1,27 +1,60 @@
-.thing-form {
-  margin: 20px 0;
-}
 
-#banner {
-  border-bottom: none;
-  margin-top: -20px;
-}
+.purpose{
 
-#banner h1 {
-  font-size: 60px;
-  line-height: 1;
-  letter-spacing: -1px;
-}
+  height:340px;
+  overflow: hidden;
 
-.hero-unit {
-  position: relative;
-  padding: 30px 15px;
-  color: #F5F5F5;
-  text-align: center;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-  background: #4393B9;
-}
+  .title{
+    font-family:Raleway;
+    font-size:128px;
+    display: inline-block;
+    position:relative;
+    color:#000;
 
-.navbar-text {
-  margin-left: 15px;
+    .slogan{
+      font-family:Raleway;
+      font-size:24px;
+      position: absolute;
+      bottom:0px;
+      right:0px;
+      display:inline-block;
+    }
+
+  }
+
+  .explanation{
+    position:absolute;
+    top:220px;
+    width:400px;
+    font-size:14px;
+    color:#666;
+  }
+
+  img{
+    position:absolute;
+    right:0px;
+    top:0px;
+  }
+
+  .shadow-container{
+    position:relative;
+    overflow:hidden;
+    height:340px;
+  }
+
+  .shadow{
+    position:absolute;
+    left:-20px;
+    top:0;
+    height:340px;
+    right:0px;
+  }
+  .lower-shadow{
+    background-image:linear-gradient(70deg, #fff 500px, rgba(255,255,255,0));
+  }
+  .higher-shadow{
+    opacity:.75;
+    background-image:linear-gradient(0,rgba(255,255,255,0),#fff);
+  }
+
 }
