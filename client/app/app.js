@@ -11,6 +11,8 @@ angular.module('venueApp', [
   'btford.socket-io',
   'ui.bootstrap',
   'validation.match',
+  'ngFileUpload',
+  'geolocation',
   'dibari.angular-ellipsis'
 ])
   .config(function($routeProvider, $locationProvider) {
