@@ -10,7 +10,18 @@
       <h1>Event Attendance</h1>
     </div>
     <div class="col-sm-12">
-      <form class="form" name="form" ng-submit="submitEvent(form)" novalidate>
+      <form class="form" name="form" ng-submit="submitEvent(form)" novalidate ng-show="!success">
+
+        <div class="form-group" ng-class="{ 'has-success': form.event.$valid && submitted,
+                                            'has-error': form.event.$invalid && submitted }">
+          <label for="sel1">Select Event:</label>
+          <select class="form-control" name="selectEvent" ng-model="eventSelected" >
+            <option ng-repeat = "event in events" value = "{{event._id}}"> {{event.info.title}}</option>
+          </select>
+          <p class="help-block" ng-show="!eventSelected && submitted">
+            Event selection is required
+          </p>
+        </div>
 
         <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
                                             'has-error': form.name.$invalid && submitted }">
@@ -31,17 +42,6 @@
                  required/>
           <p class="help-block" ng-show="form.content.$error.required && submitted">
             Content is required
-          </p>
-        </div>
-
-        <div class="form-group" ng-class="{ 'has-success': form.event.$valid && submitted,
-                                            'has-error': form.event.$invalid && submitted }">
-          <label for="sel1">Select Event:</label>
-          <select class="form-control" name="selectEvent" ng-model="eventSelected" >
-            <option ng-repeat = "event in events" value = "{{event._id}}"> {{event.title}}</option>
-          </select>
-          <p class="help-block" ng-show="!eventSelected && submitted">
-            Event selection is required
           </p>
         </div>
 
@@ -76,11 +76,18 @@
           </button>
         </div>
       </form>
+
+      <span class="col-sm-12 progress" ng-show="progress >= 0 && !success">
+        <div style="width:{{progress}}%" ng-bind="progress + '%'"></div>
+      </span>
+
+      <div class = "submission-success" ng-show="success">
+        <h2> Submission Sent</h2>
+        <div>
+        </div>
+      </div>
+
     </div>
-    <span class="col-sm-12 progress" ng-show="progress >= 0">
-      <div style="width:{{progress}}%" ng-bind="progress + '%'"></div>
-      here
-    </span>
 
   </div>
 </div>

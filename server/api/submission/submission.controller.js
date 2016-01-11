@@ -87,47 +87,6 @@ function saveSubmissionImage(files, fields){
   return imagePaths;
 }
 
-function createSubmission(imagePaths, fields, callback){
-  var asyncTasks = [];
-  var submissionId = '';
-
-  asyncTasks.push((callback) => {
-    console.log(fields);
-    var submit = {
-      images : imagePaths,
-      author : [fields.userId[0]],
-      events : [fields.eventId[0]],
-      location : {
-        coordinates : [Number(fields['coordinates[0]'][0]), Number(fields['coordinates[1]'][0])]
-      },
-      time: Date.now(),
-      content: fields.content[0]
-    };
-
-    Submission.create(submit, (err, submission) => {
-      if (err) return handleError(res);
-      submissionId = submission._id.toString();
-      console.log("created submission");
-      callback();
-    })
-  });
-
-  asyncTasks.push((callback) => {
-    Event.findById(fields.eventId[0], (err, evnt) => {
-      if(err) return handleError(res);
-      evnt.addSubmission(submissionId, () =>{
-        console.log("got to the event");
-        callback();
-      });
-    });
-  });
-
-  async.series(asyncTasks, () => {
-    callback();
-  });
-
-}
-
 // Gets a list of Submissions
 exports.index = function(req, res) {
   Submission.findAsync()
@@ -146,15 +105,23 @@ exports.show = function(req, res) {
 // Creates a new Submission in the DB
 exports.create = function(req, res) {
   var form = new multiparty.Form();
-
   form.parse(req, (err, fields, files) => {
-
     var imagePaths = saveSubmissionImage(files, fields);
-    createSubmission(imagePaths, fields, ()=>{
-      console.log('hit');
-      res.json({'success':true});
-    });
+    var submit = {
+      images : imagePaths,
+      author : [fields.userId[0]],
+      events : [fields.eventId[0]],
+      location : {
+        coordinates : [Number(fields['coordinates[0]'][0]), Number(fields['coordinates[1]'][0])]
+      },
+      time: Date.now(),
+      content: fields.content[0]
+    };
 
+    Submission.create(submit, (err, submission) => {
+      if (err) return handleError(res);
+      res.json(submission);
+    })
   });
 };
 

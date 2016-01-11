@@ -10,11 +10,10 @@ angular.module('venueApp')
 
     Auth.getCurrentUser(function(user){
       $scope.user = user;
-      // User.getEvents({id:$scope.user._id})
-      // .$promise.then((events) => {
-      //   $scope.events = events;
-      // });
-      $scope.events = [{_id:'56918d2f9a8ed7ee3d955c77', title:"test"}];
+      User.get({id: user._id, withSections:true, withEvents: true, withSectionsCourse:true}, (usr) => {
+        $scope.user = usr;
+        $scope.events = usr.events;
+      });
     });
 
     geolocation.getLocation()
@@ -41,8 +40,8 @@ angular.module('venueApp')
               var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
               $scope.progress = progressPercentage;
 
-          }).success(function (data, status, headers, config) {
-            console.log("Successful!");
+          }).success(function (imageSubmitted) {
+            $scope.success = true;
           });
       }
     };
