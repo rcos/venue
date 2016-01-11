@@ -10,7 +10,9 @@
 'use strict';
 
 var _ = require('lodash');
-var Section = require('./section.model');
+var async = require("async");
+import Section from './section.model';
+import User from '../user/user.model';
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -103,8 +105,22 @@ exports.update = function(req, res) {
   }
   Section.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
-    .then(saveUpdates(req.body))
-    .then(responseWithResult(res))
+    .then( (section) => {
+      var pendingStudent = req.body.pendingStudent;
+      if(section.pendingStudents.remove(pendingStudent)){
+        section.students.push(pendingStudent);
+        section.save((err)=>{
+          if (err) return handleError(err);
+          Section.populate(section, {path:"pendingStudents"}, (err, sect)=> {
+            if (err) return handleError(err);
+            res.json(sect)
+          });
+        });
+      }
+      else{
+        return res.json(handleError(res));
+      }
+    })
     .catch(handleError(res));
 };
 

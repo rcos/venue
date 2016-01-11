@@ -11,4 +11,18 @@ var SectionEventSchema = new Schema({
   creationDate: Date
 });
 
+/**
+ * Methods
+ */
+SectionEventSchema.methods = {
+
+  addSubmission(submissionId, callback){
+    this.submissions.push(submissionId);
+    this.save( () => {
+      callback();
+    });
+  }
+
+};
+
 module.exports = mongoose.model('SectionEvent', SectionEventSchema);
