@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('CourseViewCtrl', ($scope, Course, User, Auth, $routeParams) => {
+  .controller('CourseViewCtrl', ($scope, Course, $location, User, Auth, $routeParams) => {
     Auth.getCurrentUser((user) => {
       $scope.isStudent = !user.isInstructor;
       $scope.isInstructor = user.isInstructor;
