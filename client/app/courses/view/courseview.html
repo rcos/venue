@@ -8,7 +8,11 @@
       </h2>
       <div class='course-desc'>{{ course.description }} </div>
     </div>
-    <div class='col-sm-5'>
+    <div ng-show='isInstructor' class='col-sm-5'>
+      <h2>Course Control</h2>
+      <button ng-click='editCourse()'>Edit Course</button>
+    </div>
+    <div ng-show='isStudent' class='col-sm-5'>
       <h2> Enroll </h2>
       <div class='course-section' ng-repeat='section in course.sections'>
         <div class='numbers'>

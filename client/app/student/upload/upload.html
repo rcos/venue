@@ -1,1 +1,95 @@
-<div>This is the upload view.</div>
+<navbar></navbar>
+
+<div class="container">
+  <div class='row'>
+
+  </div>
+  <div class="row">
+    <!-- SIGN UP FORM -->
+    <div class="col-sm-12">
+      <h1>Event Attendance</h1>
+    </div>
+    <div class="col-sm-12">
+      <form class="form" name="form" ng-submit="submitEvent(form)" novalidate ng-show="!success">
+
+        <div class="form-group" ng-class="{ 'has-success': form.event.$valid && submitted,
+                                            'has-error': form.event.$invalid && submitted }">
+          <label for="sel1">Select Event:</label>
+          <select class="form-control" name="selectEvent" ng-model="eventSelected" >
+            <option ng-repeat = "event in events" value = "{{event._id}}"> {{event.info.title}}</option>
+          </select>
+          <p class="help-block" ng-show="!eventSelected && submitted">
+            Event selection is required
+          </p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
+                                            'has-error': form.name.$invalid && submitted }">
+          <label>Title</label>
+
+          <input type="text" name="title" class="form-control" ng-model="title"
+                 required/>
+          <p class="help-block" ng-show="form.title.$error.required && submitted">
+            A title is required
+          </p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
+                                            'has-error': form.name.$invalid && submitted }">
+          <label>Content</label>
+
+          <textarea type="text" name="content" class="form-control" ng-model="content"
+                 required/>
+          <p class="help-block" ng-show="form.content.$error.required && submitted">
+            Content is required
+          </p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': form.password.$valid && submitted,
+                                            'has-error': form.password.$invalid && submitted }">
+
+
+
+          <div class="btn btn-default btn-lg" ngf-select ng-model="files" ngf-multiple="true"
+          ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB">Select File</div>
+          <br />
+
+          <div ngf-drop ngf-select ng-model="files" class="drop-box"
+              ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+              accept="image/*"
+              ngf-pattern="'image/*'">Drop images here or click to upload</div>
+          <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+          Files:
+          <ul>
+              <li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
+                <img ngf-src="f" width = {{imgWidth}}/>
+              </li>
+          </ul>
+          <p class="help-block" ng-show="!files && submitted">
+            image selection is required
+          </p>
+        </div>
+
+        <div>
+          <button class="btn btn-inverse btn-lg btn-register" type="submit">
+            Submit
+          </button>
+        </div>
+      </form>
+
+      <span class="col-sm-12 progress" ng-show="progress >= 0 && !success">
+        <div style="width:{{progress}}%" ng-bind="progress + '%'"></div>
+      </span>
+
+      <div class = "submission-success" ng-show="success">
+        <h2> Submission Sent</h2>
+        <div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer></footer>

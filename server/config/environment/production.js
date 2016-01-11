@@ -20,5 +20,9 @@ module.exports = {
           process.env.OPENSHIFT_MONGODB_DB_URL +
           process.env.OPENSHIFT_APP_NAME ||
           'mongodb://localhost/venue'
-  }
+  },
+  
+  // Submission Images Folder
+  imageUploadPath: './data/eventImages/'
+
 };

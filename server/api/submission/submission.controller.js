@@ -11,6 +11,13 @@
 
 var _ = require('lodash');
 var Submission = require('./submission.model');
+var Event = require('../sectionevent/sectionevent.model');
+var multiparty = require('multiparty');
+var User = require('../user/user.model');
+var fs = require('fs');
+var mkdirp = require('mkdirp');
+var config = require('../../config/environment');
+import async from 'async';
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -59,6 +66,27 @@ function removeEntity(res) {
   };
 }
 
+function saveSubmissionImage(files, fields){
+  var imagePaths = [];
+  Object.keys(files).forEach(function(name) {
+    var file = files[name][0]
+    var name = file.path.substring(file.path.lastIndexOf('/')).substring(1);
+    var path = config.imageUploadPath  + fields.userId + '/' + fields.eventId;
+    imagePaths.push(path);
+    var destPath = path + '/' + name;
+    if(!fs.existsSync(path)){
+      mkdirp.sync(path);
+    }
+    var is = fs.createReadStream(file.path);
+    var os = fs.createWriteStream(destPath);
+    is.pipe(os);
+    is.on('end', function() {
+        fs.unlinkSync(file.path);
+    });
+  });
+  return imagePaths;
+}
+
 // Gets a list of Submissions
 exports.index = function(req, res) {
   Submission.findAsync()
@@ -76,9 +104,25 @@ exports.show = function(req, res) {
 
 // Creates a new Submission in the DB
 exports.create = function(req, res) {
-  Submission.createAsync(req.body)
-    .then(responseWithResult(res, 201))
-    .catch(handleError(res));
+  var form = new multiparty.Form();
+  form.parse(req, (err, fields, files) => {
+    var imagePaths = saveSubmissionImage(files, fields);
+    var submit = {
+      images : imagePaths,
+      author : [fields.userId[0]],
+      events : [fields.eventId[0]],
+      location : {
+        coordinates : [Number(fields['coordinates[0]'][0]), Number(fields['coordinates[1]'][0])]
+      },
+      time: Date.now(),
+      content: fields.content[0]
+    };
+
+    Submission.create(submit, (err, submission) => {
+      if (err) return handleError(res);
+      res.json(submission);
+    })
+  });
 };
 
 // Updates an existing Submission in the DB

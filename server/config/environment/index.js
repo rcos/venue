@@ -41,6 +41,9 @@ var all = {
     }
   },
 
+  // Submission Images Folder
+  imageUploadPath: './data/eventImages/',
+
   facebook: {
     clientID:     process.env.FACEBOOK_ID || 'id',
     clientSecret: process.env.FACEBOOK_SECRET || 'secret',
