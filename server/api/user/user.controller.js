@@ -97,6 +97,7 @@ export function show(req, res, next) {
   })
   .catch(err => next(err));
 }
+
 /**
  * Deletes a user
  * restriction: 'admin'

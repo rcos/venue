@@ -29,20 +29,6 @@ function UserResource($resource) {
       params: {
         controller: 'unenroll'
       }
-    },
-    getCourses: {
-      method: 'GET',
-      params: {
-        controller:'sections'
-      },
-      isArray: true
-    },
-    getEvents: {
-      method: 'GET',
-      params: {
-        controller:'events'
-      },
-      isArray: true
     }
   });
 
