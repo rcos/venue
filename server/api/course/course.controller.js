@@ -72,9 +72,12 @@ exports.show = function(req, res) {
   dbquery.execAsync()
     .then(handleEntityNotFound(res))
     .then((course) => {
+      // Return the query with the sections if requested
       if (req.query.withSections){
         course.getSections({
           withInstructors: req.query.withSectionInstructors,
+          withEnrollmentStatus: req.query.withSectionEnrollmentStatus,
+          studentId: req.query.studentid
         }, (sections) => {
           course = course.toObject();
           course.sections = sections;
