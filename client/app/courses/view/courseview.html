@@ -23,7 +23,8 @@
             </span>
         </div>
         <div class='studentCount'>Enrolled Students: {{section.students.length}}</div>
-        <button ng-click='enroll(section)' class='enroll btn'> Enroll </button>
+        <button ng-click='enroll(section)' ng-hide='section.isEnrolled' class='enroll btn btn-primary'> Enroll </button>
+        <button ng-click='unenroll(section)' ng-show='section.isEnrolled' class='enroll btn btn-info'> Unenroll </button>
       </div>
     </div>
   </div>

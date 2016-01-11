@@ -28,10 +28,24 @@ CourseSchema.methods = {
   getSections(opts, cb){
     if (!cb) cb,opts = opts, {};
     var withInstructors = opts.withInstructors;
+    var withEnrollmentStatus = opts.withEnrollmentStatus;
+    var studentId = opts.studentId; // for withEnrollmentStatus
 
     var query = Section.find({course: this._id});
     if (withInstructors) query.populate("instructors");
-    query.then(cb);
+    query.then((sections)=>{
+      // If requested, mark all sections student is enrolled in
+      if (withEnrollmentStatus){
+        sections = sections.map((section)=>{
+          section = section.toObject();
+          section.isEnrolled = section.students.some((sectionStudentId) => {
+            return sectionStudentId == studentId;
+          });
+          return section;
+        });
+      }
+      cb(sections);
+    });
   }
 };
 

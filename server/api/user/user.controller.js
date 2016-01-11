@@ -4,6 +4,7 @@ import User from './user.model';
 import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
+import Section from "../section/section.model";
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -112,9 +113,27 @@ export function changePassword(req, res, next) {
 export function enrollInSection(req, res, next) {
   var userId = req.user._id;
   var sectionId = req.body.sectionid;
+  Section.findByIdAsync(sectionId)
+    .then( section => {
+      section.students.push(userId);
+      section.save();
+      res.json(section);
+    })
+    .catch(err => next(err));
+}
 
-  
-
+/**
+ * Unenroll in a section
+ */
+export function unenrollInSection(req, res, next) {
+  var userId = req.user._id;
+  var sectionId = req.body.sectionid;
+  Section.findOneAndUpdateAsync({"_id": sectionId} , {
+      $pull : {students: userId}
+    }).then( section => {
+      res.json(section);
+    })
+    .catch(err => next(err));
 }
 
 /**
@@ -134,9 +153,9 @@ export function me(req, res, next) {
 }
 
 /**
- * Get user's courses
+ * Get user's sections
  */
-export function courses(req, res, next) {
+export function sections(req, res, next) {
   var userId = req.params.id;
 
   User.findOneAsync({ _id: userId }, '-salt -password')
@@ -144,9 +163,11 @@ export function courses(req, res, next) {
       if (!user) {
         return res.status(401).end();
       }
-      user.getFullCourses((courses)=>{
-        res.json(courses)
+      user.getSectionsAsync().then((sections)=>{
+        return res.json(sections)
       })
+      .catch(err => next(err));
+
     })
     .catch(err => next(err));
 }
@@ -162,9 +183,11 @@ export function events(req, res, next) {
       if (!user) {
         return res.status(401).end();
       }
-      user.getFullEvents((events)=>{
-        res.json(events)
+      user.getEventsAsync().then((events)=>{
+        return res.json(events)
       })
+      .catch(err => next(err));
+
     })
     .catch(err => next(err));
 }
