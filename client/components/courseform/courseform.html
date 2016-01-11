@@ -51,8 +51,12 @@
   </div>
 </form>
 <div class = "course-created" ng-show="success">
-  <h2>Course Created</h2>
-  <div>
-    Check out <a href="/instructor/courses">your courses here <a>
+  <div ng-show='!updating'>
+    <h2>Course Created</h2>
+    Check out <a href="/instructor/courses">your courses here </a>
+  </div>
+  <div ng-show='updating'>
+    <h2>Course successfully updated.</h2>
+    <a href='/courses/{{course._id}}'>Click here to go back to the course</a>
   </div>
 </div>

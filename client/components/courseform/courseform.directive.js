@@ -8,7 +8,6 @@ angular.module('venueApp')
       restrict: 'EA',
       link: function (scope, element, attrs) {
         scope.updating = attrs.updating;
-        console.log(scope.updating);
       }
     };
   });
