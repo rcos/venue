@@ -1,17 +1,20 @@
+
+
 'use strict';
 
 angular.module('venueApp')
   .controller('CourseFormCtrl', function($scope, Course){
-    if (this.initial){
-      $scope.course = this.initial;
-      $scope.updatingCourse = true;
-    }
     $scope.courseCreated = false;
-    $scope.createCourse = (form)=>{
+    $scope.submitForm = (form)=>{
         $scope.submitted = true;
         if (form.$valid) {
-          Course
-            .create($scope.course).$promise
+          var promise;
+          if ($scope.updating){
+            promise = Course.update($scope.course).$promise;
+          }else{
+            promise = Course.create($scope.course).$promise;
+          }
+          promise
               .then((course) => {
                 $scope.success = true;
               })
