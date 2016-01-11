@@ -11,7 +11,6 @@ router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 router.get('/me', auth.isAuthenticated(), controller.me);
 router.get('/:id/sections', auth.isAuthenticated(), controller.sections);
 router.get('/:id/events', auth.isAuthenticated(), controller.events);
-router.get('/:id/instructor/fullsections', auth.isAuthenticated(), controller.fullSections);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 router.put('/:id/enroll', auth.isAuthenticated(), controller.enrollInSection);
 router.get('/:id', auth.isAuthenticated(), controller.show);

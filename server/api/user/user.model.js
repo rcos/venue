@@ -237,25 +237,28 @@ UserSchema.methods = {
     });
   },
 
-  getSectionsAsync(){
-    var sections = [];
+  getSectionsAsync(opts, cb){
+    if (!cb) cb,opts = opts, {};
+
     if (this.isInstructor){
-        return Section.find({instructors: mongoose.Types.ObjectId(this._id) })
-        .populate('course')
-        .execAsync()
+      var query = Section.find({instructors: mongoose.Types.ObjectId(this._id) })
+      if (opts.withPendingStudents) query.populate("pendingStudents");
+      if (opts.withCourse) query.populate("course");
+      query.then(cb);
     }
     else{
-        return Section.find({ students : mongoose.Types.ObjectId(this._id)})
-        .populate('course')
-        .execAsync()
+      var query = Section.find({ students : mongoose.Types.ObjectId(this._id)})
+      if (opts.withCourse) query.populate("course");
+      console.log("here !!");
+      query.then(cb);
     }
   },
 
-  getEventsAsync(){
-    return this.getSectionsAsync().then((sections) => {
-      return SectionEvent.find({section : {$in: sections}})
-      .populate('info')
-      .execAsync();
+  getEventsAsync(opts, cb){
+    this.getSectionsAsync((sections) => {
+      var query = SectionEvent.find({section : {$in: sections}});
+      if (opts.withEventInfo) query.populate('info');
+      query.then(cb);
     })
   }
 };

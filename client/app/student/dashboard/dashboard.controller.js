@@ -13,16 +13,17 @@ angular.module('venueApp')
     });
 
     function getSectionsEvents(){
-      User.getSections({id:$scope.user._id})
-      .$promise.then((sections) => {
-        $scope.sections = sections;
+      User.get({id:$scope.user._id, getSections:true, withPendingStudents: true, getEvents:true})
+      .$promise.then((user) => {
+        console.log(user);
+        $scope.sections = user.sections;
       });
 
-      User.getEvents({id:$scope.user._id})
-      .$promise.then((events) => {
-        $scope.events = events;
-
-      });
+      // User.getEvents({id:$scope.user._id})
+      // .$promise.then((events) => {
+      //   $scope.events = events;
+      //
+      // });
     }
 
 

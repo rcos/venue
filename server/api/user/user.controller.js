@@ -4,6 +4,7 @@ import User from './user.model';
 import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
+import async from 'async';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -60,16 +61,35 @@ export function create(req, res, next) {
  */
 export function show(req, res, next) {
   var userId = req.params.id;
-
-  User.findByIdAsync(userId)
-    .then(user => {
-      if (!user) {
-        return res.status(404).end();
+  var dbquery = User.findById(req.params.id);
+  dbquery.execAsync()
+    .then((user) => {
+      var asyncTasks = []
+      var usr = user.toObject();
+      if (req.query.getSections){
+        asyncTasks.push((callback)=>{
+          user.getSectionsAsync( req.query,
+          (sections) => {
+            usr.sections = sections;
+            callback();
+          });
+        });
       }
-      res.json(user.profile);
+      if (req.query.getEvents){
+        asyncTasks.push((callback)=>{
+          user.getEventsAsync( req.query,
+            (events) => {
+              usr.events = events;
+              callback();
+            })
+          });
+      }
+      async.parallel(asyncTasks, ()=>{
+        return res.json(usr);
+      })
     })
-    .catch(err => next(err));
-}
+    .catch(handleError(res));
+};
 
 /**
  * Deletes a user
@@ -171,24 +191,6 @@ export function events(req, res, next) {
 
     })
     .catch(err => next(err));
-}
-
-/**
- * Get instructor's sections
- */
-export function fullSections(req, res, next) {
-  var userId = req.params.id;
-
-  User
-    .findOne({ _id: userId }, '-salt -password')
-    .populate({
-      path: 'sections',
-      populate: { model:'User', path: 'pendingStudents' }
-    })
-    .exec((err, user) => {
-      if (err) return handleError(err);
-      res.json(user);
-    })
 }
 
 /**

@@ -61,30 +61,6 @@ function removeEntity(res) {
   };
 }
 
-function addStudentSection(section, pendingStudent, callback){
-  var asyncTasks = [];
-  asyncTasks.push((callback)=>{
-    section.students.push(pendingStudent);
-    section.save(()=>{
-      callback();
-    });
-  });
-
-  asyncTasks.push(()=>{
-    User.findByIdAsync(pendingStudent)
-    .then( (student) => {
-      student.sections.push(section._id);
-      student.save( () =>{
-        callback();
-      })
-    });
-  });
-
-  async.parallel(asyncTasks, ()=>{
-    callback();
-  });
-}
-
 // Gets a list of Sections
 exports.index = function(req, res) {
   Section.findAsync()
@@ -131,14 +107,18 @@ exports.update = function(req, res) {
     .then(handleEntityNotFound(res))
     .then( (section) => {
       var pendingStudent = req.body.pendingStudent;
-      // If student can be removed
       if(section.pendingStudents.remove(pendingStudent)){
-        addStudentSection(section, pendingStudent, ()=>{
-          res.json({success:"true"});
+        section.students.push(pendingStudent);
+        section.save((err)=>{
+          if (err) return handleError(err);
+          Section.populate(section, {path:"pendingStudents"}, (err, sect)=> {
+            if (err) return handleError(err);
+            res.json(sect)
+          });
         });
       }
       else{
-        return res.json({success:"false"})
+        return res.json(handleError(res));
       }
     })
     .catch(handleError(res));
