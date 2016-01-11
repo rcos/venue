@@ -11,7 +11,6 @@ angular.module('venueApp')
       User.get({id: user._id, withSections:true, withEvents: true, withSectionsCourse:true}, (usr) => {
         $scope.user = usr;
         $scope.events = usr.events;
-        console.log(usr.events)
       });
     });
 
