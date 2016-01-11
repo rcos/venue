@@ -131,3 +131,19 @@ exports.destroy = function(req, res) {
     .then(removeEntity(res))
     .catch(handleError(res));
 };
+
+exports.getSectionsExtra = function (query, opts){
+  if (opts && opts.withSectionsCourse){
+    query = query.populate('course');
+  }
+  if (opts && opts.withSectionsInstructors){
+    query = query.populate('instructors');
+  }
+  if (opts && opts.withSectionsStudents){
+    query = query.populate('students');
+  }
+  if (opts && opts.withSectionsPendingStudents){
+    query = query.populate('pendingStudents');
+  }
+  return query;
+}

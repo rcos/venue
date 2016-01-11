@@ -4,7 +4,7 @@ import User from './user.model';
 import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
-import async from 'async';
+import Section from "../section/section.model";
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -61,35 +61,42 @@ export function create(req, res, next) {
  */
 export function show(req, res, next) {
   var userId = req.params.id;
-  var dbquery = User.findById(req.params.id);
-  dbquery.execAsync()
-    .then((user) => {
-      var asyncTasks = []
-      var usr = user.toObject();
-      if (req.query.getSections){
-        asyncTasks.push((callback)=>{
-          user.getSectionsAsync( req.query,
-          (sections) => {
-            usr.sections = sections;
-            callback();
-          });
-        });
-      }
-      if (req.query.getEvents){
-        asyncTasks.push((callback)=>{
-          user.getEventsAsync( req.query,
-            (events) => {
-              usr.events = events;
-              callback();
-            })
-          });
-      }
-      async.parallel(asyncTasks, ()=>{
-        return res.json(usr);
+  User.findById(userId)
+  .select('-salt -password')
+  .execAsync()
+  .then((user) => {
+    if (!user) {
+      return res.status(404).end();
+    }
+    var profile = user.toJSON();
+    return Promise.all([user, profile]);
+  })
+  .spread((user,profile) =>{
+    if (req.query.withSections){
+      return user.getSectionsAsync(req.query).then((sections)=>{
+        profile.sections = sections;
+
+        return Promise.all([user, profile]);
       })
-    })
-    .catch(handleError(res));
-};
+    }else{
+        return Promise.all([user, profile]);
+    }
+  })
+  .spread((user,profile) =>{
+    if (req.query.withEvents){
+      return user.getEventsAsync(req.query).then((events)=>{
+        profile.events = events;
+        return Promise.all([user, profile]);
+      })
+    }else{
+        return Promise.all([user, profile]);
+    }
+  })
+  .spread((user,profile) => {
+    return res.json(profile);
+  })
+  .catch(err => next(err));
+}
 
 /**
  * Deletes a user
@@ -132,9 +139,27 @@ export function changePassword(req, res, next) {
 export function enrollInSection(req, res, next) {
   var userId = req.user._id;
   var sectionId = req.body.sectionid;
+  Section.findByIdAsync(sectionId)
+    .then( section => {
+      section.students.push(userId);
+      section.save();
+      res.json(section);
+    })
+    .catch(err => next(err));
+}
 
-
-
+/**
+ * Unenroll in a section
+ */
+export function unenrollInSection(req, res, next) {
+  var userId = req.user._id;
+  var sectionId = req.body.sectionid;
+  Section.findOneAndUpdateAsync({"_id": sectionId} , {
+      $pull : {students: userId}
+    }).then( section => {
+      res.json(section);
+    })
+    .catch(err => next(err));
 }
 
 /**

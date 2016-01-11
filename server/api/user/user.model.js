@@ -5,6 +5,8 @@ var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 import {Schema} from 'mongoose';
 import async from 'async';
 import Section from '../section/section.model';
+import SectionCtrl from '../section/section.controller';
+
 import SectionEvent from '../sectionevent/sectionevent.model';
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
 
@@ -237,30 +239,28 @@ UserSchema.methods = {
     });
   },
 
-  getSectionsAsync(opts, cb){
-    if (!cb) cb,opts = opts, {};
-
+  getSectionsAsync(opts){
+    var sections = [];
     if (this.isInstructor){
-      var query = Section.find({instructors: mongoose.Types.ObjectId(this._id) })
-      if (opts.withPendingStudents) query.populate("pendingStudents");
-      if (opts.withCourse) query.populate("course");
-      query.then(cb);
+        var query = Section.find({instructors: mongoose.Types.ObjectId(this._id) });
     }
     else{
-      var query = Section.find({ students : mongoose.Types.ObjectId(this._id)})
-      if (opts.withCourse) query.populate("course");
-      console.log("here !!");
-      query.then(cb);
+        var query = Section.find({ students : mongoose.Types.ObjectId(this._id)});
     }
+    query = SectionCtrl.getSectionsExtra(query,opts);
+
+    return query.execAsync();
   },
 
-  getEventsAsync(opts, cb){
-    this.getSectionsAsync((sections) => {
-      var query = SectionEvent.find({section : {$in: sections}});
-      if (opts.withEventInfo) query.populate('info');
-      query.then(cb);
+  getEventsAsync(opts){
+    var events = [];
+    return this.getSectionsAsync().then((sections) => {
+      var query = SectionEvent.find({section : {$in: sections}})
+      .populate('info');
+      return query.execAsync();
     })
-  }
+  },
+
 };
 
 export default mongoose.model('User', UserSchema);

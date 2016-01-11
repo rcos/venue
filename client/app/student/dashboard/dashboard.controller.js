@@ -9,22 +9,10 @@ angular.module('venueApp')
 
     Auth.getCurrentUser((user) => {
       $scope.user = user;
-      getSectionsEvents();
-    });
 
-    function getSectionsEvents(){
-      User.get({id:$scope.user._id, getSections:true, withPendingStudents: true, getEvents:true})
-      .$promise.then((user) => {
-        console.log(user);
-        $scope.sections = user.sections;
+      User.get({id: user._id, withSections:true, withEvents: true, withSectionsCourse:true}, (usr) => {
+        $scope.user = usr;
       });
-
-      // User.getEvents({id:$scope.user._id})
-      // .$promise.then((events) => {
-      //   $scope.events = events;
-      //
-      // });
-    }
-
+    });
 
   });

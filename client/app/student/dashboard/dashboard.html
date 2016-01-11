@@ -8,7 +8,7 @@
           <h1 class="page-header">Dashboard</h1>
           <h3> Courses </h3>
           <div class= "courses">
-            <div class = "course row" ng-repeat="section in sections">
+            <div class = "course row" ng-repeat="section in user.sections">
               <div class = "col-sm-3">
                 <div class="course-title">
                   {{section.course.name}}
@@ -22,7 +22,7 @@
 
     		  <h3> Events </h3>
           <div class="events">
-      		  <div class = "event" ng-repeat="event in events">
+      		  <div class = "event" ng-repeat="event in user.events">
       		    <div class = "event-title">
       		      {{event.info.title}}
       		    </div>
