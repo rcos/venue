@@ -12,7 +12,7 @@
       <h2>Course Control</h2>
       <button ng-click='editCourse()'>Edit Course</button>
     </div>
-    <div ng-hide='isInstructor' class='col-sm-5'>
+    <div ng-show='isStudent' class='col-sm-5'>
       <h2> Enroll </h2>
       <div class='course-section' ng-repeat='section in course.sections'>
         <div class='numbers'>

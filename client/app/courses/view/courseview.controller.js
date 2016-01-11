@@ -3,7 +3,7 @@
 angular.module('venueApp')
   .controller('CourseViewCtrl', ($scope, Course, $location, User, Auth, $routeParams) => {
     Auth.getCurrentUser((user) => {
-      $scope.isStudent = !user.isInstructor;
+      $scope.isStudent = (!user.isInstructor) && Auth.isLoggedIn();
       $scope.isInstructor = user.isInstructor;
       loadCourses();
     });
