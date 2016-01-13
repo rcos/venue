@@ -182,17 +182,9 @@ export function unenrollInSection(req, res, next) {
  */
 export function me(req, res, next) {
   var userId = req.user._id;
-
-  User.findOneAsync({ _id: userId }, '-salt -password')
-    .then(user => { // don't ever give out the password or salt
-      if (!user) {
-        return res.status(401).end();
-      }
-      res.json(user);
-    })
-    .catch(err => next(err));
+  req.params.id = userId;
+  show(req, res, next);
 }
-
 /**
  * Get user's sections
  */
