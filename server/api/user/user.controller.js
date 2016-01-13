@@ -56,6 +56,30 @@ export function create(req, res, next) {
     .catch(validationError(res));
 }
 
+// Takes a Bool flag and Function func, returns a Promise to execute func on
+// mongooseObject and responseObject inputs
+// call the "done" of func when finished manipulating data.
+// @param Function func: func(mongooseObject, responseObject, done)
+// Note: The function "func" must return [mongooseObject, responseObject]
+function ifFlagManipulate(flag, func){
+  return (mongooseObject, responseObject) => {
+    if (flag){
+      return new Promise((resolve, reject) => {
+        func(mongooseObject, responseObject, (newMongooseObject, newResponseObject)=>{
+          if (!newResponseObject){
+            var err = newMongooseObject;
+            reject(err);
+          }else{
+            resolve([newMongooseObject, newResponseObject]);
+          }
+        });
+      });
+    }else{
+      return Promise.all([mongooseObject, responseObject]);
+    }
+  };
+}
+
 /**
  * Get a single user
  */
@@ -71,27 +95,18 @@ export function show(req, res, next) {
     var profile = user.toJSON();
     return Promise.all([user, profile]);
   })
-  .spread((user,profile) =>{
-    if (req.query.withSections){
-      return user.getSectionsAsync(req.query).then((sections)=>{
-        profile.sections = sections;
-
-        return Promise.all([user, profile]);
-      })
-    }else{
-        return Promise.all([user, profile]);
-    }
-  })
-  .spread((user,profile) =>{
-    if (req.query.withEvents){
-      return user.getEventsAsync(req.query).then((events)=>{
-        profile.events = events;
-        return Promise.all([user, profile]);
-      })
-    }else{
-        return Promise.all([user, profile]);
-    }
-  })
+  .spread(ifFlagManipulate(req.query.withSections, (user,profile,done)=>{
+    user.getSectionsAsync(req.query).then((sections) => {
+      profile.sections = sections;
+      done(user, profile);
+    });
+  }))
+  .spread(ifFlagManipulate(req.query.withEvents, (user,profile,done)=>{
+    return user.getEventsAsync(req.query).then((events)=>{
+      profile.events = events;
+      done(user, profile);
+    });
+  }))
   .spread((user,profile) => {
     return res.json(profile);
   })
@@ -167,17 +182,9 @@ export function unenrollInSection(req, res, next) {
  */
 export function me(req, res, next) {
   var userId = req.user._id;
-
-  User.findOneAsync({ _id: userId }, '-salt -password')
-    .then(user => { // don't ever give out the password or salt
-      if (!user) {
-        return res.status(401).end();
-      }
-      res.json(user);
-    })
-    .catch(err => next(err));
+  req.params.id = userId;
+  show(req, res, next);
 }
-
 /**
  * Get user's sections
  */
