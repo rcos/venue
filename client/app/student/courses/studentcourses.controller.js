@@ -2,7 +2,8 @@
 
 angular.module('venueApp')
   .controller('StudentCoursesCtrl', function ($scope, User) {
-    User.get({withEvents: true}, (user)=>{
+    User.get({withCourses: true}, (user)=>{
+      console.log(user.courses);
       $scope.user = user;
     });
   });

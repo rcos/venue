@@ -107,6 +107,12 @@ export function show(req, res, next) {
       done(user, profile);
     });
   }))
+  .spread(ifFlagManipulate(req.query.withCourses, (user,profile,done)=>{
+    return user.getCoursesAsync(req.query).then((courses)=>{
+      profile.courses = courses;
+      done(user, profile);
+    });
+  }))
   .spread((user,profile) => {
     return res.json(profile);
   })
