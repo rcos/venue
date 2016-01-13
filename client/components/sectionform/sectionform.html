@@ -1,1 +1,80 @@
-<div>this is the sectionform directive</div>
+<div class="course-section-info">
+  <div class='row'>
+    <div class='col-xs-12'>
+      <h2> Course Information </h2>
+      <h4>{{course.name}} : {{course.department}} {{course.courseNumber}} </h4>
+      Current Sections:
+      <span ng-repeat="section in course.sections">
+        <span ng-repeat="number in section.sectionNumbers">
+        {{number}}
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='col-xs-12'>
+    <h2> Edit Section </h2>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='col-xs-12'>
+
+    <form class="form" name="form" ng-submit="submitForm(form)" novalidate ng-show="!success">
+
+      <div class="form-group" ng-class="{ 'has-success': form.sectionNumbers.$valid && submitted,
+                                          'has-error': form.sectionNumbers.$invalid && submitted }">
+        <label>Section Number</label>
+        <p class="instructions">
+          Please enter Comma Delimited Numbers Eg.(1, 3, 4, 12)
+        </p>
+        <input type="text" name="sectionNumbers" class="form-control" ng-model="section.sectionNumbers"
+               required/>
+        <p class="help-block" ng-show="form.sectionNumbers.$error.required && submitted">
+          A Section number is required
+        </p>
+      </div>
+
+      <div class="form-group" ng-class="{ 'has-success': section.enrollmentPolicy && submitted,
+                                          'has-error': !section.enrollmentPolicy && submitted }">
+        <label>Enrollment Policy</label>
+        <div class="btn-group" data-toggle="buttons">
+          <label class="btn btn-default" ng-class="{active:section.enrollmentPolicy=='open'}">
+            <input value="open" type="radio" data-ng-model="section.enrollmentPolicy">Open
+          </label>
+          <label class="btn btn-default"  ng-class="{active:section.enrollmentPolicy=='closed'}">
+            <input value="closed" type="radio" data-ng-model="section.enrollmentPolicy">Closed
+          </label>
+          <label class="btn btn-default"  ng-class="{active:section.enrollmentPolicy=='approvalRequired'}">
+            <input value="approvalRequired" type="radio" checked="checked" data-ng-model="section.enrollmentPolicy">Approval Required
+          </label>
+        </div>
+
+        <p class="help-block" ng-show="!section.enrollmentPolicy && submitted">
+          An enrollment policy is required
+        </p>
+      </div>
+
+      <div class="form-group" ng-class="{ 'has-success': form.sectionNumbers.$valid && submitted,
+                                          'has-error': form.sectionNumbers.$invalid && submitted }">
+
+        <button type="button" class="btn" ng-click="isInstructor = !isInstructor">
+          <div ng-if="isInstructor"> Remove yourself as instructor </div>
+          <div ng-if="!isInstructor"> Add yourself as instructor </div>
+        </button>
+        <p class="help-block" ng-show="form.sectionNumbers.$error.required && submitted">
+          A Section number is required
+        </p>
+      </div>
+
+
+      <div>
+        <button class="btn btn-inverse btn-lg btn-register" type="submit">
+          Submit Section
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
