@@ -133,16 +133,17 @@ exports.destroy = function(req, res) {
 };
 
 exports.getSectionsExtra = function (query, opts){
-  if (opts && opts.withSectionsCourse){
+  opts = opts || {};
+  if (opts.withSectionsCourse){
     query = query.populate('course');
   }
-  if (opts && opts.withSectionsInstructors){
+  if (opts.withSectionsInstructors){
     query = query.populate('instructors');
   }
-  if (opts && opts.withSectionsStudents){
+  if (opts.withSectionsStudents){
     query = query.populate('students');
   }
-  if (opts && opts.withSectionsPendingStudents){
+  if (opts.withSectionsPendingStudents){
     query = query.populate('pendingStudents');
   }
   return query;

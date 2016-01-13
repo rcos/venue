@@ -6,12 +6,11 @@
       <sidebar/>
     </div>
     <div class='col-sm-9'>
-      <div class='event' ng-repeat='event in user.events'>
-        {{event.info.title}} <br/>
-        {{event.additionalNotes}} <br/>
-        {{event.info.times}} <br/>
-        {{event.info.description}}
-      </div>
+      <div class='course' ng-repeat='course in user.courses'>
+        {{course.name}} <br/>
+        {{course.description}} <br/>
+        {{course.department}} {{course.courseNumber}}
+       </div>
     </div>
   </div>
 </div>

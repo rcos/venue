@@ -5,6 +5,7 @@ var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 import {Schema} from 'mongoose';
 import async from 'async';
 import Section from '../section/section.model';
+import Course from '../course/course.model';
 import SectionCtrl from '../section/section.controller';
 
 import SectionEvent from '../sectionevent/sectionevent.model';
@@ -261,6 +262,14 @@ UserSchema.methods = {
     })
   },
 
+  getCoursesAsync(opts){
+    return this.getSectionsAsync({withSectionsCourse: true})
+      .then((sections) => {
+        return sections.map((section) => {
+          return section.course;
+        });
+      });
+  }
 };
 
 export default mongoose.model('User', UserSchema);
