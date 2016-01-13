@@ -4,7 +4,7 @@ angular.module('venueApp')
   .config(function ($routeProvider) {
     $routeProvider
       .when('/student/courses', {
-        templateUrl: 'app/student/courses/studentcourses/studentcourses.html',
-        controller: 'StudentcoursesCtrl'
+        templateUrl: 'app/student/courses/studentcourses.html',
+        controller: 'StudentCoursesCtrl'
       });
   });

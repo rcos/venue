@@ -1,6 +1,8 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('StudentcoursesCtrl', function ($scope) {
-    $scope.message = 'Hello';
+  .controller('StudentCoursesCtrl', function ($scope, User) {
+    User.get({withEvents: true}, (user)=>{
+      $scope.user = user;
+    });
   });

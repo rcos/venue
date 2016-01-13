@@ -1,1 +1,19 @@
-<div>This is the studentcourses view.</div>
+<navbar></navbar>
+
+<div class='container'>
+  <div class='row'>
+    <div class='col-sm-3'>
+      <sidebar/>
+    </div>
+    <div class='col-sm-9'>
+      <div class='event' ng-repeat='event in user.events'>
+        {{event.info.title}} <br/>
+        {{event.additionalNotes}} <br/>
+        {{event.info.times}} <br/>
+        {{event.info.description}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer></footer>
