@@ -1,0 +1,18 @@
+<navbar></navbar>
+
+<div class='container'>
+  <div class='row'>
+    <div class='col-sm-3'>
+      <sidebar/>
+    </div>
+    <div class='col-sm-9'>
+      <div class='course' ng-repeat='course in user.courses'>
+        {{course.name}} <br/>
+        {{course.description}} <br/>
+        {{course.department}} {{course.courseNumber}}
+       </div>
+    </div>
+  </div>
+</div>
+
+<footer></footer>

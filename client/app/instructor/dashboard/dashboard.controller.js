@@ -3,16 +3,26 @@
 angular.module('venueApp')
   .controller('InstructorDashboardCtrl', ($scope, $routeParams, User, Auth) => {
 
-    $scope.user = {};
-    $scope.courses = [];
-    $scope.events = [];
-
-    Auth.getCurrentUser((user) => {
+    User.get({withSections:true, withEvents: true, withSectionsCourse:true}, (user) => {
       $scope.user = user;
-      User.get({id: user._id, withSections:true, withEvents: true, withSectionsCourse:true}, (usr) => {
-        $scope.user = usr;
-        $scope.courses = usr.courses;
-      });
+      $scope.sections = user.sections;
+      $scope.events = user.events;
+      $scope.courses = groupByCourse($scope.sections);
     });
+
+    function groupByCourse(sections){
+      var courses = {}
+      sections.forEach((section)=>{
+        if(courses[section.course._id]){
+          courses[section.course._id].sections.push(section);
+        }
+        else{
+          courses[section.course._id] = section.course;
+          courses[section.course._id].sections = [section];
+        }
+        delete section.course;
+      })
+      return courses;
+    }
 
   });

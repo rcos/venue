@@ -6,21 +6,33 @@
         </div>
         <div class="col-sm-9 main">
           <h1 class="page-header">Dashboard</h1>
-          <h3> Courses </h3>
-          <div class= "courses">
-            <div class = "course row" ng-repeat="course in courses">
-              <div class = "col-sm-3">
-                <div class="course-title">
-                  {{course.name}}
+          <div class="row">
+            <div class="col-sm-8 courses">
+              <h3> Courses </h3>
+                <div class = "course" ng-repeat="course in courses">
+                  <div class = "course-card">
+                    <div class="course-title"> <h4> {{course.name}} </h4> </div>
+                    <div ng-repeat="section in course.sections">
+                      <div class="section-card">
+                        Sections : <span class="" ng-repeat="num in section.sectionNumbers"> {{num}} </span>
+                      </div>
+                    </div>
+
+                  </div>
                 </div>
-                <div class="course-identifier">
-                {{course.department}} {{course.courseNumber}}
-              </div>
+            </div>
+            <div class="col-sm-4">
+              <h3> Events </h3>
+              <div ng-repeat="event in events">
+                <div class="">
+                  {{event.info.title}}
+                </div>
+                <br/>
               </div>
             </div>
           </div>
-
         </div>
+
       </div>
     </div>
 <footer></footer>
