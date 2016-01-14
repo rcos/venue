@@ -22,7 +22,7 @@ are shown**.
 
 `GET /api/users/:id` **Authenticated** - Returns information regarding user with id
 
-Can be called with the following GET parameters for additional information: `withSections`, `withEvents`, `withSectionsCourse`
+Can be called with the following GET parameters for additional information: `withSections`, `withEvents`, `withSectionsCourse`, `withCourses`
 
 Example Response:
 ```javascript
@@ -40,7 +40,75 @@ Example Response:
 ```
 
 ```javascript
-// GET /api/users/<id>?withEvents=true&withSections=true&withSectionsCourse=true
+// GET /api/users/<id>?withCourses
+
+{
+  "_id": "000000000000000000000004",
+  "provider": "local",
+  "firstName": "Foo",
+  "lastName": "Bar",
+  "email": "foo@foo.com",
+  "isInstructor": false,
+  "__v": 0,
+  "role": "user",
+  "courses": [
+    {
+      "_id": "000000000000000000000010",
+      "name": "Net Art",
+      "department": "ARTS",
+      "courseNumber": 2030,
+      "description": "Net Art is a hands-on studio course that uses the examination of the historical and theoretical aspects of Web-based art and virtual social spaces as a launching pad for individual student work. Considerable work at the conceptual level and a survey of Web-oriented software and programming enable students to create new works in net-based art.",
+      "semester": "Fall15",
+      "active": false,
+      "__v": 0
+    },
+    {
+      "_id": "000000000000000000000011",
+      "name": "Introduction to Open Source",
+      "department": "CSCI",
+      "courseNumber": 2963,
+      "description": "The goal of this course is to provide a strong foundation in open source software development in preparation for jobs in industry or for more advanced courses. An important component of this course is participation in a community and contributing to an open source project. This course also provides an understanding of open source software tools and community, an understanding of open source licensing, an understanding of testing, version control, and open source software stacks. Students must come with a desire to learn new things, as well as the ability to adapt to open source tools and packages.",
+      "semester": "Spring15",
+      "active": true,
+      "__v": 0
+    },
+    {
+      "_id": "000000000000000000000012",
+      "name": "Mestizo Robotics",
+      "department": "ARCH",
+      "courseNumber": 4968,
+      "description": "Students will participate in the development of an artistic academic project comprised of an interconnected spherical robotic community dispersed and developed by different research units throughout the Americas.",
+      "semester": "Spring15",
+      "active": true,
+      "__v": 0
+    },
+    {
+      "_id": "000000000000000000000013",
+      "name": "Art, Community and Technology",
+      "department": "ARTS",
+      "courseNumber": 4080,
+      "description": "Through direct experience in the community, this course explores the complex roles and relationships of art, education and technology, students will develop a plan to work with a media arts center, community organization or school; final teams will produce real-world arts and education projects that ultimately will be realized as significant additions to their professional portfolio.  The projects can include a range from traditional arts practice to creative writing, creative IT models to community art and activism. We will examine diverse case studies, with special focus on the development and sustainability of a new local media arts center in Troy, the Sanctuary for Independent Media.  Students from a wide interdisciplinary range of studies are encouraged to enroll: a strong interest in how you can integrate creativity into your own knowledge base, and a desire to do field work in the community, are all that is required.",
+      "semester": "Spring15",
+      "active": true,
+      "__v": 0
+    },
+    {
+      "_id": "000000000000000000000014",
+      "name": "Media Studio: Imaging",
+      "department": "ARTS",
+      "courseNumber": 1020,
+      "description": "This course introduces students to digital photography, web design, and interactive multimedia in making art. Students broaden their understanding of such topics as composition, effective use of images, color theory, typography, and narrative flow. Inquiry and experimentation are encouraged, leading towards the development of the skill and techniques needed to create visual art with electronic media.",
+      "semester": "Spring15",
+      "active": true,
+      "__v": 0
+    }
+  ]
+}
+```
+
+```javascript
+// GET /api/users/<id>?withSections=true
+
 {
   "_id": "000000000000000000000004",
   "provider": "local",
@@ -54,16 +122,7 @@ Example Response:
     {
       "_id": "000000000000000000000220",
       "enrollmentPolicy": "closed",
-      "course": {
-        "_id": "000000000000000000000010",
-        "name": "Net Art",
-        "department": "ARTS",
-        "courseNumber": 2030,
-        "description": "Net Art is a hands-on studio course that uses the examination of the historical and theoretical aspects of Web-based art and virtual social spaces as a launching pad for individual student work. Considerable work at the conceptual level and a survey of Web-oriented software and programming enable students to create new works in net-based art.",
-        "semester": "Fall15",
-        "active": false,
-        "__v": 0
-      },
+      "course": "000000000000000000000010",
       "__v": 0,
       "sectionNumbers": [
         3,
@@ -79,16 +138,7 @@ Example Response:
     },
     {
       "_id": "000000000000000000000121",
-      "course": {
-        "_id": "000000000000000000000011",
-        "name": "Introduction to Open Source",
-        "department": "CSCI",
-        "courseNumber": 2963,
-        "description": "The goal of this course is to provide a strong foundation in open source software development in preparation for jobs in industry or for more advanced courses. An important component of this course is participation in a community and contributing to an open source project. This course also provides an understanding of open source software tools and community, an understanding of open source licensing, an understanding of testing, version control, and open source software stacks. Students must come with a desire to learn new things, as well as the ability to adapt to open source tools and packages.",
-        "semester": "Spring15",
-        "active": true,
-        "__v": 0
-      },
+      "course": "000000000000000000000011",
       "enrollmentPolicy": "approvalRequired",
       "__v": 0,
       "sectionNumbers": [
@@ -106,16 +156,7 @@ Example Response:
     },
     {
       "_id": "000000000000000000000122",
-      "course": {
-        "_id": "000000000000000000000012",
-        "name": "Mestizo Robotics",
-        "department": "ARCH",
-        "courseNumber": 4968,
-        "description": "Students will participate in the development of an artistic academic project comprised of an interconnected spherical robotic community dispersed and developed by different research units throughout the Americas.",
-        "semester": "Spring15",
-        "active": true,
-        "__v": 0
-      },
+      "course": "000000000000000000000012",
       "enrollmentPolicy": "approvalRequired",
       "__v": 0,
       "sectionNumbers": [
@@ -133,16 +174,7 @@ Example Response:
     },
     {
       "_id": "000000000000000000000223",
-      "course": {
-        "_id": "000000000000000000000013",
-        "name": "Art, Community and Technology",
-        "department": "ARTS",
-        "courseNumber": 4080,
-        "description": "Through direct experience in the community, this course explores the complex roles and relationships of art, education and technology, students will develop a plan to work with a media arts center, community organization or school; final teams will produce real-world arts and education projects that ultimately will be realized as significant additions to their professional portfolio.  The projects can include a range from traditional arts practice to creative writing, creative IT models to community art and activism. We will examine diverse case studies, with special focus on the development and sustainability of a new local media arts center in Troy, the Sanctuary for Independent Media.  Students from a wide interdisciplinary range of studies are encouraged to enroll: a strong interest in how you can integrate creativity into your own knowledge base, and a desire to do field work in the community, are all that is required.",
-        "semester": "Spring15",
-        "active": true,
-        "__v": 0
-      },
+      "course": "000000000000000000000013",
       "enrollmentPolicy": "open",
       "__v": 0,
       "sectionNumbers": [
@@ -160,16 +192,7 @@ Example Response:
     },
     {
       "_id": "000000000000000000000124",
-      "course": {
-        "_id": "000000000000000000000014",
-        "name": "Media Studio: Imaging",
-        "department": "ARTS",
-        "courseNumber": 1020,
-        "description": "This course introduces students to digital photography, web design, and interactive multimedia in making art. Students broaden their understanding of such topics as composition, effective use of images, color theory, typography, and narrative flow. Inquiry and experimentation are encouraged, leading towards the development of the skill and techniques needed to create visual art with electronic media.",
-        "semester": "Spring15",
-        "active": true,
-        "__v": 0
-      },
+      "course": "000000000000000000000014",
       "enrollmentPolicy": "closed",
       "__v": 0,
       "sectionNumbers": [
@@ -188,7 +211,22 @@ Example Response:
         "000000000000000000000003"
       ]
     }
-  ],
+  ]
+}
+```
+
+```javascript
+// GET /api/users/<id>?withEvents=true
+
+{
+  "_id": "000000000000000000000004",
+  "provider": "local",
+  "firstName": "Foo",
+  "lastName": "Bar",
+  "email": "foo@foo.com",
+  "isInstructor": false,
+  "__v": 0,
+  "role": "user",
   "events": [
     {
       "_id": "000000000000000000001001",
