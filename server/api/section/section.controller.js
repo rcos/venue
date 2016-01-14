@@ -61,6 +61,58 @@ function removeEntity(res) {
   };
 }
 
+function updateSection(req){
+  if(req.body.pendingStudent){
+    return updatePendingStudents(req);
+  }
+  else{
+    return saveSectionUpdates(req);
+  }
+}
+
+function updatePendingStudents(req){
+  return (section) =>{
+    var pendingStudent = req.body.pendingStudent;
+    if(section.pendingStudents.remove(pendingStudent)){
+      section.students.push(pendingStudent);
+      return section.saveAsync()
+        .spread((sect)=>{
+          return Section.populate(sect, {path:"pendingStudents"})
+        });
+    }
+  }
+}
+
+function checkSectionReq(req) {
+  // Check sections numbers
+  var sectionNumbers = req.body.sectionNumbers.map(Number);
+  if(sectionNumbers){
+    sectionNumbers.sort();
+    for (var i = 0; i < sectionNumbers.length - 1; i++) {
+      if(sectionNumbers[i] < 0){
+        throw "Section number must be greater than zero";
+      }
+      if (sectionNumbers[i + 1] == sectionNumbers[i]) {
+        throw "Duplicate section numbers found";
+      }
+    }
+  }
+}
+
+function saveSectionUpdates(req) {
+  return (section) => {
+    checkSectionReq(req);
+    section.sectionNumbers = req.body.sectionNumbers.map(Number);
+    section.enrollmentPolicy = req.body.enrollmentPolicy;
+    section.instructors = req.body.instructors;
+    return section.saveAsync()
+      .spread(function(updated) {
+        return updated;
+      });
+  }
+}
+
+
 // Gets a list of Sections
 exports.index = function(req, res) {
   Section.findAsync()
@@ -93,6 +145,8 @@ exports.show = function(req, res) {
 
 // Creates a new Section in the DB
 exports.create = function(req, res) {
+  try{checkSectionReq(req);}
+  catch(err) { return handleError(res)(err);}
   Section.createAsync(req.body)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
@@ -105,22 +159,8 @@ exports.update = function(req, res) {
   }
   Section.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
-    .then( (section) => {
-      var pendingStudent = req.body.pendingStudent;
-      if(section.pendingStudents.remove(pendingStudent)){
-        section.students.push(pendingStudent);
-        section.save((err)=>{
-          if (err) return handleError(err);
-          Section.populate(section, {path:"pendingStudents"}, (err, sect)=> {
-            if (err) return handleError(err);
-            res.json(sect)
-          });
-        });
-      }
-      else{
-        return res.json(handleError(res));
-      }
-    })
+    .then(updateSection(req))
+    .then(responseWithResult(res))
     .catch(handleError(res));
 };
 

@@ -16,6 +16,7 @@ angular.module('venueApp')
           }
           promise
               .then((course) => {
+                $scope.course._id = course._id;
                 $scope.success = true;
               })
               .catch(err => {
