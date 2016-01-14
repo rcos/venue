@@ -424,7 +424,7 @@ Example Response:
 
 ## Courses API
 
-`GET /api/courses/:id` - Returns information course with supplied id
+`GET /api/courses/:id` - Returns course information with supplied id
 
 Accepts the following GET parameters for additional information: `withSections`, `withSectionInstructors`, `withSectionEnrollmentStatus & studentid`
 
