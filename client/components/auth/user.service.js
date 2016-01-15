@@ -18,6 +18,13 @@ function UserResource($resource) {
         id:'me'
       }
     },
+    getAll: {
+      method: 'GET',
+      params: {
+        id: '',
+        controller: ''
+      }
+    },
     enroll: {
       method: 'PUT',
       params: {

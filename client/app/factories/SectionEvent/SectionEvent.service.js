@@ -2,12 +2,15 @@
 
 (function() {
 
-  function CourseResource($resource) {
-    var Course = $resource('/api/courses/:id/:controller', {
+  function SectionEventResource($resource) {
+    var SectionEvent = $resource('/api/sectionevents/:id/:controller', {
       id: '@_id'
     }, {
       create: {
         method: 'POST'
+      },
+      get: {
+        method: 'GET'
       },
       getAll: {
         method: 'GET',
@@ -20,10 +23,10 @@
         method: 'DELETE'
       }
     });
-    return Course;
+    return SectionEvent;
   }
 
   angular.module('venueApp')
-    .factory('Course', CourseResource);
+    .factory('SectionEvent', SectionEventResource);
 
   })();
