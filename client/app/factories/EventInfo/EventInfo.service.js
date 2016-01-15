@@ -2,8 +2,8 @@
 
 (function() {
 
-  function EventResource($resource) {
-    var Event = $resource('/api/events/:id/:controller', {
+  function EventInfoResource($resource) {
+    var EventInfo = $resource('/api/eventinfos/:id/:controller', {
       id: '@_id'
     }, {
       create: {
@@ -23,10 +23,10 @@
         method: 'DELETE'
       }
     });
-    return Event;
+    return EventInfo;
   }
 
-  angular.module('venueApp.auth')
-    .factory('Event', EventResource);
+  angular.module('venueApp')
+    .factory('EventInfo', EventInfoResource);
 
   })();

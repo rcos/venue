@@ -174,7 +174,9 @@ exports.destroy = function(req, res) {
 
 exports.getSectionsExtra = function (query, opts){
   opts = opts || {};
-  if (opts.withSectionsCourse){
+
+  //FIXME too many endpoints see #113
+  if (opts.withSectionsCourse || opts.withSectionCourse){
     query = query.populate('course');
   }
   if (opts.withSectionsInstructors){
