@@ -68,8 +68,9 @@ function removeEntity(res) {
 
 function saveSubmissionImage(files, fields){
   var imagePaths = [];
+  if (!files){return imagePaths;}
   Object.keys(files).forEach(function(name) {
-    var file = files[name][0]
+    var file = files[name][0];
     var name = file.path.substring(file.path.lastIndexOf('/')).substring(1);
     var path = config.imageUploadPath  + fields.userId + '/' + fields.eventId;
     imagePaths.push(path);
@@ -105,14 +106,23 @@ exports.show = function(req, res) {
 // Creates a new Submission in the DB
 exports.create = function(req, res) {
   var form = new multiparty.Form();
-  form.parse(req, (err, fields, files) => {
+  form.on('error', function(err) {
+    handleError(res)(err);
+  });
+
+  return form.parse(req, (err, fields, files) => {
     var imagePaths = saveSubmissionImage(files, fields);
+    if (!fields || fields === undefined){
+      return handleError(res)("No form data found");
+    }
     var submit = {
       images : imagePaths,
       author : [fields.userId[0]],
       events : [fields.eventId[0]],
       location : {
-        coordinates : [Number(fields['coordinates[0]'][0]), Number(fields['coordinates[1]'][0])]
+        geo: {
+          coordinates : [Number(fields['coordinates[0]'][0]), Number(fields['coordinates[1]'][0])]
+        }
       },
       time: Date.now(),
       content: fields.content[0]
@@ -120,7 +130,7 @@ exports.create = function(req, res) {
 
     Submission.create(submit, (err, submission) => {
       if (err) return handleError(res);
-      res.json(submission);
+      return res.json(submission);
     })
   });
 };

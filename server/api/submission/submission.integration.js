@@ -33,24 +33,26 @@ describe('Submission API:', function() {
   describe('POST /api/submissions', function() {
     beforeEach(function(done) {
       request(app)
-        .post('/api/submissions')
-        .send({
-          title: 'New Submission',
-          content: 'This is the brand new submission!!!'
-        })
-        .expect(201)
-        .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-          newSubmission = res.body;
-          done();
-        });
+      .post('/api/submissions')
+      .field('Content-Type', 'multipart/form-data')
+      .field('userId', '000000000000000000000004')
+      .field('eventId', '000000000000000000000020')
+      .field('coordinates[0]', 0)
+      .field('coordinates[1]', 1)
+      .field('content', 'This is the brand new submission!!!')
+      .attach('files', 'server/api/submission/empac.jpg')
+      .end(function(err, res) {
+        if (err) {
+          return done(err);
+        }
+        newSubmission = res.body;
+        done();
+      });
+
     });
 
     it('should respond with the newly created submission', function() {
-      expect(newSubmission.title).to.equal('New Submission');
+      console.log(newSubmission)
       expect(newSubmission.content).to.equal('This is the brand new submission!!!');
     });
 
@@ -78,7 +80,6 @@ describe('Submission API:', function() {
     });
 
     it('should respond with the requested submission', function() {
-      expect(submission.title).to.equal('New Submission');
       expect(submission.content).to.equal('This is the brand new submission!!!');
     });
 
@@ -91,7 +92,6 @@ describe('Submission API:', function() {
       request(app)
         .put('/api/submissions/' + newSubmission._id)
         .send({
-          title: 'Updated Submission',
           content: 'This is the updated submission!!!'
         })
         .expect(200)
@@ -110,7 +110,6 @@ describe('Submission API:', function() {
     });
 
     it('should respond with the updated submission', function() {
-      expect(updatedSubmission.title).to.equal('Updated Submission');
       expect(updatedSubmission.content).to.equal('This is the updated submission!!!');
     });
 
