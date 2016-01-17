@@ -68,12 +68,12 @@ function removeEntity(res) {
 
 function saveSubmissionImage(files, fields){
   var imagePaths = [];
-  Object.keys(files).forEach(function(name) {
-    var file = files[name][0]
-    var name = file.path.substring(file.path.lastIndexOf('/')).substring(1);
+  if (!files){return imagePaths;}
+  files.files.forEach(function(file) {
+    var name = Date.now().toString()+ '_' + file.path.substring(file.path.lastIndexOf('/')).substring(1);
     var path = config.imageUploadPath  + fields.userId + '/' + fields.eventId;
-    imagePaths.push(path);
     var destPath = path + '/' + name;
+    imagePaths.push(path);
     if(!fs.existsSync(path)){
       mkdirp.sync(path);
     }
@@ -104,25 +104,30 @@ exports.show = function(req, res) {
 
 // Creates a new Submission in the DB
 exports.create = function(req, res) {
-  var form = new multiparty.Form();
-  form.parse(req, (err, fields, files) => {
-    var imagePaths = saveSubmissionImage(files, fields);
-    var submit = {
-      images : imagePaths,
-      author : [fields.userId[0]],
-      events : [fields.eventId[0]],
-      location : {
-        coordinates : [Number(fields['coordinates[0]'][0]), Number(fields['coordinates[1]'][0])]
-      },
-      time: Date.now(),
-      content: fields.content[0]
-    };
+  // TODO: add back after auth
+  // if (req.user._id)
+  //   {
+  //     req.body.userId = req.user._id;
+  //   }
+  var imagePaths = saveSubmissionImage(req.files, req.body);
+  var submit = {
+    images : imagePaths,
+    submitter : req.body.userId,
+    authors : req.body.authors,
+    sectionEvent : req.body.eventId,
+    location : {
+      geo: {
+        coordinates : req.body.coordinates
+      }
+    },
+    time: Date.now(),
+    content: req.body.content
+  };
 
-    Submission.create(submit, (err, submission) => {
-      if (err) return handleError(res);
-      res.json(submission);
-    })
-  });
+  Submission.create(submit, (err, submission) => {
+    if (err) return handleError(res);
+    return res.json(submission);
+  })
 };
 
 // Updates an existing Submission in the DB
