@@ -10,7 +10,7 @@
         </button>
         <a href="/" class="navbar-brand">venue</a>
       </div>
-      <div collapse="nav.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
+      <div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
         <ul class="nav navbar-nav">
           <li ng-repeat="item in nav.menu" ng-class="{active: nav.isActive(item.link)}">
               <a ng-href="{{item.link}}" ng-show="{{nav.isMenuAccessible(item)}}">{{item.title}}</a>
@@ -29,3 +29,4 @@
     </div>
   </div>
 </div>
+  

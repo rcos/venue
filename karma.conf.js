@@ -28,7 +28,10 @@ module.exports = function(config) {
       'client/bower_components/lodash/dist/lodash.compat.js',
       'client/bower_components/angular-socket-io/socket.js',
       'client/bower_components/angular-validation-match/dist/angular-validation-match.min.js',
+      'client/bower_components/ng-file-upload/ng-file-upload.js',
+      'client/bower_components/angularjs-geolocation/src/geolocation.js',
       'client/bower_components/angular-ellipsis/src/angular-ellipsis.js',
+      'client/bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.min.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'node_modules/socket.io-client/socket.io.js',
