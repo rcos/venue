@@ -7,7 +7,7 @@ Each endpoint performs operations or retrieves information from a resource, typi
 additional GET parameters can be specified to retrieve additional information from
 the resources.
 
-**TODO Currently only GET endpoints are documented**
+**TODO Currently only GET and POST endpoints are documented**
 
 ## Connecting to the API
 
@@ -422,6 +422,32 @@ Example Response:
 }
 ```
 
+`POST /api/users` - Creates a user account, this is called on sign-up.  
+Request returns a javascript web token.
+
+Example Request:
+```javascript
+// POST /api/users/
+
+{
+  name: "John Doe",
+  email: "John@Doe.com",
+  password: "password",
+  isInstructor: false
+}
+```
+
+Example Response:
+```javascript
+
+{
+  $promise: {Promise Object},
+  $resolved: true,
+  token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjljNGUzNDllMzM0YzZiNTNjMjYzOTEiLCJpYXQiOjE0NTMwODQyMTIsImV4cCI6MTQ1MzEwMjIxMn0.9z6Akq-MtU6MV4GHSU5lVCbW3WWSRp5aQ0SPr4lXfvo"
+}
+```
+
+
 ## Courses API
 
 `GET /api/courses/:id` - Returns course information with supplied id
@@ -504,3 +530,109 @@ Example Response:
   ]
 }
 ```
+
+`POST /api/courses` **Authenticated** - Creates a course if user is an instructor.    
+Request returns the course object.
+
+Example Request:
+```javascript
+// POST /api/courses/
+
+{
+  department: "CSCI",
+  courseNumber: "4100",
+  name: "Machine Learning",
+  description: "Learn about machines!"
+}
+```
+
+Example Response:
+```javascript
+
+{
+  $promise: {Promise Object},
+  $resolved: true,
+  __v: 0,
+  _id: "569c4f929e334c6b53c26392",
+  active: true,
+  courseNumber: 4100,
+  department: "CSCI",
+  description: "Learn about machines!",
+  name: "Machine Learning",
+  semester: "Spring16"
+}
+```
+
+## Section API
+
+`POST /api/sections` **Authenticated** - Creates a section within a course if user is an instructor.  
+Request returns the section object.
+
+Example Request:
+```javascript
+// POST /api/sections/
+
+{
+  course: "000000000000000000000010",
+  enrollmentPolicy: "open",
+  instructors: ["000000000000000000000002"],
+  sectionNumbers: [5, 6, 7]
+}
+```
+
+Example Response:
+```javascript
+
+{
+  $promise: {Promise Object}
+  $resolved: true,
+  __v: 0,
+  _id: "569c50ab9e334c6b53c26394",
+  course: "000000000000000000000010",
+  enrollmentPolicy: "open",
+  instructors: ["000000000000000000000002"],
+  pendingStudents:["000000000000000000000005"]
+  sectionNumbers: [5, 6, 7]
+  students: ["000000000000000000000007", "000000000000000000000008"]
+}
+```
+
+
+## Submission API
+
+`POST /api/submissions` **Authenticated** - Creates a submission for a given section event.  The file(s) are sent along with 'data' in a HTML form using the multipart/form-data encoding.
+Request returns the submission object.
+
+
+Example Request:
+```javascript
+// POST /api/submissions/
+
+data: {
+  userId: '000000000000000000000005',
+  eventId: '000000000000000000001005',
+  authors: ['000000000000000000000006', '000000000000000000000007', '000000000000000000000004', '000000000000000000000008'],
+  coordinates: [ '-73.6672827', '42.730635299999996' ],
+  content: 'Content goes here',
+  title: 'Some Title'
+}
+```
+Example Response:
+```javascript
+
+{
+  images: [ './data/eventImages/000000000000000000000005/000000000000000000001005'],
+  authors: ['000000000000000000000006', '000000000000000000000007', '000000000000000000000004', '000000000000000000000008'],  
+  sectionEvent: [ "000000000000000000001005" ],
+  location: { geo: { type: 'Point', coordinates: [Object] } },
+  _id: "569c598f04045bb15b5b6a1d",
+  content: 'Content goes here',
+  time: Sun Jan 17 2016 22:18:39 GMT-0500 (EST),
+  submitter: "000000000000000000000005",
+  __v: 0
+}
+```
+
+## Section Event API
+#### Coming Soon
+** TODO **
