@@ -5,10 +5,13 @@
 angular.module('venueApp')
   .controller('EventFormCtrl', function($scope, Auth, EventInfo, User, SectionEvent){
     var eventInfoId = null;
-
     $scope.courseCreated = false;
     $scope.selectingEvent = true;
-
+    $scope.event = {};
+    $scope.event.startDate = new Date();
+    $scope.event.endDate = new Date();
+    $scope.event.startDateOpen = false;
+    $scope.event.endDateOpen = false;
     EventInfo.getAll({}, (eventinfos) => {
       $scope.eventinfos = eventinfos;
     });
@@ -36,6 +39,10 @@ angular.module('venueApp')
         $scope.eventInfo = {
           title: $scope.event.title,
           description: $scope.event.description,
+          times:{
+            start: $scope.event.startDate,
+            end: $scope.event.endDate
+          },
           location: {
             address: "TODO",
             description: "TODO",
@@ -61,6 +68,13 @@ angular.module('venueApp')
           });
       }
     };
+    $scope.openCalendar = function(e, prop) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      $scope.event[prop] = true;
+  };
+
     $scope.isActiveCourse = (course)=>{
       return course.sections.every((section) => section.active);
     };

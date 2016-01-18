@@ -7,24 +7,47 @@
   <form class="form" name="eventInfoForm" ng-submit="createEventInfo(eventInfoForm)" novalidate ng-show="!success">
 
     <div class="form-group" ng-class="{ 'has-success': eventInfoForm.title.$valid && submitted,
-    'has-error': eventInfoForm.info.$invalid && submitted }">
+    'has-error': eventInfoForm.title.$invalid && submitted }">
       <label>Event Title</label>
 
       <input type="text" name="eventTitle" class="form-control" ng-model="event.title"
              required/>
 
-      <p class="help-block" ng-show="eventInfoForm.info.$error.required && submitted">
+      <p class="help-block" ng-show="eventInfoForm.title.$error.required && submitted">
         The event title is required
       </p>
     </div>
 
-    <div class="form-group" ng-class="{ 'has-success': eventInfoForm.info.$valid && submitted,
-    'has-error': eventInfoForm.info.$invalid && submitted }">
+    <div class="form-group" ng-class="{ 'has-success': eventInfoForm.description.$valid && submitted,
+    'has-error': eventInfoForm.description.$invalid && submitted }">
       <label>Event Info</label>
 
       <textarea type="text" name="description" class="form-control" ng-model="event.description"
              required/>
     </div>
+    <div class="form-group" ng-class="{ 'has-success': eventInfoForm.startDate.$valid && submitted,
+    'has-error': eventInfoForm.startDate.$invalid && submitted }">
+      <label>Event Start Date</label>
+
+
+      <p class="input-group">
+          <input type="text" class="form-control" datetime-picker="MM/dd/yyyy HH:mm" ng-model="event.startDate" is-open="event.startDateOpen" required/>
+          <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'startDateOpen')"><i class="fa fa-calendar"></i></button>
+          </span>
+      </p>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': eventInfoForm.endDate.$valid && submitted,
+    'has-error': eventInfoForm.endDate.$invalid && submitted }">
+      <label>Event End Date</label>
+
+      <p class="input-group">
+          <input type="text" class="form-control" datetime-picker="MM/dd/yyyy HH:mm" ng-model="event.endDate" is-open="event.endDateOpen" required/>
+          <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'endDateOpen')"><i class="fa fa-calendar"></i></button>
+          </span>
+      </p>
+ </div>
     <div class="form-group" ng-class="{ 'has-success': eventInfoForm.imageURL.$valid && submitted,
     'has-error': eventInfoForm.imageURL.$invalid && submitted }">
       <label>Event Image URL</label>
