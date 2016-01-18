@@ -9,10 +9,21 @@ the resources.
 
 **TODO Currently only GET and POST endpoints are documented**
 
-## Connecting to the API
+## Logging In
 
-** TODO **
+`/auth/local` - Returns token for authenticated calls with the API, requires that the X-XSRF and XSRF token, a session id and binary body consisting of a JSON object with `email` and `password`.
 
+Example Request
+```curl
+curl 'http://localhost:9000/auth/local' -H 'X-XSRF-TOKEN: WU2uDVQKKNhZfCzy8dvADO1oTn/zXxyu819k0=' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' -H 'Referer: http://localhost:9000/login' -H 'Cookie: connect.sid=s%3AmCqPCCDugWX3MH1s087InB9hBQ67svne.rTffJTyrYUDc3ZysHXJkcF572ENDv77FsbA5dTudUqU; XSRF-TOKEN=WU2uDVQKKNhZfCzy8dvADO1oTn%2FzXxyu819k0%3D' --data-binary '{"email":"foo@foo.com","password":"foo"}'
+```
+
+Example Response
+```
+{
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDQiLCJyb2xlIjoidXNlciIsImlhdCI6MTQ1MzE0MTQ0MywiZXhwIjoxNDUzMTU5NDQzfQ.v0jXDvYAXBDAcMb-nKa6ARgHkTMQ-B9cyBSgjP-gcEI"
+}
+```
 ## User API
 
 `GET /api/users` ** Admin Only **  - Retrieves list of users and ids, this can be used for searching
