@@ -24,6 +24,12 @@ Example Response
   "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDQiLCJyb2xlIjoidXNlciIsImlhdCI6MTQ1MzE0MTQ0MywiZXhwIjoxNDUzMTU5NDQzfQ.v0jXDvYAXBDAcMb-nKa6ARgHkTMQ-B9cyBSgjP-gcEI"
 }
 ```
+
+Future requests that require Authorization should put `Authorization: Bearer <token>` in their header, see the example below.
+
+```Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDQiLCJyb2xlIjoidXNlciIsImlhdCI6MTQ1MzE0MTkzNiwiZXhwIjoxNDUzMTU5OTM2fQ.sloYvGS4_B2htipK3_vWpj8oC_cQxYDvCIjPV6xQ9Wo```
+
+
 ## User API
 
 `GET /api/users` ** Admin Only **  - Retrieves list of users and ids, this can be used for searching
