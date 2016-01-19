@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('EventFormCtrl', function($scope, Auth, EventInfo, User, SectionEvent, Upload){
+  .controller('EventFormCtrl', function($scope, Auth, EventInfo, User, SectionEvent, Upload, uiGmapGoogleMapApi){
     var eventInfoId = null;
     $scope.courseCreated = false;
     $scope.selectingEvent = true;

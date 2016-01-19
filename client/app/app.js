@@ -14,7 +14,8 @@ angular.module('venueApp', [
   'ngFileUpload',
   'geolocation',
   'dibari.angular-ellipsis',
-  'ui.bootstrap.datetimepicker'
+  'ui.bootstrap.datetimepicker',
+  'uiGmapgoogle-maps'
 ])
   .config(function($routeProvider, $locationProvider) {
     $routeProvider
@@ -23,4 +24,16 @@ angular.module('venueApp', [
       });
 
     $locationProvider.html5Mode(true);
-  });
+  })
+  .config(function(uiGmapGoogleMapApiProvider) {
+    uiGmapGoogleMapApiProvider.configure({
+        //    key: 'your api key',
+        v: '3.20', //defaults to latest 3.X anyhow
+        libraries: 'geometry,visualization,places,marker'
+    });
+  })
+  .run(['$templateCache', function ($templateCache) {
+    $templateCache.put('searchbox.tpl.html', '<input id="pac-input" class="pac-controls" type="text" placeholder="Search">');
+    $templateCache.put('window.tpl.html', '<div ng-init="showPlaceDetails(parameter)">{{place.name}}</div>');
+  }])
+  ;
