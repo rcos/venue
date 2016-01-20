@@ -17,6 +17,7 @@ var User = require('../user/user.model');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var config = require('../../config/environment');
+var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 import async from 'async';
 
 function handleError(res, statusCode) {
@@ -94,9 +95,19 @@ exports.index = function(req, res) {
     .catch(handleError(res));
 };
 
+exports.image = function(){};
+
+
 // Gets a single Submission from the DB
 exports.show = function(req, res) {
-  Submission.findByIdAsync(req.params.id)
+  var search = { $or: [
+    { submitter: mongoose.Types.ObjectId(req.params.id)} ,
+    { authors: {$in: [mongoose.Types.ObjectId(req.params.id)]} }
+  ]};
+  if(req.query.sectionEvent){
+    search.sectionEvent = mongoose.Types.ObjectId(req.query.sectionEvent);
+  }
+  Submission.findAsync(search)
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));
