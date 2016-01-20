@@ -41,9 +41,12 @@ UserSchema
   .virtual('profile')
   .get(function() {
     return {
-      'name': this.name,
+      'lastName': this.lastName,
+      'firstName': this.firstName,
       'role': this.role,
-      'sections': this.sections
+      'sections': this.sections,
+      'isInstructor': this.isInstructor,
+      '_id': this._id
     };
   });
 
