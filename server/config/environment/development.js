@@ -13,6 +13,6 @@ module.exports = {
   imageUploadPath: './data/eventImages/',
 
   // Seed database on startup
-  seedDB: false
+  seedDB: true
 
 };
