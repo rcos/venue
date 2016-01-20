@@ -2,6 +2,8 @@
 
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
+import Section from '../section/section.model';
+import SectionEvent from '../sectionevent/sectionevent.model';
 
 var SubmissionSchema = new Schema({
   content: String,
@@ -32,5 +34,16 @@ SubmissionSchema.pre("save",function(next) {
 
 
 SubmissionSchema.index({ 'location.geo' : '2dsphere'});
+
+SubmissionSchema.methods = {
+
+  getSectionAsync: function(){
+    return SectionEvent.findByIdAsync(this.sectionEvent)
+      .then((sectionEvent) => {
+        return Section.findByIdAsync(sectionEvent.section);
+      });
+  }
+
+};
 
 module.exports = mongoose.model('Submission', SubmissionSchema);

@@ -11,7 +11,8 @@
 
 var _ = require('lodash');
 var Submission = require('./submission.model');
-var Event = require('../sectionevent/sectionevent.model');
+var SectionEvent = require('../sectionevent/sectionevent.model');
+var Section = require('../section/section.model');
 var multiparty = require('multiparty');
 var User = require('../user/user.model');
 var fs = require('fs');
@@ -89,28 +90,70 @@ function saveSubmissionImage(files, fields){
   return imagePaths;
 }
 
+function withDefault(queryString, defaultValue){
+  if (queryString === undefined) return defaultValue;
+  else return queryString=="true";
+}
+
 // Gets a list of Submissions
 exports.index = function(req, res) {
-  if (req.query.onlyStudent){
-    var search = { $or: [
-      { submitter: mongoose.Types.ObjectId(req.query.onlyStudent)} ,
-      { authors: {$in: [mongoose.Types.ObjectId(req.query.onlyStudent)]} }
-    ]};
-    if(req.query.onlySectionEvent){
-      search.onlySectionEvent = mongoose.Types.ObjectId(req.query.onlySectionEvent);
-    }
-    var dbquery = Submission.find(search)
-      .populate('submitter')
-      .populate('authors')
-      .populate('sectionEvent');
+  var withStudents = withDefault(req.query.withStudents, true);
+  var withSectionEvent = withDefault(req.query.withSectionEvent, true);
+  var withEventInfo = withDefault(req.query.withEventInfo, withSectionEvent);
 
-    dbquery.execAsync()
+  function respond(query){
+    if (withStudents){
+      query.populate("authors");
+      query.populate("submitter");
+    }
+    if (withSectionEvent){
+      if (withEventInfo){
+        query.populate({
+          path: 'sectionEvent',
+          model: 'SectionEvent',
+          populate: {
+            path: 'info',
+            model: 'EventInfo'
+          }
+        });
+      }else query.populate("sectionEvent");
+    }
+
+    query.execAsync()
       .then(responseWithResult(res))
       .catch(handleError(res));
+  }
+
+  if (req.query.onlyInstructor){
+    var instructorId = req.query.onlyInstructor == "me" ? req.user._id : req.query.onlyInstructor;
+    Section.findAsync({instructors: instructorId})
+      .then((instructorSections) => {
+        var instructorSectionIds = instructorSections.map((sec) => sec._id);
+        return SectionEvent.findAsync({section: {$in: instructorSectionIds}});
+      })
+      .then((sectionEvents) => {
+        var sectionEventIds = sectionEvents.map((evnt) => evnt._id);
+        respond(Submission.find({sectionEvent: {$in: sectionEventIds}}))
+      });
+
+  }else if (req.query.onlySection){
+    SectionEvent.findAsync({section: req.query.onlySection})
+      .then((sectionEvents) => {
+        var sectionEventIds = sectionEvents.map((evnt) => evnt._id);
+        respond(Submission.find({sectionEvent: {$in: sectionEventIds}}));
+      });
+
+  }else if (req.query.onlyStudent){
+    var studentId = req.query.onlyStudent == 'me' ? req.user._id : req.query.onlyStudent;
+    var search = { $or: [{ submitter: studentId}, { authors: {$in: [studentId]} } ]};
+    if (req.query.onlySectionEvent) search.sectionEvent = req.query.onlySectionEvent;
+    respond(Submission.find(search));
+
+  }else if (req.query.onlySectionEvent){
+    respond(Submission.find({sectionEvent: req.query.onlySectionEvent}));
+
   }else{
-    Submission.findAsync()
-      .then(responseWithResult(res))
-      .catch(handleError(res));
+    respond(Submission.find());
   }
 };
 

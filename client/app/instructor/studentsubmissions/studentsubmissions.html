@@ -1,5 +1,17 @@
 <navbar/>
 
-asdasd
+<div class='container'>
+  <div class='row'>
+    <div class='col-sm-3'>
+      <sidebar/>
+    </div>
+    <div class='col-sm-9'>
+      <div class='submission' ng-repeat='sub in submissions'>
+        <img http-src='{{sub.images[0]}}'/><br/>
+        {{sub.submitter.firstName}} {{sub.submitter.lastName}} <br/>
+      </div>
+    </div>
+  </div>
+</div>
 
 <footer/>
