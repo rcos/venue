@@ -9,6 +9,7 @@ import Course from '../api/course/course.model';
 import Event from '../api/eventinfo/eventinfo.model';
 import SectionEvent from '../api/sectionevent/sectionevent.model';
 import Section from '../api/section/section.model';
+import Submission from '../api/submission/submission.model';
 
 var mongoose = require('mongoose');
 
@@ -415,6 +416,15 @@ module.exports.createSectionEvents = function(){
   });
 }
 
+// Create Submissions
+module.exports.createSubmissions = function(){
+    return Submission.find({}).removeAsync()
+      .then(() => {
+        // TODO populate submissions
+      });
+
+};
+
 module.exports.seed = function(){
   module.exports.createUsers().then(() => {
         console.log('finished populating users');
@@ -432,4 +442,7 @@ module.exports.seed = function(){
   module.exports.createSectionEvents().then(() => {
     console.log('finished populating events');
     });
+  module.exports.createSubmissions().then(() => {
+    console.log("finished populating submissions");
+  });
 }
