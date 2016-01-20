@@ -18,6 +18,7 @@ var fs = require('fs');
 var mkdirp = require('mkdirp');
 var config = require('../../config/environment');
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
+var path = require('path');
 import async from 'async';
 
 function handleError(res, statusCode) {
@@ -74,7 +75,7 @@ function saveSubmissionImage(files, fields){
     var name = Date.now().toString()+ '_' + file.path.substring(file.path.lastIndexOf('/')).substring(1);
     var path = config.imageUploadPath  + fields.userId + '/' + fields.eventId;
     var destPath = path + '/' + name;
-    imagePaths.push(path);
+    imagePaths.push("/api/submissions/image?imgPath=" + destPath);
     if(!fs.existsSync(path)){
       mkdirp.sync(path);
     }
@@ -95,8 +96,10 @@ exports.index = function(req, res) {
     .catch(handleError(res));
 };
 
-exports.image = function(){};
-
+exports.image = function(req, res){
+  var imgPath = path.join(__dirname, "../../../", req.query.imgPath);
+  res.sendFile(imgPath);
+};
 
 // Gets a single Submission from the DB
 exports.show = function(req, res) {
@@ -107,7 +110,11 @@ exports.show = function(req, res) {
   if(req.query.sectionEvent){
     search.sectionEvent = mongoose.Types.ObjectId(req.query.sectionEvent);
   }
-  Submission.findAsync(search)
+  var dbquery = Submission.find(search)
+    .populate('submitter')
+    .populate('authors')
+    .populate('sectionEvent');
+  dbquery.execAsync()
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));
