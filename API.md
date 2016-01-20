@@ -592,6 +592,14 @@ Example Response:
 
 ## Section API
 
+`GET /api/sections?onlyUser=me` or `GET /api/sections?onlyCurrentUser=true` **Authenticated** - Gets the sections for the current user  
+`GET /api/sections?onlyUser=:id` **Authenticated** - Gets the sections for a user  
+`GET /api/sections` - Gets all sections  
+
+Request returns an array of section objects.
+
+If you add withSectionsEvent, withSectionsCourse, withSectionsInstructors, withSectionsStudents, or withSectionsPendingStudents to the parameters, it will return with the appropriate fields populated.
+
 `POST /api/sections` **Authenticated** - Creates a section within a course if user is an instructor.  
 Request returns the section object.
 

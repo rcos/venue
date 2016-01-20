@@ -11,9 +11,9 @@
 
 var _ = require('lodash');
 var async = require("async");
+var Auth = require('../../auth/auth.service');
 import Section from './section.model';
 import User from '../user/user.model';
-
 
 // Takes a Bool flag and Function func, returns a Promise to execute func on
 // mongooseObject and responseObject inputs
@@ -140,14 +140,20 @@ function saveSectionUpdates(req) {
 
 
 // Gets a list of Sections
-exports.index = function(req, res) {
-  Section.findAsync()
-    .then(responseWithResult(res))
+// Filter by current user ?onlyUser=me
+// Filter by user (id) ?onlyUser=:id
+// Filter by current user ?onlyCurrentUser=true
+
+exports.index = function(req, res, next)  {
+    var query = Section.find();
+    query = exports.getSectionsExtra(query,req.query);
+
+    query.then(responseWithResult(res))
     .catch(handleError(res));
 };
 
 // Gets a list of Sections for a user
-exports.getByUser = function(req, res, next) {
+exports.userSections = function(req, res, next) {
   var userId = req.params.id;
   User.findById(userId)
   .select('-salt -password')
@@ -174,28 +180,17 @@ exports.getByUser = function(req, res, next) {
 
 
 // Gets a list of Sections for the user
-exports.me = function(req, res, next) {
+exports.mySections = function(req, res, next) {
   var userId = req.user._id;
   req.params.id = userId;
-  exports.getByUser(req, res, next);
+  exports.userSections(req, res, next);
 };
 
 // Gets a single Section from the DB
 exports.show = function(req, res) {
   var query = Section.findByIdAsync(req.params.id);
 
-  if (req.query.withEvents){
-    query = query.populate("events");
-  }
-  if (req.query.withCourses){
-    query = query.populate("courses");
-  }
-  if (req.query.withStudents){
-    query = query.populate("students");
-  }
-  if (req.query.withInstructors){
-    query = query.populate("instructors");
-  }
+  query = exports.getSectionsExtra(query,req.query);
 
   query
     .then(handleEntityNotFound(res))
@@ -236,16 +231,19 @@ exports.getSectionsExtra = function (query, opts){
   opts = opts || {};
 
   //FIXME too many endpoints see #113
+  if (opts.withSectionsEvent || opts.withSectionEvent){
+    query = query.populate('events');
+  }
   if (opts.withSectionsCourse || opts.withSectionCourse){
     query = query.populate('course');
   }
-  if (opts.withSectionsInstructors){
+  if (opts.withSectionsInstructors || opts.withSectionInstructors){
     query = query.populate('instructors');
   }
-  if (opts.withSectionsStudents){
+  if (opts.withSectionsStudents || opts.withSectionStudents){
     query = query.populate('students');
   }
-  if (opts.withSectionsPendingStudents){
+  if (opts.withSectionsPendingStudents || opts.withSectionPendingStudents){
     query = query.populate('pendingStudents');
   }
   return query;
