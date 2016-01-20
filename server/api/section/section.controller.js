@@ -165,12 +165,12 @@ exports.userSections = function(req, res, next) {
     var profile = user.toJSON();
     return Promise.all([user, profile]);
   })
-  .spread(ifFlagManipulate(true, (user,profile,done)=>{
+  .spread((user,profile,done)=>{
     user.getSectionsAsync(req.query).then((sections) => {
       profile.sections = sections;
       done(user, profile);
     });
-  }))
+  })
   .spread((user,profile) => {
     return res.json(profile.sections);
 
