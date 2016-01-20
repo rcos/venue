@@ -11,7 +11,8 @@
 
 var _ = require('lodash');
 var Submission = require('./submission.model');
-var Event = require('../sectionevent/sectionevent.model');
+var SectionEvent = require('../sectionevent/sectionevent.model');
+var Section = require('../section/section.model');
 var multiparty = require('multiparty');
 var User = require('../user/user.model');
 var fs = require('fs');
@@ -91,16 +92,42 @@ function saveSubmissionImage(files, fields){
 
 // Gets a list of Submissions
 exports.index = function(req, res) {
-  if (req.query.onlyStudent || req.query.onlySectionEvent){
+  if (req.query.onlyInstructor){
+    var instructorId = req.query.onlyInstructor == "me" ? req.user._id : req.query.onlyInstructor;
+    Section.findAsync({instructors: instructorId})
+      .then((instructorSections) => {
+        var instructorSectionIds = instructorSections.map((sec) => sec._id);
+        return SectionEvent.findAsync({section: {$in: instructorSectionIds}});
+      })
+      .then((sectionEvents) => {
+        var sectionEventIds = sectionEvents.map((evnt) => evnt._id);
+        return Submission.findAsync({sectionEvent: {$in: sectionEventIds}});
+      })
+      .then(responseWithResult(res))
+      .catch(handleError(res));
+
+  }else if (req.query.onlySection){
+    SectionEvent.findAsync({section: req.query.onlySection})
+      .then((sectionEvents) => {
+        var sectionEventIds = sectionEvents.map((evnt) => evnt._id);
+        return Submission.findAsync({sectionEvent: {$in: sectionEventIds}});
+      })
+      .then(responseWithResult(res))
+      .catch(handleError(res));
+
+  }else if (req.query.onlyStudent || req.query.onlySectionEvent){
     var search = {};
+
     if (req.query.onlyStudent){
+      var studentId = req.query.onlyStudent == 'me' ? req.user._id : req.query.onlyStudent;
       search = { $or: [
-        { submitter: mongoose.Types.ObjectId(req.query.onlyStudent)} ,
-        { authors: {$in: [mongoose.Types.ObjectId(req.query.onlyStudent)]} }
+        { submitter: req.query.onlyStudent} ,
+        { authors: {$in: [req.query.onlyStudent]} }
       ]};
       if(req.query.onlySectionEvent){
-        search.onlySectionEvent = mongoose.Types.ObjectId(req.query.onlySectionEvent);
+        search.sectionEvent = req.query.onlySectionEvent;
       }
+
     }else if (req.query.onlySectionEvent){
       search = {
         sectionEvent: req.query.onlySectionEvent
