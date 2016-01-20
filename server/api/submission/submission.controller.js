@@ -18,6 +18,7 @@ var fs = require('fs');
 var mkdirp = require('mkdirp');
 var config = require('../../config/environment');
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
+var path = require('path');
 import async from 'async';
 
 function handleError(res, statusCode) {
@@ -74,7 +75,7 @@ function saveSubmissionImage(files, fields){
     var name = Date.now().toString()+ '_' + file.path.substring(file.path.lastIndexOf('/')).substring(1);
     var path = config.imageUploadPath  + fields.userId + '/' + fields.eventId;
     var destPath = path + '/' + name;
-    imagePaths.push(path);
+    imagePaths.push("/api/submissions/image?imgPath=" + destPath);
     if(!fs.existsSync(path)){
       mkdirp.sync(path);
     }
@@ -90,24 +91,37 @@ function saveSubmissionImage(files, fields){
 
 // Gets a list of Submissions
 exports.index = function(req, res) {
-  Submission.findAsync()
-    .then(responseWithResult(res))
-    .catch(handleError(res));
+  if (req.query.onlyStudent){
+    var search = { $or: [
+      { submitter: mongoose.Types.ObjectId(req.query.onlyStudent)} ,
+      { authors: {$in: [mongoose.Types.ObjectId(req.query.onlyStudent)]} }
+    ]};
+    if(req.query.onlySectionEvent){
+      search.onlySectionEvent = mongoose.Types.ObjectId(req.query.onlySectionEvent);
+    }
+    var dbquery = Submission.find(search)
+      .populate('submitter')
+      .populate('authors')
+      .populate('sectionEvent');
+
+    dbquery.execAsync()
+      .then(responseWithResult(res))
+      .catch(handleError(res));
+  }else{
+    Submission.findAsync()
+      .then(responseWithResult(res))
+      .catch(handleError(res));
+  }
 };
 
-exports.image = function(){};
-
+exports.image = function(req, res){
+  var imgPath = path.join(__dirname, "../../../", req.query.imgPath);
+  res.sendFile(imgPath);
+};
 
 // Gets a single Submission from the DB
 exports.show = function(req, res) {
-  var search = { $or: [
-    { submitter: mongoose.Types.ObjectId(req.params.id)} ,
-    { authors: {$in: [mongoose.Types.ObjectId(req.params.id)]} }
-  ]};
-  if(req.query.sectionEvent){
-    search.sectionEvent = mongoose.Types.ObjectId(req.query.sectionEvent);
-  }
-  Submission.findAsync(search)
+  Submission.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));

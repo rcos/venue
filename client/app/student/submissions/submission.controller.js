@@ -10,10 +10,8 @@ angular.module('venueApp')
 
     User.get({withSections:true, withEvents: true, withSectionsCourse:true}, (user) => {
       $scope.user = user;
-      Submission.getAll({id:user._id}, (submissions) => {
+      Submission.getAll({onlyStudent:user._id}, (submissions) => {
         $scope.submissions = submissions;
-        console.log(submissions);
       })
     });
-
   });

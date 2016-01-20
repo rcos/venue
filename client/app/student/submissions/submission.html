@@ -8,7 +8,23 @@
           <h1 class="page-header">Submissions</h1>
           <div class="" ng-repeat="submission in submissions">
             <div class="">
-              {{submission}}
+              Submitter: {{submission.submitter.firstName}} {{submission.submitter.lastName}}
+            </div>
+            <div class="">
+              Content: {{submission.content}}
+            </div>
+            <div class="">
+              Authors:
+              <span class="" ng-repeat="author in submission.authors">
+                  {{author.firstName}} {{author.lastName}}
+              </span>
+            </div>
+            <div class="">
+              <!-- TODO: Google Maps api for location-->
+              Location: {{submission.location}}
+            </div>
+            <div class="" ng-repeat="image in submission.images">
+              <img http-src="{{image}}" alt="submission-image"/>
             </div>
           </div>
         </div>
