@@ -14,6 +14,32 @@ var async = require("async");
 import Section from './section.model';
 import User from '../user/user.model';
 
+
+// Takes a Bool flag and Function func, returns a Promise to execute func on
+// mongooseObject and responseObject inputs
+// call the "done" of func when finished manipulating data.
+// @param Function func: func(mongooseObject, responseObject, done)
+// Note: The function "func" must return [mongooseObject, responseObject]
+function ifFlagManipulate(flag, func){
+  return (mongooseObject, responseObject) => {
+    if (flag){
+      return new Promise((resolve, reject) => {
+        func(mongooseObject, responseObject, (newMongooseObject, newResponseObject)=>{
+          if (!newResponseObject){
+            var err = newMongooseObject;
+            reject(err);
+          }else{
+            resolve([newMongooseObject, newResponseObject]);
+          }
+        });
+      });
+    }else{
+      return Promise.all([mongooseObject, responseObject]);
+    }
+  };
+}
+
+
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
@@ -118,6 +144,41 @@ exports.index = function(req, res) {
   Section.findAsync()
     .then(responseWithResult(res))
     .catch(handleError(res));
+};
+
+// Gets a list of Sections for a user
+exports.getByUser = function(req, res, next) {
+  var userId = req.params.id;
+  User.findById(userId)
+  .select('-salt -password')
+  .execAsync()
+  .then((user) => {
+    if (!user) {
+      return res.status(404).end();
+    }
+    var profile = user.toJSON();
+    return Promise.all([user, profile]);
+  })
+  .spread(ifFlagManipulate(true, (user,profile,done)=>{
+    user.getSectionsAsync(req.query).then((sections) => {
+      profile.sections = sections;
+      done(user, profile);
+    });
+  }))
+  .spread((user,profile) => {
+    console.log(profile.sections);
+    return res.json(profile.sections);
+
+  })
+  .catch(err => next(err));
+};
+
+
+// Gets a list of Sections for the user
+exports.me = function(req, res, next) {
+  var userId = req.user._id;
+  req.params.id = userId;
+  exports.getByUser(req, res, next);
 };
 
 // Gets a single Section from the DB
