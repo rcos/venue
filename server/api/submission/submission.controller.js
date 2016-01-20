@@ -91,7 +91,6 @@ function saveSubmissionImage(files, fields){
 }
 
 function withDefault(queryString, defaultValue){
-  console.log(queryString, queryString == "true");
   if (queryString === undefined) return defaultValue;
   else return queryString=="true";
 }
