@@ -11,6 +11,10 @@
 
 var _ = require('lodash');
 var EventInfo = require('./eventinfo.model');
+var fs = require('fs');
+var mkdirp = require('mkdirp');
+var config = require('../../config/environment');
+import async from 'async';
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -59,6 +63,31 @@ function removeEntity(res) {
   };
 }
 
+function saveEventInfoImage(files, fields, cb){
+  var imagePaths = [],
+      asyncTasks = [];
+  if (!files){return imagePaths;}
+  files.files.forEach(function(file) {
+    var name = file.name;
+    var path = config.imageUploadPath  + 'eventInfoImages';
+    var destPath = path + '/' + name;
+    imagePaths.push("/api/submissions/image?imgPath=" + destPath);
+    asyncTasks.push( (callback) => {fs.exists(path, (exists) => {
+      mkdirp(path, function (err) {
+        if (err) console.error(err)
+        var is = fs.createReadStream(file.path);
+        var os = fs.createWriteStream(destPath);
+        is.pipe(os);
+        callback();
+      });
+    })});
+  });
+  async.parallel(asyncTasks, (error, results) => {
+    // TODO: Handle Error
+    cb(imagePaths);
+  });
+}
+
 // Gets a list of EventInfos
 exports.index = function(req, res) {
   EventInfo.findAsync()
@@ -76,9 +105,13 @@ exports.show = function(req, res) {
 
 // Creates a new EventInfo in the DB
 exports.create = function(req, res) {
-  EventInfo.createAsync(req.body)
+  saveEventInfoImage(req.files, req.body, (imagePaths)=>{
+    var evnt = req.body;
+    evnt.imageURLs = imagePaths;
+    EventInfo.createAsync(evnt)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
+  });
 };
 
 // Updates an existing EventInfo in the DB

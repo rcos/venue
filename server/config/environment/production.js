@@ -22,7 +22,7 @@ module.exports = {
           'mongodb://localhost/venue'
   },
   
-  // Submission Images Folder
-  imageUploadPath: './data/eventImages/'
+  // Images Folder
+  imageUploadPath: './data/'
 
 };

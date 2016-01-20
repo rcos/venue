@@ -68,25 +68,29 @@ function removeEntity(res) {
   };
 }
 
-function saveSubmissionImage(files, fields){
-  var imagePaths = [];
+function saveSubmissionImage(files, fields, cb){
+  var imagePaths = [],
+      asyncTasks = [];
   if (!files){return imagePaths;}
   files.files.forEach(function(file) {
-    var name = Date.now().toString()+ '_' + file.path.substring(file.path.lastIndexOf('/')).substring(1);
-    var path = config.imageUploadPath  + fields.userId + '/' + fields.eventId;
+    var name = file.name;
+    var path = config.imageUploadPath + 'eventImages/' + fields.userId + '/' + fields.eventId;
     var destPath = path + '/' + name;
     imagePaths.push("/api/submissions/image?imgPath=" + destPath);
-    if(!fs.existsSync(path)){
-      mkdirp.sync(path);
-    }
-    var is = fs.createReadStream(file.path);
-    var os = fs.createWriteStream(destPath);
-    is.pipe(os);
-    is.on('end', function() {
-        fs.unlinkSync(file.path);
-    });
+    asyncTasks.push( (callback) => {fs.exists(path, (exists) => {
+      mkdirp(path, function (err) {
+        if (err) console.error(err)
+        var is = fs.createReadStream(file.path);
+        var os = fs.createWriteStream(destPath);
+        is.pipe(os);
+        callback();
+      });
+    })});
   });
-  return imagePaths;
+  async.parallel(asyncTasks, (error, results) => {
+    // TODO: Handle Error
+    cb(imagePaths);
+  });
 }
 
 // Gets a list of Submissions
@@ -134,25 +138,26 @@ exports.create = function(req, res) {
   //   {
   //     req.body.userId = req.user._id;
   //   }
-  var imagePaths = saveSubmissionImage(req.files, req.body);
-  var submit = {
-    images : imagePaths,
-    submitter : req.body.userId,
-    authors : req.body.authors,
-    sectionEvent : req.body.eventId,
-    location : {
-      geo: {
-        coordinates : req.body.coordinates
-      }
-    },
-    time: Date.now(),
-    content: req.body.content
-  };
+  saveSubmissionImage(req.files, req.body, (imagePaths)=>{
+    var submit = {
+      images : imagePaths,
+      submitter : req.body.userId,
+      authors : req.body.authors,
+      sectionEvent : req.body.eventId,
+      location : {
+        geo: {
+          coordinates : req.body.coordinates
+        }
+      },
+      time: Date.now(),
+      content: req.body.content
+    };
 
-  Submission.create(submit, (err, submission) => {
-    if (err) return handleError(res);
-    return res.json(submission);
-  })
+    Submission.create(submit, (err, submission) => {
+      if (err) return handleError(res);
+      return res.json(submission);
+    })
+  });
 };
 
 // Updates an existing Submission in the DB

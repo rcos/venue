@@ -22,8 +22,8 @@ module.exports = {
   SENDGRID_KEY:     '',
   SERVER_EMAIL:     'noreply_venue_team@venue_url.com',
 
-  // Submission Images Folder
-  imageUploadPath: './data/eventImages',  
+  // Images Folder
+  imageUploadPath: './data/',
 
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''

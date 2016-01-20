@@ -9,8 +9,8 @@ module.exports = {
     uri: 'mongodb://localhost/venue-dev'
   },
 
-  // Submission Images Folder
-  imageUploadPath: './data/eventImages/',
+  // Images Folder
+  imageUploadPath: './data/',
 
   // Seed database on startup
   seedDB: true
