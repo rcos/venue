@@ -91,9 +91,27 @@ function saveSubmissionImage(files, fields){
 
 // Gets a list of Submissions
 exports.index = function(req, res) {
-  Submission.findAsync()
-    .then(responseWithResult(res))
-    .catch(handleError(res));
+  if (req.query.onlyStudent){
+    var search = { $or: [
+      { submitter: mongoose.Types.ObjectId(req.query.onlyStudent)} ,
+      { authors: {$in: [mongoose.Types.ObjectId(req.query.onlyStudent)]} }
+    ]};
+    if(req.query.onlySectionEvent){
+      search.onlySectionEvent = mongoose.Types.ObjectId(req.query.onlySectionEvent);
+    }
+    var dbquery = Submission.find(search)
+      .populate('submitter')
+      .populate('authors')
+      .populate('sectionEvent');
+
+    dbquery.execAsync()
+      .then(responseWithResult(res))
+      .catch(handleError(res));
+  }else{
+    Submission.findAsync()
+      .then(responseWithResult(res))
+      .catch(handleError(res));
+  }
 };
 
 exports.image = function(req, res){
@@ -103,18 +121,7 @@ exports.image = function(req, res){
 
 // Gets a single Submission from the DB
 exports.show = function(req, res) {
-  var search = { $or: [
-    { submitter: mongoose.Types.ObjectId(req.params.id)} ,
-    { authors: {$in: [mongoose.Types.ObjectId(req.params.id)]} }
-  ]};
-  if(req.query.sectionEvent){
-    search.sectionEvent = mongoose.Types.ObjectId(req.query.sectionEvent);
-  }
-  var dbquery = Submission.find(search)
-    .populate('submitter')
-    .populate('authors')
-    .populate('sectionEvent');
-  dbquery.execAsync()
+  Submission.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));
