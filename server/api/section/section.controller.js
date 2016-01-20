@@ -166,7 +166,6 @@ exports.getByUser = function(req, res, next) {
     });
   }))
   .spread((user,profile) => {
-    console.log(profile.sections);
     return res.json(profile.sections);
 
   })
