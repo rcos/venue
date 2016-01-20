@@ -90,8 +90,41 @@ function saveSubmissionImage(files, fields){
   return imagePaths;
 }
 
+function withDefault(queryString, defaultValue){
+  console.log(queryString, queryString == "true");
+  if (queryString === undefined) return defaultValue;
+  else return queryString=="true";
+}
+
 // Gets a list of Submissions
 exports.index = function(req, res) {
+  var withStudents = withDefault(req.query.withStudents, true);
+  var withSectionEvent = withDefault(req.query.withSectionEvent, true);
+  var withEventInfo = withDefault(req.query.withEventInfo, withSectionEvent);
+
+  function respond(query){
+    if (withStudents){
+      query.populate("authors");
+      query.populate("submitter");
+    }
+    if (withSectionEvent){
+      if (withEventInfo){
+        query.populate({
+          path: 'sectionEvent',
+          model: 'SectionEvent',
+          populate: {
+            path: 'info',
+            model: 'EventInfo'
+          }
+        });
+      }else query.populate("sectionEvent");
+    }
+
+    query.execAsync()
+      .then(responseWithResult(res))
+      .catch(handleError(res));
+  }
+
   if (req.query.onlyInstructor){
     var instructorId = req.query.onlyInstructor == "me" ? req.user._id : req.query.onlyInstructor;
     Section.findAsync({instructors: instructorId})
@@ -101,50 +134,27 @@ exports.index = function(req, res) {
       })
       .then((sectionEvents) => {
         var sectionEventIds = sectionEvents.map((evnt) => evnt._id);
-        return Submission.findAsync({sectionEvent: {$in: sectionEventIds}});
-      })
-      .then(responseWithResult(res))
-      .catch(handleError(res));
+        respond(Submission.find({sectionEvent: {$in: sectionEventIds}}))
+      });
 
   }else if (req.query.onlySection){
     SectionEvent.findAsync({section: req.query.onlySection})
       .then((sectionEvents) => {
         var sectionEventIds = sectionEvents.map((evnt) => evnt._id);
-        return Submission.findAsync({sectionEvent: {$in: sectionEventIds}});
-      })
-      .then(responseWithResult(res))
-      .catch(handleError(res));
+        respond(Submission.find({sectionEvent: {$in: sectionEventIds}}));
+      });
 
-  }else if (req.query.onlyStudent || req.query.onlySectionEvent){
-    var search = {};
+  }else if (req.query.onlyStudent){
+    var studentId = req.query.onlyStudent == 'me' ? req.user._id : req.query.onlyStudent;
+    var search = { $or: [{ submitter: studentId}, { authors: {$in: [studentId]} } ]};
+    if (req.query.onlySectionEvent) search.sectionEvent = req.query.onlySectionEvent;
+    respond(Submission.find(search));
 
-    if (req.query.onlyStudent){
-      var studentId = req.query.onlyStudent == 'me' ? req.user._id : req.query.onlyStudent;
-      search = { $or: [
-        { submitter: req.query.onlyStudent} ,
-        { authors: {$in: [req.query.onlyStudent]} }
-      ]};
-      if(req.query.onlySectionEvent){
-        search.sectionEvent = req.query.onlySectionEvent;
-      }
+  }else if (req.query.onlySectionEvent){
+    respond(Submission.find({sectionEvent: req.query.onlySectionEvent}));
 
-    }else if (req.query.onlySectionEvent){
-      search = {
-        sectionEvent: req.query.onlySectionEvent
-      };
-    }
-    var dbquery = Submission.find(search)
-      .populate('submitter')
-      .populate('authors')
-      .populate('sectionEvent');
-
-    dbquery.execAsync()
-      .then(responseWithResult(res))
-      .catch(handleError(res));
   }else{
-    Submission.findAsync()
-      .then(responseWithResult(res))
-      .catch(handleError(res));
+    respond(Submission.find());
   }
 };
 
