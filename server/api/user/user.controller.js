@@ -96,7 +96,7 @@ export function show(req, res, next) {
     return Promise.all([user, profile]);
   })
   .spread(ifFlagManipulate(req.query.withSections, (user,profile,done)=>{
-    user.getSectionsAsync(req.query).then((sections) => {
+    return user.getSectionsAsync(req.query).then((sections) => {
       profile.sections = sections;
       done(user, profile);
     });

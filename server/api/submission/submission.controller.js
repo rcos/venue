@@ -91,13 +91,20 @@ function saveSubmissionImage(files, fields){
 
 // Gets a list of Submissions
 exports.index = function(req, res) {
-  if (req.query.onlyStudent){
-    var search = { $or: [
-      { submitter: mongoose.Types.ObjectId(req.query.onlyStudent)} ,
-      { authors: {$in: [mongoose.Types.ObjectId(req.query.onlyStudent)]} }
-    ]};
-    if(req.query.onlySectionEvent){
-      search.onlySectionEvent = mongoose.Types.ObjectId(req.query.onlySectionEvent);
+  if (req.query.onlyStudent || req.query.onlySectionEvent){
+    var search = {};
+    if (req.query.onlyStudent){
+      search = { $or: [
+        { submitter: mongoose.Types.ObjectId(req.query.onlyStudent)} ,
+        { authors: {$in: [mongoose.Types.ObjectId(req.query.onlyStudent)]} }
+      ]};
+      if(req.query.onlySectionEvent){
+        search.onlySectionEvent = mongoose.Types.ObjectId(req.query.onlySectionEvent);
+      }
+    }else if (req.query.onlySectionEvent){
+      search = {
+        sectionEvent: req.query.onlySectionEvent
+      };
     }
     var dbquery = Submission.find(search)
       .populate('submitter')
