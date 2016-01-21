@@ -119,6 +119,8 @@ exports.index = function(req, res) {
       }else query.populate("sectionEvent");
     }
 
+    query.sort({time: -1});
+
     query.execAsync()
       .then(responseWithResult(res))
       .catch(handleError(res));
