@@ -10,6 +10,7 @@ import Event from '../api/eventinfo/eventinfo.model';
 import SectionEvent from '../api/sectionevent/sectionevent.model';
 import Section from '../api/section/section.model';
 import Submission from '../api/submission/submission.model';
+var _ = require('lodash');
 
 var mongoose = require('mongoose');
 
@@ -78,7 +79,30 @@ function allUsers(){return {
     password: 'jane',
     isInstructor: false,
     _id: mongoose.Types.ObjectId('000000000000000000000006'),
-  }}
+  },
+  curt:{
+    _id : mongoose.Types.ObjectId("111111111111111111111111"),
+    provider : "local",
+    firstName : "Curt",
+    lastName : "Breneman",
+    email : "curt@curt.com",
+    password : "curt",
+    isInstructor : false,
+    role : "user",
+  },
+  venue:{
+    _id : mongoose.Types.ObjectId("111111111111111111111112"),
+    provider : "local",
+    email : "venue@rpi.edu",
+    password : "venue",
+    isInstructor : true,
+    role : "admin",
+    firstName : "Venue",
+    lastName : "Team"
+  }
+
+
+}
 }
 
 function allCourses(){return {
@@ -153,7 +177,16 @@ function allCourses(){return {
       semester: "Spring15",
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000017'),
-    }
+    },
+    venue:{
+      _id : mongoose.Types.ObjectId("222222222222222222222220"),
+      department : "TEST",
+      courseNumber : 1234,
+      name : "Venue Testing",
+      description : "This course is for testing new venue features.",
+      active : true,
+      semester : "Spring16",
+      }
   }
 }
 
@@ -238,6 +271,15 @@ function allSections(){ return {
       sectionNumbers: [1],
       enrollmentPolicy: "closed",
       _id:mongoose.Types.ObjectId('000000000000000000000126'),
+    },
+    venue1:{
+      course : allCourses().venue._id, //Venue
+      students : [allUsers().curt._id], //curt
+      pendingStudents : [ ],
+      instructors : [allUsers().venue._id ], //Venue
+      sectionNumbers: [1],
+      enrollmentPolicy: "open",
+      _id:mongoose.Types.ObjectId('333333333333333333333330'),
     }
   }
 }
@@ -288,6 +330,57 @@ function allEvents(){
       }],
       _id: mongoose.Types.ObjectId('000000000000000000000021')
 
+    },
+    medalReception:{
+      _id : mongoose.Types.ObjectId("444444444444444444444440"),
+      title : "National Medal of Science Reception",
+      description : "President Shirley Ann Jackson named recipient of National Medal of Science, the nation‚Äôs highest honor in science and technology. The award recognizes individuals deserving of special recognition for their outstanding cumulative contributions to knowledge in the physical, biological, mathematical, engineering, or behavioral or social sciences, in service to the nation.",
+      imageURL : "https://i.ytimg.com/vi/kKDpgJLh93o/maxresdefault.jpg",
+      author : allUsers().venue._id,
+      times : [
+        {
+          start : "2016-01-21T23:00:00Z",
+          end : "2016-01-22T03:00:00Z",
+        }
+      ],
+      location : {
+        address : "1150 22nd St NW, Washington, DC 20037, United States",
+        description : "The Ritz-Carlton, Washington D.C.",
+        geo : {
+          coordinates : [
+            -77.04907850000001,
+            38.90471019999999
+          ],
+          type : "Point"
+        },
+        radius : 0.0005686283111572266
+      }
+    },
+    medalGala:{
+      _id : mongoose.Types.ObjectId("444444444444444444444441"),
+      title : "National Medal of Science Black-tie Gala",
+      description : "A gala to celebrate the amazing individuals who have won the highest science, technology, engineering, and mathematics award in the United States. Their achievements shape cultural revolutions, drive world economies, and change the face of life as we know it. Their stories will inspire the next generation.",
+      imageURL : "http://www.officiallycrowned.org/wp-content/uploads/2015/10/Special-Occasions-Event-Planning-Revelry-Event-Designers-1.jpg",
+      creationDate : "2016-01-21T11:35:26.867Z",
+      author : allUsers().venue._id,
+      times : [
+          {
+            start : "2016-01-22T23:00:00Z",
+            end : "2016-01-23T01:00:00Z",
+          }
+        ],
+      location : {
+        address : "1150 22nd St NW, Washington, DC 20037, United States",
+        description : "The Ritz-Carlton, Washington D.C.",
+        geo : {
+          coordinates : [
+              -77.04853702905513,
+              38.90482343443286
+          ],
+          type : "Point"
+        },
+        radius : 0.0045490264892578125
+      }
     }
   }
 }
@@ -356,7 +449,22 @@ function allSectionEvents(){
       creationDate: new Date("January 4, 2016 05:49:06"),
       info: allEvents().dancing._id,//Dancing Through the Years
       _id: mongoose.Types.ObjectId('000000000000000000001006')
+    },
+    venue1medalReception:{
+      _id : mongoose.Types.ObjectId("555555555555555555555550"),
+      section : allSections().venue1._id,//venue section 1
+      info : allEvents().medalReception._id,
+      author : allUsers().venue._id,
+      additionalNotes : "Try to get a picture with President Shirley Ann Jackson!",
+    },
+    venue1medalGala:{
+      _id : mongoose.Types.ObjectId("555555555555555555555551"),
+      section : allSections().venue1._id,//venue section 1
+      info : allEvents().medalGala._id,
+      author : allUsers().venue._id,
+      additionalNotes : "Take a picture with the honorable Shirley Ann Jackson.",
     }
+
   }
 }
 
@@ -400,9 +508,7 @@ function allSubmissions(){
 module.exports.createUsers = function(){
   return User.find({}).removeAsync()
   .then(() => {
-    var users = allUsers();
-
-    return User.createAsync(users.test, users.admin, users.bob, users.travis, users.foo, users.kelly, users.jane)
+    return User.createAsync(_.values(allUsers()));
   });
 }
 
@@ -411,10 +517,7 @@ module.exports.createUsers = function(){
 module.exports.createCourses = function(){
   return Course.find({}).removeAsync()
   .then(() => {
-    var courses = allCourses();
-
-    return Course.createAsync(
-      courses.netArt, courses.openSource, courses.robotics, courses.art, courses.imaging, courses.materials, courses.designStudio, courses.citiesLands)
+    return Course.createAsync(_.values(allCourses()));
   });
 }
 
@@ -422,10 +525,7 @@ module.exports.createCourses = function(){
 module.exports.createSections = function(){
   return Section.find({}).removeAsync()
   .then(() => {
-    var sections = allSections();
-
-    return Section.createAsync(
-    sections.netArt12, sections.netArt34, sections.openSource1, sections.robotics1, sections.art1, sections.art234, sections.imaging1234, sections.designStudio1, sections.citiesLands1 )
+    return Section.createAsync(_.values(allSections()));
   });
 }
 
@@ -433,9 +533,7 @@ module.exports.createSections = function(){
 module.exports.createEvents = function(){
   return Event.find({}).removeAsync()
   .then(() => {
-    var events = allEvents();
-
-    return Event.createAsync(events.concerts, events.dancing)
+    return Event.createAsync(_.values(allEvents()));
 
   });
 }
@@ -444,22 +542,17 @@ module.exports.createEvents = function(){
 module.exports.createSectionEvents = function(){
   return SectionEvent.find({}).removeAsync()
   .then(() => {
-    var sectionEvents = allSectionEvents();
-
-    return SectionEvent.createAsync( sectionEvents.netArt12Concerts, sectionEvents.netArt34Concerts, sectionEvents.openSource1Concerts, sectionEvents.imaging1234Concerts, sectionEvents.art1Dancing, sectionEvents.imaging1234Dancing, sectionEvents.netArt34Dancing )
+    return SectionEvent.createAsync(_.values(allSectionEvents()));
 
   });
 }
 
 // Create Submissions
 module.exports.createSubmissions = function(){
-    return Submission.find({}).removeAsync()
-      .then(() => {
-        var submissions = allSubmissions();
-
-        return Submission.createAsync(submissions.submission1, submissions.submission2);
-      });
-
+  return Submission.find({}).removeAsync()
+  .then(() => {
+    return Submission.createAsync(_.values(allSubmissions()));
+  });
 };
 
 module.exports.seed = function(){
