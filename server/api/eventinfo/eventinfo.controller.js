@@ -107,6 +107,8 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   saveEventInfoImage(req.files, req.body, (imagePaths)=>{
     var evnt = req.body;
+    evnt.creationDate = new Date();
+    evnt.author = req.user._id;
     evnt.imageURLs = imagePaths;
     EventInfo.createAsync(evnt)
     .then(responseWithResult(res, 201))

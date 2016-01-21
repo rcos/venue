@@ -12,6 +12,10 @@ var EventInfoSchema = new Schema({
   location: {
     address: String,
     description: String,
+    radius: {
+      type: Number,
+      default: 0.001
+    },
     geo: {
       type: {
         type: String,

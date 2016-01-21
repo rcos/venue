@@ -12,6 +12,7 @@ angular.module('venueApp')
     $scope.event.endDate = new Date();
     $scope.event.startDateOpen = false;
     $scope.event.endDateOpen = false;
+    $scope.success = false;
 
     $scope.place = {};
     $scope.showPlaceDetails = function(param) {
@@ -19,19 +20,16 @@ angular.module('venueApp')
     }
 
     $scope.toggleMap = function () {
-      console.log("toggle");
-      $scope.searchbox.options.visible = !$scope.searchbox.options.visible
+      $scope.event.searchbox.options.visible = !$scope.event.searchbox.options.visible
     };
 
     uiGmapGoogleMapApi.then(function(maps) {
-      console.log("google maps ready")
       maps.visualRefresh = true;
       $scope.defaultBounds = new google.maps.LatLngBounds(
-        new google.maps.LatLng(40.82148, -73.66450),
-        new google.maps.LatLng(40.66541, -74.31715));
+        new google.maps.LatLng(42.7766, -73.5380),
+        new google.maps.LatLng(42.6757, -73.8292));
 
-
-        $scope.map.bounds = {
+        $scope.event.map.bounds = {
           northeast: {
             latitude:$scope.defaultBounds.getNorthEast().lat(),
             longitude:$scope.defaultBounds.getNorthEast().lng()
@@ -42,7 +40,7 @@ angular.module('venueApp')
 
           }
         }
-        $scope.searchbox.options.bounds = new google.maps.LatLngBounds($scope.defaultBounds.getNorthEast(),     $scope.defaultBounds.getSouthWest());
+        $scope.event.searchbox.options.bounds = new google.maps.LatLngBounds($scope.defaultBounds.getNorthEast(),     $scope.defaultBounds.getSouthWest());
 
     });
 
@@ -55,11 +53,11 @@ angular.module('venueApp')
       templateparameter: {}
     };
 
-    $scope.map= {
+    $scope.event.map= {
       control: {},
       center: {
-        latitude: 40.74349,
-        longitude: -73.990822
+        latitude: 42.7285023,
+        longitude:-73.6839912
       },
       zoom: 12,
       dragging: false,
@@ -75,30 +73,31 @@ angular.module('venueApp')
           var bounds = map.getBounds();
           var ne = bounds.getNorthEast();
           var sw = bounds.getSouthWest();
-          $scope.searchbox.options.bounds = new google.maps.LatLngBounds(sw, ne);
-          //$scope.searchbox.options.visible = true;
+          $scope.event.searchbox.options.bounds = new google.maps.LatLngBounds(sw, ne);
         }
       }
     };
+    var places = [];
 
-    $scope.searchbox= {
+    $scope.event.searchbox= {
       template: 'searchbox.tpl.html',
-      //position:'top-right',
       position:'top-left',
       options: {
         bounds: {},
         visible: true
       },
-      //parentdiv:'searchBoxParent',
       events: {
         places_changed: function (searchBox) {
 
-          var places = searchBox.getPlaces()
+          if (searchBox){
+            places = searchBox.getPlaces()
+          }
 
           if (places.length == 0) {
             return;
           }
           // For each place, get the icon, place name, and location.
+
           var newMarkers = [];
           var bounds = new google.maps.LatLngBounds();
           for (var i = 0, place; place = places[i]; i++) {
@@ -109,20 +108,21 @@ angular.module('venueApp')
               name: place.name,
               latitude: place.geometry.location.lat(),
               longitude: place.geometry.location.lng(),
+              formatted_address: place.formatted_address,
               options: {
                 visible:false
               },
               templateurl:'window.tpl.html',
               templateparameter: place,
               closeClick: function() {
-                $scope.selected.options.visible = false;
+                $scope.event.selected.options.visible = false;
                 marker.options.visble = false;
                 return $scope.$apply();
               },
               onClicked: function() {
-                $scope.selected.options.visible = false;
-                $scope.selected = marker;
-                $scope.selected.options.visible = true;
+                $scope.event.selected.options.visible = false;
+                $scope.event.selected = marker;
+                $scope.event.selected.options.visible = true;
               }
             };
             newMarkers.push(marker);
@@ -130,7 +130,8 @@ angular.module('venueApp')
             bounds.extend(place.geometry.location);
           }
 
-          $scope.map.bounds = {
+
+          $scope.event.map.bounds = {
             northeast: {
               latitude: bounds.getNorthEast().lat(),
               longitude: bounds.getNorthEast().lng()
@@ -141,24 +142,10 @@ angular.module('venueApp')
             }
           }
 
-          $scope.map.markers = newMarkers;
+          $scope.event.map.markers = newMarkers;
         }
       }
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     EventInfo.getAll({}, (eventinfos) => {
@@ -188,19 +175,25 @@ angular.module('venueApp')
         $scope.eventInfo = {
           title: $scope.event.title,
           description: $scope.event.description,
-          times:{
+          times:[{
             start: $scope.event.startDate,
             end: $scope.event.endDate
-          },
+          }],
           files: $scope.files,
           location: {
-            address: "TODO",
-            description: "TODO",
+            address: $scope.event.map.markers[0].formatted_address,
+            description: $scope.event.map.markers[0].name,
             geo: {
               type: 'Point',
-              coordinates: [0,0]
-            }
-          }
+              coordinates: [
+                $scope.event.map.center.longitude,
+                $scope.event.map.center.latitude
+              ]
+            },
+            radius: Math.abs($scope.event.map.bounds.northeast.longitude-$scope.event.map.bounds.southwest.longitude)
+          },
+          imageURL: $scope.event.imageURL,
+
         };
         Upload.upload({
             url: '/api/eventinfos/',
@@ -210,9 +203,13 @@ angular.module('venueApp')
         }).success( (response) => {
           $scope.selectingEvent = false;
           $scope.eventInfo.imageURLs = response.imageURLs;
+          eventInfoId = response._id;
+          $scope.eventInfo = response;
+
         }).catch(err => {
             err = err.data;
             $scope.errors = {};
+
             // Update validity of form fields that match the mongoose errors
             angular.forEach(err.errors, (error, field) => {
               form[field].$setValidity('mongoose', false);
@@ -221,6 +218,7 @@ angular.module('venueApp')
           });
       }
     };
+
     $scope.openCalendar = function(e, prop) {
       e.preventDefault();
       e.stopPropagation();
@@ -271,7 +269,8 @@ angular.module('venueApp')
               $scope.success = true;
             })
             .catch(err => {
-              // TODO directly notify for errors b/c there are multiple sections
+              $scope.submitted = false;
+
               err = err.data;
               $scope.errors = {};
 
