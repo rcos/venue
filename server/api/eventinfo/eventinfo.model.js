@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var EventInfoSchema = new Schema({
   title: String,
   description: String,
-  imageURL: String,
+  imageURLs: [String],
   author: {type:Schema.Types.ObjectId, ref: 'User'},
   creationDate: Date,
   location: {

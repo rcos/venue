@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('EventFormCtrl', function($scope, Auth, EventInfo, User, SectionEvent){
+  .controller('EventFormCtrl', function($scope, Auth, EventInfo, User, SectionEvent, Upload){
     var eventInfoId = null;
     $scope.courseCreated = false;
     $scope.selectingEvent = true;
@@ -35,7 +35,7 @@ angular.module('venueApp')
 
     $scope.createEventInfo = (form)=>{
       $scope.submitted = true;
-      if (form.$valid){
+      if (form.$valid && $scope.files){
         $scope.eventInfo = {
           title: $scope.event.title,
           description: $scope.event.description,
@@ -43,6 +43,7 @@ angular.module('venueApp')
             start: $scope.event.startDate,
             end: $scope.event.endDate
           },
+          files: $scope.files,
           location: {
             address: "TODO",
             description: "TODO",
@@ -52,14 +53,17 @@ angular.module('venueApp')
             }
           }
         };
-        EventInfo.create($scope.eventInfo).$promise
-          .then((eventInfo)=>{
-            $scope.selectingEvent = false;
-          })
-          .catch(err => {
+        Upload.upload({
+            url: '/api/eventinfos/',
+            data: $scope.eventInfo,
+            objectKey: '.k',
+            arrayKey: '[i]'
+        }).success( (response) => {
+          $scope.selectingEvent = false;
+          $scope.eventInfo.imageURLs = response.imageURLs;
+        }).catch(err => {
             err = err.data;
             $scope.errors = {};
-
             // Update validity of form fields that match the mongoose errors
             angular.forEach(err.errors, (error, field) => {
               form[field].$setValidity('mongoose', false);

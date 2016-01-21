@@ -9,11 +9,13 @@ angular.module('venueApp')
       return directive;
 
       function link(scope, element, attrs) {
-        $http.get(attrs.httpSrc, {responseType: 'arraybuffer'}, )
-          .then((response) => {
-            var imageBlob = new Blob([response.data], { type: response.headers('Content-Type') });
-            var ImageUrl = (window.URL || window.webkitURL).createObjectURL(imageBlob);
-            attrs.$set('src', ImageUrl);
-          });
+        attrs.$observe('httpSrc', (value) => {
+          $http.get(attrs.httpSrc, {responseType: 'arraybuffer'}, )
+            .then((response) => {
+              var imageBlob = new Blob([response.data], { type: response.headers('Content-Type') });
+              var ImageUrl = (window.URL || window.webkitURL).createObjectURL(imageBlob);
+              attrs.$set('src', ImageUrl);
+            });
+        });
       }
   });
