@@ -298,7 +298,7 @@ function allEvents(){
         description: "Empac",
         geo: {
           type: 'Point',
-          coordinates: [42.7288898,-73.6842041] // [<longitude>, <latitude>]
+          coordinates: [-73.6842041, 42.7288898] // [<longitude>, <latitude>]
         }
       },
       times: [{
@@ -321,7 +321,7 @@ function allEvents(){
         description: "Empac",
         geo: {
           type: 'Point',
-          coordinates: [42.7288898,-73.6842041] // [<longitude>, <latitude>]
+          coordinates: [-73.6842041, 42.7288898] // [<longitude>, <latitude>]
         }
       },
       times: [{

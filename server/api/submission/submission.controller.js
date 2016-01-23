@@ -176,6 +176,18 @@ exports.show = function(req, res) {
     .catch(handleError(res));
 };
 
+function validateAttendance(submission, cb){
+  SectionEvent.findById(submission.eventId)
+    .populate('info')
+    .execAsync()
+    .then((event) => {
+      var [lon1,lat1] = submission.coordinates;
+      var [lon2,lat2] = event.info.location.geo.coordinates;
+      var [dlat, dlon] = [lat2 - lat1, lon2 - lon1];
+      cb(Math.sqrt(dlat * dlat + dlon * dlon) < event.info.location.radius);
+    });
+}
+
 // Creates a new Submission in the DB
 exports.create = function(req, res) {
   // TODO: add back after auth
@@ -183,25 +195,32 @@ exports.create = function(req, res) {
   //   {
   //     req.body.userId = req.user._id;
   //   }
-  saveSubmissionImage(req.files, req.body, (imagePaths)=>{
-    var submit = {
-      images : imagePaths,
-      submitter : req.body.userId,
-      authors : req.body.authors,
-      sectionEvent : req.body.eventId,
-      location : {
-        geo: {
-          coordinates : req.body.coordinates
-        }
-      },
-      time: Date.now(),
-      content: req.body.content
-    };
 
-    Submission.create(submit, (err, submission) => {
-      if (err) return handleError(res);
-      return res.json(submission);
-    })
+  // Verify Attendance
+  validateAttendance(req.body, (validAttendance, distance) => {
+    if (!validAttendance) return handleError(res)({
+        "error": "location"
+    });
+    saveSubmissionImage(req.files, req.body, (imagePaths)=>{
+      var submit = {
+        images : imagePaths,
+        submitter : req.body.userId,
+        authors : req.body.authors,
+        sectionEvent : req.body.eventId,
+        location : {
+          geo: {
+            coordinates : req.body.coordinates
+          }
+        },
+        time: Date.now(),
+        content: req.body.content
+      };
+
+      Submission.create(submit, (err, submission) => {
+        if (err) return handleError(res);
+        return res.json(submission);
+      })
+    });
   });
 };
 
