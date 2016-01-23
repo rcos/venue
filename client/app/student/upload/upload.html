@@ -11,6 +11,11 @@
     </div>
     <div class="col-sm-12">
       <form class="form" name="form" ng-submit="submitEvent(form)" novalidate ng-show="!success">
+        <div class='form-group has-error' ng-show="wrongLocation && submitted">
+          <p class="help-block">
+            You are not at the correct location/within the radius for this event.
+          </p>
+        </div>
 
         <div class="form-group" ng-class="{ 'has-success': form.event.$valid && submitted,
                                             'has-error': form.event.$invalid && submitted }">

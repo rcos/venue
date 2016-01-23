@@ -42,6 +42,11 @@ angular.module('venueApp')
 
           }).success(function (imageSubmitted) {
             $scope.success = true;
+          }).catch((err) => {
+            if (err.data.error == "location"){
+              $scope.wrongLocation = true;
+              $scope.progress = 0;
+            }
           });
       }
     };
