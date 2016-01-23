@@ -11,6 +11,7 @@
 
 var _ = require('lodash');
 var SectionEvent = require('./sectionevent.model');
+var Submission = require('../submission/submission.model');
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -48,15 +49,14 @@ function saveUpdates(updates) {
   };
 }
 
-function removeEntity(res) {
-  return function(entity) {
-    if (entity) {
-      return entity.removeAsync()
-        .then(function() {
-          res.status(204).end();
-        });
+// Find and delete all submissions with sectionEvent
+function fullRemove(res){
+  return (entity)=>{
+    return entity.fullRemove()
+      .then(()=> {
+        res.status(204).end();
+      });
     }
-  };
 }
 
 // Gets a list of SectionEvents
@@ -97,6 +97,6 @@ exports.update = function(req, res) {
 exports.destroy = function(req, res) {
   SectionEvent.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
-    .then(removeEntity(res))
+    .then(fullRemove(res))
     .catch(handleError(res));
 };

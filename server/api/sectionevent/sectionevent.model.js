@@ -2,6 +2,7 @@
 
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
+import Submission from '../submission/submission.model';
 
 var SectionEventSchema = new Schema({
   section: {type: Schema.Types.ObjectId, ref: 'Section'},
@@ -10,5 +11,18 @@ var SectionEventSchema = new Schema({
   additionalNotes: String,
   creationDate: Date
 });
+
+/**
+ * Methods
+ */
+SectionEventSchema.methods = {
+
+  fullRemove(){
+    return Submission.find({sectionEvent:this._id}).remove().execAsync()
+      .then(()=>{
+          return this.removeAsync();
+      });
+  }
+};
 
 module.exports = mongoose.model('SectionEvent', SectionEventSchema);
