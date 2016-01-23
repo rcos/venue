@@ -15,7 +15,7 @@ angular.module('venueApp')
     });
 
     $scope.deleteEvent = (event)=> {
-      if (confirm("This will also delete all sections submissions") == true) {
+      if (confirm("This will also delete all sections submissions")) {
         SectionEvent.delete({id:event._id}, (response)=>{
           var index = $scope.events.indexOf(event);
           $scope.events.splice(index, 1);
