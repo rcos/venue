@@ -7,14 +7,14 @@
         <div class="col-sm-9 main">
           <h1 class="page-header">Events</h1>
           <div class="instructor-events">
-      		  <div class = "event" ng-repeat="event in events">
+      		  <div class = "event-card" ng-repeat="event in events">
               <div class = "row">
-        		    <div class = "col-sm-5 event-title">
+        		    <div class = "col-sm-8 event-title">
         		      {{event.info.title}}
         		    </div>
-                <div class = "col-sm-4 col-sm-offset-3 event-date">
+                <div class = "col-sm-4 event-date">
                   <div ng-repeat="time in event.info.times">
-                    {{time.start}}
+                    Start: {{time.start}}
                   </div>
                 </div>
               </div>
