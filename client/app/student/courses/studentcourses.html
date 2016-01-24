@@ -7,9 +7,9 @@
     </div>
     <div class='col-sm-9'>
       <div class='course' ng-repeat='course in user.courses'>
-        {{course.name}} <br/>
+        <div class='title'>{{course.name}}</div>
+        <div class='identifier'>{{course.department}} {{course.courseNumber}}</div>
         {{course.description}} <br/>
-        {{course.department}} {{course.courseNumber}}
        </div>
     </div>
   </div>
