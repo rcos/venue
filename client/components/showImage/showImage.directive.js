@@ -10,12 +10,17 @@ angular.module('venueApp')
 
       function link(scope, element, attrs) {
         attrs.$observe('httpSrc', (value) => {
-          $http.get(attrs.httpSrc, {responseType: 'arraybuffer'}, )
-            .then((response) => {
-              var imageBlob = new Blob([response.data], { type: response.headers('Content-Type') });
-              var ImageUrl = (window.URL || window.webkitURL).createObjectURL(imageBlob);
-              attrs.$set('src', ImageUrl);
-            });
+          if (value[0] == "/"){
+            $http.get(attrs.httpSrc, {responseType: 'arraybuffer'}, )
+              .then((response) => {
+                console.log(response.data);
+                var imageBlob = new Blob([response.data], { type: response.headers('Content-Type') });
+                var ImageUrl = (window.URL || window.webkitURL).createObjectURL(imageBlob);
+                attrs.$set('src', ImageUrl);
+              });
+          }else{
+            attrs.$set('src', value);
+          }
         });
       }
   });

@@ -290,7 +290,7 @@ function allEvents(){
       concerts:{
       title: "Art_X Concerts: Examine Intersections of Science, Art",
       description: "Faculty of the School of Humanities, Arts and Social Sciences (HASS) collaborate with the Center for Biotechnology and Interdisciplinary Studies (CBIS) and local Troy artists on two Art_X concerts to discover the art in science and the science in art.  The concerts, which will be held on Tuesday October 6 and October 20 at 4:30 pm in the CBIS Auditorium, are free and open to the RPI community. Following each concert, there will be a reception hosted by CBIS in the Gallery of the CBIS Auditorium.",
-      imageURL: "http://news.rpi.edu/sites/default/files/cbis-news_0.jpeg", // url to image
+      imageURLs: ["http://news.rpi.edu/sites/default/files/cbis-news_0.jpeg"], // url to image
       author: allUsers().travis._id, //Travis
       creationDate: new Date("January 1, 2016 03:24:00"),
       location: {
@@ -313,7 +313,7 @@ function allEvents(){
     dancing:{
       title: "Dancing Through the Years",
       description: "Judson Laipply dances the last 50 years.",
-      imageURL: "http://www.lhsdoi.com/wp-content/uploads/2014/04/photo-1-950x950.jpg", // url to image
+      imageURLs: ["http://www.lhsdoi.com/wp-content/uploads/2014/04/photo-1-950x950.jpg"], // url to image
       author: allUsers().bob._id, //Bob
       creationDate: new Date("January 4, 2016 05:49:06"),
       location: {
@@ -335,7 +335,7 @@ function allEvents(){
       _id : mongoose.Types.ObjectId("444444444444444444444440"),
       title : "National Medal of Science Reception",
       description : "President Shirley Ann Jackson named recipient of National Medal of Science, the nation‚Äôs highest honor in science and technology. The award recognizes individuals deserving of special recognition for their outstanding cumulative contributions to knowledge in the physical, biological, mathematical, engineering, or behavioral or social sciences, in service to the nation.",
-      imageURL : "https://i.ytimg.com/vi/kKDpgJLh93o/maxresdefault.jpg",
+      imageURLs : ["https://i.ytimg.com/vi/kKDpgJLh93o/maxresdefault.jpg"],
       author : allUsers().venue._id,
       times : [
         {
@@ -360,7 +360,7 @@ function allEvents(){
       _id : mongoose.Types.ObjectId("444444444444444444444441"),
       title : "National Medal of Science Black-tie Gala",
       description : "A gala to celebrate the amazing individuals who have won the highest science, technology, engineering, and mathematics award in the United States. Their achievements shape cultural revolutions, drive world economies, and change the face of life as we know it. Their stories will inspire the next generation.",
-      imageURL : "http://www.officiallycrowned.org/wp-content/uploads/2015/10/Special-Occasions-Event-Planning-Revelry-Event-Designers-1.jpg",
+      imageURLs : ["http://www.officiallycrowned.org/wp-content/uploads/2015/10/Special-Occasions-Event-Planning-Revelry-Event-Designers-1.jpg"],
       creationDate : "2016-01-21T11:35:26.867Z",
       author : allUsers().venue._id,
       times : [

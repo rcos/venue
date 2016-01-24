@@ -9,14 +9,16 @@
           <h2> Events </h2>
           <div class="events">
             <div class = "event" ng-repeat="event in user.events">
-              <div class = "event-title">
+              <img http-src='{{event.info.imageURLs[0]}}'/>
+              <div class="title">
                 {{event.info.title}}
               </div>
-              <div>
+              <div class='date'>
                 {{event.info.date}}
               </div>
-              {{event.info.description}}
-              <br/>
+              <div class='description'>
+                {{event.info.description | limitTo : 150}} {{ event.info.description.length > 150 ? "..." : ""}}
+              </div>
             </div>
           </div>
           <h2> Courses </h2>
@@ -26,7 +28,7 @@
                 {{section.course.name}}
               </div>
               <div class="identifier">
-              {{section.course.department}} {{section.course.courseNumber}}
+                {{section.course.department}} {{section.course.courseNumber}}
               </div>
             </div>
           </div>
