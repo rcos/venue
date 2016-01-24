@@ -5,12 +5,19 @@
     <div class='col-sm-3'>
       <sidebar/>
     </div>
-    <div class='col-sm-9'>
-      <div class='course' ng-repeat='course in user.courses'>
-        {{course.name}} <br/>
-        {{course.description}} <br/>
-        {{course.department}} {{course.courseNumber}}
-       </div>
+    <div class='col-sm-9 instructor-courses'>
+      <h1 class="page-header"> Courses </h1>
+      <div class='course-card' ng-repeat='course in user.courses'>
+          <div class="course-title">
+            {{course.name}}
+          </div>
+          <div class="course-dept">
+            {{course.department}} {{course.courseNumber}}
+          </div>
+          <div class="course-description">
+            {{course.description}}
+          </div>
+      </div>
     </div>
   </div>
 </div>
