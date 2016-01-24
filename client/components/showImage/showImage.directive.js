@@ -13,7 +13,6 @@ angular.module('venueApp')
           if (value[0] == "/"){
             $http.get(attrs.httpSrc, {responseType: 'arraybuffer'}, )
               .then((response) => {
-                console.log(response.data);
                 var imageBlob = new Blob([response.data], { type: response.headers('Content-Type') });
                 var ImageUrl = (window.URL || window.webkitURL).createObjectURL(imageBlob);
                 attrs.$set('src', ImageUrl);
