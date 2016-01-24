@@ -3,6 +3,7 @@
 angular.module('venueApp')
   .controller('InstructorDashboardCtrl', ($scope, $routeParams, User, Auth, Util) => {
 
+    console.log(Util);
     User.get({withSections:true, withEvents: true, withSectionsCourse:true}, (user) => {
       $scope.user = user;
       $scope.sections = user.sections;
