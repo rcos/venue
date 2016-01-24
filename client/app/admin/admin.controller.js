@@ -1,20 +1,12 @@
 'use strict';
 
-(function() {
+angular.module('venueApp')
+  .controller('AdminController', function ($scope, User) {
+    $scope.users = User.query();
 
-class AdminController {
-  constructor(User) {
-    // Use the User $resource to fetch all users
-    this.users = User.query();
-  }
-
-  delete(user) {
-    user.$remove();
-    this.users.splice(this.users.indexOf(user), 1);
-  }
-}
-
-angular.module('venueApp.admin')
-  .controller('AdminController', AdminController);
-
-})();
+    $scope.delete = function(user) {
+      user.$remove();
+      $scope.users.splice(this.users.indexOf(user), 1);
+    }
+    
+  });

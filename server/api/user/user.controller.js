@@ -124,9 +124,15 @@ export function show(req, res, next) {
  * restriction: 'admin'
  */
 export function destroy(req, res) {
-  User.findByIdAndRemoveAsync(req.params.id)
-    .then(function() {
-      res.status(204).end();
+  User.findById(req.params.id)
+    .then((user)=>{
+      user.lastName = "";
+      user.firstName = "[deleted user]";
+      user.password = "";
+      user.saveAsync()
+        .spread(function(usr) {
+          res.status(200).end();
+        })
     })
     .catch(handleError(res));
 }

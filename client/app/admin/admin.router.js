@@ -6,7 +6,6 @@ angular.module('venueApp.admin')
       .when('/admin', {
         templateUrl: 'app/admin/admin.html',
         controller: 'AdminController',
-        controllerAs: 'admin',
         authenticate: 'admin'
       });
   });
