@@ -1,11 +1,35 @@
-.well {
-  margin-bottom: 0px;
-}
+.instructor-verify-student {
 
-.section-number > *, .student-name > * {
-  display:inline-block;
-}
+  .section {
+    border-radius: 5px;
+    border: 1px solid #DCDCDC;
+    padding: 5px;
+    margin-bottom: 10px;
 
-.student-name > .btn {
-  float: right;
+    .section-number {
+      font-size: 18px;
+    }
+
+    .section-number > *, .student-name > * {
+      display:inline-block;
+    }
+
+    .verify-list {
+      list-style-type: none;
+      padding: 0 20px;
+
+      .student-name {
+        border-radius: 5px;
+        border: 1px solid #DCDCDC;
+        padding: 5px;
+        margin-right: 5px;
+      }
+
+      .student-name > .btn {
+        float: right;
+        margin-right: 10px;
+      }
+    }
+
+  }
 }
