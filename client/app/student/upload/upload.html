@@ -1,27 +1,19 @@
 <navbar></navbar>
 
-<div class="container">
-  <div class='row'>
-
-  </div>
+<div class="container upload-page">
   <div class="row">
-    <!-- SIGN UP FORM -->
-    <div class="col-sm-12">
+    <div ng-hide="success" class="col-sm-12">
       <h1>Event Attendance</h1>
     </div>
+  </div>
+  <div class='row'>
+    <div ng-hide="success" class='col-xs-12 additionalNotes'>
+      {{selectedEvent.additionalNotes}}
+    </div>
+  </div>
+  <div class='row'>
     <div class="col-sm-12">
       <form class="form" name="form" ng-submit="submitEvent(form)" novalidate ng-show="!success">
-
-        <div class="form-group" ng-class="{ 'has-success': form.event.$valid && submitted,
-                                            'has-error': form.event.$invalid && submitted }">
-          <label for="sel1">Select Event:</label>
-          <select class="form-control" name="selectEvent" ng-model="eventSelected" >
-            <option ng-repeat = "event in events" value = "{{event._id}}"> {{event.info.title}}</option>
-          </select>
-          <p class="help-block" ng-show="!eventSelected && submitted">
-            Event selection is required
-          </p>
-        </div>
 
         <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
                                             'has-error': form.name.$invalid && submitted }">
