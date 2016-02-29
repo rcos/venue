@@ -2,15 +2,16 @@
 
 <div class='container'>
   <div class='row'>
-    <div class='col-sm-3'>
+    <div class='col-sm-3 sidebar'>
       <sidebar/>
     </div>
     <div class='col-sm-9'>
-      <div class='event-page events'>
+      <div class='event-page student-events'>
         <div class='event' ng-repeat='event in user.events'>
           <div class='title'>{{event.info.title}}</div>
-          <div class='notes'>{{event.additionalNotes}}</div>
-          <div class='times'>{{event.info.times}}</div>
+          <div class='notes'>Note: {{event.additionalNotes}}</div>
+          <!-- FIXME add time here -->
+          <!-- <div class='times'>{{event.info.times}}</div> -->
           <div class='description'>{{event.info.description}}</div>
         </div>
       </div>
