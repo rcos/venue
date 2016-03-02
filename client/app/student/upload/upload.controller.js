@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('UploadCtrl', function ($scope, Auth, User, Upload, geolocation) {
+  .controller('UploadCtrl', function ($scope,$routeParams,  $location, SectionEvent, Auth, User, Upload, geolocation) {
 
     $scope.user = {};
     $scope.events = [];
@@ -21,6 +21,10 @@ angular.module('venueApp')
         $scope.coords = [data.coords.longitude, data.coords.latitude]; // [<longitude>, <latitude>]
       });
 
+    $scope.goToUploadForEvent = (event) =>{
+      $location.path("/student/upload/" + event._id);
+    };
+
     $scope.submitEvent = (form)=>{
       $scope.submitted = true;
       if (form.$valid && $scope.files && $scope.files.length && $scope.coords) {
@@ -28,7 +32,7 @@ angular.module('venueApp')
               url: '/api/submissions/',
               data: {
                 userId: $scope.user._id,
-                eventId: $scope.eventSelected,
+                eventId: $routeParams.eventid,
                 files: $scope.files,
                 coordinates: $scope.coords,
                 content: $scope.content,
@@ -45,4 +49,11 @@ angular.module('venueApp')
           });
       }
     };
+
+    SectionEvent.get({
+      id: $routeParams.eventid
+    }, sectionEvent => {
+      $scope.selectedEvent = sectionEvent;
+      console.log(sectionEvent);
+    });
   });

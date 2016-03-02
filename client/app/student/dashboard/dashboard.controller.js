@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('StudentDashboardCtrl', ($scope, $routeParams, User, Auth) => {
+  .controller('StudentDashboardCtrl', ($scope, $location, $routeParams, User, Auth) => {
 
     $scope.user = {};
     $scope.courses = [];
@@ -14,5 +14,9 @@ angular.module('venueApp')
         $scope.user = usr;
       });
     });
+
+    $scope.goToUploadForEvent = (event) => {
+      $location.path("/student/upload/" + event._id);
+    };
 
   });
