@@ -3,7 +3,7 @@
 angular.module('venueApp')
   .controller('VerifyStudentsCtrl', function ($scope, Auth, User, Section) {
 
-    User.get({withSections:true, withSectionsPendingStudents:true}, (user)=>{
+    User.get({withSections:true, withSectionsCourse:true, withSectionsPendingStudents:true}, (user)=>{
       $scope.user = user;
       $scope.sections = user.sections;
     });
