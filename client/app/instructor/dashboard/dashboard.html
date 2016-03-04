@@ -9,16 +9,14 @@
           <div class="row">
             <div class="col-sm-7 courses">
               <h3> Courses </h3>
-                <div class = "course" ng-repeat="course in courses">
-                  <div class = "course-card">
-                    <div class="course-title"> {{course.name}} </div>
-                    <div ng-repeat="section in course.sections">
-                      <div class="section-card">
-                        Sections : <span class="" ng-repeat="num in section.sectionNumbers"> {{num}} </span>
-                      </div>
+                <div class = "course-card" ng-repeat="course in courses" ng-click='goToCourse(course)' >
+                  <div class="course-title"> {{course.name}} </div>
+                  <div ng-repeat="section in course.sections">
+                    <div class="section-card">
+                      Sections : <span class="" ng-repeat="num in section.sectionNumbers"> {{num}} </span>
                     </div>
-
                   </div>
+
                 </div>
             </div>
             <div class="col-sm-5">
