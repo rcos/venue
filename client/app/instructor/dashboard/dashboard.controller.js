@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('InstructorDashboardCtrl', ($scope, $routeParams, User, Auth, Util) => {
+  .controller('InstructorDashboardCtrl', ($scope, $routeParams, $location, User, Auth, Util) => {
 
     User.get({withSections:true, withEvents: true, withSectionsCourse:true}, (user) => {
       $scope.user = user;
@@ -25,5 +25,9 @@ angular.module('venueApp')
       })
       return courses;
     }
+
+    $scope.goToCourse = (course) => {
+      $location.path("/courses/" + course._id);
+    };
 
   });
