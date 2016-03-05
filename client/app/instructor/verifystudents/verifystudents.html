@@ -7,7 +7,10 @@
         <div class="col-sm-9 instructor-verify-student">
           <h1 class="page-header">Verify Students</h1>
           <div class="section" ng-repeat="section in sections">
-            <div class = "section-number">
+            <div class="section-class">
+              Class: {{section.course.name}}
+            </div>
+            <div class="section-number">
               Sections: <div class = "section-number" ng-repeat="num in section.sectionNumbers"> {{num}} 	&nbsp;</div>
             </div>
             <div ng-if="section.pendingStudents.length == 0">
