@@ -7,7 +7,7 @@
     </div>
     <div class='col-sm-9 instructor-courses'>
       <h1 class="page-header"> Courses </h1>
-      <div class='course-card' ng-repeat='course in user.courses'>
+      <div class='course-card' ng-repeat='course in user.courses' ng-click='goToCourse(course)'>
           <div class="course-title">
             {{course.name}}
           </div>
