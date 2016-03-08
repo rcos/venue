@@ -68,7 +68,13 @@ exports.index = function(req, res) {
 
 // Gets a single SectionEvent from the DB
 exports.show = function(req, res) {
-  SectionEvent.findByIdAsync(req.params.id)
+  var query = SectionEvent.findById(req.params.id)
+
+  if (req.query.withEventInfo){
+    query.populate('info');
+  }
+
+  query
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));

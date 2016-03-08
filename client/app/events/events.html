@@ -1,0 +1,24 @@
+<navbar></navbar>
+
+<div class='eventPage'>
+  <div class='container'>
+    <div class='row'>
+      <div class='col-xs-12'>
+        <div class='title'>
+          {{event.info.title}}
+        </div>
+        <div class='description'>
+          {{event.info.description}}
+        </div>
+        <div class='additionalNotes'>
+          Instructor Note: {{event.additionalNotes}}
+        </div>
+        <div class='upload-button-container'>
+          <button class='upload-button btn btn-md' ng-click='goToEventUpload(event._id)'>Upload to Event</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer></footer>
