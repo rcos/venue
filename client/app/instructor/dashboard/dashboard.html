@@ -21,7 +21,7 @@
             </div>
             <div class="col-sm-5">
               <h3> Events </h3>
-              <div class = "event" ng-repeat="event in events">
+              <div class = "event" ng-repeat="event in events" ng-click='goToEvent(event)'>
                 <div class="event-card">
                   <div class="event-title">
                     {{event.info.title}}

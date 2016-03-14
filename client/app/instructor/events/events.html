@@ -7,7 +7,7 @@
         <div class="col-sm-9 main">
           <h1 class="page-header">Events</h1>
           <div class="instructor-events">
-      		  <div class = "event-card" ng-repeat="event in events">
+            <div class = "event-card" ng-repeat="event in events" ng-click='goToEvent(event)'>
               <div class = "row">
         		    <div class = "col-sm-8 event-title">
         		      {{event.info.title}}

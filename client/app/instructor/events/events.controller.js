@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('InstructorEventsCtrl', ($scope, $routeParams, User, SectionEvent, Util) => {
+  .controller('InstructorEventsCtrl', ($scope, $routeParams, $location, User, SectionEvent, Util) => {
 
     $scope.user = {};
     $scope.events = [];
@@ -19,5 +19,8 @@ angular.module('venueApp')
         })
       }
     }
+    $scope.goToEvent = (event) => {
+      $location.path("/events/" + event._id);
+    };
 
   });
