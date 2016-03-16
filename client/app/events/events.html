@@ -7,16 +7,44 @@
         <div class='title'>
           {{event.info.title}}
         </div>
+      </div>
+      <div class='col-xs-7'>
         <div class='description'>
           {{event.info.description}}
+        </div>
+        <div class='section'>
+          For {{event.section.course.name}} {{(event.section.sectionNumbers.length===1)?"section":"sections"}} <span ng-repeat="number in event.section.sectionNumbers">{{number}}<span ng-hide="$last">, </span></span>
         </div>
         <div class='additionalNotes'>
           Instructor Note: {{event.additionalNotes}}
         </div>
+        <div class='info'>
+          Event Information
+        </div>
+        <div class='description'>
+          <div class="subsection">{{(event.info.times.length===1)?"Time":"Times"}}:</div>
+          <div ng-repeat="time in event.info.times">{{time.start | date : "short"}} - {{time.end | date : "short"}}</div>
+        </div>
+        <div class='description'>
+          <div class="subsection">Location:</div>
+          <div>{{event.info.location.description}}</div>
+          <div>{{event.info.location.address}}</div>
+        </div>
+        <div class="additionalNotes">
+          {{(event.info.author._id === event.author._id)?"Author":"Authors"}}: {{event.author.firstName}} {{event.author.lastName}}<span ng-hide="event.info.author._id === event.author._id"> and {{event.info.author.firstName}} {{event.info.author.lastName}}</span>
+        </div>
+
+        <br>
+      </div>
+      <div class='col-xs-5'>
+        <img class="img-responsive" http-src='{{event.info.imageURLs[0]}}'/>
+      </div>
+      <div class='col-xs-12'>
         <div class='upload-button-container'>
           <button class='upload-button btn btn-md' ng-click='goToEventUpload(event._id)'>Upload to Event</button>
         </div>
       </div>
+
     </div>
   </div>
 </div>

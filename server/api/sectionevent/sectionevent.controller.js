@@ -12,6 +12,9 @@
 var _ = require('lodash');
 var SectionEvent = require('./sectionevent.model');
 var Submission = require('../submission/submission.model');
+var User = require('../user/user.model');
+var Course = require('../course/course.model');
+import SectionCtrl from '../section/section.controller';
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -71,11 +74,37 @@ exports.show = function(req, res) {
   var query = SectionEvent.findById(req.params.id)
 
   if (req.query.withEventInfo){
-    query.populate('info');
+    query = query.populate('info');
+  }
+  if (req.query.withSection){
+    query = query.populate('section');
+  }
+  if (req.query.withAuthor){
+    query = query.populate('author');
   }
 
-  query
+  query.execAsync()
     .then(handleEntityNotFound(res))
+    .then((entity) =>{
+      if (req.query.withSectionCourse){
+        return Course.populate(entity, {
+            path: 'section.course'
+        });
+      }
+      else{
+        return entity;
+      }
+    })
+    .then((entity) =>{
+      if (req.query.withEventInfoAuthor){
+        return User.populate(entity, {
+            path: 'info.author'
+        });
+      }
+      else{
+        return entity;
+      }
+    })
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
