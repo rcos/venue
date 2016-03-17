@@ -17,7 +17,7 @@ angular.module('venueApp.auth')
           }
 
           event.preventDefault();
-          return Auth.isLoggedIn().then(is => {
+          return Auth.isLoggedIn(_.noop).then(is => {
             $location.path(is ? '/' : '/login');
           });
         });
@@ -31,7 +31,7 @@ angular.module('venueApp.auth')
           $location.path('/');
         });
       }
-    });    
+    });
   });
 
 })();

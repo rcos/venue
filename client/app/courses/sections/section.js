@@ -5,10 +5,12 @@ angular.module('venueApp')
     $routeProvider
       .when('/courses/:id/sections/create', {
         templateUrl: 'app/courses/sections/create/newsection.html',
-        controller: 'NewSectionCtrl'
+        controller: 'NewSectionCtrl',
+        authenticate: 'instructor'
       })
       .when('/courses/:id/sections/:sectionId/edit', {
         templateUrl: 'app/courses/sections/edit/sectionedit.html',
-        controller: 'SectionEditCtrl'
+        controller: 'SectionEditCtrl',
+        authenticate: 'instructor'
       });
   });
