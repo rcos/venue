@@ -7,7 +7,7 @@ var auth = require('../../auth/auth.service');
 var router = express.Router();
 
 router.get('/', (req,res,next)=>{
-    if (req.query.onlyUser === "me" || req.query.onlyCurrentUser){
+    if (req.query.onlyUser.toLowerCase() === "me" || req.query.onlyCurrentUser){
       auth.isAuthenticated()(req, res, ()=>{
         controller.mySections(req,res,next);
       })

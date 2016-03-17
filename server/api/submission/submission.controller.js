@@ -96,7 +96,7 @@ function saveSubmissionImage(files, fields, cb){
 
 function withDefault(queryString, defaultValue){
   if (queryString === undefined) return defaultValue;
-  else return queryString=="true";
+  else return queryString.toLowerCase()==="true";
 }
 
 // Gets a list of Submissions
@@ -132,7 +132,7 @@ exports.index = function(req, res) {
   }
 
   if (req.query.onlyInstructor){
-    var instructorId = req.query.onlyInstructor == "me" ? req.user._id : req.query.onlyInstructor;
+    var instructorId = req.query.onlyInstructor.toLowerCase() == "me" ? req.user._id : req.query.onlyInstructor;
     Section.findAsync({instructors: instructorId})
       .then((instructorSections) => {
         var instructorSectionIds = instructorSections.map((sec) => sec._id);
