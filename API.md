@@ -678,5 +678,12 @@ Example Response:
 ```
 
 ## Section Event API
+`GET /api/sectionevents` **Authenticated** - Gets all the section events.  If `onlyAuthor=me` or `onlyAuthor=:userId` are specified, it will return only the submissions pertaining to the particular author specified by me or :userId.  If `onlySection=:sectionId` is specified or `onlyEvent=:eventInfoId` are specified, only the submission related to the appropriate section or event info are returned. If `onlyUserSections=me` or `onlyUserSections=:userId` are specified, then only the section events for the sections where the particular user specified by me or :userId are a student or instructor are returned.
+
+
+Unless specified using `withEventInfo=false` and `withAuthor=false`, event info and the author will be automatically populated.  If `withSection=true` is specified, the section will be populated, and unless `withCourse=false` the course will be populated as well. If `onlyNumber=true` is specified, only the number of submissions fitting the criteria is returned.
+
+Request returns array of submission objects unless `onlyNumber=true` is specified.
+
 #### Coming Soon
 ** TODO **

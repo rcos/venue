@@ -126,7 +126,7 @@ exports.index = function(req, res) {
     }
   }else if (req.query.onlyUserSections){
     var user = req.query.onlyUserSections.toLowerCase()=== "me" ? req.user._id : req.query.onlyUserSections;
-    Section.findAsync({students: user})
+    Section.findAsync({ $or: [{ instructors: user}, { students: user} ]})
       .then((sections) => {
         var sectionIds = sections.map((sec) => sec._id);
         if (onlyNumber){
