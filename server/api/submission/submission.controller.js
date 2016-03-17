@@ -101,8 +101,9 @@ function withDefault(queryString, defaultValue){
 
 // Gets a list of Submissions
 exports.index = function(req, res) {
-  var withStudents = withDefault(req.query.withStudents, true);
-  var withSectionEvent = withDefault(req.query.withSectionEvent, true);
+  var onlyNumber = withDefault(req.query.onlyNumber, false);
+  var withStudents = withDefault(req.query.withStudents, !onlyNumber && true);
+  var withSectionEvent = withDefault(req.query.withSectionEvent, !onlyNumber && true);
   var withEventInfo = withDefault(req.query.withEventInfo, withSectionEvent);
 
   function respond(query){
@@ -139,24 +140,67 @@ exports.index = function(req, res) {
       })
       .then((sectionEvents) => {
         var sectionEventIds = sectionEvents.map((evnt) => evnt._id);
-        respond(Submission.find({sectionEvent: {$in: sectionEventIds}}))
+        if (onlyNumber){
+            Submission.count({sectionEvent: {$in: sectionEventIds}})
+            .execAsync()
+            .then(responseWithResult(res))
+            .catch(handleError(res));
+        }
+        else{
+          respond(Submission.find({sectionEvent: {$in: sectionEventIds}}))
+        }
       });
 
   }else if (req.query.onlySection){
     SectionEvent.findAsync({section: req.query.onlySection})
       .then((sectionEvents) => {
         var sectionEventIds = sectionEvents.map((evnt) => evnt._id);
-        respond(Submission.find({sectionEvent: {$in: sectionEventIds}}));
+        if (onlyNumber){
+            Submission.count({sectionEvent: {$in: sectionEventIds}})
+            .execAsync()
+            .then(responseWithResult(res))
+            .catch(handleError(res));
+        }
+        else{
+          respond(Submission.find({sectionEvent: {$in: sectionEventIds}}))
+        }
       });
-
   }else if (req.query.onlyStudent){
     var studentId = req.query.onlyStudent == 'me' ? req.user._id : req.query.onlyStudent;
     var search = { $or: [{ submitter: studentId}, { authors: {$in: [studentId]} } ]};
     if (req.query.onlySectionEvent) search.sectionEvent = req.query.onlySectionEvent;
-    respond(Submission.find(search));
-
+    if (onlyNumber){
+        Submission.count(search)
+        .execAsync()
+        .then(responseWithResult(res))
+        .catch(handleError(res));
+    }
+    else{
+      respond(Submission.find(search));
+    }
   }else if (req.query.onlySectionEvent){
-    respond(Submission.find({sectionEvent: req.query.onlySectionEvent}));
+    if (onlyNumber){
+        Submission.count({sectionEvent: req.query.onlySectionEvent})
+        .execAsync()
+        .then(responseWithResult(res))
+        .then((entity)=>{
+          console.log(entity);
+          return entity;
+        })
+        .catch(handleError(res));
+    }
+    else{
+      respond(Submission.find({sectionEvent: req.query.onlySectionEvent}));
+    }
+  }else if (req.query.onlyNumber){
+    Submission.count()
+    .execAsync()
+        .then((entity)=>{
+          console.log(entity);
+          return entity;
+        })
+    .then(responseWithResult(res))
+    .catch(handleError(res));
 
   }else{
     respond(Submission.find());

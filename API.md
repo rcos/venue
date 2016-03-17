@@ -636,11 +636,12 @@ Example Response:
 ## Submission API
 
 
-`GET /api/submissions` **Authenticated** - Gets all the submissions.  If `onlyInstructor=me` or `onlyInstructor=:userId` are specified, it will return only the submissions pertaining to the particular instructor specified by me or :userId. Likewise is `onlyStudent=me` or `onlyStudent=:userId` for students.  If `onlySection=:sectionId` is specified or `onlySectionEvent=:sectionEventId` is specified, only the submission related to the apprioiate section or section event are returned.  
+`GET /api/submissions` **Authenticated** - Gets all the submissions.  If `onlyInstructor=me` or `onlyInstructor=:userId` are specified, it will return only the submissions pertaining to the particular instructor specified by me or :userId. Likewise is `onlyStudent=me` or `onlyStudent=:userId` for students.  If `onlySection=:sectionId` is specified or `onlySectionEvent=:sectionEventId` is specified, only the submission related to the appropriate section or section event are returned.
 
-Unless specified using `withStudents=false` and `withSectionEvent=false`, students and section events will be automatically populated.  If section events are populates, event info will also be, unless specified to not be returned wuth `withEventInfo=false`.
 
-Request returns array of submission objects.
+Unless specified using `withStudents=false` and `withSectionEvent=false`, students and section events will be automatically populated.  If section events are populated, event info will also be, unless specified to not be returned with `withEventInfo=false`. If `onlyNumber=true` is specified, only the number of submissions fitting the criteria is returned.
+
+Request returns array of submission objects unless `onlyNumber=true` is specified.
 
 
 `POST /api/submissions` **Authenticated** - Creates a submission for a given section event.  The file(s) are sent along with 'data' in a HTML form using the multipart/form-data encoding.
