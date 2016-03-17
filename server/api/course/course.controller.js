@@ -31,7 +31,7 @@ function responseWithResult(res, statusCode) {
 function handleEntityNotFound(res) {
   return function(entity) {
     if (!entity) {
-      res.status(404).end();
+      res.status(404).json({});
       return null;
     }
     return entity;
@@ -73,6 +73,9 @@ exports.show = function(req, res) {
     .then(handleEntityNotFound(res))
     .then((course) => {
       // Return the query with the sections if requested
+      if (!course){
+        return null;
+      }
       if (req.query.withSections){
         course.getSections({
           withInstructors: req.query.withSectionInstructors,
