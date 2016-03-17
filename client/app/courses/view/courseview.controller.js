@@ -39,6 +39,8 @@ angular.module('venueApp')
         studentid: Auth.getCurrentUser()._id
       }, course => {
         $scope.course = course;
+      }, err =>{
+        $location.path('/courses')
       });
     }
 
