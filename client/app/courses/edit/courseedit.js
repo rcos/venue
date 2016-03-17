@@ -5,6 +5,7 @@ angular.module('venueApp')
     $routeProvider
       .when('/courses/:id/edit', {
         templateUrl: 'app/courses/edit/courseedit.html',
-        controller: 'CourseEditCtrl'
+        controller: 'CourseEditCtrl',
+        authenticate: 'instructor'
       });
   });

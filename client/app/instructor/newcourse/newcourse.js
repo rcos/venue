@@ -5,6 +5,7 @@ angular.module('venueApp')
     $routeProvider
       .when('/instructor/newcourse', {
         templateUrl: 'app/instructor/newcourse/newcourse.html',
-        controller: 'NewCourseCtrl'
+        controller: 'NewCourseCtrl',
+        authenticate: 'instructor'
       });
   });

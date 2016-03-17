@@ -151,8 +151,19 @@ function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
 
       return Auth.getCurrentUser(null)
         .then(user => {
-          var has = (user.hasOwnProperty('role')) ?
-            hasRole(user.role, role) : false;
+          var has = false;
+          if (!user.hasOwnProperty('role')){
+            has = false;
+          }
+          else if (role === 'instructor'){
+            has = user.isInstructor;
+          }
+          else if  (role === 'student'){
+            has = !user.isInstructor;
+          }
+          else{
+            has = hasRole(user.role, role);
+          }
           safeCb(callback)(has);
           return has;
         });

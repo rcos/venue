@@ -5,6 +5,7 @@ angular.module('venueApp')
     $routeProvider
       .when('/instructor/studentsubmissions', {
         templateUrl: 'app/instructor/studentsubmissions/studentsubmissions.html',
-        controller: 'StudentSubmissionsCtrl'
+        controller: 'StudentSubmissionsCtrl',
+        authenticate: 'instructor'
       });
   });
