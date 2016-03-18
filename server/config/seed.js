@@ -471,12 +471,12 @@ function allSectionEvents(){
 function allSubmissions(){
   return {
     submission1:{
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet interdum nisi placerat iaculis. Praesent in euismod nunc. Ut dapibus lacinia velit sed congue. Proin lacus augue, tempus vel rhoncus eu, dignissim id enim. Integer sit amet tempor felis. Aenean eros sem, euismod sit amet malesuada nec, eleifend ac ex. Sed rutrum nisi eros, quis imperdiet sem commodo ac. Fusce dictum massa dapibus nibh tincidunt maximus. Praesent gravida ante est, eu vehicula enim blandit non. Cras leo ligula, volutpat vitae tortor sed, malesuada tempor sapien. Donec malesuada lorem eu lacus auctor, ac placerat leo gravida. Aliquam bibendum accumsan lectus, ac consectetur arcu egestas eget. Cras quis arcu non metus lobortis eleifend. Phasellus sodales tortor id odio interdum, sit amet pharetra erat ullamcorper.",
-      images: ["/api/submissions/image?imgPath=./data/eventImages/000000000000000000000004/000000000000000000000120/submission1.jpg"], // path to image on static image server?
+      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      images: ["/api/submissions/image?imgPath=./data/eventImages/000000000000000000000004/000000000000000000001000/submission1.jpg"], // path to image on static image server?
       time: Date.now(),
-      submitter: mongoose.Types.ObjectId('000000000000000000000004'),
-      authors: [mongoose.Types.ObjectId('000000000000000000000004'), mongoose.Types.ObjectId('000000000000000000000003'), mongoose.Types.ObjectId('000000000000000000000005')],
-      sectionEvent: mongoose.Types.ObjectId('000000000000000000000120'),
+      submitter: allUsers().foo._id,
+      authors: [allUsers().foo._id, allUsers().kelly._id, allUsers().jane._id],
+      sectionEvent: allSectionEvents().netArt12Concerts._id,
       location: {
         address: "110 8th St, Troy, NY 12180",
         description: "Rensselaer Polytechnic Institute",
@@ -487,11 +487,11 @@ function allSubmissions(){
     },
     submission2:{
       content: "Aenean venenatis sodales sollicitudin. Ut quis auctor tellus. Suspendisse eu dictum dolor, sed eleifend nisi. Sed sit amet odio eget felis scelerisque cursus eu id erat. Suspendisse volutpat magna libero, mattis semper justo aliquet sed. Suspendisse nisi neque, suscipit sit amet vehicula ut, luctus vitae diam. Vivamus congue orci sem, at mattis tortor sagittis id. Nullam malesuada diam nec mollis dictum. Suspendisse non turpis eu nunc auctor interdum. Nullam sollicitudin orci sapien, vitae bibendum nisi iaculis vitae. Nunc egestas porta ante non ullamcorper. Morbi odio ex, mattis a posuere at, tincidunt at turpis. Nullam quis maximus ipsum, a dapibus orci. Etiam vehicula ante non tincidunt fermentum. Nunc tristique sed ligula ac molestie.",
-      images: ["/api/submissions/image?imgPath=./data/eventImages/000000000000000000000004/000000000000000000000120/submission2.jpg"], // path to image on static image server?
+      images: ["/api/submissions/image?imgPath=./data/eventImages/000000000000000000000004/000000000000000000001000/submission2.jpg"], // path to image on static image server?
       time: Date.now(),
-      submitter: mongoose.Types.ObjectId('000000000000000000000005'),
-      authors: [mongoose.Types.ObjectId('000000000000000000000004'), mongoose.Types.ObjectId('000000000000000000000003'), mongoose.Types.ObjectId('000000000000000000000005')],
-      sectionEvent: mongoose.Types.ObjectId('000000000000000000000120'),
+      submitter: allUsers().kelly._id,
+      authors: [allUsers().foo._id, allUsers().jane._id, allUsers().kelly._id],
+      sectionEvent: allSectionEvents().netArt12Concerts._id,
       location: {
         address: "1600 Pennsylvania Ave NW, Washington, DC 20500",
         description: "White House",
