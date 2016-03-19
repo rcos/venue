@@ -9,6 +9,7 @@ class LoginController {
 
   constructor(Auth, $location) {
     this.Auth = Auth;
+    this.getCurrentUser = Auth.getCurrentUser;
     this.$location = $location;
   }
 
@@ -21,8 +22,16 @@ class LoginController {
         password: this.user.password
       })
       .then(() => {
-        // Logged in, redirect to home
-        this.$location.path('/');
+        this.getCurrentUser((user) => {
+          // Logged in, redirect to Dashboard
+          if(!user.isInstructor){
+            this.$location.path('/student/dashboard');
+          }
+          else{
+            this.$location.path('/instructor/dashboard');
+          }
+        });
+
       })
       .catch(err => {
         this.errors.other = err.message;
@@ -37,8 +46,15 @@ class LoginController {
       email: email,
       password: pass
     }).then(() => {
-      // Logged in, redirect to home
-      this.$location.path('/');
+      this.getCurrentUser((user) => {
+        // Logged in, redirect to Dashboard
+        if(!user.isInstructor){
+          this.$location.path('/student/dashboard');
+        }
+        else{
+          this.$location.path('/instructor/dashboard');
+        }
+      });
     }).catch(err => {
       this.errors.other = err.message;
     });
