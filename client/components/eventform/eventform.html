@@ -3,27 +3,27 @@
 <div ng-show='selectingEvent'>
   <h2> Create a new event </h2>
 
-  <!-- TODO photo upload -->
   <form class="form" name="eventInfoForm" ng-submit="createEventInfo(eventInfoForm)" novalidate ng-show="!success">
 
-    <div class="form-group" ng-class="{ 'has-success': eventInfoForm.title.$valid && submitted,
-    'has-error': eventInfoForm.title.$invalid && submitted }">
+    <div class="form-group" ng-class="{ 'has-error': submitted && event.title == null }">
       <label>Event Title</label>
 
       <input type="text" name="eventTitle" class="form-control" ng-model="event.title"
              required/>
 
-      <p class="help-block" ng-show="eventInfoForm.title.$error.required && submitted">
+      <p class="help-block" ng-show="submitted && event.title == null">
         The event title is required
       </p>
     </div>
 
-    <div class="form-group" ng-class="{ 'has-success': eventInfoForm.description.$valid && submitted,
-    'has-error': eventInfoForm.description.$invalid && submitted }">
+    <div class="form-group" ng-class="{ 'has-error': submitted && event.description == null }">
       <label>Event Info</label>
 
       <textarea type="text" name="description" class="form-control" ng-model="event.description"
              required/>
+       <p class="help-block" ng-show="submitted && event.description == null">
+         The event description is required
+       </p>
     </div>
     <div class="form-group" ng-class="{ 'has-success': eventInfoForm.startDate.$valid && submitted,
     'has-error': eventInfoForm.startDate.$invalid && submitted }">
@@ -48,42 +48,47 @@
           </span>
       </p>
     </div>
-    <div id="map_canvas">
-        <div id="searchBoxParent"></div>
-        <div>
-        <ui-gmap-google-map
-                center="event.map.center"
-                zoom="event.map.zoom"
-                dragging="event.map.dragging"
-                bounds="event.map.bounds"
-                events="event.map.events"
-                options="event.map.options"
-                pan="true"
-                control="event.map.control"
-                >
-            <!--to add as a map control -->
-            <ui-gmap-search-box options="event.searchbox.options" template="event.searchbox.template"
-                            events="event.searchbox.events" position="event.searchbox.position"></ui-gmap-search-box>
+    <div class="form-group" ng-class="{'has-error': event.map.markers.length == 0 && submitted }">
+      <div id="map_canvas">
+          <div id="searchBoxParent"></div>
+          <div>
+          <ui-gmap-google-map
+                  center="event.map.center"
+                  zoom="event.map.zoom"
+                  dragging="event.map.dragging"
+                  bounds="event.map.bounds"
+                  events="event.map.events"
+                  options="event.map.options"
+                  pan="true"
+                  control="event.map.control"
+                  >
+              <!--to add as a map control -->
+              <ui-gmap-search-box options="event.searchbox.options" template="event.searchbox.template"
+                              events="event.searchbox.events" position="event.searchbox.position"></ui-gmap-search-box>
 
-            <!--to add to a parent div-->
-            <!-- <ui-gmap-search-box options="event.searchbox.options" template="event.searchbox.template" events="event.searchbox.events" parentdiv="event.searchbox.parentdiv"></ui-gmap-search-box> -->
-
-
-            <ui-gmap-markers idkey="event.map.idkey" models="event.map.markers" coords="'self'" icon="'icon'"
-                             click="'onClicked'"></ui-gmap-markers>
-            <ui-gmap-window coords="event.selected" idkey="event.selected.place_id" templateurl="event.selected.templateurl"
-                            templateparameter="event.selected.templateparameter" options="event.selected.options"
-                            closeClick='event.selected.closeClick()' ng-cloak>
-
-            </ui-gmap-window>
+              <!--to add to a parent div-->
+              <!-- <ui-gmap-search-box options="event.searchbox.options" template="event.searchbox.template" events="event.searchbox.events" parentdiv="event.searchbox.parentdiv"></ui-gmap-search-box> -->
 
 
-        </ui-gmap-google-map>
-        <!-- <button type="button" ng-click="toggleMap()">Toggle Visibility</button> -->
-        <!-- <span ng-bind="event.searchbox.options.visible"></span> -->
+              <ui-gmap-markers idkey="event.map.idkey" models="event.map.markers" coords="'self'" icon="'icon'"
+                               click="'onClicked'"></ui-gmap-markers>
+              <ui-gmap-window coords="event.selected" idkey="event.selected.place_id" templateurl="event.selected.templateurl"
+                              templateparameter="event.selected.templateparameter" options="event.selected.options"
+                              closeClick='event.selected.closeClick()' ng-cloak>
+
+              </ui-gmap-window>
+
+
+          </ui-gmap-google-map>
+          <!-- <button type="button" ng-click="toggleMap()">Toggle Visibility</button> -->
+          <!-- <span ng-bind="event.searchbox.options.visible"></span> -->
+        </div>
       </div>
+      <p class="help-block" ng-show="event.map.markers.length == 0 && submitted">
+        A location is required
+      </p>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-class="{ 'has-error': submitted && !files }">
 
     <div ngf-drop ngf-select ng-model="files" class="drop-box"
         ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"

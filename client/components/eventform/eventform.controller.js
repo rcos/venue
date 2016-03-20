@@ -205,16 +205,8 @@ angular.module('venueApp')
           $scope.eventInfo.imageURLs = response.imageURLs;
           eventInfoId = response._id;
           $scope.eventInfo = response;
-
         }).catch(err => {
             err = err.data;
-            $scope.errors = {};
-
-            // Update validity of form fields that match the mongoose errors
-            angular.forEach(err.errors, (error, field) => {
-              form[field].$setValidity('mongoose', false);
-              $scope.errors[field] = error.message;
-            });
           });
       }
     };
