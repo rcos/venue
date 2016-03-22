@@ -19,4 +19,7 @@ angular.module('venueApp')
       $location.path("/student/upload/" + event._id);
     };
 
+    $scope.goCoursePage = (course) => {
+      $location.path("/courses/" + course._id);
+    };
   });

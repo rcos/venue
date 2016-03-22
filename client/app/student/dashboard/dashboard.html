@@ -23,7 +23,7 @@
           </div>
           <h2> Courses </h2>
           <div class= "courses">
-            <div class='course' ng-repeat='section in user.sections'>
+            <div class='course' ng-click='goCoursePage(section.course)' ng-repeat='section in user.sections'>
               <div class="title">
                 {{section.course.name}}
               </div>
