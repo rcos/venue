@@ -2,6 +2,8 @@
 
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
+import SectionEvent from '../sectionevent/sectionevent.model';
+import Course from '../course/course.model';
 
 var EventInfoSchema = new Schema({
   title: String,
@@ -48,5 +50,36 @@ EventInfoSchema
         // TODO iterate through submissions and generate list of attendees
         return [];
     });
+
+/**
+ * Methods
+ */
+EventInfoSchema.methods = {
+
+    /**
+     * Returns section events for an event
+     * @param opts: [optional] Additional flags
+     * @param cb: Function callback
+     **/
+    getSectionEventsAsync(opts, cb){
+      if (!cb) cb,opts = opts, {};
+      var withCourses = opts.withCourses;
+
+      var query = SectionEvent.find({info: this._id});
+      query.populate("section");
+      if (withCourses){
+        query.populate({
+          path: 'section',
+          populate: {
+             path: 'course',
+             model: 'Course'
+           }
+        })
+      }
+      query.then((sectionEvents)=>{
+        cb(sectionEvents);
+      });
+    }
+};
 
 module.exports = mongoose.model('EventInfo', EventInfoSchema);
