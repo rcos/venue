@@ -18,11 +18,7 @@
 </div>
 
 <div class='class-card-container'>
-  <div ng-repeat='course in filteredCourses = (courses | filter:searchText)' class='class-card' ng-click='openCourse(course)'>
-    <div class='course-name'> {{ course.name }} </div>
-    <div class='course-desc' data-ng-bind="course.description" data-ellipsis> </div>
-    <div class='course-ref'> {{ course.department }} {{course.courseNumber}} </div>
-  </div>
+  <course-card class="card" ng-repeat='course in filteredCourses = (courses | filter:searchText)' click='openCourse(course)' data="course" short="false">  </course-card>
   <div class='no-courses' ng-show='filteredCourses.length == 0'>
     no courses found matching search term
   </div>

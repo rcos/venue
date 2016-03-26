@@ -253,7 +253,7 @@ UserSchema.methods = {
     }
     query = SectionCtrl.getSectionsExtra(query,opts);
 
-    return query.execAsync();
+    return query.lean().execAsync();
   },
 
   getEventsAsync(opts){
@@ -268,9 +268,18 @@ UserSchema.methods = {
   getCoursesAsync(opts){
     return this.getSectionsAsync({withSectionsCourse: true})
       .then((sections) => {
-        return sections.map((section) => {
-          return section.course;
-        });
+        var courses = {}
+        sections.forEach((section)=>{
+          if(courses[section.course._id]){
+            courses[section.course._id].sections.push(section);
+          }
+          else{
+            courses[section.course._id] = section.course;
+            courses[section.course._id].sections = [section];
+          }
+          delete section.course;
+        })
+        return courses;
       });
   }
 };
