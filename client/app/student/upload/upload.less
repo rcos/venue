@@ -1,28 +1,74 @@
-.drop-box {
-    background: #F8F8F8;
-    border: 5px dashed #DDD;
-    width: 200px;
-    height: 65px;
-    text-align: center;
-    padding-top: 10px;
-    margin: 10px;
-}
+.student.upload{
+  .upload-events{
+    .events{
+      .event{
+        display:inline-block;
+        width:260px;
+        height:360px;
+        margin:10px;
+        padding:5px;
+        box-shadow:1px 1px 5px rgba(0,0,0,.5);
+        transition: box-shadow 0.25s;
+        vertical-align: top;
+        overflow:none;
 
-.dragover {
-    border: 5px dashed blue;
-}
+        img{
+            height:160px;
+            width:100%;
+            object-fit:cover;
+            margin-bottom:16px;
+        }
 
-.progress{
-    font-size: smaller;
-    background: black;
-    width: 0;
-}
+        .title{
+          font-size:18px;
+          color:#333;
+        }
 
-.submission-success {
-  text-align: center;
-}
+        .date{
 
-.upload-page .additionalNotes{
-  font-style:italic;
-  padding-bottom:10px;
+        }
+
+        .description{
+
+        }
+      }
+
+      .event:hover{
+        cursor:hover;
+        box-shadow:1px 1px 8px rgba(0,0,0,.7);
+      }
+    }
+
+  }
+  .upload-page{
+    .drop-box {
+        background: #F8F8F8;
+        border: 5px dashed #DDD;
+        width: 200px;
+        height: 65px;
+        text-align: center;
+        padding-top: 10px;
+        margin: 10px;
+    }
+
+    .dragover {
+        border: 5px dashed blue;
+    }
+
+    .progress{
+        font-size: smaller;
+        background: black;
+        width: 0;
+    }
+
+    .submission-success {
+      text-align: center;
+    }
+
+    .upload-page .additionalNotes{
+      font-style:italic;
+      padding-bottom:10px;
+    }
+  }
+
 }
