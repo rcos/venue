@@ -678,7 +678,7 @@ Example Response:
 
 ## Section Event API
 
-'GET /api/eventinfos/:id' - Retrieves the event info and can be called with the following GET parameters for additional information:  
+`GET /api/eventinfos/:id` - Retrieves the event info and can be called with the following GET parameters for additional information:  
 withSectionEvents: gives a list of sections assigned to event info.   
 withCourses: populates the course information within each section.  
 
