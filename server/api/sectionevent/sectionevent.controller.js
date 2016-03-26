@@ -68,13 +68,6 @@ function withDefault(queryString, defaultValue){
   else return queryString.toLowerCase()==="true";
 }
 
-
-// Gets a list of SectionEvents
-exports.index = function(req, res) {
-  SectionEvent.findAsync()
-    .then(responseWithResult(res))
-    .catch(handleError(res));
-};
 // Gets a list of SectionEvents
 exports.index = function(req, res) {
   var onlyNumber = withDefault(req.query.onlyNumber, false);
