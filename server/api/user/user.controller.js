@@ -32,7 +32,7 @@ function respondWith(res, statusCode) {
  * restriction: 'admin'
  */
 export function index(req, res) {
-  User.findAsync({}, '-salt -password')
+  User.findAsync({})
     .then(users => {
       res.status(200).json(users);
     })
@@ -86,7 +86,6 @@ function ifFlagManipulate(flag, func){
 export function show(req, res, next) {
   var userId = req.params.id;
   User.findById(userId)
-  .select('-salt -password')
   .execAsync()
   .then((user) => {
     if (!user) {
@@ -145,7 +144,9 @@ export function changePassword(req, res, next) {
   var oldPass = String(req.body.oldPassword);
   var newPass = String(req.body.newPassword);
 
-  User.findByIdAsync(userId)
+  User.findById(userId)
+    .select('_id email password provider salt')
+    .execAsync()
     .then(user => {
       if (user.authenticate(oldPass)) {
         user.password = newPass;
@@ -203,8 +204,8 @@ export function me(req, res, next) {
 export function sections(req, res, next) {
   var userId = req.params.id;
 
-  User.findOneAsync({ _id: userId }, '-salt -password')
-    .then(user => { // don't ever give out the password or salt
+  User.findOneAsync({ _id: userId })
+    .then(user => {
       if (!user) {
         return res.status(401).end();
       }
@@ -223,8 +224,8 @@ export function sections(req, res, next) {
 export function events(req, res, next) {
   var userId = req.params.id;
 
-  User.findOneAsync({ _id: userId }, '-salt -password')
-    .then(user => { // don't ever give out the password or salt
+  User.findOneAsync({ _id: userId })
+    .then(user => {
       if (!user) {
         return res.status(401).end();
       }
