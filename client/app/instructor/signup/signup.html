@@ -6,6 +6,11 @@
     <div class="col-sm-12" ng-hide='success'>
       <h1>Instructor Sign up</h1>
     </div>
+    <div class='col-sm-12'>
+      Note: This signup page is only for instructors, if you are a studet
+      please <a href='/student/signup'> sign up as an student</a>.
+    </div>
+
     <div class="col-sm-12" ng-hide='success'>
       <form class="form" name="form" ng-submit="register(form)" novalidate>
 
@@ -71,9 +76,6 @@
           <button class="btn btn-inverse btn-lg btn-register" type="submit">
             Sign up
           </button>
-          <a class="btn btn-default btn-lg btn-login" href="/login">
-            Login
-          </a>
         </div>
       </form>
     </div>
