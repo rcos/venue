@@ -1,5 +1,5 @@
 <navbar></navbar>
-    <div class="container">
+    <div class="container student">
       <div class="row">
         <div class="col-sm-3 sidebar">
           <sidebar></sidebar>
@@ -22,7 +22,7 @@
             </div>
           </div>
           <h2> Courses </h2>
-          <div class= "courses">
+          <div class="courses">
             <div class='course' ng-click='goCoursePage(section.course)' ng-repeat='section in user.sections'>
               <div class="title">
                 {{section.course.name}}

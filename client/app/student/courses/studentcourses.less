@@ -1,0 +1,32 @@
+.student{
+  .student-courses{
+      .courses{
+        padding-bottom:20px;
+        border-bottom:1px solid #ccc;
+      }
+      .course{
+
+        display:inline-block;
+        margin:5px;
+        padding:5px;
+        padding-left:10px;
+        padding-right:10px;
+        border:1px solid #ccc;
+        border-radius:4px;
+        transition: box-shadow 0.25s;
+
+        .title{
+          font-size:24px;
+          color:#333;
+        }
+        .identifier{
+          font-size:18px;
+          color:#888;
+        }
+      }
+      .course:hover{
+        cursor:pointer;
+        box-shadow:1px 1px 5px rgba(0,0,0,.4);
+      }
+  }
+}
