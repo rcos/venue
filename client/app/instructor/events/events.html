@@ -22,7 +22,7 @@
                 {{event.info.description}}
               </div>
       		    <br/>
-              <button class="btn" ng-click="deleteEvent(event)"> Delete </button>
+              <button class="btn" ng-click="deleteEvent(event);$event.stopPropagation()"> Delete </button>
       		  </div>
           </div>
 
