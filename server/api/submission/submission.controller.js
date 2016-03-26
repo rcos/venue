@@ -143,6 +143,9 @@ exports.index = function(req, res) {
         if (onlyNumber){
             Submission.count({sectionEvent: {$in: sectionEventIds}})
             .execAsync()
+            .then((entity)=>{
+              return {"number": entity};
+            })
             .then(responseWithResult(res))
             .catch(handleError(res));
         }
@@ -158,6 +161,9 @@ exports.index = function(req, res) {
         if (onlyNumber){
             Submission.count({sectionEvent: {$in: sectionEventIds}})
             .execAsync()
+            .then((entity)=>{
+              return {"number": entity};
+            })
             .then(responseWithResult(res))
             .catch(handleError(res));
         }
@@ -171,7 +177,9 @@ exports.index = function(req, res) {
     if (req.query.onlySectionEvent) search.sectionEvent = req.query.onlySectionEvent;
     if (onlyNumber){
         Submission.count(search)
-        .execAsync()
+        .then((entity)=>{
+          return {"number": entity};
+        })
         .then(responseWithResult(res))
         .catch(handleError(res));
     }
@@ -181,12 +189,10 @@ exports.index = function(req, res) {
   }else if (req.query.onlySectionEvent){
     if (onlyNumber){
         Submission.count({sectionEvent: req.query.onlySectionEvent})
-        .execAsync()
-        .then(responseWithResult(res))
         .then((entity)=>{
-          console.log(entity);
-          return entity;
+          return {"number": entity};
         })
+        .then(responseWithResult(res))
         .catch(handleError(res));
     }
     else{
@@ -194,11 +200,9 @@ exports.index = function(req, res) {
     }
   }else if (req.query.onlyNumber){
     Submission.count()
-    .execAsync()
-        .then((entity)=>{
-          console.log(entity);
-          return entity;
-        })
+    .then((entity)=>{
+      return {"number": entity};
+    })
     .then(responseWithResult(res))
     .catch(handleError(res));
 

@@ -121,6 +121,9 @@ exports.index = function(req, res) {
     if (onlyNumber){
         SectionEvent.count(search)
         .execAsync()
+        .then((entity)=>{
+          return {"number": entity};
+        })
         .then(responseWithResult(res))
         .catch(handleError(res));
     }
@@ -135,6 +138,9 @@ exports.index = function(req, res) {
         if (onlyNumber){
             SectionEvent.count({section: {$in: sectionIds}})
             .execAsync()
+            .then((entity)=>{
+              return {"number": entity};
+            })
             .then(responseWithResult(res))
             .catch(handleError(res));
         }
@@ -142,13 +148,12 @@ exports.index = function(req, res) {
           respond(SectionEvent.find({section: {$in: sectionIds}}))
         }
       });
-  }else if (req.query.onlyNumber){
+  }else if (onlyNumber){
     SectionEvent.count()
     .execAsync()
-        .then((entity)=>{
-          console.log(entity);
-          return entity;
-        })
+    .then((entity)=>{
+      return {"number": entity};
+    })
     .then(responseWithResult(res))
     .catch(handleError(res));
 

@@ -641,7 +641,7 @@ Example Response:
 
 Unless specified using `withStudents=false` and `withSectionEvent=false`, students and section events will be automatically populated.  If section events are populated, event info will also be, unless specified to not be returned with `withEventInfo=false`. If `onlyNumber=true` is specified, only the number of submissions fitting the criteria is returned.
 
-Request returns array of submission objects unless `onlyNumber=true` is specified.
+Request returns array of submission objects. If `onlyNumber=true` is specified, request will return a object of form `{"number": res}`.
 
 
 `POST /api/submissions` **Authenticated** - Creates a submission for a given section event.  The file(s) are sent along with 'data' in a HTML form using the multipart/form-data encoding.
@@ -683,7 +683,7 @@ Example Response:
 
 Unless specified using `withEventInfo=false` and `withAuthor=false`, event info and the author will be automatically populated.  If `withSection=true` is specified, the section will be populated, and unless `withCourse=false` the course will be populated as well. If `onlyNumber=true` is specified, only the number of section events fitting the criteria is returned.
 
-Request returns array of submission objects unless `onlyNumber=true` is specified.
+Request returns array of section event objects. If `onlyNumber=true` is specified, request will return a object of form `{"number": res}`
 
 #### Coming Soon
 ** TODO **
