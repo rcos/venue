@@ -1,11 +1,11 @@
 <navbar/>
 
-<div class='container'>
+<div class='container instructor'>
   <div class='row'>
     <div class='col-sm-3'>
       <sidebar/>
     </div>
-    <div class='col-sm-9'>
+    <div class='col-sm-9 student-submissions'>
       <div class='submission' ng-repeat='sub in submissions'>
         <img http-src='{{sub.images[0]}}'/><br/>
         {{sub.submitter.firstName}} {{sub.submitter.lastName}} <br/>
