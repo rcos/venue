@@ -7,11 +7,18 @@
     </div>
     <div class='col-sm-9'>
       <div class='event-page student-events'>
-        <div class='event' ng-repeat='event in user.events'>
+        <div class='event' ng-repeat='event in events'>
           <div class='title'>{{event.info.title}}</div>
+          <div class='section'>For {{event.section.course.name}}: {{(event.section.sectionNumbers.length===1)?"Section":"Sections"}}
+            <span ng-repeat="number in event.section.sectionNumbers">
+              <span ng-if="$last && event.section.sectionNumbers.length!==1"> and </span>
+              {{number}}<span ng-hide="$last || event.section.sectionNumbers.length===2">, </span>
+            </span>
+          </div>
           <div class='notes'>Note: {{event.additionalNotes}}</div>
-          <!-- FIXME add time here -->
-          <!-- <div class='times'>{{event.info.times}}</div> -->
+          <div class='times'>{{(event.info.times.length===1)?"Time":"Times"}}:</div>
+          <div ng-repeat="time in event.info.times">{{time.start | date : "short"}} - {{time.end | date : "short"}}</div>
+
           <div class='description'>{{event.info.description}}</div>
         </div>
       </div>
