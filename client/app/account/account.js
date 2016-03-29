@@ -20,11 +20,6 @@ angular.module('venueApp')
           $location.path(referrer);
         }
       })
-      .when('/signup', {
-        templateUrl: 'app/account/signup/signup.html',
-        controller: 'SignupController',
-        controllerAs: 'vm'
-      })
       .when('/settings', {
         templateUrl: 'app/account/settings/settings.html',
         controller: 'SettingsController',
