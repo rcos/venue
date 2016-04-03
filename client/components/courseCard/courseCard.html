@@ -1,8 +1,8 @@
-  <div class='course-card' ng-click="click(data)">
+  <div class='course-card' ng-click="click(data)" ng-class="{'short':short}">
     <div class='course-name'> {{ data.name }} </div>
-    <div class='course-desc' data-ng-bind="data.description" data-ellipsis> </div>
+    <div class='course-desc' data-ng-bind="data.description" data-ellipsis ng-show="!short"> </div>
     <div class='course-ref'> {{ data.department }} {{data.courseNumber}}
-      <span ng-show="sections"> sections :
+      <span class='course-sect' ng-show="sections"> | sections :
         <span ng-repeat="sec in sections">
           <span ng-repeat="num in sec.sectionNumbers"> {{num}}<span ng-hide="$last && $parent.$last">, </span></span>
           <!-- <span ng-hide="$last"> | </span> -->

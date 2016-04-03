@@ -9,7 +9,6 @@
   position:relative;
   background-color: #fff;
   transition: box-shadow .25s;
-
   .course-name{
     font-size:20px;
     text-align:left;
@@ -35,6 +34,7 @@
     bottom:0px;
     left:0px;
     padding:14px;
+    color:#444;
   }
   .course-students{
     position:absolute;
@@ -43,6 +43,20 @@
     right:0px;
     padding:14px;
   }
+  .course-sect{
+      color:#888;
+  }
+  &.short{
+    height:90px;
+    .course-ref{
+      color:#666;
+      padding:14px;
+    }
+    .course-sect{
+        color:#888;
+    }
+  }
+
 }
 .course-card:hover{
   box-shadow: 0px 0px 16px rgba(0,0,0,.5);
