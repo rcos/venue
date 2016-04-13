@@ -7,16 +7,8 @@
     </div>
     <div class='col-sm-9 instructor-courses'>
       <h1 class="page-header"> Courses </h1>
-      <div class='course-card' ng-repeat='course in user.courses' ng-click='goToCourse(course)'>
-          <div class="course-title">
-            {{course.name}}
-          </div>
-          <div class="course-dept">
-            {{course.department}} {{course.courseNumber}}
-          </div>
-          <div class="course-description">
-            {{course.description}}
-          </div>
+      <div class="card-container">
+        <course-card ng-repeat='course in user.courses' click='goToCourse(course)' data="course" short="false" sections='course.sections'>  </course-card>
       </div>
     </div>
   </div>

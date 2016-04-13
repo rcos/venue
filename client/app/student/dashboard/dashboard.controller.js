@@ -10,7 +10,7 @@ angular.module('venueApp')
     Auth.getCurrentUser((user) => {
       $scope.user = user;
 
-      User.get({id: user._id, withSections:true, withEvents: true, withSectionsCourse:true}, (usr) => {
+      User.get({id: user._id, withCourses:true, withEvents: true}, (usr) => {
         $scope.user = usr;
       });
     });

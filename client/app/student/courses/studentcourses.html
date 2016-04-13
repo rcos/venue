@@ -6,11 +6,12 @@
       <sidebar/>
     </div>
     <div class='col-sm-9 student-courses'>
-      <div class='course' ng-click='goToCourse(course)' ng-repeat='course in user.courses'>
-        <div class='title'>{{course.name}}</div>
-        <div class='identifier'>{{course.department}} {{course.courseNumber}}</div>
-        {{course.description}} <br/>
-       </div>
+      <div class="courses">
+        <h2> Courses </h2>
+        <div class="card-container">
+          <course-card ng-repeat='course in user.courses' click='goToCourse(course)' data="course" sections='course.sections'>  </course-card>
+        </div>
+      </div>
     </div>
   </div>
 </div>

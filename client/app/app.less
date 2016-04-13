@@ -26,6 +26,27 @@
   box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
 }
 
+.drop-box() {
+    background: #F8F8F8;
+    border: 5px dashed #DDD;
+    width: 200px;
+    height: 65px;
+    text-align: center;
+    padding-top: 10px;
+    margin: 10px;
+}
+
+.dragover() {
+    border: 5px dashed blue;
+}
+
+.progress(){
+    font-size: smaller;
+    background: black;
+    width: 0;
+}
+
+
 // injector
 @import 'admin/admin.less';
 @import 'courses/courses.less';
@@ -50,7 +71,9 @@
 @import 'student/signup/signup.less';
 @import 'student/submissions/submission.less';
 @import 'student/upload/upload.less';
+@import '../components/courseCard/courseCard.less';
 @import '../components/courseform/courseform.less';
+@import '../components/eventCard/eventCard.less';
 @import '../components/eventform/eventform.less';
 @import '../components/footer/footer.less';
 @import '../components/modal/modal.less';
