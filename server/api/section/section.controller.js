@@ -156,7 +156,6 @@ exports.index = function(req, res, next)  {
 exports.userSections = function(req, res, next) {
   var userId = req.params.id;
   User.findById(userId)
-  .select('-salt -password')
   .execAsync()
   .then((user) => {
     if (!user) {

@@ -12,9 +12,11 @@ export function setup(User, config) {
     ]
   },
   function(accessToken, refreshToken, profile, done) {
-    User.findOneAsync({
+    User.findOne({
       'facebook.id': profile.id
     })
+      .select('_id email password provider salt')
+      .execAsync()
       .then(user => {
         if (user) {
           return done(null, user);

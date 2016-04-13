@@ -16,16 +16,26 @@ var UserSchema = new Schema({
   firstName: String,
   email: {
     type: String,
-    lowercase: true
+    lowercase: true,
+    select: false
   },
   role: {
     type: String,
     default: 'user'
   },
   isInstructor: Boolean,
-  password: String,
-  provider: String,
-  salt: String,
+  password: {
+    type: String,
+    select: false
+  },
+  provider: {
+    type: String,
+    select: false
+  },
+  salt: {
+    type: String,
+    select: false
+  },
   facebook: {},
   twitter: {},
   google: {},
