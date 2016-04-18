@@ -8,12 +8,9 @@ angular.module('venueApp')
     $scope.eventId = "";
     $scope.imgWidth = window.innerWidth/5;
 
-    Auth.getCurrentUser(function(user){
-      $scope.user = user;
-      User.get({id: user._id, withSections:true, withEvents: true, withSectionsCourse:true}, (usr) => {
-        $scope.user = usr;
-        $scope.events = usr.events;
-      });
+    User.get({withSections:true, withEvents: true, withSectionsCourse:true}, (usr) => {
+      $scope.user = usr;
+      $scope.events = usr.events;
     });
 
     geolocation.getLocation()
@@ -22,7 +19,7 @@ angular.module('venueApp')
       });
 
     $scope.goToUploadForEvent = (event) =>{
-      $location.path("/student/upload/" + event._id);
+      $location.path("/student/upload/" + event.sections[0]._id);
     };
 
     $scope.submitEvent = (form)=>{

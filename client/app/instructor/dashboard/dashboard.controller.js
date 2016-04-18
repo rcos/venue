@@ -6,7 +6,7 @@ angular.module('venueApp')
     User.get({withSections:true, withEvents: true, withSectionsCourse:true}, (user) => {
       $scope.user = user;
       $scope.sections = user.sections;
-      $scope.events = uniqueEvents(user.events);
+      $scope.events = addEventSectionNumbers(user.events);
       Util.convertDates($scope.events)
       $scope.courses = groupByCourse($scope.sections);
     });
@@ -26,11 +26,16 @@ angular.module('venueApp')
       return courses;
     }
 
-    function uniqueEvents(events){
-      var seen = {};
-      return events.filter(function(item) {
-          return seen.hasOwnProperty(item.info._id) ? false : (seen[item.info._id] = true);
-      });
+    function addEventSectionNumbers(sectionEvents){
+      Object.keys(sectionEvents).forEach((eventId)=>{
+        (sectionEvents[eventId].sections).forEach((section)=>{
+          var sections = $scope.sections.filter((courseSection)=> {
+            return courseSection._id == section.section})[0];
+          section.sectionNumbers = sections.sectionNumbers;
+          section.course = sections.course.name;
+        })
+      })
+      return sectionEvents;
     }
 
     $scope.goToCourse = (course) => {

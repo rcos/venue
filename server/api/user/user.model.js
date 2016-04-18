@@ -271,7 +271,21 @@ UserSchema.methods = {
     return this.getSectionsAsync().then((sections) => {
       var query = SectionEvent.find({section : {$in: sections}})
       .populate('info');
-      return query.execAsync();
+      return query.lean().execAsync()
+      .then((eventSections)=>{
+        var events = {};
+        eventSections.forEach((sectionEvent)=>{
+          if(events[sectionEvent.info._id]){
+            events[sectionEvent.info._id].sections.push(sectionEvent);
+          }
+          else{
+            events[sectionEvent.info._id] = sectionEvent.info;
+            events[sectionEvent.info._id].sections = [sectionEvent];
+          }
+          delete sectionEvent.info;
+        })
+        return events;
+      });
     })
   },
 

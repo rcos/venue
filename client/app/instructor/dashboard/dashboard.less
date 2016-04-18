@@ -37,6 +37,38 @@
       .event-card:hover {
         .hover-box-shadow
       }
+
+
+      .event-section {
+        ul {
+            *zoom:1;
+            list-style:none;
+            margin:0;
+            padding:0;
+            z-index:100;
+            max-height: 0;
+            overflow: hidden;
+            -webkit-transition: max-height 0.2s ease-in;
+            -moz-transition: max-height 0.2s ease-in;
+            -o-transition: max-height 0.2s ease-in;
+            -ms-transition: max-height 0.2s ease-in;
+            transition: max-height 0.2s ease-in;
+        }
+        li {
+            display:block;
+            padding:5px;
+            margin-bottom: 2px;
+            line-height:1.2em;
+            border-left:1px solid #595959;
+            &:hover {
+              background-color:#D4D4D4; /* grey */
+            }
+        }
+
+      }
+      &:hover .event-section ul{
+        max-height:200px;
+      }
   }
 
 }
