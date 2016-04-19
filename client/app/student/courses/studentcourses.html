@@ -1,16 +1,13 @@
 <navbar></navbar>
-
 <div class='container student'>
   <div class='row'>
     <div class='col-sm-3'>
-      <sidebar/>
+      <sidebar></sidebar>
     </div>
     <div class='col-sm-9 student-courses'>
-      <div class="courses">
-        <h2> Courses </h2>
-        <div class="card-container">
-          <course-card ng-repeat='course in user.courses' click='goToCourse(course)' data="course" sections='course.sections'>  </course-card>
-        </div>
+      <h1 class="page-header">Courses</h1>
+      <div class="card-container">
+        <course-card ng-repeat='course in user.courses' click='goToCourse(course)' data="course" sections='course.sections'>  </course-card>
       </div>
     </div>
   </div>
