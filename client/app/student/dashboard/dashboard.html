@@ -13,21 +13,10 @@
                 <course-card ng-repeat='course in user.courses' click='goToCourse(course)' data="course"  short="true" sections='course.sections'>  </course-card>
               </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 events">
               <h3> Events </h3>
-              <div class="events">
-                <div ng-click='goToUploadForEvent(event)' class="event" ng-repeat="event in user.events">
-                  <img http-src='{{event.info.imageURLs[0]}}'/>
-                  <div class="title">
-                    {{event.info.title}}
-                  </div>
-                  <div class='date'>
-                    {{event.info.date}}
-                  </div>
-                  <div class='description'>
-                    {{event.info.description | limitTo : 150}} {{ event.info.description.length > 150 ? "..." : ""}}
-                  </div>
-                </div>
+              <div class="card-container">
+                <event-card ng-repeat='event in user.events' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
               </div>
             </div>
           </div>

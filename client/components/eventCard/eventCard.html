@@ -1,1 +1,19 @@
-<div>this is the card directive</div>
+<div class='mdl-card mdl-shadow--2dp event-card' ng-click="click(data)" ng-class="{'short':short}">
+  <div class='event-name mdl-card__title mdl-card--expand' ng-style="{'background-image':'url(\''+data.info.imageURLs[0]+'\')'}">
+    <h2 class="mdl-card__title-text">{{ data.info.title }} </h2>
+  </div>
+  <div class='event-desc mdl-card__supporting-text' data-ng-bind="data.info.description" data-ellipsis ng-hide="short"> </div>
+  <div class='event-dates mdl-card__supporting-text' ng-hide="short">
+      Times:
+        <div ng-repeat="time in data.info.times"> {{time.start | date : "MMM. d, h:mm a"}} - {{time.end | date : "MMM. d, h:mm a"}}<span ng-hide="$last && $parent.$last">, </span></div>
+  </div>
+  <div class='event-ref mdl-card__actions mdl-card--border' ng-hide="short">
+    <a href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" ng-click="click(data)">
+    </a>
+  </div>
+    <div class='event-dates mdl-card__actions mdl-card--border' ng-show="short">
+      <a href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" ng-click="click(data)">
+        Starts {{data.info.times[0].start | date : "MMM. d, h:mm a"}}
+      </a>
+    </div>
+</div>

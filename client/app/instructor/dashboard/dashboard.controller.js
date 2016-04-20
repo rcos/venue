@@ -6,7 +6,7 @@ angular.module('venueApp')
     User.get({withCourses:true, withEvents: true}, (user) => {
       $scope.user = user;
       $scope.events = uniqueEvents(user.events);
-      Util.convertDates($scope.events)
+      // Util.convertDates($scope.events)
       $scope.courses = user.courses;
     });
 
