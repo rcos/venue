@@ -1,27 +1,31 @@
 <navbar></navbar>
 <div class="courses-page">
-<div class='container'>
-  <div class='row'>
-    <div class='col-xs-12 search-bar-container'>
-      <div class="search-bar">
-        <div class="input-group">
-           <input type="text" ng-model='searchText' class="form-control" placeholder="Search classes">
-           <span class="input-group-btn">
-             <button class="btn btn-default" type="button">
-               <span class='glyphicon glyphicon-search'></span>
-             </button>
-           </span>
+  <div class='container'>
+    <div class='row'>
+      <div class='col-xs-12 search-bar-container'>
+        <div class="search-bar">
+          <div class="input-group">
+             <input type="text" ng-model='searchText' class="form-control" placeholder="Search classes">
+             <span class="input-group-btn">
+               <button class="btn btn-default" type="button">
+                 <span class='glyphicon glyphicon-search'></span>
+               </button>
+             </span>
+           </div>
          </div>
-       </div>
+      </div>
     </div>
   </div>
-</div>
 
-<div class='class-card-container'>
-  <course-card class="card" ng-repeat='course in filteredCourses = (courses | filter:searchText)' click='openCourse(course)' data="course" short="false">  </course-card>
-  <div class='no-courses' ng-show='filteredCourses.length == 0'>
-    no courses found matching search term
+  <div class='class-card-container'>
+    <div class='container'>
+      <div class='row text-center'>
+        <course-card class="card col-lg-4 col-md-6" ng-repeat='course in filteredCourses = (courses | filter:searchText)' click='openCourse(course)' data="course" short="false">  </course-card>
+        <div class='no-courses' ng-show='filteredCourses.length == 0'>
+          no courses found matching search term
+        </div>
+      </div>
+    </div>
   </div>
-</div>
 </div>
 <footer></footer>

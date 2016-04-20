@@ -1,31 +1,49 @@
 .instructor {
   .dashboard{
     .courses {
-      border-right:1px solid #eeeeee;
-
       .card-container{
-        text-align: center;
         .course-card {
-          width: 90%;
-          margin: 10px;
+          width: 100%;
         }
       }
     }
 
-    .event{
-      .event-card{
-        border-radius: 5px;
-        border: 1px solid #DCDCDC;
-        padding: 5px;
-        margin-bottom: 10px;
-        .box-card;
+    .events{
+      .event{
+        display:inline-block;
+        width:260px;
+        height:360px;
+        margin:10px;
+        padding:5px;
+        box-shadow:1px 1px 5px rgba(0,0,0,.5);
+        transition: box-shadow 0.25s;
+        vertical-align: top;
+        overflow:none;
 
-        .event-title {
-          font-size: 16px;
+        img{
+            height:160px;
+            width:100%;
+            object-fit:cover;
+            margin-bottom:16px;
         }
-        &:hover{
-          .hover-box-shadow
+
+        .title{
+          font-size:18px;
+          color:#333;
         }
+
+        .date{
+
+        }
+
+        .description{
+
+        }
+      }
+
+      .event:hover{
+        cursor:hover;
+        box-shadow:1px 1px 8px rgba(0,0,0,.7);
       }
     }
   }
