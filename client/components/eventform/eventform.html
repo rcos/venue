@@ -150,7 +150,7 @@
   <form class="eventAssignment" name="eventAssignment" ng-submit="submitEventAssignment(eventAssignment)" novalidate>
 
     <div class="form-group" ng-class="{ 'has-success': eventAssignment.sections.$valid && submitted,
-                                        'has-error': eventAssignment.sections.$invalid && submitted }">
+                                        'has-error': (eventAssignmentSectionsError || eventAssignment.sections.$invalid) && submitted }">
       <label>Event Sections</label>
 
 
