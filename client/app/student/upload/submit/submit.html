@@ -8,6 +8,23 @@
     </div>
   </div>
   <div class='row'>
+
+    <div class="event-upload-info">
+      <img http-src='{{selectedEvent.info.imageURLs[0]}}'/>
+      <div class="event-summary">
+        <div class="title">
+          {{selectedEvent.info.title}}
+        </div>
+        <div class='times'>
+          <div ng-repeat="time in selectedEvent.info.times | limitTo: 4">{{time.start | date : "short"}} - {{time.end | date : "short"}}</div>
+        </div>
+      <div class='description'>
+        {{selectedEvent.info.description | limitTo : 225}} {{ selectedEvent.info.description.length > 150 ? "..." : ""}}
+      </div>
+
+      </div>
+    </div>
+
     <div ng-hide="success" class='col-xs-12 additionalNotes'>
       {{sectionEvent.additionalNotes}}
     </div>
