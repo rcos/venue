@@ -16,6 +16,11 @@
         method: 'GET',
         isArray:true
       },
+      getNumber: {
+        method: 'GET',
+        isArray:false,
+        params:{ onlyNumber : true }
+      },
       update: {
         method: 'PUT'
       },

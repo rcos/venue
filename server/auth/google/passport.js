@@ -8,10 +8,12 @@ export function setup(User, config) {
     callbackURL: config.google.callbackURL
   },
   function(accessToken, refreshToken, profile, done) {
-    User.findOneAsync({
+    User.findOne({
       'google.id': profile.id
     })
-      .then(user => {
+    .select('_id email password provider salt')
+    .execAsync()
+    .then(user => {
         if (user) {
           return done(null, user);
         }

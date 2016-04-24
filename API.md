@@ -636,11 +636,12 @@ Example Response:
 ## Submission API
 
 
-`GET /api/submissions` **Authenticated** - Gets all the submissions.  If `onlyInstructor=me` or `onlyInstructor=:userId` are specified, it will return only the submissions pertaining to the particular instructor specified by me or :userId. Likewise is `onlyStudent=me` or `onlyStudent=:userId` for students.  If `onlySection=:sectionId` is specified or `onlySectionEvent=:sectionEventId` is specified, only the submission related to the apprioiate section or section event are returned.  
+`GET /api/submissions` **Authenticated** - Gets all the submissions.  If `onlyInstructor=me` or `onlyInstructor=:userId` are specified, it will return only the submissions pertaining to the particular instructor specified by me or :userId. Likewise is `onlyStudent=me` or `onlyStudent=:userId` for students.  If `onlySection=:sectionId` is specified or `onlySectionEvent=:sectionEventId` is specified, only the submission related to the appropriate section or section event are returned.
 
-Unless specified using `withStudents=false` and `withSectionEvent=false`, students and section events will be automatically populated.  If section events are populates, event info will also be, unless specified to not be returned wuth `withEventInfo=false`.
 
-Request returns array of submission objects.
+Unless specified using `withStudents=false` and `withSectionEvent=false`, students and section events will be automatically populated.  If section events are populated, event info will also be, unless specified to not be returned with `withEventInfo=false`. If `onlyNumber=true` is specified, only the number of submissions fitting the criteria is returned.
+
+Request returns array of submission objects. If `onlyNumber=true` is specified, request will return a object of form `{"number": res}`.
 
 
 `POST /api/submissions` **Authenticated** - Creates a submission for a given section event.  The file(s) are sent along with 'data' in a HTML form using the multipart/form-data encoding.
@@ -677,5 +678,12 @@ Example Response:
 ```
 
 ## Section Event API
+`GET /api/sectionevents` **Authenticated** - Gets all the section events.  If `onlyAuthor=me` or `onlyAuthor=:userId` are specified, it will return only the section events pertaining to the particular author specified by me or :userId.  If `onlySection=:sectionId` is specified or `onlyEvent=:eventInfoId` are specified, only the section events related to the appropriate section or event info are returned. If `onlyUserSections=me` or `onlyUserSections=:userId` are specified, then only the section events for the sections where the particular user specified by me or :userId are a student or instructor are returned.
+
+
+Unless specified using `withEventInfo=false` and `withAuthor=false`, event info and the author will be automatically populated.  If `withSection=true` is specified, the section will be populated, and unless `withCourse=false` the course will be populated as well. If `onlyNumber=true` is specified, only the number of section events fitting the criteria is returned.
+
+Request returns array of section event objects. If `onlyNumber=true` is specified, request will return a object of form `{"number": res}`
+
 #### Coming Soon
 ** TODO **

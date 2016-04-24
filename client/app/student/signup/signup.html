@@ -17,7 +17,7 @@
                                             'has-error': form.firstName.$invalid && submitted }">
           <label>First Name</label>
 
-          <input type="text" firstName="firstName" class="form-control" ng-model="user.firstName"
+          <input type="text" name="firstName" class="form-control" ng-model="user.firstName"
                  required/>
           <p class="help-block" ng-show="form.firstName.$error.required && submitted">
             A first name is required
@@ -28,10 +28,10 @@
                                             'has-error': form.lastName.$invalid && submitted }">
           <label>Last Name</label>
 
-          <input type="text" lastName="lastName" class="form-control" ng-model="user.lastName"
+          <input type="text" name="lastName" class="form-control" ng-model="user.lastName"
                  required/>
           <p class="help-block" ng-show="form.lastName.$error.required && submitted">
-            A lastName is required
+            A last name is required
           </p>
         </div>
         <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,
@@ -85,9 +85,6 @@
           <button class="btn btn-inverse btn-lg btn-register" type="submit">
             Sign up
           </button>
-          <a class="btn btn-default btn-lg btn-login" href="/login">
-            Login
-          </a>
         </div>
       </form>
     </div>
@@ -97,7 +94,6 @@
         You have successfully registered with Venue. Please click the link in your email to verify your account.
     </div>
   </div>
-  <hr>
 </div>
 
 <footer></footer>
