@@ -1,0 +1,67 @@
+.event-card{
+  display: table;
+  margin: 24px auto;
+  text-align: left;
+  min-height: 200px;
+
+  background-color: #fff;
+  width: auto;
+  .event-name{
+    color: #fff;
+    text-align: left;
+    background-color: @gray-dark;
+    background-repeat: no-repeat;
+    background-attachment: center;
+    background-position: center;
+    background-size: cover;
+    height: 176px;
+    padding-left: 0;
+    padding-bottom: 0;
+    padding-right: 0;
+    & > .mdl-card__title-text{
+      background: rgba(0, 0, 0, 0.7);
+      width:100%;
+      padding-left: 16px;
+      padding-right: 16px;
+      padding-top: 8px;
+      padding-bottom: 16px;
+    }
+  }
+  .event-desc{
+    height:140px;
+    text-align: left;
+    overflow:hidden;
+  }
+  .event-ref{
+  }
+  .event-students{
+    position:absolute;
+    font-size:14px;
+    bottom:0px;
+    right:0px;
+    padding:14px;
+  }
+  .event-sect{
+      color:#888;
+  }
+  &.short{
+    height: 147px;
+    min-height: 147px;
+
+    .event-ref{
+      color:#666;
+      padding:7px;
+    }
+    .event-sect{
+        color:#888;
+    }
+    .event-name{
+      height: 80px;
+    }
+  }
+
+}
+.event-card:hover{
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2);
+  cursor:pointer;
+}

@@ -7,9 +7,13 @@ angular.module('venueApp')
       restrict: 'EA',
       scope: {
         data: '=',
-        short: '@'
+        short: '=',
+        sections: '=',
+        click: '&'
       },
       link: function (scope, element, attrs) {
+      },
+      controller: function ($scope, $element) {
       }
     };
   });
