@@ -15,16 +15,11 @@
     background-position: center;
     background-size: cover;
     height: 176px;
-    padding-left: 0;
-    padding-bottom: 0;
-    padding-right: 0;
+    padding: 0;
     & > .mdl-card__title-text{
       background: rgba(0, 0, 0, 0.7);
       width:100%;
-      padding-left: 16px;
-      padding-right: 16px;
-      padding-top: 8px;
-      padding-bottom: 16px;
+      padding: 16px;
     }
   }
   .course-desc{
@@ -45,8 +40,7 @@
       color:#888;
   }
   &.short{
-    height: 147px;
-    min-height: 147px;
+    min-height: 136px;
 
     .course-ref{
       color:#666;
@@ -56,7 +50,11 @@
         color:#888;
     }
     .course-name{
-      height: 80px;
+      height: 85px;
+      vertical-align: bottom;
+      & > .mdl-card__title-text{
+        height: 85px;
+      }
     }
   }
 

@@ -15,16 +15,11 @@
     background-position: center;
     background-size: cover;
     height: 176px;
-    padding-left: 0;
-    padding-bottom: 0;
-    padding-right: 0;
+    padding: 0;
     & > .mdl-card__title-text{
       background: rgba(0, 0, 0, 0.7);
       width:100%;
-      padding-left: 16px;
-      padding-right: 16px;
-      padding-top: 8px;
-      padding-bottom: 16px;
+      padding: 16px;
     }
   }
   .event-desc{
@@ -44,9 +39,9 @@
   .event-sect{
       color:#888;
   }
+
   &.short{
-    height: 147px;
-    min-height: 147px;
+    min-height: 136px;
 
     .event-ref{
       color:#666;
@@ -56,9 +51,33 @@
         color:#888;
     }
     .event-name{
-      height: 80px;
+      height: 85px;
+      vertical-align: bottom;
+      & > .mdl-card__title-text{
+        height: 85px;
+      }
     }
   }
+  .event-section {
+    ul {
+        list-style:none;
+        margin:0;
+        padding:0;
+        z-index:100;
+    }
+    li {
+        display:block;
+        padding:5px;
+        margin-bottom: 2px;
+        line-height:1.2em;
+        border-left:1px solid #595959;
+        &:hover {
+          background-color:#D4D4D4; /* grey */
+        }
+    }
+
+  }
+
 
 }
 .event-card:hover{

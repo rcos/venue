@@ -3,19 +3,11 @@
 angular.module('venueApp')
   .controller('InstructorDashboardCtrl', ($scope, $routeParams, $location, User, Auth, Util) => {
 
-    User.get({withCourses:true, withEvents: true}, (user) => {
+    User.get({withCourses:true, withEvents: true, withEventSections: true}, (user) => {
       $scope.user = user;
-      $scope.events = uniqueEvents(user.events);
-      // Util.convertDates($scope.events)
+      $scope.events = user.events;
       $scope.courses = user.courses;
     });
-
-    function uniqueEvents(events){
-      var seen = {};
-      return events.filter(function(item) {
-          return seen.hasOwnProperty(item.info._id) ? false : (seen[item.info._id] = true);
-      });
-    }
 
     $scope.goToCourse = (course) => {
       $location.path("/courses/" + course._id);

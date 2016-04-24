@@ -9,8 +9,8 @@ angular.module('venueApp')
         authenticate: 'student'
       })
       .when('/student/upload/:eventid', {
-        templateUrl: 'app/student/upload/upload.html',
-        controller: 'UploadCtrl',
+        templateUrl: 'app/student/upload/submit/submit.html',
+        controller: 'SubmitCtrl',
         authenticate: 'student'
       });
   });

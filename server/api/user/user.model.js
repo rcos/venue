@@ -16,16 +16,26 @@ var UserSchema = new Schema({
   firstName: String,
   email: {
     type: String,
-    lowercase: true
+    lowercase: true,
+    select: false
   },
   role: {
     type: String,
     default: 'user'
   },
   isInstructor: Boolean,
-  password: String,
-  provider: String,
-  salt: String,
+  password: {
+    type: String,
+    select: false
+  },
+  provider: {
+    type: String,
+    select: false
+  },
+  salt: {
+    type: String,
+    select: false
+  },
   facebook: {},
   twitter: {},
   google: {},
@@ -255,13 +265,38 @@ UserSchema.methods = {
 
     return query.lean().execAsync();
   },
-
+//withEventSectionNumbers
   getEventsAsync(opts){
     var events = [];
     return this.getSectionsAsync().then((sections) => {
       var query = SectionEvent.find({section : {$in: sections}})
       .populate('info');
-      return query.execAsync();
+
+      if (opts.withEventSections){
+        query.populate({
+           path: 'section',
+           populate: {
+             path: 'course',
+             model: 'Course'
+           }
+        });
+      }
+
+      return query.lean().execAsync()
+      .then((sectionEventsArray)=>{
+        var events = {};
+        sectionEventsArray.forEach((sectionEvent)=>{
+          if(events[sectionEvent.info._id]){
+            events[sectionEvent.info._id].sectionEvents.push(sectionEvent);
+          }
+          else{
+            events[sectionEvent.info._id] = sectionEvent.info;
+            events[sectionEvent.info._id].sectionEvents = [sectionEvent];
+          }
+          delete sectionEvent.info;
+        })
+        return events;
+      });
     })
   },
 

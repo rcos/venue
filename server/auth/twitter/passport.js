@@ -11,6 +11,8 @@ export function setup(User, config) {
     User.findOneAsync({
       'twitter.id_str': profile.id
     })
+      .select('_id email password provider salt')
+      .execAsync()
       .then(user => {
         if (user) {
           return done(null, user);
