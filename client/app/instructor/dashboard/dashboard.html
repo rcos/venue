@@ -21,14 +21,21 @@
             </div>
             <div class="col-sm-5">
               <h3> Events </h3>
-              <div class = "event" ng-repeat="event in events" ng-click='goToEvent(event)'>
+              <div class = "event" ng-repeat="event in events">
                 <div class="event-card">
                   <div class="event-title">
-                    {{event.info.title}}
+                    {{event.title}}
                   </div>
                   <div class="event-time">
-                    Start: {{event.info.times[0].start}}
-                    <!-- {{event.info.times[0].start.toTimeString()}} -->
+                    {{event.times[0].start | date : "short"}} - {{event.times[0].end | date : "short"}}
+                  </div>
+                  <hr>
+                  <div class="event-section">
+                    <ul>
+                      <li ng-repeat="sectionEvent in event.sections" ng-click='goToEvent(sectionEvent)'>
+                        <b>Course:</b> {{sectionEvent.course}}, <b>{{(sectionEvent.sectionNumbers.length===1)?"Section: ":"Sections: "}}</b> <span ng-repeat="num in sectionEvent.sectionNumbers"> {{num}}<span ng-hide="$last">, </span></span>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
