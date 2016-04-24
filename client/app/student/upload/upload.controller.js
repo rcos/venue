@@ -1,56 +1,19 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('UploadCtrl', function ($scope,$routeParams,  $location, SectionEvent, Auth, User, Upload, geolocation) {
+  .controller('UploadCtrl', function ($scope, $location, User) {
 
     $scope.user = {};
     $scope.events = [];
     $scope.eventId = "";
     $scope.imgWidth = window.innerWidth/5;
 
-    User.get({withSections:true, withEvents: true, withSectionsCourse:true}, (usr) => {
-      $scope.user = usr;
-      $scope.events = usr.events;
+    User.get({withSections:true, withEvents: true, withSectionsCourse:true}, (user) => {
+      $scope.user = user;
+      $scope.events = user.events;
     });
-
-    geolocation.getLocation()
-      .then((data) => {
-        $scope.coords = [data.coords.longitude, data.coords.latitude]; // [<longitude>, <latitude>]
-      });
 
     $scope.goToUploadForEvent = (event) =>{
       $location.path("/student/upload/" + event.sections[0]._id);
     };
-
-    $scope.submitEvent = (form)=>{
-      $scope.submitted = true;
-      if (form.$valid && $scope.files && $scope.files.length && $scope.coords) {
-          Upload.upload({
-              url: '/api/submissions/',
-              data: {
-                userId: $scope.user._id,
-                eventId: $routeParams.eventid,
-                files: $scope.files,
-                coordinates: $scope.coords,
-                content: $scope.content,
-                title: $scope.title
-              },
-              objectKey: '.k',
-              arrayKey: '[i]'
-          }).progress(function (evt) {
-              var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-              $scope.progress = progressPercentage;
-
-          }).success(function (imageSubmitted) {
-            $scope.success = true;
-          });
-      }
-    };
-
-    SectionEvent.get({
-      id: $routeParams.eventid
-    }, sectionEvent => {
-      $scope.selectedEvent = sectionEvent;
-      console.log(sectionEvent);
-    });
   });
