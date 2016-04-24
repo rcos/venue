@@ -1,30 +1,25 @@
 <navbar></navbar>
 
-<div class="container student upload">
-  <div class="upload-page">
+<div class="container upload-page">
   <div class="row">
     <div ng-hide="success" class="col-sm-12">
-      <h1>Event Attendance</h1>
+      <img http-src='{{sectionEvent.info.imageURLs[0]}}'/>
+      <div class="event-summary ">
+        <h1>Event Attendance</h1>
+        <div class='title'>{{sectionEvent.info.title}}</div>
+        <div class='section'>For {{sectionEvent.section.course.name}}: {{(sectionEvent.section.sectionNumbers.length===1)?"Section":"Sections"}}
+          <span ng-repeat="number in sectionEvent.section.sectionNumbers">
+            <span ng-if="$last && sectionEvent.section.sectionNumbers.length!==1"> and </span>
+            {{number}}<span ng-hide="$last || sectionEvent.section.sectionNumbers.length===2">, </span>
+          </span>
+        </div>
+
+        <div class='description'>{{sectionEvent.info.description | limitTo : 250 }}
+          {{ sectionEvent.info.description.length > 250 ? "..." : ""}} </div>
+      </div>
     </div>
   </div>
   <div class='row'>
-
-    <div class="event-upload-info">
-      <img http-src='{{selectedEvent.info.imageURLs[0]}}'/>
-      <div class="event-summary">
-        <div class="title">
-          {{selectedEvent.info.title}}
-        </div>
-        <div class='times'>
-          <div ng-repeat="time in selectedEvent.info.times | limitTo: 4">{{time.start | date : "short"}} - {{time.end | date : "short"}}</div>
-        </div>
-      <div class='description'>
-        {{selectedEvent.info.description | limitTo : 225}} {{ selectedEvent.info.description.length > 150 ? "..." : ""}}
-      </div>
-
-      </div>
-    </div>
-
     <div ng-hide="success" class='col-xs-12 additionalNotes'>
       {{sectionEvent.additionalNotes}}
     </div>
@@ -99,7 +94,6 @@
 
     </div>
 
-  </div>
   </div>
 </div>
 

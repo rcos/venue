@@ -11,7 +11,7 @@ angular.module('venueApp')
       $scope.user = user;
     });
 
-    SectionEvent.get({id: $routeParams.eventid }, sectionEvent => {
+    SectionEvent.get({id: $routeParams.eventid, withEventInfo:true, withSection:true, withCourse:true }, sectionEvent => {
       $scope.sectionEvent = sectionEvent;
     });
 
