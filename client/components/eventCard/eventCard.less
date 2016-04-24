@@ -7,30 +7,13 @@
   background-color: #fff;
   width: auto;
   .event-name{
-    color: #fff;
-    text-align: left;
-    background-color: @gray-dark;
-    background-repeat: no-repeat;
-    background-attachment: center;
-    background-position: center;
-    background-size: cover;
-    min-height: 176px;
-    padding: 0;
-    & > .overlay {
-        background: rgba(0, 0, 0, 0.7);
-        width:100%;
-      & > .mdl-card__title-text{
-        padding: 16px;
-        width:100%;
-      }
-    }
+    .card-name;
   }
   .event-desc{
-    height:140px;
-    text-align: left;
-    overflow:hidden;
+    .card-desc;
   }
   .event-ref{
+    .card-ref()
   }
   .event-students{
     position:absolute;
@@ -54,18 +37,7 @@
         color:#888;
     }
     .event-name{
-      min-height: 85px;
-      & > .overlay {
-        background: rgba(0, 0, 0, 0.7);
-        width:100%;
-        min-height: 85px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        & > .mdl-card__title-text{
-          align-self: flex-end;
-        }
-      }
+      .card-shortname();
     }
   }
   .event-section {

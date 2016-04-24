@@ -9,8 +9,7 @@ angular.module('venueApp')
     User.get({withSections:true, withEvents: true, withSectionsCourse:true}, (user) => {
       $scope.user = user;
       $scope.sections = user.sections;
-      $scope.events = addEventSectionNumbers(user.events);
-      Util.convertDates($scope.events)
+      $scope.events = user.events;
     });
 
     $scope.deleteEvent = (event)=> {
@@ -24,16 +23,5 @@ angular.module('venueApp')
       $location.path("/events/" + event._id);
     };
 
-    function addEventSectionNumbers(sectionEvents){
-      Object.keys(sectionEvents).forEach((eventId)=>{
-        (sectionEvents[eventId].sections).forEach((section)=>{
-          var sections = $scope.sections.filter((courseSection)=> {
-            return courseSection._id == section.section})[0];
-          section.sectionNumbers = sections.sectionNumbers;
-          section.course = sections.course.name;
-        })
-      })
-      return sectionEvents;
-    }
 
   });

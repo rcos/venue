@@ -22,7 +22,7 @@
               </div>
               <div class="event-section">
                 <ul>
-                  <li ng-repeat="sectionEvent in event.sections" ng-click='goToEvent(sectionEvent)'>
+                  <li ng-repeat="sectionEvent in event.sectionEvents" ng-click='goToEvent(sectionEvent)'>
                     <b>Course:</b> {{sectionEvent.course}}, <b>{{(sectionEvent.sectionNumbers.length===1)?"Section: ":"Sections: "}}</b> <span ng-repeat="num in sectionEvent.sectionNumbers"> {{num}}<span ng-hide="$last">, </span></span>
                   </li>
                 </ul>
