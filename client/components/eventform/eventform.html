@@ -169,17 +169,21 @@
       </div>
 
       <p class="help-block" ng-show="eventAssignmentSectionsError && submitted">
-        The sections are required.
+        At least one section is required.
       </p>
     </div>
 
 
-    <div class="form-group" ng-class="{ 'has-success': eventAssignment.additionalNotes.$valid && submitted,
-                                        'has-error': eventAssignment.additionalNotes.$invalid && submitted }">
-      <label>Additional Notes</label>
+    <div class="form-group" ng-class="{ 'has-success': eventAssignment.submissionInstructions.$valid && submitted,
+                                        'has-error': eventAssignment.submissionInstructions.$invalid && submitted }">
+      <label>Submission Instructions</label>
 
-      <textarea type="text" name="additionalNotes" class="form-control" ng-model="event.additionalNotes"
+      <textarea type="text" name="submissionInstructions" class="form-control" ng-model="event.submissionInstructions"
              required/>
+
+       <p class="help-block" ng-show="event.submissionInstructions == null && submitted">
+         Submission instructions are required
+       </p>
     </div>
 
     <div>

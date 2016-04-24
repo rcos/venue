@@ -35,7 +35,7 @@ describe('SectionEvent API:', function() {
       request(app)
         .post('/api/sectionevents')
         .send({
-          additionalNotes: 'New SectionEvent',
+          submissionInstructions: 'New SectionEvent',
         })
         .expect(201)
         .expect('Content-Type', /json/)
@@ -49,7 +49,7 @@ describe('SectionEvent API:', function() {
     });
 
     it('should respond with the newly created sectionevent', function() {
-      expect(newSectionEvent.additionalNotes).to.equal('New SectionEvent');
+      expect(newSectionEvent.submissionInstructions).to.equal('New SectionEvent');
     });
 
   });
@@ -76,7 +76,7 @@ describe('SectionEvent API:', function() {
     });
 
     it('should respond with the requested sectionevent', function() {
-      expect(sectionevent.additionalNotes).to.equal('New SectionEvent');
+      expect(sectionevent.submissionInstructions).to.equal('New SectionEvent');
     });
 
   });
@@ -88,7 +88,7 @@ describe('SectionEvent API:', function() {
       request(app)
         .put('/api/sectionevents/' + newSectionEvent._id)
         .send({
-          additionalNotes: 'Updated SectionEvent',
+          submissionInstructions: 'Updated SectionEvent',
         })
         .expect(200)
         .expect('Content-Type', /json/)
@@ -106,7 +106,7 @@ describe('SectionEvent API:', function() {
     });
 
     it('should respond with the updated sectionevent', function() {
-      expect(updatedSectionEvent.additionalNotes).to.equal('Updated SectionEvent');
+      expect(updatedSectionEvent.submissionInstructions).to.equal('Updated SectionEvent');
     });
 
   });

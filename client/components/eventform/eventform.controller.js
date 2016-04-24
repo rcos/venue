@@ -258,7 +258,7 @@ angular.module('venueApp')
             section: sectionId,
             info: $scope.eventInfo._id,
             author: Auth.getCurrentUser()._id,
-            additionalNotes: $scope.event.additionalNotes
+            submissionInstructions: $scope.event.submissionInstructions
           };
           SectionEvent.create(sectionEvent).$promise
             .then((course) => {
