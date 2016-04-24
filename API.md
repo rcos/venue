@@ -258,7 +258,7 @@ Example Response:
     {
       "_id": "000000000000000000001001",
       "section": "000000000000000000000220",
-      "additionalNotes": "Make sure to take a photo in front of the building.",
+      "submissionInstructions": "Make sure to take a photo in front of the building.",
       "author": "000000000000000000000003",
       "creationDate": "2016-01-01T08:24:00.000Z",
       "info": {
@@ -298,7 +298,7 @@ Example Response:
     {
       "_id": "000000000000000000001002",
       "section": "000000000000000000000121",
-      "additionalNotes": "Make sure to take a photo in front of the building.",
+      "submissionInstructions": "Make sure to take a photo in front of the building.",
       "author": "000000000000000000000003",
       "creationDate": "2016-01-01T08:24:00.000Z",
       "info": {
@@ -338,7 +338,7 @@ Example Response:
     {
       "_id": "000000000000000000001003",
       "section": "000000000000000000000124",
-      "additionalNotes": "Make sure to take a photo in front of the building.",
+      "submissionInstructions": "Make sure to take a photo in front of the building.",
       "author": "000000000000000000000003",
       "creationDate": "2016-01-01T08:24:00.000Z",
       "info": {
@@ -378,7 +378,7 @@ Example Response:
     {
       "_id": "000000000000000000001005",
       "section": "000000000000000000000124",
-      "additionalNotes": "",
+      "submissionInstructions": "",
       "author": "000000000000000000000002",
       "creationDate": "2016-01-04T10:49:06.000Z",
       "info": {
@@ -413,7 +413,7 @@ Example Response:
     {
       "_id": "000000000000000000001006",
       "section": "000000000000000000000220",
-      "additionalNotes": "",
+      "submissionInstructions": "",
       "author": "000000000000000000000002",
       "creationDate": "2016-01-04T10:49:06.000Z",
       "info": {

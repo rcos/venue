@@ -15,10 +15,9 @@
               {{number}}<span ng-hide="$last || event.section.sectionNumbers.length===2">, </span>
             </span>
           </div>
-          <div class='notes'>Note: {{event.additionalNotes}}</div>
+          <div class='notes'>Note: {{event.submissionInstructions}}</div>
           <div class='times'>{{(event.info.times.length===1)?"Time":"Times"}}:</div>
           <div ng-repeat="time in event.info.times">{{time.start | date : "short"}} - {{time.end | date : "short"}}</div>
-
           <div class='description'>{{event.info.description}}</div>
         </div>
       </div>

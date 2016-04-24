@@ -15,8 +15,8 @@
         <div class='section'>
           For {{event.section.course.name}} {{(event.section.sectionNumbers.length===1)?"section":"sections"}} <span ng-repeat="number in event.section.sectionNumbers">{{number}}<span ng-hide="$last">, </span></span>
         </div>
-        <div class='additionalNotes'>
-          Instructor Note: {{event.additionalNotes}}
+        <div class='submissionInstructions'>
+          Instructor Note: {{event.submissionInstructions}}
         </div>
         <div class='info'>
           Event Information
@@ -30,7 +30,7 @@
           <div>{{event.info.location.description}}</div>
           <div>{{event.info.location.address}}</div>
         </div>
-        <div class="additionalNotes">
+        <div class="submissionInstructions">
           {{(event.info.author._id === event.author._id)?"Author":"Authors"}}: {{event.author.firstName}} {{event.author.lastName}}<span ng-hide="event.info.author._id === event.author._id"> and {{event.info.author.firstName}} {{event.info.author.lastName}}</span>
         </div>
 
