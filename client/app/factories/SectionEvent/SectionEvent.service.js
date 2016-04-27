@@ -14,7 +14,7 @@
       },
       getAll: {
         method: 'GET',
-        isArray:true
+        isArray:false
       },
       getNumber: {
         method: 'GET',

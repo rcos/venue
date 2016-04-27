@@ -9,7 +9,7 @@
       Times:
         <div ng-repeat="time in data.times"> {{time.start | date : "MMM. d, h:mm a"}} - {{time.end | date : "MMM. d, h:mm a"}}<span ng-hide="$last && $parent.$last">, </span></div>
   </div>
-  <div class='event-section mdl-card__supporting-text'>
+  <div class='event-section mdl-card__supporting-text' ng-show="short">
     <ul>
       <li ng-repeat="sectionEvent in data.sectionEvents" ng-click='sectionClick(sectionEvent)'>
         <b>Course:</b> {{sectionEvent.section.course.name}}, <b>{{(sectionEvent.section.sectionNumbers.length===1)?"Section: ":"Sections: "}}</b> <span ng-repeat="num in sectionEvent.section.sectionNumbers"> {{num}}<span ng-hide="$last">, </span></span>
@@ -17,8 +17,17 @@
       </ul>
   </div>
   <div class='event-ref mdl-card__actions mdl-card--border' ng-hide="short">
-    <a href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" ng-click="click(data)">
-    </a>
+    <!-- <a href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" ng-click="click(data)">
+    </a> -->
+    <div class='mdl-card__supporting-text event-section-courses'>
+        <a href="#" ng-repeat="sectionEvent in data.sectionEvents" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" ng-click="click(data)">
+          {{ sectionEvent.section.course.department }} {{sectionEvent.section.course.courseNumber}}
+          <span class='event-sect'> | sections :
+            <span ng-repeat="num in sectionEvent.section.sectionNumbers"> {{num}}<span ng-hide="$last">, </span></span>
+            <!-- <span ng-hide="$last"> | </span> -->
+          </span>
+        </a>
+    </div>
   </div>
     <div class='event-dates mdl-card__actions mdl-card--border' ng-show="short">
       <a href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" ng-click="click(data)">

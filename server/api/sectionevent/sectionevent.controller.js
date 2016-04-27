@@ -98,7 +98,21 @@ exports.index = function(req, res) {
 
     query.sort({time: -1});
 
-    query.execAsync()
+    query.lean().execAsync()
+      .then((sectionEventsArray)=>{
+        var events = {};
+        sectionEventsArray.forEach((sectionEvent)=>{
+          if(events[sectionEvent.info._id]){
+            events[sectionEvent.info._id].sectionEvents.push(sectionEvent);
+          }
+          else{
+            events[sectionEvent.info._id] = sectionEvent.info;
+            events[sectionEvent.info._id].sectionEvents = [sectionEvent];
+          }
+          delete sectionEvent.info;
+        })
+        return events;
+      })
       .then(responseWithResult(res))
       .catch(handleError(res));
   }
@@ -168,7 +182,7 @@ exports.show = function(req, res) {
     query = query.populate('author');
   }
 
-  query.execAsync()
+  query.lean().execAsync()
     .then(handleEntityNotFound(res))
     .then((entity) =>{
       if (req.query.withSectionCourse){
