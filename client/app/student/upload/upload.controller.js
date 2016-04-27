@@ -14,6 +14,6 @@ angular.module('venueApp')
     });
 
     $scope.goToUploadForEvent = (event) =>{
-      $location.path("/student/upload/" + event.sections[0]._id);
+      $location.path("/student/upload/" + event.sectionEvents[0]._id);
     };
   });
