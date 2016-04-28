@@ -1,9 +1,18 @@
 <navbar></navbar>
 
 <div class='container courses-page'>
-  <div class='row'>
-    <div class='col-xs-12 section-edit'>
+  <div class="courseview">
+    <div class='row'>
+      <a class="col-sm-12 title" ng-href="/courses/{{course._id}}">
+        <div class="background-image"  ng-style="{'background-image':'url(\''+course.imageURLs[0]+'\')'}"></div>
+        <div class="inside ">
+          <h2> {{ course.name }}</h2>
+          <div class='course-number'>{{course.department}} {{course.courseNumber}}</div>
+        </div>
+      </a>
+      <div class='col-xs-12 section-edit'>
       <sectionform updating="true"></sectionform>
+      </div>
     </div>
   </div>
 </div>

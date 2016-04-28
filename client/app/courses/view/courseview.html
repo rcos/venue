@@ -10,13 +10,13 @@
             <div class='course-number'>{{course.department}} {{course.courseNumber}}</div>
           </div>
         </div>
-        <div class="col-sm-7 left-column col-height col-top">
+        <div class="col-sm-7 left-column col-sm-height col-sm-top">
           <div class="inside-full-height">
             <h4>Description</h4>
             <div class='course-desc'>{{ course.description }} </div>
           </div>
         </div>
-        <div class="col-sm-5 right-column col-height" ng-hide='isInstructor || isStudent'>
+        <div class="col-sm-5 right-column col-sm-height" ng-hide='isInstructor || isStudent'>
           <div class="inside-full-height">
             <h4>Sections</h4>
             <table class="table table-hover">
@@ -31,7 +31,7 @@
             </table>
           </div>
         </div>
-        <div ng-show='isInstructor' class='col-sm-5 right-column col-height col-top'>
+        <div ng-show='isInstructor' class='col-sm-5 right-column col-sm-height col-sm-top'>
           <div class="row h4-spacing">
             <div class='col-md-7 col-sm-6'>
               <h4 class="no-spacing">Course Control</h4>
@@ -73,7 +73,7 @@
             </tr>
           </table>
         </div>
-        <div ng-show='isStudent' class='col-sm-5 right-column col-height col-top'>
+        <div ng-show='isStudent' class='col-sm-5 right-column col-sm-height col-sm-top'>
           <h4> Sections </h4>
           <table class="course-section text-center table table-hover">
             <tr>
