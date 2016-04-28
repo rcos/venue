@@ -1,0 +1,19 @@
+<navbar></navbar>
+<div class='container student'>
+  <div class='row'>
+    <div class='col-sm-3'>
+      <sidebar></sidebar>
+    </div>
+    <div class='col-sm-9'>
+      <h1 class="page-header">Event Submission</h1>
+      <div class='upload-events'>
+          <h3>Select event</h3>
+          <div class="events">
+            <event-card class="col-md-6" ng-repeat='event in events' data="event" short="true" click='goToUploadForEvent(event)' sectionClick='goToUploadForEvent(event)' />
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer></footer>
