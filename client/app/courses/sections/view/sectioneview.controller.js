@@ -1,47 +1,54 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('SectionViewCtrl', ($scope, Course, $location, User, Auth, $routeParams) => {
-    $scope.enroll = function(section){
-      User.enroll({_id: Auth.getCurrentUser()._id, sectionid: section._id}, ()=>{
-        setCurrentSection();
-      })
-    };
-    $scope.unenroll = function(section){
-      User.unenroll({_id: Auth.getCurrentUser()._id, sectionid: section._id}, ()=>{
-        setCurrentSection();
-      })
-    };
-
-    $scope.editSection = function(section){
-      $location.path($location.path() + "/edit");
-    };
-
+  .controller('SectionViewCtrl', ($scope, $location, $routeParams, User, Auth, Course, Section) => {
+    var loadSection = function(){
+      Section.get({
+        id: $routeParams.sectionId,
+        withSectionsCourse:true,
+        withSectionsEvent: true,
+        withSectionsInstructors: true,
+        withSectionsStudents: true,
+        withSectionsPendingStudents: true,
+        withEnrollmentStatus: true,
+        studentId: $scope.user._id
+      }, section => {
+        $scope.course = section.course;
+        $scope.section = section;
+      }, () =>{
+        $location.path('/courses');
+      });
+      }
     Auth.getCurrentUser((user) => {
       $scope.user = user;
-      Course.get({
-        id: $routeParams.id,
-        withSections:true
-      }, course => {
-        $scope.course = course;
-        setCurrentSection();
-      });
+      $scope.isStudent = (!user.isInstructor) && Auth.isLoggedIn();
+      $scope.isInstructor = user.isInstructor;
+      loadSection();
     });
 
-    function setCurrentSection(){
-      var currentSection;
-      $scope.course.sections.forEach((section, index)=>{
-        if(section._id == $routeParams.sectionId){
-          currentSection = index;
-        }
+    $scope.enroll = function(){
+      User.enroll({_id: $scope.user._id, sectionid: $scope.section._id}, ()=>{
+        loadSection();
       });
-      $scope.section = $scope.course.sections.splice(currentSection, 1)[0];
-      $scope.section.sectionNumbers = $scope.section.sectionNumbers.toString();
-      $scope.isInstructor = $scope.section.instructors.some((instr)=>{
-        return instr == $scope.user._id;
-      })
-      $scope.section.instructors.splice($scope.user, 1);
-    }
+    };
+    $scope.unenroll = function(){
+      User.unenroll({_id: $scope.user._id, sectionid: $scope.section._id}, ()=>{
+        loadSection();
+      });
+    };
+    $scope.editCourse = function(){
+      $location.path('/courses/'+$routeParams.id+'/edit');
+    };
+    $scope.viewCourse = function(){
+      $location.path('/courses/'+$routeParams.id);
+    };
 
+    $scope.editSection = function(){
+      $location.path($location.path() + '/edit');
+    };
+
+    $scope.createSection = function(){
+      $location.path('/courses/'+$routeParams.id+'/sections/create');
+    };
 
   });

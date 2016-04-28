@@ -3,20 +3,22 @@
 <div class='container courses-page'>
   <div class="courseview">
     <div class='row'>
-      <div class="col-sm-12 title">
+      <div class="col-md-12 title">
         <div class="background-image"  ng-style="{'background-image':'url(\''+course.imageURLs[0]+'\')'}"></div>
           <div class="inside ">
             <h2> {{ course.name }}</h2>
             <div class='course-number'>{{course.department}} {{course.courseNumber}}</div>
           </div>
         </div>
-        <div class="col-sm-6 left-column col-sm-height col-sm-top">
+      </div>
+      <div class="row row-md-height">
+        <div class="col-md-6 left-column col-md-height col-md-top">
           <div class="inside-full-height">
             <h4>Description</h4>
             <div class='course-desc'>{{ course.description }} </div>
           </div>
         </div>
-        <div class="col-sm-6 right-column col-sm-height" ng-hide='isInstructor || isStudent'>
+        <div class="col-md-6 right-column col-md-height" ng-hide='isInstructor || isStudent'>
           <div class="inside-full-height">
             <h4>Sections</h4>
             <table class="table table-hover">
@@ -31,21 +33,21 @@
             </table>
           </div>
         </div>
-        <div ng-show='isInstructor' class='col-sm-6 right-column col-sm-height col-sm-top'>
+        <div ng-show='isInstructor' class='col-md-6 right-column col-md-height col-md-top'>
           <div class="row h4-spacing">
-            <div class='col-md-7 col-sm-6'>
+            <div class='col-md-7 col-md-6'>
               <h4 class="no-spacing">Course Control</h4>
             </div>
-            <div class='col-md-5 col-sm-6'>
+            <div class='col-md-5 col-md-6'>
               <button class="btn btn-default full-width" ng-click='editCourse()'>Edit Course</button>
             </div>
           </div>
           <hr/>
           <div class="row h4-spacing">
-            <div class='col-md-7 col-sm-6'>
+            <div class='col-md-7 col-md-6'>
               <h4 class="no-spacing">Sections</h4>
             </div>
-            <div class='col-md-5 col-sm-6'>
+            <div class='col-md-5 col-md-6'>
               <button class="btn btn-default full-width" ng-click='createSection()'>Create Section</button>
             </div>
           </div>
@@ -77,14 +79,17 @@
             </tr>
           </table>
         </div>
-        <div ng-show='isStudent' class='col-sm-6 right-column col-sm-height col-sm-top'>
+        <div ng-show='isStudent' class='col-md-6 right-column col-md-height col-md-top'>
           <h4> Sections </h4>
           <table class="course-section text-center table table-hover">
             <tr>
               <th class="text-center">Number</th>
               <th class="text-center">Instructor</th>
               <th class="text-center">Students</th>
+              <th class="text-center">Enrollment Policy</th>
+              <th class="text-center">Info</th>
               <th class="text-center">Enrolled</th>
+
             </tr>
             <tr ng-repeat="section in course.sections">
               <td class="big-number"><span ng-repeat="number in section.sectionNumbers"><span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last">, </span></span></td>
@@ -95,6 +100,10 @@
               </td>
               <td>
                 <span class='studentCount'>{{section.students.length}}</span>
+              </td>
+              <td class="text-center">{{(section.enrollmentPolicy === "approvalRequired")?"approval":section.enrollmentPolicy}}</td>
+              <td>
+                    <button class="btn" ng-click='viewSection(section)'>View</button>
               </td>
               <td>
                 <button ng-click='enroll(section)' ng-hide='section.isEnrolled' class='enroll btn btn-primary'> Enroll </button>

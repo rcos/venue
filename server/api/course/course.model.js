@@ -39,9 +39,15 @@ CourseSchema.methods = {
       if (withEnrollmentStatus){
         sections = sections.map((section)=>{
           section = section.toObject();
-          section.isEnrolled = section.students.some((sectionStudentId) => {
-            return sectionStudentId == studentId;
+          section.isEnrolled = section.students.some((sectionStudent) => {
+            return String(sectionStudent) === studentId || String(sectionStudent._id) === studentId ;
+
           });
+          section.isPending = section.pendingStudents.some((sectionStudent) => {
+            return String(sectionStudent) === studentId || String(sectionStudent._id) === studentId ;
+
+          });
+
           return section;
         });
       }

@@ -1,20 +1,21 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('CourseViewCtrl', ($scope, Course, $location, User, Auth, $routeParams) => {
+  .controller('CourseViewCtrl', ($scope, $location, $routeParams, Auth, User, Course, Section) => {
     Auth.getCurrentUser((user) => {
+      $scope.user = user;
       $scope.isStudent = (!user.isInstructor) && Auth.isLoggedIn();
       $scope.isInstructor = user.isInstructor;
       loadCourses();
     });
 
     $scope.enroll = function(section){
-      User.enroll({_id: Auth.getCurrentUser()._id, sectionid: section._id}, ()=>{
+      User.enroll({_id: $scope.user._id, sectionid: section._id}, ()=>{
         loadCourses();
       })
     };
     $scope.unenroll = function(section){
-      User.unenroll({_id: Auth.getCurrentUser()._id, sectionid: section._id}, ()=>{
+      User.unenroll({_id: $scope.user._id, sectionid: section._id}, ()=>{
         loadCourses();
       })
     };
@@ -39,7 +40,7 @@ angular.module('venueApp')
         withSections:true,
         withSectionInstructors: true,
         withSectionEnrollmentStatus: true,
-        studentid: Auth.getCurrentUser()._id
+        studentid: $scope.user._id
       }, course => {
         $scope.course = course;
       }, err =>{
