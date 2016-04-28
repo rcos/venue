@@ -1,28 +1,81 @@
 .courses-page{
   .courseview{
-  h2{
-    border-bottom:1px solid #ccc;
-    padding-bottom:10px;
-  }
-  .left-column{
+    .title{
+        height:200px;
+        width:100%;
+        margin-bottom:16px;
+        .inside{
+          position: absolute;
+          padding-bottom: 8px;
+          bottom: 0;
+          h2{
+            margin-bottom: 0;
+            border-bottom:1px solid #ccc;
+            padding-bottom:10px;
+          }
+          .course-number{
+            font-size:16px;
+            padding-top:8px;
+            padding-bottom:8px;
+            color:#666;
+          }
 
-  }
-  .create-section{
-    width:100%;
-  }
-  .course-number{
-    font-size:16px;
-    padding-top:4px;
-    color:#666;
-  }
-  .course-section{
-    border-bottom:1px solid #ccc;
-    position:relative;
-    .enroll{
-      position:absolute;
-      right:5px;
-      top:5px;
+        }
+        .background-image{
+          display: block;
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+          opacity: 0.15;
+          background-image: url('http://placekitten.com/1500/1000');
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-attachment: fixed;
+          -ms-background-size: cover;
+          -o-background-size: cover;
+          -moz-background-size: cover;
+          -webkit-background-size: cover;
+          background-size: cover;
+
+        }
     }
-  }
+    .table{
+    }
+    .big-number{
+      padding-right: 12px;
+      margin-right: 8px;
+    }
+    .small-text{
+      & > span{
+        margin-bottom: 1em;
+      }
+    }
+    .left-column{
+      border-right:1px solid #ccc;
+    }
+    .course-summary {
+      height: 150px;
+      .title{
+        font-size:18px;
+        color:#333;
+      }
+    }
+    .full-width{
+      width: 100%;
+    }
+    .no-spacing{
+      margin: 0;
+    }
+    .h4-spacing{
+      margin-top: 24px;
+      margin-bottom: 24px;
+    }
+    .additionalNotes {
+      margin: 10px 0px;
+    }
+
   }
 }

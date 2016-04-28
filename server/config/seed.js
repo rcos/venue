@@ -210,7 +210,7 @@ function allSections(){ return {
       instructors : [allUsers().bob._id] //Bob
     },
     netArt34: {
-      sectionNumbers: [3,4],
+      sectionNumbers: [3,4,5],
       enrollmentPolicy: "closed",
       _id:mongoose.Types.ObjectId('000000000000000000000220'),
       course : allCourses().netArt._id, //Net Art
