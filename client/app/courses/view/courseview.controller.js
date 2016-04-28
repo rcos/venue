@@ -25,6 +25,9 @@ angular.module('venueApp')
     $scope.editSection = function(section){
       $location.path($location.path() + "/sections/" + section._id + "/edit");
     };
+    $scope.viewSection = function(section){
+      $location.path($location.path() + "/sections/" + section._id);
+    };
 
     $scope.createSection = function(){
       $location.path($location.path() +"/sections/create");

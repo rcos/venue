@@ -10,13 +10,13 @@
             <div class='course-number'>{{course.department}} {{course.courseNumber}}</div>
           </div>
         </div>
-        <div class="col-sm-7 left-column col-sm-height col-sm-top">
+        <div class="col-sm-6 left-column col-sm-height col-sm-top">
           <div class="inside-full-height">
             <h4>Description</h4>
             <div class='course-desc'>{{ course.description }} </div>
           </div>
         </div>
-        <div class="col-sm-5 right-column col-sm-height" ng-hide='isInstructor || isStudent'>
+        <div class="col-sm-6 right-column col-sm-height" ng-hide='isInstructor || isStudent'>
           <div class="inside-full-height">
             <h4>Sections</h4>
             <table class="table table-hover">
@@ -31,7 +31,7 @@
             </table>
           </div>
         </div>
-        <div ng-show='isInstructor' class='col-sm-5 right-column col-sm-height col-sm-top'>
+        <div ng-show='isInstructor' class='col-sm-6 right-column col-sm-height col-sm-top'>
           <div class="row h4-spacing">
             <div class='col-md-7 col-sm-6'>
               <h4 class="no-spacing">Course Control</h4>
@@ -55,25 +55,29 @@
               <th class="text-center">Number</th>
               <th class="text-center">Instructor</th>
               <th class="text-center">Students</th>
-              <th class="text-center">Edit</th>
+              <th class="text-center">Pending</th>
+              <th class="text-center">Info</th>
             </tr>
             <tr ng-repeat="section in course.sections">
               <td class="big-number"><span ng-repeat="number in section.sectionNumbers"><span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last">, </span></span></td>
               <td>
                 <span ng-repeat="instructor in section.instructors">
-                  {{instructor.firstName}} {{instructor.lastName}}
+                  {{instructor.firstName}} {{instructor.lastName}}<span ng-hide="$last">, </span>
                 </span>
               </td>
               <td>
                 <span class='studentCount'>{{section.students.length}}</span>
               </td>
               <td>
-                    <button class="btn" ng-click='editSection(section)'>Edit</button>
+                <span class='studentCount'>{{section.pendingStudents.length}}</span>
+              </td>
+              <td>
+                    <button class="btn" ng-click='viewSection(section)'>View</button>
               </td>
             </tr>
           </table>
         </div>
-        <div ng-show='isStudent' class='col-sm-5 right-column col-sm-height col-sm-top'>
+        <div ng-show='isStudent' class='col-sm-6 right-column col-sm-height col-sm-top'>
           <h4> Sections </h4>
           <table class="course-section text-center table table-hover">
             <tr>
