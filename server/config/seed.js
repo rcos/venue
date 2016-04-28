@@ -399,7 +399,7 @@ function allSectionEvents(){
     netArt12Concerts: {
       section: allSections().netArt12._id,//Net art sections 1,2
       course: allCourses().netArt._id,//Net art
-      additionalNotes:"Make sure to take a photo with the program.",
+      submissionInstructions:"Make sure to take a photo with the program.",
       author: allUsers().travis._id, //Travis
       creationDate: new Date("January 1, 2016 03:24:00"),
       info: allEvents().concerts._id,//Art_X Concerts: Examine Intersections of Science, Art
@@ -408,7 +408,7 @@ function allSectionEvents(){
     netArt34Concerts: {
       section: allSections().netArt34._id,//Net art sections 3,4
       course: allCourses().netArt._id,//Net art
-      additionalNotes:"Make sure to take a photo in front of the building.",
+      submissionInstructions:"Make sure to take a photo in front of the building.",
       author: allUsers().travis._id, //Travis
       creationDate: new Date("January 1, 2016 03:24:00"),
       info: allEvents().concerts._id,//Art_X Concerts: Examine Intersections of Science, Art
@@ -417,7 +417,7 @@ function allSectionEvents(){
     openSource1Concerts: {
       section: allSections().openSource1._id,//Introduction to Open Source sections 1
       course: allCourses().openSource._id,//Introduction to Open Source
-      additionalNotes:"Make sure to take a photo in front of the building.",
+      submissionInstructions:"Make sure to take a photo in front of the building.",
       author: allUsers().travis._id, //Travis
       creationDate: new Date("January 1, 2016 03:24:00"),
       info: allEvents().concerts._id,//Art_X Concerts: Examine Intersections of Science, Art
@@ -426,7 +426,7 @@ function allSectionEvents(){
     imaging1234Concerts: {
       section: allSections().imaging1234._id,// Media Studio: Imaging section 1
       course: allCourses().imaging._id,//Media Studio: Imaging
-      additionalNotes:"Make sure to take a photo in front of the building.",
+      submissionInstructions:"Make sure to take a photo in front of the building.",
       author: allUsers().travis._id, //Travis
       creationDate: new Date("January 1, 2016 03:24:00"),
       info: allEvents().concerts._id,//Art_X Concerts: Examine Intersections of Science, Art
@@ -435,7 +435,7 @@ function allSectionEvents(){
     art1Dancing: {
       section: allSections().art1._id,// Art, Community and Technology section 1
       course: allCourses().art._id,//Art, Community and Technology
-      additionalNotes:"",
+      submissionInstructions:"",
       author: allUsers().bob._id, //Bob
       creationDate: new Date("January 4, 2016 05:49:06"),
       info: allEvents().dancing._id,//Dancing Through the Years
@@ -444,7 +444,7 @@ function allSectionEvents(){
     imaging1234Dancing: {
       section:allSections().imaging1234._id,// Media Studio: Imaging section 1
       course: allCourses().imaging._id,//Media Studio: Imaging
-      additionalNotes:"",
+      submissionInstructions:"",
       author: allUsers().bob._id, //Bob
       creationDate: new Date("January 4, 2016 05:49:06"),
       info: allEvents().dancing._id,//Dancing Through the Years
@@ -453,7 +453,7 @@ function allSectionEvents(){
     netArt34Dancing: {
       section: allSections().netArt34._id,//Net art sections 3,4
       course: allCourses().netArt._id,//Net art
-      additionalNotes:"",
+      submissionInstructions:"",
       author: allUsers().bob._id, //Bob
       creationDate: new Date("January 4, 2016 05:49:06"),
       info: allEvents().dancing._id,//Dancing Through the Years
@@ -464,14 +464,14 @@ function allSectionEvents(){
       section : allSections().venue1._id,//venue section 1
       info : allEvents().medalReception._id,
       author : allUsers().venue._id,
-      additionalNotes : "Try to get a picture with President Shirley Ann Jackson!",
+      submissionInstructions : "Try to get a picture with President Shirley Ann Jackson!",
     },
     venue1medalGala:{
       _id : mongoose.Types.ObjectId("555555555555555555555551"),
       section : allSections().venue1._id,//venue section 1
       info : allEvents().medalGala._id,
       author : allUsers().venue._id,
-      additionalNotes : "Take a picture with the honorable Shirley Ann Jackson.",
+      submissionInstructions : "Take a picture with the honorable Shirley Ann Jackson.",
     }
 
   }

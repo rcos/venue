@@ -249,12 +249,16 @@ angular.module('venueApp')
 
     $scope.submitEventAssignment = (form)=>{
         $scope.submitted = true;
+        if(getSectionIds().length == 0){
+          $scope.eventAssignmentSectionsError = true;
+          return;
+        }
         getSectionIds().forEach((sectionId)=>{
           var sectionEvent = {
             section: sectionId,
             info: $scope.eventInfo._id,
             author: Auth.getCurrentUser()._id,
-            additionalNotes: $scope.event.additionalNotes
+            submissionInstructions: $scope.event.submissionInstructions
           };
           SectionEvent.create(sectionEvent).$promise
             .then((course) => {

@@ -8,7 +8,7 @@ var SectionEventSchema = new Schema({
   section: {type: Schema.Types.ObjectId, ref: 'Section'},
   info: {type: Schema.Types.ObjectId, ref: 'EventInfo'},
   author: {type: Schema.Types.ObjectId, ref: 'User'},
-  additionalNotes: String,
+  submissionInstructions: String,
   creationDate: Date
 });
 
