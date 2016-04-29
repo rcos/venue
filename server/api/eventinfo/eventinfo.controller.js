@@ -11,6 +11,7 @@
 
 var _ = require('lodash');
 var EventInfo = require('./eventinfo.model');
+var SectionEvent = require('../sectionevent/sectionevent.model');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var config = require('../../config/environment');
@@ -97,9 +98,24 @@ exports.index = function(req, res) {
 
 // Gets a single EventInfo from the DB
 exports.show = function(req, res) {
-  EventInfo.findByIdAsync(req.params.id)
+  var query = EventInfo.findByIdAsync(req.params.id)
+
+  query
     .then(handleEntityNotFound(res))
-    .then(responseWithResult(res))
+    .then((eventInfo) =>{
+      if (req.query.withSectionEvents){
+        eventInfo.getSectionEventsAsync({
+          withCourses: req.query.withCourses
+        },(sectionEvents)=>{
+          eventInfo = eventInfo.toObject();
+          eventInfo.sectionEvents = sectionEvents;
+          responseWithResult(res)(eventInfo);
+        });
+      }
+      else{
+        responseWithResult(res)(eventInfo);
+      }
+    })
     .catch(handleError(res));
 };
 

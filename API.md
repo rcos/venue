@@ -687,3 +687,59 @@ Request returns array of section event objects. If `onlyNumber=true` is specifie
 
 #### Coming Soon
 ** TODO **
+
+## Event Info API
+
+`GET /api/eventinfos/:id` - Retrieves the event info and can be called with the following GET parameters for additional information:  
+withSectionEvents: gives a list of sections assigned to event info.   
+withCourses: populates the course information within each section.  
+
+Example Request:
+```javascript
+// POST /api/sections/
+
+{
+  $promise: {Promise Object}
+  $resolved: true
+  __v: 0
+  _id: "000000000000000000000020"
+  author: "000000000000000000000003"
+  creationDate: "2016-01-01T08:24:00.000Z"
+  description: "Faculty of the School of ..."
+  imageURLs:["http://news.rpi.edu/sites/default/files/cbis-news_0.jpeg"]
+  location: {
+    address: "110 8th St, Troy, NY  12180, United States",
+    description: "Empac"
+  }
+  geo: {
+    coordinates: [ 42.7288898, -73.6842041 ],
+    type: "Point",
+    radius: 0.001
+  }
+  sectionEvents: [{
+    __v: 0
+    _id: "000000000000000000001000"
+    additionalNotes: "Make sure to take a photo with the program."
+    author: "000000000000000000000003"
+    creationDate: "2016-01-01T08:24:00.000Z"
+    info: "000000000000000000000020"
+    section: {
+      __v: 0
+      _id: "000000000000000000000120"
+      course: {Course Object}
+      enrollmentPolicy: "closed"
+      instructors: ["000000000000000000000002"]
+      pendingStudents: []
+      sectionNumbers: [ 1, 2 ]
+      students: ["000000000000000000000006"]
+    }
+  }]
+  times: [{
+    _id: "56f6d840001e7d2c372a977d"
+    end: "2016-01-21T01:00:00.000Z"
+    start: "2016-01-20T23:00:00.000Z"
+  }]
+  title: "Art_X Concerts: Examine Intersections of Science, Art"
+}
+```
+>>>>>>> eventinfo - get section events
