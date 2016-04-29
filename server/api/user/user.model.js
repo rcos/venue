@@ -263,24 +263,35 @@ UserSchema.methods = {
     }
     query = SectionCtrl.getSectionsExtra(query,opts);
 
-    return query.execAsync();
+    return query.lean().execAsync();
   },
-
+//withEventSectionNumbers
   getEventsAsync(opts){
     var events = [];
     return this.getSectionsAsync().then((sections) => {
       var query = SectionEvent.find({section : {$in: sections}})
       .populate('info');
+
+      if (opts.withEventSections){
+        query.populate({
+           path: 'section',
+           populate: {
+             path: 'course',
+             model: 'Course'
+           }
+        });
+      }
+
       return query.lean().execAsync()
-      .then((eventSections)=>{
+      .then((sectionEventsArray)=>{
         var events = {};
-        eventSections.forEach((sectionEvent)=>{
+        sectionEventsArray.forEach((sectionEvent)=>{
           if(events[sectionEvent.info._id]){
-            events[sectionEvent.info._id].sections.push(sectionEvent);
+            events[sectionEvent.info._id].sectionEvents.push(sectionEvent);
           }
           else{
             events[sectionEvent.info._id] = sectionEvent.info;
-            events[sectionEvent.info._id].sections = [sectionEvent];
+            events[sectionEvent.info._id].sectionEvents = [sectionEvent];
           }
           delete sectionEvent.info;
         })
@@ -292,9 +303,18 @@ UserSchema.methods = {
   getCoursesAsync(opts){
     return this.getSectionsAsync({withSectionsCourse: true})
       .then((sections) => {
-        return sections.map((section) => {
-          return section.course;
-        });
+        var courses = {}
+        sections.forEach((section)=>{
+          if(courses[section.course._id]){
+            courses[section.course._id].sections.push(section);
+          }
+          else{
+            courses[section.course._id] = section.course;
+            courses[section.course._id].sections = [section];
+          }
+          delete section.course;
+        })
+        return courses;
       });
   }
 };

@@ -1,25 +1,13 @@
 <navbar></navbar>
-
-<div class='container'>
+<div class='container student'>
   <div class='row'>
-    <div class='col-sm-3 sidebar'>
-      <sidebar/>
+    <div class='col-sm-3'>
+      <sidebar></sidebar>
     </div>
     <div class='col-sm-9'>
+      <h1 class="page-header">Events</h1>
       <div class='event-page student-events'>
-        <div class='event' ng-repeat='event in events'>
-          <div class='title'>{{event.info.title}}</div>
-          <div class='section'>For {{event.section.course.name}}: {{(event.section.sectionNumbers.length===1)?"Section":"Sections"}}
-            <span ng-repeat="number in event.section.sectionNumbers">
-              <span ng-if="$last && event.section.sectionNumbers.length!==1"> and </span>
-              {{number}}<span ng-hide="$last || event.section.sectionNumbers.length===2">, </span>
-            </span>
-          </div>
-          <div class='notes'>Note: {{event.submissionInstructions}}</div>
-          <div class='times'>{{(event.info.times.length===1)?"Time":"Times"}}:</div>
-          <div ng-repeat="time in event.info.times">{{time.start | date : "short"}} - {{time.end | date : "short"}}</div>
-          <div class='description'>{{event.info.description}}</div>
-        </div>
+        <event-card class="col-md-6" ng-repeat='event in events' data="event" short="false" click='goToEvent(event)' sectionClick='goToEvent(event)' />
       </div>
     </div>
   </div>

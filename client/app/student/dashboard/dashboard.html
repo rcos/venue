@@ -1,39 +1,25 @@
 <navbar></navbar>
-    <div class="container">
+    <div class="container student">
       <div class="row">
-        <div class="col-sm-3 sidebar">
+        <div class="col-sm-3">
           <sidebar></sidebar>
         </div>
         <div class="col-sm-9 dashboard">
           <h1 class="page-header">Dashboard</h1>
-          <h2> Event Assignements </h2>
-          <div class="events">
-            <div ng-click='goToUploadForEvent(event)' class="event" ng-repeat="event in user.events">
-              <img http-src='{{event.imageURLs[0]}}'/>
-              <div class="title">
-                {{event.title}}
+          <div class="row">
+            <div class="col-sm-6 courses">
+              <h3> Courses </h3>
+              <div class="card-container">
+                <course-card ng-repeat='course in user.courses' click='goToCourse(course)' data="course"  short="true" sections='course.sections'>  </course-card>
               </div>
-              <div class='date'>
-                {{event.date}}
-              </div>
-              <div class='description'>
-                {{event.description | limitTo : 150}} {{ event.description.length > 150 ? "..." : ""}}
+            </div>
+            <div class="col-sm-6 events">
+              <h3> Assigned Events </h3>
+              <div class="card-container">
+                <event-card ng-repeat='event in user.events' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
               </div>
             </div>
           </div>
-          <h2> Courses </h2>
-          <div class= "courses">
-            <div class='course' ng-click='goCoursePage(section.course)' ng-repeat='section in user.sections'>
-              <div class="title">
-                {{section.course.name}}
-              </div>
-              <div class="identifier">
-                {{section.course.department}} {{section.course.courseNumber}}
-              </div>
-            </div>
-          </div>
-
-
         </div>
       </div>
     </div>

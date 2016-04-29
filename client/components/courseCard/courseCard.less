@@ -1,0 +1,45 @@
+.course-card{
+  display: table;
+  margin: 24px auto;
+  text-align: left;
+  min-height: 200px;
+
+  background-color: #fff;
+  width: auto;
+  .course-name{
+    .card-name;
+  }
+  .course-desc{
+    .card-desc;
+  }
+  .course-ref{
+    .card-ref()
+  }
+  .course-students{
+    position:absolute;
+    font-size:14px;
+    bottom:0px;
+    right:0px;
+    padding:14px;
+  }
+  .course-sect{
+      color:#888;
+  }
+  &.short{
+    min-height: 136px;
+
+    .course-ref{
+      color:#666;
+      padding:7px;
+    }
+    .course-sect{
+        color:#888;
+    }
+    .course-name{
+      .card-shortname();
+    }
+  }
+}
+.course-card:hover{
+  .card-hover();
+}

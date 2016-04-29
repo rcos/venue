@@ -26,12 +26,258 @@
   box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
 }
 
+.drop-box() {
+    background: #F8F8F8;
+    border: 5px dashed #DDD;
+    width: 200px;
+    height: 65px;
+    text-align: center;
+    padding-top: 10px;
+    margin: 10px;
+}
+
+.dragover() {
+    border: 5px dashed blue;
+}
+
+.progress(){
+    font-size: smaller;
+    background: black;
+    width: 0;
+}
+.sidebar{
+  margin-top: 88px;
+  padding-right: 20px;
+  text-align: right;
+  & > div > ul > li{
+    margin-top: 0;
+    margin-bottom: 0;
+    & > a{
+      color: @gray-dark;
+    }
+    &:hover{
+      border-right: 1px solid @gray;
+    }
+    &.active{
+      border-right: 2px solid @gray-dark;
+      & > a{
+        font-weight: bold;
+      }
+
+    }
+  }
+}
+
+body.venueApp{
+  line-height: 1.42857143;
+}
+.venueApp a{
+  color: #26A69A;
+}
+
+.card-name(){
+  color: #fff;
+  text-align: left;
+  background-color: @gray-dark;
+  background-repeat: no-repeat;
+  background-attachment: center;
+  background-position: center;
+  background-size: cover;
+  min-height: 176px;
+  padding: 0;
+  & > .overlay {
+    background: rgba(0, 0, 0, 0.7);
+    width:100%;
+    display: flex;
+    align-items: center;
+    align-self: flex-end;
+    & > .mdl-card__title-text{
+      padding: 16px;
+      width:100%;
+      align-self: flex-end;
+    }
+  }
+}
+
+.card-desc(){
+  max-height:140px;
+  text-align: left;
+  overflow:hidden;
+}
+
+.card-ref(){
+}
+
+.card-shortname(){
+  min-height: 85px;
+  & > .overlay {
+    background: rgba(0, 0, 0, 0.7);
+    width:100%;
+    min-height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    & > .mdl-card__title-text{
+      align-self: flex-end;
+    }
+  }
+}
+.card-hover(){
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2);
+  cursor:pointer;
+}
+
+.inside {
+}
+.inside-full-height {
+  /*
+  // if you want to give content full height give him height: 100%;
+  // with content full height you can't apply margins to the content
+  // content full height does not work in ie http://stackoverflow.com/questions/27384433/ie-display-table-cell-child-ignores-height-100
+  */
+  height: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* columns of same height styles */
+
+.row-height {
+  display: table;
+  table-layout: fixed;
+  height: 100%;
+  width: 100%;
+}
+.col-height {
+  display: table-cell;
+  float: none;
+  height: 100%;
+}
+.col-top {
+  vertical-align: top;
+}
+.col-middle {
+  vertical-align: middle;
+}
+.col-bottom {
+  vertical-align: bottom;
+}
+
+
+@media (min-width: 480px) {
+  .row-xs-height {
+    display: table;
+    table-layout: fixed;
+    height: 100%;
+    width: 100%;
+  }
+  .col-xs-height {
+    display: table-cell;
+    float: none;
+    height: 100%;
+  }
+  .col-xs-top {
+    vertical-align: top;
+  }
+  .col-xs-middle {
+    vertical-align: middle;
+  }
+  .col-xs-bottom {
+    vertical-align: bottom;
+  }
+}
+
+@media (min-width: 768px) {
+  .row-sm-height {
+    display: table;
+    table-layout: fixed;
+    height: 100%;
+    width: 100%;
+  }
+  .col-sm-height {
+    display: table-cell;
+    float: none;
+    height: 100%;
+  }
+  .col-sm-top {
+    vertical-align: top;
+  }
+  .col-sm-middle {
+    vertical-align: middle;
+  }
+  .col-sm-bottom {
+    vertical-align: bottom;
+  }
+}
+
+@media (min-width: 992px) {
+  .row-md-height {
+    display: table;
+    table-layout: fixed;
+    height: 100%;
+    width: 100%;
+  }
+  .col-md-height {
+    display: table-cell;
+    float: none;
+    height: 100%;
+  }
+  .col-md-top {
+    vertical-align: top;
+  }
+  .col-md-middle {
+    vertical-align: middle;
+  }
+  .col-md-bottom {
+    vertical-align: bottom;
+  }
+}
+
+@media (min-width: 1200px) {
+  .row-lg-height {
+    display: table;
+    table-layout: fixed;
+    height: 100%;
+    width: 100%;
+  }
+  .col-lg-height {
+    display: table-cell;
+    float: none;
+    height: 100%;
+  }
+  .col-lg-top {
+    vertical-align: top;
+  }
+  .col-lg-middle {
+    vertical-align: middle;
+  }
+  .col-lg-bottom {
+    vertical-align: bottom;
+  }
+}
+
+@background-color: #fafafa;
+
+@gray-darker:            lighten(#000, 13.5%); // #222
+@gray-dark:              lighten(#000, 20%);   // #333
+@gray:                   lighten(#000, 33.5%); // #555
+@gray-light:             lighten(#000, 60%);   // #999
+@gray-lighter:           lighten(#000, 93.5%); // #eee
+
+@brand-primary:         #428bca;
+@brand-success:         #5cb85c;
+@brand-info:            #5bc0de;
+@brand-warning:         #f0ad4e;
+@brand-danger:          #d9534f;
+
+
 // injector
 @import 'admin/admin.less';
 @import 'courses/courses.less';
 @import 'courses/edit/courseedit.less';
 @import 'courses/sections/create/newsection.less';
 @import 'courses/sections/edit/sectionedit.less';
+@import 'courses/sections/view/sectionview.less';
 @import 'courses/view/courseview.less';
 @import 'events/events.less';
 @import 'instructor/courses/instructorcourses.less';
@@ -49,8 +295,11 @@
 @import 'student/profile/profile.less';
 @import 'student/signup/signup.less';
 @import 'student/submissions/submission.less';
+@import 'student/upload/submit/submit.less';
 @import 'student/upload/upload.less';
+@import '../components/courseCard/courseCard.less';
 @import '../components/courseform/courseform.less';
+@import '../components/eventCard/eventCard.less';
 @import '../components/eventform/eventform.less';
 @import '../components/footer/footer.less';
 @import '../components/modal/modal.less';

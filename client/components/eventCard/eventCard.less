@@ -1,0 +1,72 @@
+.event-card{
+  display: table;
+  margin: 24px auto;
+  text-align: left;
+  min-height: 200px;
+
+  background-color: #fff;
+  width: auto;
+  .event-name{
+    .card-name;
+  }
+  .event-desc{
+    .card-desc;
+  }
+  .event-ref{
+    .card-ref()
+  }
+  .event-students{
+    position:absolute;
+    font-size:14px;
+    bottom:0px;
+    right:0px;
+    padding:14px;
+  }
+  .event-sect{
+      color:#888;
+  }
+
+  &.short{
+    min-height: 136px;
+
+    .event-ref{
+      color:#666;
+      padding:7px;
+    }
+    .event-sect{
+        color:#888;
+    }
+    .event-name{
+      .card-shortname();
+    }
+  }
+
+  .event-section {
+    ul {
+        list-style:none;
+        margin:0;
+        padding:0;
+        z-index:100;
+    }
+    li {
+        display:block;
+        padding:5px;
+        margin-bottom: 2px;
+        line-height:1.2em;
+        border-left:1px solid #595959;
+        &:hover {
+          background-color:#D4D4D4; /* grey */
+        }
+    }
+
+  }
+  .event-section-courses {
+    padding:0px;
+  }
+
+
+}
+.event-card:hover{
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2);
+  cursor:pointer;
+}

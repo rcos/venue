@@ -18,4 +18,11 @@ angular.module('venueApp')
       $location.path("/student/upload/" + id);
     };
 
+    $scope.deleteEvent = (event)=> {
+      if (confirm("This will also delete all sections submissions")) {
+        SectionEvent.delete({id:event._id}, (response)=>{
+          $scope.events.splice($scope.events.indexOf(event), 1);
+        })
+      }
+    }
   });

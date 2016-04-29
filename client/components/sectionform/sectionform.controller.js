@@ -52,7 +52,7 @@ angular.module('venueApp')
         }
         promise
           .then((section) => {
-            $location.path('/courses/' +  $routeParams.id);
+            $location.path('/courses/' +  $routeParams.id + "/sections/" +  $routeParams.sectionId);
           })
           .catch(err => {
             err = err.data;

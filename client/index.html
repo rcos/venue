@@ -21,7 +21,7 @@
       <!-- endinjector -->
     <!-- endbuild -->
   </head>
-  <body ng-app="venueApp">
+  <body ng-app="venueApp" class="venueApp">
     <!--[if lt IE 7]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -39,6 +39,9 @@
       ga('create', 'UA-XXXXX-X');
       ga('send', 'pageview');
     </script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.teal-indigo.min.css">
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -71,7 +74,7 @@
       <script src="app/admin/admin.module.js"></script>
       <script src="components/auth/auth.module.js"></script>
       <script src="components/util/util.module.js"></script>
-      <script src="app/main/main.js"></script>
+      <script src="app/student/courses/studentcourses.controller.js"></script>
       <script src="app/account/account.js"></script>
       <script src="app/admin/admin.router.js"></script>
       <script src="app/app.constant.js"></script>
@@ -82,6 +85,7 @@
       <script src="app/courses/sections/create/newsection.controller.js"></script>
       <script src="app/courses/sections/edit/sectionedit.controller.js"></script>
       <script src="app/courses/sections/section.js"></script>
+      <script src="app/courses/sections/view/sectioneview.controller.js"></script>
       <script src="app/courses/view/courseview.controller.js"></script>
       <script src="app/events/events.controller.js"></script>
       <script src="app/events/events.js"></script>
@@ -107,8 +111,8 @@
       <script src="app/instructor/verifystudents/verifystudents.controller.js"></script>
       <script src="app/instructor/verifystudents/verifystudents.js"></script>
       <script src="app/main/main.controller.js"></script>
+      <script src="app/main/main.js"></script>
       <script src="app/account/login/login.controller.js"></script>
-      <script src="app/student/courses/studentcourses.controller.js"></script>
       <script src="app/student/courses/studentcourses.js"></script>
       <script src="app/student/dashboard/dashboard.controller.js"></script>
       <script src="app/student/dashboard/dashboard.js"></script>
@@ -128,8 +132,10 @@
       <script src="components/auth/interceptor.service.js"></script>
       <script src="components/auth/router.decorator.js"></script>
       <script src="components/auth/user.service.js"></script>
+      <script src="components/courseCard/courseCard.directive.js"></script>
       <script src="components/courseform/courseform.controller.js"></script>
       <script src="components/courseform/courseform.directive.js"></script>
+      <script src="components/eventCard/eventCard.directive.js"></script>
       <script src="components/eventform/eventform.controller.js"></script>
       <script src="components/eventform/eventform.directive.js"></script>
       <script src="components/footer/footer.directive.js"></script>

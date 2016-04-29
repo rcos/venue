@@ -1,39 +1,15 @@
 <navbar></navbar>
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-3 sidebar">
-          <sidebar></sidebar>
-        </div>
-        <div class="col-sm-9 main">
-          <h1 class="page-header">Events</h1>
-          <div class="instructor-events">
-            <div class = "event-card" ng-repeat="event in events">
-              <div class = "row">
-        		    <div class = "col-sm-8 event-title">
-        		      {{event.title}}
-        		    </div>
-                <div class = "col-sm-4 event-date">
-                  <div ng-repeat="time in event.info.times">
-                    Start: {{time.start}}
-                  </div>
-                </div>
-              </div>
-              <div>
-                {{event.description}}
-              </div>
-              <div class="event-section">
-                <ul>
-                  <li ng-repeat="sectionEvent in event.sections" ng-click='goToEvent(sectionEvent)'>
-                    <b>Course:</b> {{sectionEvent.course}}, <b>{{(sectionEvent.sectionNumbers.length===1)?"Section: ":"Sections: "}}</b> <span ng-repeat="num in sectionEvent.sectionNumbers"> {{num}}<span ng-hide="$last">, </span></span>
-                  </li>
-                </ul>
-              </div>
-      		    <br/>
-              <button class="btn" ng-click="deleteEvent(event);$event.stopPropagation()"> Delete </button>
-      		  </div>
-          </div>
-
-        </div>
+<div class="container instructor">
+  <div class="row">
+    <div class="col-sm-3">
+      <sidebar></sidebar>
+    </div>
+    <div class='col-sm-9'>
+      <h1 class="page-header">Events</h1>
+      <div class='event-page instructor-events'>
+          <event-card class="col-md-6" ng-repeat='event in events' data="event" click='goToEvent(event)' sectionClick='goToEvent(event)' short="false" />
       </div>
     </div>
+  </div>
+</div>
 <footer></footer>

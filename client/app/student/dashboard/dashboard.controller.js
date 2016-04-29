@@ -10,7 +10,7 @@ angular.module('venueApp')
     Auth.getCurrentUser((user) => {
       $scope.user = user;
 
-      User.get({id: user._id, withSections:true, withEvents: true, withSectionsCourse:true}, (usr) => {
+      User.get({id: user._id, withCourses:true, withEvents: true, withEventSections: true}, (usr) => {
         $scope.user = usr;
       });
     });
@@ -19,7 +19,7 @@ angular.module('venueApp')
       $location.path("/student/upload/" + event.sections[0]._id);
     };
 
-    $scope.goCoursePage = (course) => {
+    $scope.goToCourse = (course) => {
       $location.path("/courses/" + course._id);
     };
   });

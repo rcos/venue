@@ -1,4 +1,4 @@
-<form class="form" name="form" ng-submit="submitForm(form)" novalidate ng-show="!success">
+<form class="form courseform" name="form" ng-submit="submitForm(form)" novalidate ng-show="!success">
 
   <div class="form-group" ng-class="{ 'has-success': form.deptName.$valid && submitted,
                                       'has-error': form.deptName.$invalid && submitted }">
@@ -37,7 +37,7 @@
                                       'has-error': form.courseDescription.$invalid && submitted }">
     <label>Course Description</label>
 
-    <textarea type="text" name="courseDescription" class="form-control" ng-model="course.description"
+    <textarea type="text" name="courseDescription" class="form-control courseDescription" ng-model="course.description"
            required/>
     <p class="help-block" ng-show="form.courseDescription.$error.required && submitted">
       A course description is required
@@ -45,7 +45,7 @@
   </div>
 
   <div>
-    <button class="btn btn-inverse btn-lg btn-register" type="submit">
+    <button class="btn btn-primary btn-lg btn-register" type="submit">
       {{updating ? "Update Course" : "Create Course"}}
     </button>
   </div>
@@ -53,12 +53,12 @@
 <div class = "course-created" ng-show="success">
   <div ng-show='!updating'>
     <h2>Course Created</h2>
-    Check out <a href="/instructor/courses">your courses here </a>
+    Check out <a ng-href="/instructor/courses">your courses here </a>
     <br />
-    Create a <a href='/courses/{{course._id}}/sections/create'> section for your courses here </a>
+    Create a <a ng-href='/courses/{{course._id}}/sections/create'> section for your courses here </a>
   </div>
   <div ng-show='updating'>
     <h2>Course successfully updated.</h2>
-    <a href='/courses/{{course._id}}'>Click here to go back to the course</a>
+    <a ng-href='/courses/{{course._id}}'>Return to the coursepage</a>
   </div>
 </div>

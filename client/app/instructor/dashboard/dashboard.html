@@ -1,43 +1,22 @@
 <navbar></navbar>
-    <div class="container">
+    <div class="container instructor">
       <div class="row">
-        <div class="col-sm-3 sidebar">
+        <div class="col-sm-3">
           <sidebar></sidebar>
         </div>
-        <div class="col-sm-9 instructor-dashboard">
+        <div class="col-sm-9 dashboard">
           <h1 class="page-header">Dashboard</h1>
           <div class="row">
-            <div class="col-sm-7 courses">
+            <div class="col-sm-6 courses">
               <h3> Courses </h3>
-                <div class = "course-card" ng-repeat="course in courses" ng-click='goToCourse(course)' >
-                  <div class="course-title"> {{course.name}} </div>
-                  <div ng-repeat="section in course.sections">
-                    <div class="section-card">
-                      Sections : <span class="" ng-repeat="num in section.sectionNumbers"> {{num}} </span>
-                    </div>
-                  </div>
-
-                </div>
+              <div class="card-container">
+                <course-card ng-repeat='course in courses' click='goToCourse(course)' data="course"  short="true" sections='course.sections'>  </course-card>
+              </div>
             </div>
-            <div class="col-sm-5">
+            <div class="col-sm-6 events">
               <h3> Events </h3>
-              <div class = "event" ng-repeat="event in events">
-                <div class="event-card">
-                  <div class="event-title">
-                    {{event.title}}
-                  </div>
-                  <div class="event-time">
-                    {{event.times[0].start | date : "short"}} - {{event.times[0].end | date : "short"}}
-                  </div>
-                  <hr>
-                  <div class="event-section">
-                    <ul>
-                      <li ng-repeat="sectionEvent in event.sections" ng-click='goToEvent(sectionEvent)'>
-                        <b>Course:</b> {{sectionEvent.course}}, <b>{{(sectionEvent.sectionNumbers.length===1)?"Section: ":"Sections: "}}</b> <span ng-repeat="num in sectionEvent.sectionNumbers"> {{num}}<span ng-hide="$last">, </span></span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+              <div class="card-container">
+                <event-card ng-repeat='event in events' sectionClick='goToEvent(event)' click='goToEvent(event)' data="event"  short="true">  </event-card>
               </div>
             </div>
           </div>
