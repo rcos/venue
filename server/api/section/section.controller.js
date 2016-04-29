@@ -186,15 +186,43 @@ exports.mySections = function(req, res, next) {
 };
 
 // Gets a single Section from the DB
-exports.show = function(req, res) {
-  var query = Section.findByIdAsync(req.params.id);
+exports.show = function(req, res, next) {
+  var query = Section.findById(req.params.id);
+  var withEnrollmentStatus = req.query.withEnrollmentStatus;
 
   query = exports.getSectionsExtra(query,req.query);
 
   query
-    .then(handleEntityNotFound(res))
-    .then(responseWithResult(res))
-    .catch(handleError(res));
+    .execAsync()
+    .then((section) => {
+      if (!section) {
+        return res.status(404).end();
+      }
+      var data = section.toJSON();
+      return Promise.all([section, data]);
+    })
+    .spread(ifFlagManipulate(req.query.withSectionsEvent || req.query.withSectionEvent, (section,data,done)=>{
+      return section.getEventsAsync(req.query).then((events)=>{
+        data.events = events;
+        done(section, data);
+      });
+    }))
+    .spread((section,data) => {
+        // If requested, mark all sections student is enrolled in
+      if (withEnrollmentStatus){
+        var studentId = req.query.studentId;
+
+        data.isEnrolled = section.students.some((sectionStudent) => {
+            return String(sectionStudent) === studentId || String(sectionStudent._id) === studentId ;
+        });
+        data.isPending = section.pendingStudents.some((sectionStudent) => {
+            return String(sectionStudent) === studentId || String(sectionStudent._id) === studentId ;
+        });
+
+      }
+      return res.json(data);
+    })
+    .catch(err => next(err));
 };
 
 // Creates a new Section in the DB
@@ -230,9 +258,6 @@ exports.getSectionsExtra = function (query, opts){
   opts = opts || {};
 
   //FIXME too many endpoints see #113
-  if (opts.withSectionsEvent || opts.withSectionEvent){
-    query = query.populate('events');
-  }
   if (opts.withSectionsCourse || opts.withSectionCourse){
     query = query.populate('course');
   }

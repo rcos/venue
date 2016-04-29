@@ -1,0 +1,105 @@
+<navbar></navbar>
+
+<div class='container courses-page'>
+  <div class="sectionview">
+    <div class='row'>
+      <div class="col-sm-12 title">
+        <a class="" ng-href="/courses/{{course._id}}">
+          <div class="background-image"  ng-style="{'background-image':'url(\''+course.imageURLs[0]+'\')'}">
+          </div>
+          <div class="inside ">
+            <h2> {{ course.name }}</h2>
+            <div class='course-number'>{{course.department}} {{course.courseNumber}} | Section<span ng-show="section.sectionNumbers.length > 1">s</span> <span class="big-number text-right"><span ng-repeat="number in section.sectionNumbers track by $index" ng-show="number > -1"><span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last">, </span></span></span></div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class='row row-height'>
+      <div class="col-sm-12" ng-hide='isInstructor || isStudent'>
+        <h4><a href="/login">Log in</a> to learn more</h4>
+      </div>
+
+      <div ng-show='isInstructor' class='col-sm-6 left-column col-sm-height col-sm-top'>
+        <div class="row h4-spacing">
+          <div class='col-md-7 col-sm-6'>
+            <h4 class="no-spacing">Pending Students</h4>
+          </div>
+        </div>
+        <hr/>
+        <div class="row h4-spacing">
+          <div class='col-md-7 col-sm-6'>
+            <h4 class="no-spacing">Student Submissions</h4>
+          </div>
+        </div>
+      </div>
+
+      <div ng-show='isStudent' class='col-sm-6 left-column col-sm-height col-sm-top'>
+        <div class="row h4-spacing">
+          <div class='col-md-7 col-sm-6'>
+            <h4 class="no-spacing">Your Submissions</h4>
+          </div>
+        </div>
+        <hr/>
+      </div>
+
+
+      <div class="col-sm-6 right-column col-sm-height col-sm-top" ng-show='isInstructor || isStudent'>
+        <div class="inside-full-height">
+          <div class="row h4-spacing">
+            <div class='col-md-7 col-sm-6'>
+              <h4 class="no-spacing">Section Info</h4>
+            </div>
+            <div class='col-md-5 col-sm-6'>
+              <button class="btn btn-default full-width" ng-click='editSection()'>Edit</button>
+            </div>
+          </div>
+
+          <table class="course-section text-center table table-hover">
+            <tr ng-show='isStudent'>
+              <td class="text-right align-middle">Enroll</td>
+              <td class="text-left">
+                <button ng-click='enroll(section)' ng-hide='section.isEnrolled' class='enroll btn btn-sm btn-primary'> Enroll </button>
+                <button ng-click='unenroll(section)' ng-show='section.isEnrolled' class='enroll btn btn-sm btn-danger'> Unenroll </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-right">Instructor<span ng-show="section.instructors.length > 1">s</span></td>
+              <td class="text-left">
+                <span ng-repeat="instructor in section.instructors">
+                  <span ng-show="$last && !$first">& </span>{{instructor.firstName}} {{instructor.lastName}}<span ng-hide="$last">, </span>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-right">Students</td>
+              <td class="text-left">{{section.students.length}}</td>
+            </tr>
+            <tr ng-show="isInstructor">
+              <td class="text-right">Pending Students</td>
+              <td class="text-left">{{section.pendingStudents.length}}</td>
+            </tr>
+            <tr>
+              <td class="text-right">Events</td>
+              <td class="text-left">{{section.events.length}}</td>
+            </tr>
+            <tr>
+              <td class="text-right">Enrollment Policy</td>
+              <td class="text-left">{{(section.enrollmentPolicy === "approvalRequired")?"approval":section.enrollmentPolicy}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class='row'>
+      <div class="col-sm-12 events" ng-show='isInstructor || isStudent'>
+        <h4> Events </h4>
+        <div class="card-container">
+          <div class="col-md-4" ng-repeat='event in section.events' >
+            <event-card sectionClick='goToEvent(event)' click='goToEvent(event)' data="event"  short="true">  </event-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer></footer>
