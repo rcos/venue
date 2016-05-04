@@ -2,7 +2,7 @@
 
 angular.module('venueApp')
   .controller('StudentSubmissionsCtrl', function ($scope, User, Auth, Submission) {
-    Submission.getAll({'onlyInstructor': 'me', 'withStudents': true}, (subs)=>{
-      $scope.submissions = subs;
+    Submission.getAll({'onlyInstructor': 'me', 'withStudents': true}, (submissions)=>{
+      $scope.submissions = submissions;
     });
   });
