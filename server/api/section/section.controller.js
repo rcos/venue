@@ -202,13 +202,9 @@ exports.create = function(req, res) {
 // Updates an existing Section in the DB
 
 function saveSectionUpdates(req) {
-      console.log("here2",req.body.pendingStudent, req.body.removePendingStudent, req.body.removeStudent)
 
   return (section) => {
-    console.log("here",req.body.pendingStudent, req.body.removePendingStudent, req.body.removeStudent)
     if(req.body.pendingStudent){
-        console.log("here req.body.pendingStudent",req.body.pendingStudent)
-
       var pendingStudent = req.body.pendingStudent;
       if(section.pendingStudents.remove(pendingStudent)){
         section.students.push(pendingStudent);
@@ -218,15 +214,12 @@ function saveSectionUpdates(req) {
       }
     }
     if(req.body.removePendingStudent){
-        console.log("here req.body.removePendingStudent",req.body.removePendingStudent)
-
       var pendingStudent = req.body.removePendingStudent;
       if(!section.pendingStudents.remove(pendingStudent)){
         throw "Not a valid pending student";
       }
     }
     if(req.body.removeStudent){
-        console.log("here req.body.removeStudent",req.body.removeStudent)
 
       var student = req.body.removeStudent;
       if(!section.students.remove(student)){
