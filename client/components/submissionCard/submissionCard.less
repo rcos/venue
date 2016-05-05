@@ -1,0 +1,38 @@
+.submission-card{
+  display: table;
+  margin: 24px auto;
+  text-align: left;
+  min-height: 200px;
+
+  background-color: #fff;
+  width: auto;
+  .submission-name{
+    height: 150px;
+    .card-name;
+  }
+  .submission-desc{
+    .card-desc;
+  }
+  .submission-ref{
+    .card-ref()
+  }
+  &.short{
+    min-height: 136px;
+
+    .submission-ref{
+      color:#666;
+      padding:7px;
+    }
+    .submission-sect{
+        color:#888;
+    }
+    .submission-name{
+      .card-shortname();
+    }
+  }
+
+}
+.submission-card:hover{
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2);
+  cursor:pointer;
+}
