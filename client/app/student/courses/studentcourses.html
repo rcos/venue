@@ -1,10 +1,10 @@
 <navbar></navbar>
 <div class='container student'>
   <div class='row'>
-    <div class='col-sm-3'>
+    <div class='col-sm-2'>
       <sidebar></sidebar>
     </div>
-    <div class='col-sm-9 student-courses'>
+    <div class='col-sm-10 student-courses'>
       <h1 class="page-header">Courses</h1>
       <div class="card-container row">
         <course-card class="col-md-6" ng-repeat='course in user.courses' click='goToCourse(course)' data="course" short="false" sections='course.sections'>  </course-card>
