@@ -226,11 +226,7 @@ exports.show = function(req, res) {
 
 // Creates a new Submission in the DB
 exports.create = function(req, res) {
-  // TODO: add back after auth
-  // if (req.user._id)
-  //   {
-  //     req.body.userId = req.user._id;
-  //   }
+  req.body.userId = req.user._id;
   saveSubmissionImage(req.files, req.body, (imagePaths)=>{
     var submit = {
       images : imagePaths,
