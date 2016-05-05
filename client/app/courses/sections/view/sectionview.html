@@ -20,8 +20,8 @@
       </div>
 
       <div ng-show='isInstructor' class='col-sm-6 left-column col-sm-height col-sm-top'>
-        <div ng-show="section.pendingStudents">
-          <h4 class="no-spacing">Pending Students</h4>
+        <div ng-show="section.pendingStudents.length > 0">
+          <h4>Pending Students</h4>
           <table class="pending-students text-center table table-hover">
             <tr ng-repeat="student in section.pendingStudents">
               <td class="text-left align-middle">{{student.firstName}} {{student.lastName}}</td>
@@ -33,9 +33,10 @@
               </td>
             </tr>
           </table>
-        </div>
-        
+
         <hr/>
+
+        </div>
 
         <div class="row h4-spacing">
           <div class='col-md-7 col-sm-6'>
