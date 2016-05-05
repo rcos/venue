@@ -106,6 +106,13 @@ export function show(req, res, next) {
       done(user, profile);
     });
   }))
+  .spread(ifFlagManipulate(req.query.withSectionEvents, (user,profile,done)=>{
+    return user.getSectionEventsAsync(req.query).then((sectionevents)=>{
+      profile.sectionevents = sectionevents;
+      done(user, profile);
+    });
+  }))
+
   .spread(ifFlagManipulate(req.query.withCourses, (user,profile,done)=>{
     return user.getCoursesAsync(req.query).then((courses)=>{
       profile.courses = courses;

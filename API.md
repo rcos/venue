@@ -49,7 +49,7 @@ are shown**.
 
 `GET /api/users/:id` **Authenticated** - Returns information regarding user with id
 
-Can be called with the following GET parameters for additional information: `withSections`, `withEvents`, `withSectionsCourse`, `withCourses`
+Can be called with the following GET parameters for additional information: `withSections`, `withEvents`,`withSectionEvents`, `withSectionsCourse`, `withCourses`, 'withEventSections'
 
 Example Response:
 ```javascript
@@ -243,211 +243,295 @@ Example Response:
 ```
 
 ```javascript
+// GET /api/users/<id>?withSectionEvents=true
+{
+    "_id": "000000000000000000000004",
+    "firstName": "Foo",
+    "lastName": "Bar",
+    "isInstructor": false,
+    "__v": 0,
+    "role": "user",
+    "sectionevents": [{
+        "_id": "000000000000000000001001",
+        "section": "000000000000000000000220",
+        "submissionInstructions": "Make sure to take a photo in front of the building.",
+        "author": "000000000000000000000003",
+        "creationDate": "2016-01-01T08:24:00.000Z",
+        "info": {
+            "_id": "000000000000000000000020",
+            "title": "Art_X Concerts: Examine Intersections of Science, Art",
+            "description": "Faculty of the School of Humanities, Arts and Social Sciences (HASS) collaborate with the Center for Biotechnology and Interdisciplinary Studies (CBIS) and local Troy artists on two Art_X concerts to discover the art in science and the science in art.  The concerts, which will be held on Tuesday October 6 and October 20 at 4:30 pm in the CBIS Auditorium, are free and open to the RPI community. Following each concert, there will be a reception hosted by CBIS in the Gallery of the CBIS Auditorium.",
+            "author": "000000000000000000000003",
+            "creationDate": "2016-01-01T08:24:00.000Z",
+            "__v": 0,
+            "times": [{
+                "start": "2016-01-20T23:00:00.000Z",
+                "end": "2016-01-21T01:00:00.000Z",
+                "_id": "572b7d70f5072cf1eadb4814"
+            }, {
+                "start": "2016-01-22T23:00:00.000Z",
+                "end": "2016-01-23T01:00:00.000Z",
+                "_id": "572b7d70f5072cf1eadb4813"
+            }
+            ],
+            "location": {
+                "address": "110 8th St, Troy, NY  12180, United States",
+                "description": "Empac",
+                "geo": {
+                    "coordinates": [42.7288898, - 73.6842041],
+                    "type": "Point"
+                },
+                "radius": 0.001
+            },
+            "imageURLs": ["http://news.rpi.edu/sites/default/files/cbis-news_0.jpeg"]
+        },
+        "__v": 0
+    }, {
+        "_id": "000000000000000000001002",
+        "section": "000000000000000000000121",
+        "submissionInstructions": "Make sure to take a photo in front of the building.",
+        "author": "000000000000000000000003",
+        "creationDate": "2016-01-01T08:24:00.000Z",
+        "info": {
+            "_id": "000000000000000000000020",
+            "title": "Art_X Concerts: Examine Intersections of Science, Art",
+            "description": "Faculty of the School of Humanities, Arts and Social Sciences (HASS) collaborate with the Center for Biotechnology and Interdisciplinary Studies (CBIS) and local Troy artists on two Art_X concerts to discover the art in science and the science in art.  The concerts, which will be held on Tuesday October 6 and October 20 at 4:30 pm in the CBIS Auditorium, are free and open to the RPI community. Following each concert, there will be a reception hosted by CBIS in the Gallery of the CBIS Auditorium.",
+            "author": "000000000000000000000003",
+            "creationDate": "2016-01-01T08:24:00.000Z",
+            "__v": 0,
+            "times": [{
+                "start": "2016-01-20T23:00:00.000Z",
+                "end": "2016-01-21T01:00:00.000Z",
+                "_id": "572b7d70f5072cf1eadb4814"
+            }, {
+                "start": "2016-01-22T23:00:00.000Z",
+                "end": "2016-01-23T01:00:00.000Z",
+                "_id": "572b7d70f5072cf1eadb4813"
+            }
+            ],
+            "location": {
+                "address": "110 8th St, Troy, NY  12180, United States",
+                "description": "Empac",
+                "geo": {
+                    "coordinates": [42.7288898, - 73.6842041],
+                    "type": "Point"
+                },
+                "radius": 0.001
+            },
+            "imageURLs": ["http://news.rpi.edu/sites/default/files/cbis-news_0.jpeg"]
+        },
+        "__v": 0
+    }, {
+        "_id": "000000000000000000001003",
+        "section": "000000000000000000000124",
+        "submissionInstructions": "Make sure to take a photo in front of the building.",
+        "author": "000000000000000000000003",
+        "creationDate": "2016-01-01T08:24:00.000Z",
+        "info": {
+            "_id": "000000000000000000000020",
+            "title": "Art_X Concerts: Examine Intersections of Science, Art",
+            "description": "Faculty of the School of Humanities, Arts and Social Sciences (HASS) collaborate with the Center for Biotechnology and Interdisciplinary Studies (CBIS) and local Troy artists on two Art_X concerts to discover the art in science and the science in art.  The concerts, which will be held on Tuesday October 6 and October 20 at 4:30 pm in the CBIS Auditorium, are free and open to the RPI community. Following each concert, there will be a reception hosted by CBIS in the Gallery of the CBIS Auditorium.",
+            "author": "000000000000000000000003",
+            "creationDate": "2016-01-01T08:24:00.000Z",
+            "__v": 0,
+            "times": [{
+                "start": "2016-01-20T23:00:00.000Z",
+                "end": "2016-01-21T01:00:00.000Z",
+                "_id": "572b7d70f5072cf1eadb4814"
+            }, {
+                "start": "2016-01-22T23:00:00.000Z",
+                "end": "2016-01-23T01:00:00.000Z",
+                "_id": "572b7d70f5072cf1eadb4813"
+            }
+            ],
+            "location": {
+                "address": "110 8th St, Troy, NY  12180, United States",
+                "description": "Empac",
+                "geo": {
+                    "coordinates": [42.7288898, - 73.6842041],
+                    "type": "Point"
+                },
+                "radius": 0.001
+            },
+            "imageURLs": ["http://news.rpi.edu/sites/default/files/cbis-news_0.jpeg"]
+        },
+        "__v": 0
+    }, {
+        "_id": "000000000000000000001005",
+        "section": "000000000000000000000124",
+        "submissionInstructions": "",
+        "author": "000000000000000000000002",
+        "creationDate": "2016-01-04T10:49:06.000Z",
+        "info": {
+            "_id": "000000000000000000000021",
+            "title": "Dancing Through the Years",
+            "description": "Judson Laipply dances the last 50 years.",
+            "author": "000000000000000000000002",
+            "creationDate": "2016-01-04T10:49:06.000Z",
+            "__v": 0,
+            "times": [{
+                "start": "2016-01-15T23:00:00.000Z",
+                "end": "2016-01-16T01:00:00.000Z",
+                "_id": "572b7d70f5072cf1eadb4815"
+            }
+            ],
+            "location": {
+                "address": "110 8th St, Troy, NY  12180, United States",
+                "description": "Empac",
+                "geo": {
+                    "coordinates": [42.7288898, - 73.6842041],
+                    "type": "Point"
+                },
+                "radius": 0.001
+            },
+            "imageURLs": ["http://www.lhsdoi.com/wp-content/uploads/2014/04/photo-1-950x950.jpg"]
+        },
+        "__v": 0
+    }, {
+        "_id": "000000000000000000001006",
+        "section": "000000000000000000000220",
+        "submissionInstructions": "",
+        "author": "000000000000000000000002",
+        "creationDate": "2016-01-04T10:49:06.000Z",
+        "info": {
+            "_id": "000000000000000000000021",
+            "title": "Dancing Through the Years",
+            "description": "Judson Laipply dances the last 50 years.",
+            "author": "000000000000000000000002",
+            "creationDate": "2016-01-04T10:49:06.000Z",
+            "__v": 0,
+            "times": [{
+                "start": "2016-01-15T23:00:00.000Z",
+                "end": "2016-01-16T01:00:00.000Z",
+                "_id": "572b7d70f5072cf1eadb4815"
+            }
+            ],
+            "location": {
+                "address": "110 8th St, Troy, NY  12180, United States",
+                "description": "Empac",
+                "geo": {
+                    "coordinates": [42.7288898, - 73.6842041],
+                    "type": "Point"
+                },
+                "radius": 0.001
+            },
+            "imageURLs": ["http://www.lhsdoi.com/wp-content/uploads/2014/04/photo-1-950x950.jpg"]
+        },
+        "__v": 0
+    }
+    ]
+}
+
+
+```
+
+```javascript
 // GET /api/users/<id>?withEvents=true
 
 {
-  "_id": "000000000000000000000004",
-  "provider": "local",
-  "firstName": "Foo",
-  "lastName": "Bar",
-  "email": "foo@foo.com",
-  "isInstructor": false,
-  "__v": 0,
-  "role": "user",
-  "events": [
-    {
-      "_id": "000000000000000000001001",
-      "section": "000000000000000000000220",
-      "submissionInstructions": "Make sure to take a photo in front of the building.",
-      "author": "000000000000000000000003",
-      "creationDate": "2016-01-01T08:24:00.000Z",
-      "info": {
-        "_id": "000000000000000000000020",
-        "title": "Art_X Concerts: Examine Intersections of Science, Art",
-        "description": "Faculty of the School of Humanities, Arts and Social Sciences (HASS) collaborate with the Center for Biotechnology and Interdisciplinary Studies (CBIS) and local Troy artists on two Art_X concerts to discover the art in science and the science in art.  The concerts, which will be held on Tuesday October 6 and October 20 at 4:30 pm in the CBIS Auditorium, are free and open to the RPI community. Following each concert, there will be a reception hosted by CBIS in the Gallery of the CBIS Auditorium.",
-        "imageURL": "http://news.rpi.edu/sites/default/files/cbis-news_0.jpeg",
-        "author": "000000000000000000000003",
-        "creationDate": "2016-01-01T08:24:00.000Z",
-        "__v": 0,
-        "times": [
-          {
-            "start": "2016-01-20T23:00:00.000Z",
-            "end": "2016-01-21T01:00:00.000Z",
-            "_id": "56970b8756408ff04b4a31e8"
-          },
-          {
-            "start": "2016-01-22T23:00:00.000Z",
-            "end": "2016-01-23T01:00:00.000Z",
-            "_id": "56970b8756408ff04b4a31e7"
-          }
-        ],
-        "location": {
-          "address": "110 8th St, Troy, NY  12180, United States",
-          "description": "Empac",
-          "geo": {
-            "coordinates": [
-              42.7288898,
-              -73.6842041
+    "_id": "000000000000000000000004",
+    "firstName": "Foo",
+    "lastName": "Bar",
+    "isInstructor": false,
+    "__v": 0,
+    "role": "user",
+    "events": {
+        "000000000000000000000020": {
+            "_id": "000000000000000000000020",
+            "title": "Art_X Concerts: Examine Intersections of Science, Art",
+            "description": "Faculty of the School of Humanities, Arts and Social Sciences (HASS) collaborate with the Center for Biotechnology and Interdisciplinary Studies (CBIS) and local Troy artists on two Art_X concerts to discover the art in science and the science in art.  The concerts, which will be held on Tuesday October 6 and October 20 at 4:30 pm in the CBIS Auditorium, are free and open to the RPI community. Following each concert, there will be a reception hosted by CBIS in the Gallery of the CBIS Auditorium.",
+            "author": "000000000000000000000003",
+            "creationDate": "2016-01-01T08:24:00.000Z",
+            "times": [{
+                "start": "2016-01-20T23:00:00.000Z",
+                "end": "2016-01-21T01:00:00.000Z",
+                "_id": "572b7aa9597ab198e8a7bb5c"
+            }, {
+                "start": "2016-01-22T23:00:00.000Z",
+                "end": "2016-01-23T01:00:00.000Z",
+                "_id": "572b7aa9597ab198e8a7bb5b"
+            }
             ],
-            "type": "Point"
-          }
-        }
-      },
-      "__v": 0
-    },
-    {
-      "_id": "000000000000000000001002",
-      "section": "000000000000000000000121",
-      "submissionInstructions": "Make sure to take a photo in front of the building.",
-      "author": "000000000000000000000003",
-      "creationDate": "2016-01-01T08:24:00.000Z",
-      "info": {
-        "_id": "000000000000000000000020",
-        "title": "Art_X Concerts: Examine Intersections of Science, Art",
-        "description": "Faculty of the School of Humanities, Arts and Social Sciences (HASS) collaborate with the Center for Biotechnology and Interdisciplinary Studies (CBIS) and local Troy artists on two Art_X concerts to discover the art in science and the science in art.  The concerts, which will be held on Tuesday October 6 and October 20 at 4:30 pm in the CBIS Auditorium, are free and open to the RPI community. Following each concert, there will be a reception hosted by CBIS in the Gallery of the CBIS Auditorium.",
-        "imageURL": "http://news.rpi.edu/sites/default/files/cbis-news_0.jpeg",
-        "author": "000000000000000000000003",
-        "creationDate": "2016-01-01T08:24:00.000Z",
-        "__v": 0,
-        "times": [
-          {
-            "start": "2016-01-20T23:00:00.000Z",
-            "end": "2016-01-21T01:00:00.000Z",
-            "_id": "56970b8756408ff04b4a31e8"
-          },
-          {
-            "start": "2016-01-22T23:00:00.000Z",
-            "end": "2016-01-23T01:00:00.000Z",
-            "_id": "56970b8756408ff04b4a31e7"
-          }
-        ],
-        "location": {
-          "address": "110 8th St, Troy, NY  12180, United States",
-          "description": "Empac",
-          "geo": {
-            "coordinates": [
-              42.7288898,
-              -73.6842041
+            "location": {
+                "address": "110 8th St, Troy, NY  12180, United States",
+                "description": "Empac",
+                "geo": {
+                    "coordinates": [42.7288898, - 73.6842041],
+                    "type": "Point"
+                },
+                "radius": 0.001
+            },
+            "imageURLs": ["http://news.rpi.edu/sites/default/files/cbis-news_0.jpeg"],
+            "__v": 0,
+            "sectionEvents": [{
+                "_id": "000000000000000000001001",
+                "section": "000000000000000000000220",
+                "submissionInstructions": "Make sure to take a photo in front of the building.",
+                "author": "000000000000000000000003",
+                "creationDate": "2016-01-01T08:24:00.000Z",
+                "__v": 0
+            }, {
+                "_id": "000000000000000000001002",
+                "section": "000000000000000000000121",
+                "submissionInstructions": "Make sure to take a photo in front of the building.",
+                "author": "000000000000000000000003",
+                "creationDate": "2016-01-01T08:24:00.000Z",
+                "__v": 0
+            }, {
+                "_id": "000000000000000000001003",
+                "section": "000000000000000000000124",
+                "submissionInstructions": "Make sure to take a photo in front of the building.",
+                "author": "000000000000000000000003",
+                "creationDate": "2016-01-01T08:24:00.000Z",
+                "__v": 0
+            }
+            ]
+        },
+        "000000000000000000000021": {
+            "_id": "000000000000000000000021",
+            "title": "Dancing Through the Years",
+            "description": "Judson Laipply dances the last 50 years.",
+            "author": "000000000000000000000002",
+            "creationDate": "2016-01-04T10:49:06.000Z",
+            "times": [{
+                "start": "2016-01-15T23:00:00.000Z",
+                "end": "2016-01-16T01:00:00.000Z",
+                "_id": "572b7aa9597ab198e8a7bb5d"
+            }
             ],
-            "type": "Point"
-          }
+            "location": {
+                "address": "110 8th St, Troy, NY  12180, United States",
+                "description": "Empac",
+                "geo": {
+                    "coordinates": [42.7288898, - 73.6842041],
+                    "type": "Point"
+                },
+                "radius": 0.001
+            },
+            "imageURLs": ["http://www.lhsdoi.com/wp-content/uploads/2014/04/photo-1-950x950.jpg"],
+            "__v": 0,
+            "sectionEvents": [{
+                "_id": "000000000000000000001005",
+                "section": "000000000000000000000124",
+                "submissionInstructions": "",
+                "author": "000000000000000000000002",
+                "creationDate": "2016-01-04T10:49:06.000Z",
+                "__v": 0
+            }, {
+                "_id": "000000000000000000001006",
+                "section": "000000000000000000000220",
+                "submissionInstructions": "",
+                "author": "000000000000000000000002",
+                "creationDate": "2016-01-04T10:49:06.000Z",
+                "__v": 0
+            }
+            ]
         }
-      },
-      "__v": 0
-    },
-    {
-      "_id": "000000000000000000001003",
-      "section": "000000000000000000000124",
-      "submissionInstructions": "Make sure to take a photo in front of the building.",
-      "author": "000000000000000000000003",
-      "creationDate": "2016-01-01T08:24:00.000Z",
-      "info": {
-        "_id": "000000000000000000000020",
-        "title": "Art_X Concerts: Examine Intersections of Science, Art",
-        "description": "Faculty of the School of Humanities, Arts and Social Sciences (HASS) collaborate with the Center for Biotechnology and Interdisciplinary Studies (CBIS) and local Troy artists on two Art_X concerts to discover the art in science and the science in art.  The concerts, which will be held on Tuesday October 6 and October 20 at 4:30 pm in the CBIS Auditorium, are free and open to the RPI community. Following each concert, there will be a reception hosted by CBIS in the Gallery of the CBIS Auditorium.",
-        "imageURL": "http://news.rpi.edu/sites/default/files/cbis-news_0.jpeg",
-        "author": "000000000000000000000003",
-        "creationDate": "2016-01-01T08:24:00.000Z",
-        "__v": 0,
-        "times": [
-          {
-            "start": "2016-01-20T23:00:00.000Z",
-            "end": "2016-01-21T01:00:00.000Z",
-            "_id": "56970b8756408ff04b4a31e8"
-          },
-          {
-            "start": "2016-01-22T23:00:00.000Z",
-            "end": "2016-01-23T01:00:00.000Z",
-            "_id": "56970b8756408ff04b4a31e7"
-          }
-        ],
-        "location": {
-          "address": "110 8th St, Troy, NY  12180, United States",
-          "description": "Empac",
-          "geo": {
-            "coordinates": [
-              42.7288898,
-              -73.6842041
-            ],
-            "type": "Point"
-          }
-        }
-      },
-      "__v": 0
-    },
-    {
-      "_id": "000000000000000000001005",
-      "section": "000000000000000000000124",
-      "submissionInstructions": "",
-      "author": "000000000000000000000002",
-      "creationDate": "2016-01-04T10:49:06.000Z",
-      "info": {
-        "_id": "000000000000000000000021",
-        "title": "Dancing Through the Years",
-        "description": "Judson Laipply dances the last 50 years.",
-        "imageURL": "http://www.lhsdoi.com/wp-content/uploads/2014/04/photo-1-950x950.jpg",
-        "author": "000000000000000000000002",
-        "creationDate": "2016-01-04T10:49:06.000Z",
-        "__v": 0,
-        "times": [
-          {
-            "start": "2016-01-15T23:00:00.000Z",
-            "end": "2016-01-16T01:00:00.000Z",
-            "_id": "56970b8756408ff04b4a31e9"
-          }
-        ],
-        "location": {
-          "address": "110 8th St, Troy, NY  12180, United States",
-          "description": "Empac",
-          "geo": {
-            "coordinates": [
-              42.7288898,
-              -73.6842041
-            ],
-            "type": "Point"
-          }
-        }
-      },
-      "__v": 0
-    },
-    {
-      "_id": "000000000000000000001006",
-      "section": "000000000000000000000220",
-      "submissionInstructions": "",
-      "author": "000000000000000000000002",
-      "creationDate": "2016-01-04T10:49:06.000Z",
-      "info": {
-        "_id": "000000000000000000000021",
-        "title": "Dancing Through the Years",
-        "description": "Judson Laipply dances the last 50 years.",
-        "imageURL": "http://www.lhsdoi.com/wp-content/uploads/2014/04/photo-1-950x950.jpg",
-        "author": "000000000000000000000002",
-        "creationDate": "2016-01-04T10:49:06.000Z",
-        "__v": 0,
-        "times": [
-          {
-            "start": "2016-01-15T23:00:00.000Z",
-            "end": "2016-01-16T01:00:00.000Z",
-            "_id": "56970b8756408ff04b4a31e9"
-          }
-        ],
-        "location": {
-          "address": "110 8th St, Troy, NY  12180, United States",
-          "description": "Empac",
-          "geo": {
-            "coordinates": [
-              42.7288898,
-              -73.6842041
-            ],
-            "type": "Point"
-          }
-        }
-      },
-      "__v": 0
     }
-  ]
 }
+
 ```
+
 
 `POST /api/users` - Creates a user account, this is called on sign-up.  
 Request returns a javascript web token.
