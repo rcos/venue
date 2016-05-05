@@ -8,7 +8,8 @@ angular.module('venueApp')
       scope: {
         data: '=',
         short: '=',
-        sections: '='
+        sections: '=',
+        preview: '='
       },
       link: function (scope, element, attrs) {
       },

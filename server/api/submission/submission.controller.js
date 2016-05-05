@@ -196,6 +196,7 @@ exports.index = function(req, res) {
         .catch(handleError(res));
     }
     else{
+      console.log(req.query.onlySectionEvent);
       respond(Submission.find({sectionEvent: req.query.onlySectionEvent}));
     }
   }else if (req.query.onlyNumber){

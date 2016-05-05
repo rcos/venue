@@ -4,12 +4,12 @@
       <h2 class="mdl-card__title-text">{{ data.title }} </h2>
     </div>
   </div>
-  <div class='event-desc mdl-card__supporting-text' data-ng-bind="data.description" data-ellipsis ng-hide="short"/>
-  <div class='event-dates mdl-card__supporting-text'>
+  <div class='event-desc mdl-card__supporting-text' data-ng-bind="data.description" data-ellipsis ng-hide="short || preview"/>
+  <div ng-hide="preview" class='event-dates mdl-card__supporting-text'>
       Times:
         <div ng-repeat="time in data.times"> {{time.start | date : "MMM. d, h:mm a"}} - {{time.end | date : "MMM. d, h:mm a"}}<span ng-hide="$last && $parent.$last">, </span></div>
   </div>
-  <div class='event-ref mdl-card__actions mdl-card--border'>
+  <div class='event-ref mdl-card__actions mdl-card--border' ng-hide="preview">
     <div class='mdl-card__supporting-text event-section-courses'>
         <a href="#" ng-repeat="sectionEvent in data.sectionEvents" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" ng-click='goToSectionEvent(sectionEvent)'>
           {{ sectionEvent.section.course.department }} {{sectionEvent.section.course.courseNumber}}
