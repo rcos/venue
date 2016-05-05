@@ -26,6 +26,27 @@ angular.module('venueApp')
       loadSection();
     });
 
+    $scope.verifyPendingStudent = (pendingStudent) => {
+      var section = $scope.section;
+      Section.update({id: section._id}, {pendingStudent: pendingStudent._id}, () => {
+          loadSection();
+        });
+    }
+
+    $scope.ignorePendingStudent = (pendingStudent) => {
+      var section = $scope.section;
+      Section.update({id: section._id}, {removePendingStudent: pendingStudent._id}, () => {
+          loadSection();
+        });
+    };
+
+    $scope.removeStudent = (pendingStudent) => {
+      var section = $scope.section;
+      Section.update({id: section._id}, {removeStudent: pendingStudent._id}, () => {
+          loadSection();
+        });
+    };
+
     $scope.enroll = function(){
       User.enroll({_id: $scope.user._id, sectionid: $scope.section._id}, ()=>{
         loadSection();

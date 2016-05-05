@@ -87,27 +87,6 @@ function removeEntity(res) {
   };
 }
 
-function updateSection(req){
-  if(req.body.pendingStudent){
-    return updatePendingStudents(req);
-  }
-  else{
-    return saveSectionUpdates(req);
-  }
-}
-
-function updatePendingStudents(req){
-  return (section) =>{
-    var pendingStudent = req.body.pendingStudent;
-    if(section.pendingStudents.remove(pendingStudent)){
-      section.students.push(pendingStudent);
-      return section.saveAsync()
-        .spread((sect)=>{
-          return Section.populate(sect, {path:"pendingStudents"})
-        });
-    }
-  }
-}
 
 function checkSectionReq(req) {
   // Check sections numbers
@@ -119,25 +98,11 @@ function checkSectionReq(req) {
         throw "Section number must be greater than zero";
       }
       if (sectionNumbers[i + 1] == sectionNumbers[i]) {
-        throw "Duplicate section numbers found";
+        throw "Section number must be greater than zero";
       }
     }
   }
 }
-
-function saveSectionUpdates(req) {
-  return (section) => {
-    checkSectionReq(req);
-    section.sectionNumbers = req.body.sectionNumbers.map(Number);
-    section.enrollmentPolicy = req.body.enrollmentPolicy;
-    section.instructors = req.body.instructors;
-    return section.saveAsync()
-      .spread(function(updated) {
-        return updated;
-      });
-  }
-}
-
 
 // Gets a list of Sections
 // Filter by current user ?onlyUser=me
@@ -235,13 +200,66 @@ exports.create = function(req, res) {
 };
 
 // Updates an existing Section in the DB
+
+function saveSectionUpdates(req) {
+      console.log("here2",req.body.pendingStudent, req.body.removePendingStudent, req.body.removeStudent)
+
+  return (section) => {
+    console.log("here",req.body.pendingStudent, req.body.removePendingStudent, req.body.removeStudent)
+    if(req.body.pendingStudent){
+        console.log("here req.body.pendingStudent",req.body.pendingStudent)
+
+      var pendingStudent = req.body.pendingStudent;
+      if(section.pendingStudents.remove(pendingStudent)){
+        section.students.push(pendingStudent);
+      }
+      else{
+        throw "Not a valid pending student";
+      }
+    }
+    if(req.body.removePendingStudent){
+        console.log("here req.body.removePendingStudent",req.body.removePendingStudent)
+
+      var pendingStudent = req.body.removePendingStudent;
+      if(!section.pendingStudents.remove(pendingStudent)){
+        throw "Not a valid pending student";
+      }
+    }
+    if(req.body.removeStudent){
+        console.log("here req.body.removeStudent",req.body.removeStudent)
+
+      var student = req.body.removeStudent;
+      if(!section.students.remove(student)){
+        throw "Not a valid student";
+      }
+    }
+    if (req.body.sectionNumbers){
+      checkSectionReq(req);
+      section.sectionNumbers = req.body.sectionNumbers.map(Number);
+    }
+    if(req.body.enrollmentPolicy)
+    {
+      section.enrollmentPolicy = req.body.enrollmentPolicy;
+    }
+    if(req.body.instructors)
+    {
+      section.instructors = req.body.instructors;
+    }
+    return section.saveAsync()
+      .spread(function(updated) {
+        return updated;
+      });
+  }
+}
+
+
 exports.update = function(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
   Section.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
-    .then(updateSection(req))
+    .then(saveSectionUpdates(req))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
