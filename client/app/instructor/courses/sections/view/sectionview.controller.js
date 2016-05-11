@@ -43,11 +43,8 @@ angular.module('venueApp')
         return sectEvent.section._id == $routeParams.sectionId;
       })
       $scope.selectedEventId = event._id;
-      console.log($scope.selectedEventId);
       Submission.getAll({'onlySectionEvent': sectionEvent._id, 'withStudents': true}, (submissions)=>{
         $scope.submissions = submissions;
-        console.log("got new submissions");
-        console.log(submissions);
         findStudentSubmission();
       });
     };
@@ -77,7 +74,8 @@ angular.module('venueApp')
     };
 
     $scope.editSection = function(){
-      $location.path($location.path() + '/edit');
+      console.log('/courses/' + $routeParams.id + '/sections/' + $routeParams.sectionId + '/edit');
+      $location.path('/courses/' + $routeParams.id + '/sections/' + $routeParams.sectionId + '/edit');
     };
 
     $scope.selectStudent = function(student){
