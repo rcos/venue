@@ -2,7 +2,8 @@
 
 angular.module('venueApp')
   .controller('InstructorSectionViewCtrl', ($scope, $location, $routeParams, User, Auth, Course, Submission, Section) => {
-    var loadSection = function(){
+    componentHandler.upgradeDom();
+    function loadCurrentUserSection(){
       Section.get({
         id: $routeParams.sectionId,
         withSectionsCourse:true,
@@ -23,12 +24,13 @@ angular.module('venueApp')
       }, () =>{
         $location.path('/courses');
       });
-      }
+    }
+
     Auth.getCurrentUser((user) => {
       $scope.user = user;
       $scope.isStudent = (!user.isInstructor) && Auth.isLoggedIn();
       $scope.isInstructor = user.isInstructor;
-      loadSection();
+      loadCurrentUserSection();
     });
 
     $scope.loadSectionEventSubmissions = function(event){

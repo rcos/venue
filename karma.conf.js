@@ -34,6 +34,7 @@ module.exports = function(config) {
       'client/bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.min.js',
       'client/bower_components/angular-simple-logger/dist/angular-simple-logger.js',
       'client/bower_components/angular-google-maps/dist/angular-google-maps.js',
+      'client/bower_components/material-design-lite/material.min.js',
       'client/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'node_modules/socket.io-client/socket.io.js',
