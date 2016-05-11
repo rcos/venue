@@ -13,17 +13,7 @@
                 <span ng-repeat="number in section.sectionNumbers track by $index" ng-show="number > -1">
                   <span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last || section.sectionNumbers.length < 3">, </span>
                 </span><span ng-show='isInstructor'>| Instructor<span ng-show="section.instructors.length > 1">s</span>: </span>
-              <span ng-show='isInstructor' ng-repeat="instructor in section.instructors">
-                <span ng-show="$last && !$first">& </span>{{instructor.firstName}} {{instructor.lastName}}<span ng-hide="$last">, </span>
-              </span>
-              <span ng-show='isInstructor'>| Students: </span>
-              <span ng-show='isInstructor'>{{section.students.length}}</span>
-              <span ng-show='isInstructor'>| Events: </span>
-              <span ng-show='isInstructor'>{{section.events.length}}</span>
-              <span ng-show='isInstructor'>| Enrollment Policy: </span>
-              <span ng-show='isInstructor'>{{(section.enrollmentPolicy === "approvalRequired")?"approval":section.enrollmentPolicy}}</span>
             </div>
-            <button ng-show='isInstructor' class="btn btn-default edit-Section col-sm-2" ng-click='editSection()'>Edit</button>
           </div>
         </a>
       </div>

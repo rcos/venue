@@ -1,0 +1,151 @@
+<navbar></navbar>
+
+<div class='container section-page'>
+  <div class="instructorSectionview">
+    <div class='row'>
+      <div class="col-sm-12 title">
+          <div class="background-image"  ng-style="{'background-image':'url(\''+course.imageURLs[0]+'\')'}">
+          </div>
+          <div class="row inside">
+            <h2 class = "col-sm-12"> {{ course.name }}</h2>
+            <div class='course-number col-sm-10'>{{course.department}} {{course.courseNumber}} | Section<span ng-show="section.sectionNumbers.length > 1">s</span>:
+              <span class="big-number text-right">
+                <span ng-repeat="number in section.sectionNumbers track by $index" ng-show="number > -1">
+                  <span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last || section.sectionNumbers.length < 3">, </span>
+                </span>
+            </div>
+            <button class="btn btn-default edit-Section col-sm-2" ng-click='editSection()'>Edit</button>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class='row row-height' ng-hide='isInstructor || isStudent'>
+      <div class="col-sm-12">
+        <h4><a href="/login">Log in</a> to learn more</h4>
+      </div>
+    </div>
+
+    <div class='row'>
+
+      <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect col-sm-12">
+        <div class="mdl-tabs__tab-bar">
+          <a href="#info-panel" class="mdl-tabs__tab is-active">Information</a>
+          <a href="#event-panel" class="mdl-tabs__tab">Events</a>
+          <a href="#student-panel" class="mdl-tabs__tab">Students</a>
+          <a href="#submissions-panel" class="mdl-tabs__tab">Submissions</a>
+        </div>
+
+        <div class="mdl-tabs__panel is-active" id="info-panel">
+          <table class="course-section text-center table table-hover section-information">
+            <tr>
+              <td class="text-right section-info">Instructor<span ng-show="section.instructors.length > 1">s</span></td>
+              <td class="text-left section-info">
+                <span ng-repeat="instructor in section.instructors">
+                  <span ng-show="$last && !$first">& </span>{{instructor.firstName}} {{instructor.lastName}}<span ng-hide="$last">, </span>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-right section-info">Students</td>
+              <td class="text-left section-info">{{section.students.length}}</td>
+            </tr>
+            <tr e>
+              <td class="text-right section-info">Pending Students</td>
+              <td class="text-left section-info">{{section.pendingStudents.length}}</td>
+            </tr>
+            <tr>
+              <td class="text-right section-info">Events</td>
+              <td class="text-left section-info">{{section.events.length}}</td>
+            </tr>
+            <tr>
+              <td class="text-right section-info">Enrollment Policy</td>
+              <td class="text-left section-info">{{(section.enrollmentPolicy === "approvalRequired")?"approval":section.enrollmentPolicy}}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="mdl-tabs__panel" id="event-panel">
+          <div class="card-container">
+            <div class="col-md-6" ng-repeat='event in section.events' >
+              <event-card click='selecteEvent(event)' data="event"  short="true" preview="true" >  </event-card>
+            </div>
+          </div>
+        </div>
+        <div class="mdl-tabs__panel" id="student-panel">
+          <h4 class="no-spacing">Students</h4>
+          <table class="student-table mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <thead>
+              <tr>
+                <th class="mdl-data-table__cell--non-numeric">Students</th>
+                <th>Submitted</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="student in section.students">
+                <td class="mdl-data-table__cell--non-numeric">{{student.firstName}} {{student.lastName}}</td>
+                <td><i class="material-icons md-18">done</i></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="mdl-tabs__panel" id="submissions-panel">
+          <div class='row row-height'>
+            <div class='col-sm-6 left-column col-sm-height col-sm-top'>
+              <div class="row h4-spacing">
+                <div class='col-md-7 col-sm-6'>
+                  <h4 class="no-spacing">Pending Students</h4>
+                </div>
+              </div>
+              <hr/>
+              <div class="row h4-spacing">
+                <div class='col-md-12 col-sm-12'>
+                  <h4 class="no-spacing">Student Submissions</h4>
+                  <table class="student-table mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                    <thead>
+                      <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Students</th>
+                        <th>Submitted</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="student in section.students">
+                        <td class="mdl-data-table__cell--non-numeric">{{student.firstName}} {{student.lastName}}</td>
+                        <td><i class="material-icons md-18">done</i></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-6 right-column col-sm-height col-sm-top">
+              <div class="events row">
+                <div class="col-sm-12">
+                  <h4> View Submissions for Event Assignments </h4>
+                  <div class="card-container">
+                    <div class="col-md-6" ng-repeat='event in section.events' >
+                      <event-card click='selecteEvent(event)' data="event"  short="true" preview="true" >  </event-card>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-12">
+                  <h4>Submission Preview</h4>
+                  <uib-carousel>
+                    <uib-slide ng-repeat="student in section.students" active="slide.active">
+                      <img http-src="{{student.submission.images[0]}}" alt="submission-image" class="materialboxed" style="height: 200px; width: 600px; overflow: hidden; object-fit: contain;"/>
+                      <div class="carousel-caption">
+                        <h5>{{student.firstName}} {{student.lastName}}</h5>
+                      </div>
+                    </uib-slide>
+                  </uib-carousel>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<footer></footer>
