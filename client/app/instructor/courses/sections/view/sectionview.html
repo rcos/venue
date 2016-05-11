@@ -2,7 +2,7 @@
 
 <div class='container section-page'>
   <div class="instructorSectionview">
-    <div class='row'>
+    <!-- <div class='row'>
       <div class="col-sm-12 title">
           <div class="background-image"  ng-style="{'background-image':'url(\''+course.imageURLs[0]+'\')'}">
           </div>
@@ -18,7 +18,7 @@
           </div>
         </a>
       </div>
-    </div>
+    </div> -->
     <div class='row row-height' ng-hide='isInstructor || isStudent'>
       <div class="col-sm-12">
         <h4><a href="/login">Log in</a> to learn more</h4>
@@ -28,11 +28,18 @@
     <div class='row'>
 
       <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect col-sm-12">
-        <div class="mdl-tabs__tab-bar">
-          <a href="#info-panel" class="mdl-tabs__tab is-active">Information</a>
-          <a href="#event-panel" class="mdl-tabs__tab">Events</a>
-          <a href="#student-panel" class="mdl-tabs__tab">Students</a>
-          <a href="#submissions-panel" class="mdl-tabs__tab">Submissions</a>
+        <div class="mdl-tabs__tab-ba row">
+          <div class="section-title col-sm-4">
+            {{ course.name }} {{course.department}} {{course.courseNumber}} | Section<span ng-show="section.sectionNumbers.length > 1">s</span>:
+              <span class="big-number text-right">
+                <span ng-repeat="number in section.sectionNumbers track by $index" ng-show="number > -1">
+                  <span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last || section.sectionNumbers.length < 3">, </span>
+                </span>
+          </div>
+          <a href="#info-panel" class="mdl-tabs__tab is-active col-sm-2">Information</a>
+          <a href="#event-panel" class="mdl-tabs__tab col-sm-2">Events</a>
+          <a href="#student-panel" class="mdl-tabs__tab col-sm-2">Students</a>
+          <a href="#submissions-panel" class="mdl-tabs__tab col-sm-2">Submissions</a>
         </div>
 
         <div class="mdl-tabs__panel is-active" id="info-panel">
@@ -62,6 +69,7 @@
               <td class="text-left section-info">{{(section.enrollmentPolicy === "approvalRequired")?"approval":section.enrollmentPolicy}}</td>
             </tr>
           </table>
+          <button class="btn btn-default edit-section col-sm-2" ng-click='editSection()'>Edit</button>
         </div>
         <div class="mdl-tabs__panel" id="event-panel">
           <div class="card-container">

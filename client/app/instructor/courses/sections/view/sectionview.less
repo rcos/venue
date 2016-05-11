@@ -1,57 +1,29 @@
 .section-page{
   .instructorSectionview{
-    .title{
-        height:200px;
-        width:100%;
-        margin-bottom:16px;
-        .inside{
-          position: absolute;
-          padding-bottom: 8px;
-          bottom: 0;
-          margin-left: 0px;
-          margin-right: 0px;
-          width:95%;
-          h2{
-            margin-bottom: 0;
-            border-bottom:1px solid #ccc;
-            padding-bottom:10px;
-          }
-          .course-number{
-            font-size:16px;
-            padding-top:8px;
-            padding-bottom:8px;
-            color:#666;
-          }
-          .edit-section {
-            // Edit section button
-            float: right;
-          }
-        }
-        .background-image{
-          display: block;
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          z-index: -1;
-          opacity: 0.15;
-          background-image: url('http://placekitten.com/1500/1000');
-          background-repeat: no-repeat;
-          background-position: center center;
-          background-attachment: fixed;
-          -ms-background-size: cover;
-          -o-background-size: cover;
-          -moz-background-size: cover;
-          -webkit-background-size: cover;
-          background-size: cover;
-
-        }
-    }
+    .section-title{
+      margin: 0;
+      border: none;
+      padding: 0 24px;
+      float: left;
+      position: relative;
+      display: block;
+      text-decoration: none;
+      height: 48px;
+      line-height: 48px;
+      text-align: center;
+      font-weight: 500;
+      font-size: 14px;
+      text-transform: uppercase;
+      color: rgba(0,0,0,.54);
+      overflow: hidden;
+      }
     .table{
       .section-info{
         width: 50%;
       }
+    }
+    .edit-section {
+      float:right;
     }
     .big-number{
       padding-right: 12px;
@@ -64,13 +36,6 @@
     }
     .left-column{
       border-right:1px solid #ccc;
-    }
-    .course-summary {
-      height: 150px;
-      .title{
-        font-size:18px;
-        color:#333;
-      }
     }
     .full-width{
       width: 100%;
