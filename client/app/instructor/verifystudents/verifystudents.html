@@ -1,31 +1,36 @@
 <navbar></navbar>
     <div class="container instructor">
       <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-2">
           <sidebar></sidebar>
         </div>
-        <div class="col-sm-9 verify-student">
+        <div class="col-sm-10 verify-student">
           <h1 class="page-header">Verify Students</h1>
-          <div class="section" ng-repeat="section in sections">
-            <div class="section-class">
-              Class: {{section.course.name}}
-            </div>
-            <div class="section-number">
-              Sections: <div class = "section-number" ng-repeat="num in section.sectionNumbers"> {{num}} 	&nbsp;</div>
-            </div>
-            <div ng-if="section.pendingStudents.length == 0">
-              No Pending Students
-            </div>
-            <div ng-if="section.pendingStudents.length != 0">
-
-              <ul class="verify-list">
-                 <li class="student-name" ng-repeat="pendingStudent in section.pendingStudents">
-                    <h5> {{pendingStudent.firstName}} {{pendingStudent.lastName}} </h5>
-                    <button class="btn btn-primary" ng-click="verifyStudent(section, pendingStudent)"> Verify </button>
-                 </li>
-              </ul>
-            </div>
-          </div>
+          <h4>Courses with Pending Students</h4>
+          <table class="course-section text-center table table-hover">
+            <tr>
+              <th class="text-center">Course</th>
+              <th class="text-center">Section</th>
+              <th class="text-center">Pending</th>
+              <th class="text-center">Students</th>
+              <th class="text-center">Edit</th>
+            </tr>
+            <tr ng-repeat="section in sections" ng-show="section.pendingStudents.length > 0">
+              <td>
+                <span class='studentCount'>{{section.course.name}}</span>
+              </td>
+              <td><span ng-repeat="number in section.sectionNumbers"><span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last">, </span></span></td>
+              <td>
+                <span>{{section.pendingStudents.length}}</span>
+              </td>
+              <td>
+                <span>{{section.students.length}}</span>
+              </td>
+              <td>
+                    <button class="btn" ng-click='viewSection(section)'>View</button>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>

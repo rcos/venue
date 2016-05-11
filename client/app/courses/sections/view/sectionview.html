@@ -24,14 +24,26 @@
       </div>
 
       <div ng-show='isInstructor' class='col-sm-6 left-column col-sm-height col-sm-top'>
+        <div ng-show="section.pendingStudents.length > 0">
+          <h4>Pending Students</h4>
+          <table class="pending-students text-center table table-hover">
+            <tr ng-repeat="student in section.pendingStudents">
+              <td class="text-left align-middle">{{student.firstName}} {{student.lastName}}</td>
+              <td class="text-center">
+                <button ng-click='verifyPendingStudent(student)' class='verify btn btn-primary'> Verify </button>
+              </td>
+              <td class="text-center">
+                <button ng-click='ignorePendingStudent(student)' class='ignore btn btn-danger'> Ignore </button>
+              </td>
+            </tr>
+          </table>
+
+        <hr/>
+
+        </div>
+
         <div class="row h4-spacing">
           <div class='col-md-7 col-sm-6'>
-            <h4 class="no-spacing">Pending Students</h4>
-          </div>
-        </div>
-        <hr/>
-        <div class="row h4-spacing" ng-show='isInstructor'>
-          <div class='col-md-12 col-sm-12'>
             <h4 class="no-spacing">Student Submissions</h4>
             <table class="student-table mdl-data-table mdl-js-data-table mdl-shadow--2dp">
               <thead>
@@ -126,6 +138,25 @@
               <td class="text-left">{{(section.enrollmentPolicy === "approvalRequired")?"approval":section.enrollmentPolicy}}</td>
             </tr>
           </table>
+
+          <hr/>
+
+          <div ng-show="isInstructor && section.students">
+            <h4>Enrolled Students</h4>
+            <table class="pending-students text-center table table-hover">
+              <tr ng-repeat="student in section.students">
+                <td class="text-left align-middle">{{student.firstName}} {{student.lastName}}</td>
+                <td class="text-center">
+                  <button ng-click='removeStudent(student)' class='remove btn btn-danger'> Remove </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class='col-md-7 col-sm-6' ng-hide="section.students || !isInstructor">
+            <h4>No Enrolled Students</h4>
+          </div>
+
+
         </div>
       </div>
     </div>

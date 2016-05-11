@@ -300,6 +300,26 @@ UserSchema.methods = {
     })
   },
 
+  getSectionEventsAsync(opts){
+    var events = [];
+    return this.getSectionsAsync().then((sections) => {
+      var query = SectionEvent.find({section : {$in: sections}})
+      .populate('info');
+
+      if (opts.withEventSections){
+        query.populate({
+           path: 'section',
+           populate: {
+             path: 'course',
+             model: 'Course'
+           }
+        });
+      }
+
+      return query.execAsync();
+    })
+  },
+
   getCoursesAsync(opts){
     return this.getSectionsAsync({withSectionsCourse: true})
       .then((sections) => {

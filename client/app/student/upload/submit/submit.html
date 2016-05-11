@@ -3,7 +3,7 @@
 <div class="container upload-page">
   <div class="row">
     <div ng-hide="success" class="col-sm-12">
-      <img http-src='{{sectionEvent.info.imageURLs[0]}}'/>
+      <img class="banner-img" http-src='{{sectionEvent.info.imageURLs[0]}}'/>
       <div class="event-summary ">
         <h1>Event Attendance</h1>
         <div class='title'>{{sectionEvent.info.title}}</div>
@@ -65,8 +65,11 @@
               ngf-pattern="'image/*'">Drop images here or click to upload</div>
           <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
           Files:
-          <ul>
-              <li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
+          <ul class="img-upload-preview">
+              <li ng-repeat="f in files">
+                <div class="file-name">
+                  {{f.name}} {{f.$error}} {{f.$errorParam}}
+                </div>
                 <img ngf-src="f" width = {{imgWidth}}/>
               </li>
           </ul>
