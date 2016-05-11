@@ -80,4 +80,8 @@ angular.module('venueApp')
       $location.path($location.path() + '/edit');
     };
 
+    $scope.selectStudent = function(student){
+      $scope.selectedStudent = student;
+    };
+
   });

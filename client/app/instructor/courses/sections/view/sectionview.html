@@ -98,7 +98,7 @@
 
           <!-- VIEW STUDENTS/SUBMISSIONS FOR EVENT -->
           <div ng-show='currentEventSelection' class='row row-height'>
-            <div class='col-sm-6 left-column col-sm-height col-sm-top'>
+            <div class='col-sm-4 left-column col-sm-height col-sm-top'>
               <div class="row h4-spacing">
                 <div class='col-md-12 col-sm-12'>
                   <h4 class="no-spacing">Student Submissions</h4>
@@ -110,8 +110,8 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="student in section.students">
-                        <td class="mdl-data-table__cell--non-numeric">{{student.firstName}} {{student.lastName}}</td>
+                      <tr ng-repeat="student in section.students" class='hover-click' ng-click='selectStudent(student)'>
+                        <td class="mdl-data-table__cell--non-numeric" >{{student.firstName}} {{student.lastName}}</td>
                         <td><i class="material-icons md-18">{{student.submission != null ? 'done' : ''}}</i></td>
                       </tr>
                     </tbody>
@@ -120,32 +120,30 @@
               </div>
             </div>
 
-            <div class="col-sm-6 right-column col-sm-height col-sm-top">
+            <div class="col-sm-8 right-column col-sm-height col-sm-top">
               <div class="col-sm-12">
                 <h4>Submission Preview</h4>
-                <uib-carousel>
+                <!-- <uib-carousel>
                   <uib-slide ng-repeat="student in section.students" active="slide.active">
                     <img http-src="{{student.submission.images[0]}}" alt="submission-image" class="materialboxed" style="height: 200px; width: 600px; overflow: hidden; object-fit: contain;"/>
                     <div class="carousel-caption">
                       <h5>{{student.firstName}} {{student.lastName}}</h5>
                     </div>
                   </uib-slide>
-                </uib-carousel>
-              </div>
-              </div>
-            </div>
-            <!-- PLACEHOLDER -->
-            <div ng-hide='currentEventSelection' class='row row-height'>
-              <div class='col-xs-12'>
-                <div class='big-gray-placeholder'> Select an event to see student submissions </div>
+                </uib-carousel> -->
+
+                <submission-card ng-show='selectedStudent' data="selectedStudent.submission"> </submission-card>
+                <div ng-hide='selectedStudent' class='big-gray-placeholder'> select a student to see their submission </div>
               </div>
             </div>
-
-
-            <!-- END VIEW STUDENTS/SUBMISSIONS FOR EVENT -->
-
-
-
+          </div>
+          <!-- PLACEHOLDER - SELECT EVENT -->
+          <div ng-hide='currentEventSelection' class='row row-height'>
+            <div class='col-xs-12'>
+              <div class='big-gray-placeholder'> select an event to see student submissions </div>
+            </div>
+          </div>
+          <!-- END VIEW STUDENTS/SUBMISSIONS FOR EVENT -->
           </div>
         </div>
 
