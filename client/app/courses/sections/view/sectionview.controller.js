@@ -15,8 +15,6 @@ angular.module('venueApp')
       }, section => {
         $scope.course = section.course;
         $scope.section = section;
-        // TODO: automate by first index of events for Section.
-        $scope.loadSectionEventSubmissions(section.events[0].sectionEvents[0]);
       }, () =>{
         $location.path('/courses');
       });
@@ -48,7 +46,7 @@ angular.module('venueApp')
     $scope.selecteEvent = function(event){
       $scope.sectionEventSubmissions(event);
     };
-    
+
     $scope.verifyPendingStudent = (pendingStudent) => {
       var section = $scope.section;
       Section.update({id: section._id}, {pendingStudent: pendingStudent._id}, () => {
