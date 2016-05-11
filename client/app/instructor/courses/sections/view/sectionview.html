@@ -71,12 +71,11 @@
           </div>
         </div>
         <div class="mdl-tabs__panel" id="student-panel">
-          <h4 class="no-spacing">Students</h4>
           <table class="student-table mdl-data-table mdl-js-data-table mdl-shadow--2dp">
             <thead>
               <tr>
                 <th class="mdl-data-table__cell--non-numeric">Students</th>
-                <th>Submitted</th>
+                <th>Total Submissions</th>
               </tr>
             </thead>
             <tbody>
@@ -88,14 +87,18 @@
           </table>
         </div>
         <div class="mdl-tabs__panel" id="submissions-panel">
-          <div class='row row-height'>
-            <div class='col-sm-6 left-column col-sm-height col-sm-top'>
-              <div class="row h4-spacing">
-                <div class='col-md-7 col-sm-6'>
-                  <h4 class="no-spacing">Pending Students</h4>
+          <div class="events row">
+            <div class="col-sm-12">
+              <h4> View Submissions for Event Assignments </h4>
+              <div class="card-container">
+                <div class="col-md-3" ng-repeat='event in section.events' >
+                  <event-card selected="selectedEventId == event._id" ng-click='selectEvent(event)' data="event"  short="true" preview="true" >  </event-card>
                 </div>
               </div>
-              <hr/>
+            </div>
+          </div>
+          <div class='row row-height'>
+            <div class='col-sm-6 left-column col-sm-height col-sm-top'>
               <div class="row h4-spacing">
                 <div class='col-md-12 col-sm-12'>
                   <h4 class="no-spacing">Student Submissions</h4>
@@ -118,27 +121,17 @@
             </div>
 
             <div class="col-sm-6 right-column col-sm-height col-sm-top">
-              <div class="events row">
-                <div class="col-sm-12">
-                  <h4> View Submissions for Event Assignments </h4>
-                  <div class="card-container">
-                    <div class="col-md-6" ng-repeat='event in section.events' >
-                      <event-card click='selecteEvent(event)' data="event"  short="true" preview="true" >  </event-card>
+              <div class="col-sm-12">
+                <h4>Submission Preview</h4>
+                <uib-carousel>
+                  <uib-slide ng-repeat="student in section.students" active="slide.active">
+                    <img http-src="{{student.submission.images[0]}}" alt="submission-image" class="materialboxed" style="height: 200px; width: 600px; overflow: hidden; object-fit: contain;"/>
+                    <div class="carousel-caption">
+                      <h5>{{student.firstName}} {{student.lastName}}</h5>
                     </div>
-                  </div>
-                </div>
-
-                <div class="col-sm-12">
-                  <h4>Submission Preview</h4>
-                  <uib-carousel>
-                    <uib-slide ng-repeat="student in section.students" active="slide.active">
-                      <img http-src="{{student.submission.images[0]}}" alt="submission-image" class="materialboxed" style="height: 200px; width: 600px; overflow: hidden; object-fit: contain;"/>
-                      <div class="carousel-caption">
-                        <h5>{{student.firstName}} {{student.lastName}}</h5>
-                      </div>
-                    </uib-slide>
-                  </uib-carousel>
-                </div>
+                  </uib-slide>
+                </uib-carousel>
+              </div>
               </div>
             </div>
           </div>
@@ -146,6 +139,5 @@
 
       </div>
     </div>
-  </div>
 </div>
 <footer></footer>

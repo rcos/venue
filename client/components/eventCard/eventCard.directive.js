@@ -6,6 +6,7 @@ angular.module('venueApp')
       templateUrl: 'components/eventCard/eventCard.html',
       restrict: 'EA',
       scope: {
+        selected: '=',
         data: '=',
         short: '=',
         sections: '=',

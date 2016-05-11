@@ -23,19 +23,4 @@ angular.module('venueApp')
     loadSection();
   });
 
-  $scope.editCourse = function(){
-    $location.path('/courses/'+$routeParams.id+'/edit');
-  };
-  $scope.viewCourse = function(){
-    $location.path('/courses/'+$routeParams.id);
-  };
-
-  $scope.editSection = function(){
-    $location.path($location.path() + '/edit');
-  };
-
-  $scope.createSection = function(){
-    $location.path('/courses/'+$routeParams.id+'/sections/create');
-  };
-
 });

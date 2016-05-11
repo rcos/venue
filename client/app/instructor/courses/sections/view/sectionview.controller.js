@@ -15,8 +15,11 @@ angular.module('venueApp')
       }, section => {
         $scope.course = section.course;
         $scope.section = section;
+        console.log(section);
+        if(section.events.length > 0){
+          $scope.loadSectionEventSubmissions(section.events[0]);
+        }
         // TODO: automate by first index of events for Section.
-        // $scope.loadSectionEventSubmissions(section.events[0].sectionEvents[0]);
       }, () =>{
         $location.path('/courses');
       });
@@ -28,15 +31,23 @@ angular.module('venueApp')
       loadSection();
     });
 
-    $scope.loadSectionEventSubmissions = function(sectionEvent){
+    $scope.loadSectionEventSubmissions = function(event){
+      var sectionEvent = event.sectionEvents.find((sectEvent)=>{
+        return sectEvent.section._id == $routeParams.sectionId;
+      })
+      $scope.selectedEventId = event._id;
+      console.log($scope.selectedEventId);
       Submission.getAll({'onlySectionEvent': sectionEvent._id, 'withStudents': true}, (submissions)=>{
         $scope.submissions = submissions;
+        console.log("got new submissions");
+        console.log(submissions);
         findStudentSubmission();
       });
     };
 
     function findStudentSubmission(){
       for(var i=0; i < $scope.section.students.length; i++){
+        $scope.section.students[i].submission = '';
         for(var j=0; j < $scope.submissions.length; j++){
           if($scope.section.students[i]._id == $scope.submissions[j].submitter._id){
             $scope.section.students[i].submission = $scope.submissions[j];
@@ -45,37 +56,21 @@ angular.module('venueApp')
       }
     }
 
-    $scope.selecteEvent = function(event){
-      $scope.sectionEventSubmissions(event);
+    $scope.selectEvent = function(event){
+      $scope.selectedEventId = event._id;
+      $scope.loadSectionEventSubmissions(event);
     };
 
-    $scope.enroll = function(){
-      User.enroll({_id: $scope.user._id, sectionid: $scope.section._id}, ()=>{
-        loadSection();
-      });
-    };
-    $scope.unenroll = function(){
-      User.unenroll({_id: $scope.user._id, sectionid: $scope.section._id}, ()=>{
-        loadSection();
-      });
-    };
     $scope.editCourse = function(){
       $location.path('/courses/'+$routeParams.id+'/edit');
     };
+
     $scope.viewCourse = function(){
       $location.path('/courses/'+$routeParams.id);
     };
 
     $scope.editSection = function(){
       $location.path($location.path() + '/edit');
-    };
-
-    $scope.studentManagement = function(){
-      $location.path($location.path() + '/studentmanagement');
-    };
-
-    $scope.createSection = function(){
-      $location.path('/courses/'+$routeParams.id+'/sections/create');
     };
 
   });
