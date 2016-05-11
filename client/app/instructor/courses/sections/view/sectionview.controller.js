@@ -2,8 +2,16 @@
 
 angular.module('venueApp')
   .controller('InstructorSectionViewCtrl', ($scope, $location, $routeParams, User, Auth, Course, Submission, Section) => {
+
+    // This updates material lite with dynamic elements that otherwise aren't
+    // captured
     componentHandler.upgradeDom();
-    function loadCurrentUserSection(){
+
+    // Current event selected by instructor
+    $scope.currentEventSelection = null;
+
+    // Loads section information for the current page
+    function loadPageSection(){
       Section.get({
         id: $routeParams.sectionId,
         withSectionsCourse:true,
@@ -16,10 +24,6 @@ angular.module('venueApp')
       }, section => {
         $scope.course = section.course;
         $scope.section = section;
-        console.log(section);
-        if(section.events.length > 0){
-          $scope.loadSectionEventSubmissions(section.events[0]);
-        }
         // TODO: automate by first index of events for Section.
       }, () =>{
         $location.path('/courses');
@@ -30,10 +34,11 @@ angular.module('venueApp')
       $scope.user = user;
       $scope.isStudent = (!user.isInstructor) && Auth.isLoggedIn();
       $scope.isInstructor = user.isInstructor;
-      loadCurrentUserSection();
+      loadPageSection();
     });
 
     $scope.loadSectionEventSubmissions = function(event){
+      $scope.currentEventSelection = event;
       var sectionEvent = event.sectionEvents.find((sectEvent)=>{
         return sectEvent.section._id == $routeParams.sectionId;
       })

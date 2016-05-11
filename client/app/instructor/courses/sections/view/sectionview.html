@@ -75,13 +75,11 @@
             <thead>
               <tr>
                 <th class="mdl-data-table__cell--non-numeric">Students</th>
-                <th>Total Submissions</th>
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="student in section.students">
                 <td class="mdl-data-table__cell--non-numeric">{{student.firstName}} {{student.lastName}}</td>
-                <td><i class="material-icons md-18">done</i></td>
               </tr>
             </tbody>
           </table>
@@ -97,7 +95,9 @@
               </div>
             </div>
           </div>
-          <div class='row row-height'>
+
+          <!-- VIEW STUDENTS/SUBMISSIONS FOR EVENT -->
+          <div ng-show='currentEventSelection' class='row row-height'>
             <div class='col-sm-6 left-column col-sm-height col-sm-top'>
               <div class="row h4-spacing">
                 <div class='col-md-12 col-sm-12'>
@@ -112,7 +112,7 @@
                     <tbody>
                       <tr ng-repeat="student in section.students">
                         <td class="mdl-data-table__cell--non-numeric">{{student.firstName}} {{student.lastName}}</td>
-                        <td><i class="material-icons md-18">done</i></td>
+                        <td><i class="material-icons md-18">{{student.submission != null ? 'done' : ''}}</i></td>
                       </tr>
                     </tbody>
                   </table>
@@ -134,6 +134,18 @@
               </div>
               </div>
             </div>
+            <!-- PLACEHOLDER -->
+            <div ng-hide='currentEventSelection' class='row row-height'>
+              <div class='col-xs-12'>
+                <div class='big-gray-placeholder'> Select an event to see student submissions </div>
+              </div>
+            </div>
+
+
+            <!-- END VIEW STUDENTS/SUBMISSIONS FOR EVENT -->
+
+
+
           </div>
         </div>
 
