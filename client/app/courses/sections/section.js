@@ -8,13 +8,13 @@ angular.module('venueApp')
         controller: 'NewSectionCtrl',
         authenticate: 'instructor'
       })
-      .when('/courses/:id/sections/:sectionId', {
-        templateUrl: 'app/courses/sections/view/sectionview.html',
-        controller: 'SectionViewCtrl'
-      })
       .when('/courses/:id/sections/:sectionId/edit', {
         templateUrl: 'app/courses/sections/edit/sectionedit.html',
         controller: 'SectionEditCtrl',
         authenticate: 'instructor'
+      })
+      .when('/courses/:id/sections/:sectionId', {
+        templateUrl: 'app/courses/sections/view/sectionview.html',
+        controller: 'SectionViewCtrl'
       });
   });

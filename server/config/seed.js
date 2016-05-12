@@ -205,7 +205,7 @@ function allSections(){ return {
       enrollmentPolicy: "closed",
       _id:mongoose.Types.ObjectId('000000000000000000000120'),
       course : allCourses().netArt._id, //Net Art
-      students : [allUsers().jane._id], //Jane
+      students : [allUsers().jane._id, allUsers().kelly._id, allUsers().foo._id], //Jane
       pendingStudents : [],
       instructors : [allUsers().bob._id] //Bob
     },
@@ -499,6 +499,21 @@ function allSubmissions(){
       images: ["/api/submissions/image?imgPath=./data/eventImages/000000000000000000000004/000000000000000000001000/submission2.jpg"], // path to image on static image server?
       time: Date.now(),
       submitter: allUsers().kelly._id,
+      authors: [allUsers().foo._id, allUsers().jane._id, allUsers().kelly._id],
+      sectionEvent: allSectionEvents().netArt12Concerts._id,
+      location: {
+        address: "1600 Pennsylvania Ave NW, Washington, DC 20500",
+        description: "White House",
+        geo: {
+          coordinates: [-77.0366, 38.8977]
+        }
+      }
+    },
+    submission3:{
+      content: "Cu partem officiis sed, est ex dicit tacimates honestatis, id eam libris facilis singulis. Case tota virtute his cu. Illud fierent accusata mel at, qui ne nemore vivendo legendos. Eripuit aliquid consequat pro eu.",
+      images: ["/api/submissions/image?imgPath=./data/eventImages/000000000000000000000006/000000000000000000001000/submission1.jpg"], // path to image on static image server?
+      time: Date.now(),
+      submitter: allUsers().jane._id,
       authors: [allUsers().foo._id, allUsers().jane._id, allUsers().kelly._id],
       sectionEvent: allSectionEvents().netArt12Concerts._id,
       location: {
