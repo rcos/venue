@@ -5,6 +5,7 @@ import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import Section from "../section/section.model";
+var fs = require('fs');
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -54,6 +55,65 @@ export function create(req, res, next) {
       res.json({ token });
     })
     .catch(validationError(res));
+}
+
+/**
+ * Creates users in database from a CSV file
+ */
+export function createFromCSVUpload(req, res, next){
+  var csvFile = req.files.files[0];
+  // Parse CSV File
+  var fileLines = fs.readFileSync(csvFile.path).toString().split("\n");
+  for (var i = 0;i < fileLines.length; i++){
+    fileLines[i] = fileLines[i].split(",");
+  }
+
+  // Make sure header is correct
+  var header = fileLines[0];
+  var firstNameIndex = -1;
+  var lastNameIndex = -1;
+  var emailIndex = -1;
+  var passwordIndex = -1;
+  for (var i = 0;i < header.length;i++){
+    header[i] = header[i].toLowerCase().trim();
+    if (header[i] == "first name"){
+      firstNameIndex = i;
+    }else if (header[i] == "last name"){
+      lastNameIndex = i;
+    }else if (header[i] == "email"){
+      emailIndex = i;
+    }else if (header[i] == "password"){
+      passwordIndex = i;
+    }
+  }
+  if (firstNameIndex == -1){
+    res.status(500).send({"message": "Missing \"First Name\" in header."});
+  }else if (lastNameIndex == -1){
+    res.status(500).send({"message": "Missing \"Last Name\" in header."});
+  }else if (emailIndex == -1){
+    res.status(500).send({"message": "Missing \"Email\" in header."});
+  }else if (passwordIndex == -1){
+    res.status(500).send({"message": "Missing \"Password\" in header."});
+  }
+
+  // Add each user to the server
+  // TODO check for duplicate users
+  for (var i = 1;i < fileLines.length;i++){
+    var firstName = fileLines[i][firstNameIndex];
+    var lastName = fileLines[i][lastNameIndex];
+    var email = fileLines[i][emailIndex];
+    var password = fileLines[i][passwordIndex];
+    var newUser = new User({
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password
+    });
+    newUser.provider = 'local';
+    newUser.role = 'user';
+    newUser.save();
+  }
+
 }
 
 // Takes a Bool flag and Function func, returns a Promise to execute func on

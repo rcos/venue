@@ -16,5 +16,6 @@ router.put('/:id/enroll', auth.isAuthenticated(), controller.enrollInSection);
 router.put('/:id/unenroll', auth.isAuthenticated(), controller.unenrollInSection);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
+router.post('/csv', auth.hasRole('admin'), controller.createFromCSVUpload);
 
 export default router;
