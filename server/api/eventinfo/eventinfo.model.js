@@ -4,6 +4,7 @@ var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
 import SectionEvent from '../sectionevent/sectionevent.model';
 import Course from '../course/course.model';
+var GeoJSON = require('mongoose-geojson-schema');
 
 var EventInfoSchema = new Schema({
   title: String,
@@ -18,13 +19,8 @@ var EventInfoSchema = new Schema({
       type: Number,
       default: 0.001
     },
-    geo: {
-      type: {
-        type: String,
-        default: 'Point'
-      },
-      coordinates: [Number]
-    }
+    geo: mongoose.Schema.Types.Point,
+    geobounds: mongoose.Schema.Types.MultiPolygon,
   },
   times: [
     {
@@ -33,7 +29,37 @@ var EventInfoSchema = new Schema({
     }
   ]
 });
-EventInfoSchema.index({ 'location.geo' : '2dsphere'});
+EventInfoSchema.index({ 'location.geobounds' : '2dsphere'});
+
+EventInfoSchema.pre("save",function(next) {
+  if ( !this.location.geo.coordinates || this.location.geo.coordinates === 0 ) {
+    this.location.geo.coordinates = [42.7285023,-73.6839912];
+  }
+  if ( !this.location.geobounds.coordinates || this.location.geobounds.coordinates === 0 ) {
+    this.location.geobounds.coordinates =  [[
+                [
+                     -73.6794438867554,
+                    42.731655780717645
+                ],[
+                    -73.68399291324465,
+                    42.731655780717645
+                ],[
+                  -73.68399291324465,
+                    42.73007960926878
+                ],[
+                     -73.6794438867554,
+                    42.73007960926878
+                ],[
+                     -73.6794438867554,
+                    42.731655780717645
+                ]
+              ]];
+
+  }
+
+  next();
+});
+
 
 // VIRTUALS
 EventInfoSchema

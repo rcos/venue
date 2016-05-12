@@ -12,6 +12,7 @@
 var _ = require('lodash');
 var Submission = require('./submission.model');
 var SectionEvent = require('../sectionevent/sectionevent.model');
+var EventInfo = require('../eventinfo/eventinfo.model');
 var Section = require('../section/section.model');
 var multiparty = require('multiparty');
 var User = require('../user/user.model');
@@ -226,7 +227,27 @@ exports.show = function(req, res) {
 
 // Creates a new Submission in the DB
 exports.create = function(req, res) {
-  req.body.userId = req.user._id;
+  if (req.user._id)
+    {
+      req.body.userId = req.user._id;
+    }
+
+        console.log("coordinates",req.body.coordinates);
+
+  SectionEvent.findOne({"_id":req.body.eventId})
+  .populate("info")
+  .execAsync()
+  .then((event)=>{
+      console.log("event",event);
+      console.log("coordinates",event.info.location.geo);
+
+      EventInfo.findOne({"_id":req.body.eventId})
+      .where('location.geo').near({ center: req.body.coordinates , maxDistance: event.info.radius, spherical: true })
+      .execAsync()
+      .then((eventinfo)=>{
+        console.log("eventinfo",eventinfo);
+      });
+  });
   saveSubmissionImage(req.files, req.body, (imagePaths)=>{
     var submit = {
       images : imagePaths,

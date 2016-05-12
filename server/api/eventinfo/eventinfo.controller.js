@@ -126,6 +126,40 @@ exports.create = function(req, res) {
     evnt.creationDate = new Date();
     evnt.author = req.user._id;
     evnt.imageURLs = imagePaths;
+  console.log(evnt.location);
+  console.log(evnt.location.geobounds);
+
+    if ( !evnt.location.geobounds.coordinates || evnt.location.geobounds.coordinates === 0 ) {
+      evnt.location.geo.coordinates =  [[
+                  [
+                       -73.6794438867554,
+                      42.731655780717645
+                  ],[
+                      -73.68399291324465,
+                      42.731655780717645
+                  ],[
+                    -73.68399291324465,
+                      42.73007960926878
+                  ],[
+                       -73.6794438867554,
+                      42.73007960926878
+                  ],[
+                       -73.6794438867554,
+                      42.731655780717645
+                  ]
+                ]];
+
+    }
+    console.log(evnt.location.geobounds.coordinates);
+    for (var a = 0; a < evnt.location.geobounds.coordinates.length; a++){
+      for (var b = 0; b < evnt.location.geobounds.coordinates[a].length; b++){
+        for (var c = 0; c < evnt.location.geobounds.coordinates[a][b].length; c++){
+            console.log(evnt.location.geobounds.coordinates[a][b][c]);
+        }
+      }
+    }
+
+
     EventInfo.createAsync(evnt)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));

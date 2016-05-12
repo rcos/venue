@@ -12,6 +12,7 @@ var SubmissionSchema = new Schema({
   submitter: {type : Schema.Types.ObjectId, ref: 'User'},
   authors: [{type : Schema.Types.ObjectId, ref: 'User'}],
   sectionEvent: {type : Schema.Types.ObjectId, ref: 'SectionEvent'},
+  verified: Boolean,
   location: {
     address: String,
     description: String,
@@ -23,7 +24,7 @@ var SubmissionSchema = new Schema({
       coordinates: [Number]
     }
   }
-});
+},{ timestamps: true});
 
 SubmissionSchema.pre("save",function(next) {
   if ( !this.location.geo.coordinates || this.location.geo.coordinates === 0 ) {

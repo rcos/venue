@@ -306,9 +306,31 @@ function allEvents(){
         address: "110 8th St, Troy, NY  12180, United States",
         description: "Empac",
         geo: {
-          type: 'Point',
-          coordinates: [42.7288898,-73.6842041] // [<longitude>, <latitude>]
-        }
+          coordinates: [-73.6842041,42.7288898], // [<longitude>, <latitude>]
+          type: "Point"
+        },
+        geobounds : {
+          coordinates : [[[
+            [
+                 -73.6794438867554,
+                42.731655780717645
+            ],[
+                -73.68399291324465,
+                42.731655780717645
+            ],[
+              -73.68399291324465,
+                42.73007960926878
+            ],[
+                 -73.6794438867554,
+                42.73007960926878
+            ],[
+                 -73.6794438867554,
+                42.731655780717645
+            ]
+          ]]],
+          type : "MultiPolygon"
+        },
+
       },
       times: [{
           start: new Date("January 20, 2016 18:00:00"),
@@ -329,9 +351,31 @@ function allEvents(){
         address: "110 8th St, Troy, NY  12180, United States",
         description: "Empac",
         geo: {
-          type: 'Point',
-          coordinates: [42.7288898,-73.6842041] // [<longitude>, <latitude>]
-        }
+          coordinates: [-73.6842041,42.7288898], // [<longitude>, <latitude>]
+          type: "Point"
+        },
+        geobounds : {
+          coordinates : [[[
+            [
+                 -73.6794438867554,
+                42.731655780717645
+            ],[
+                -73.68399291324465,
+                42.731655780717645
+            ],[
+              -73.68399291324465,
+                42.73007960926878
+            ],[
+                 -73.6794438867554,
+                42.73007960926878
+            ],[
+                 -73.6794438867554,
+                42.731655780717645
+            ]
+          ]]],
+          type : "MultiPolygon"
+        },
+
       },
       times: [{
           start: new Date("January 15, 2016 18:00:00"),
@@ -362,6 +406,28 @@ function allEvents(){
           ],
           type : "Point"
         },
+        geobounds : {
+          coordinates : [[[
+            [
+                 -73.6794438867554,
+                42.731655780717645
+            ],[
+                -73.68399291324465,
+                42.731655780717645
+            ],[
+              -73.68399291324465,
+                42.73007960926878
+            ],[
+                 -73.6794438867554,
+                42.73007960926878
+            ],[
+                 -73.6794438867554,
+                42.731655780717645
+            ]
+          ]]],
+
+          type : "MultiPolygon"
+        },
         radius : 0.0005686283111572266
       }
     },
@@ -387,6 +453,27 @@ function allEvents(){
               38.90482343443286
           ],
           type : "Point"
+        },
+        geobounds : {
+          coordinates : [[[
+            [
+                 -73.6794438867554,
+                42.731655780717645
+            ],[
+                -73.68399291324465,
+                42.731655780717645
+            ],[
+              -73.68399291324465,
+                42.73007960926878
+            ],[
+                 -73.6794438867554,
+                42.73007960926878
+            ],[
+                 -73.6794438867554,
+                42.731655780717645
+            ]
+          ]]],
+          type : "MultiPolygon"
         },
         radius : 0.0045490264892578125
       }
@@ -490,7 +577,8 @@ function allSubmissions(){
         address: "110 8th St, Troy, NY 12180",
         description: "Rensselaer Polytechnic Institute",
         geo: {
-          coordinates: [-73.6672966, 42.7306403]
+          coordinates: [-73.6672966, 42.7306403],
+          type: "Point"
         }
       }
     },
@@ -505,7 +593,8 @@ function allSubmissions(){
         address: "1600 Pennsylvania Ave NW, Washington, DC 20500",
         description: "White House",
         geo: {
-          coordinates: [-77.0366, 38.8977]
+          coordinates: [-77.0366, 38.8977],
+          type: "Point"
         }
       }
     },

@@ -23,6 +23,7 @@
     "method-override": "^2.3.5",
     "mkdirp": "^0.5.1",
     "mongoose": "^4.1.2",
+    "mongoose-geojson-schema": "^2.1.0",
     "morgan": "~1.6.1",
     "multiparty": "^4.1.2",
     "papercut": "0.0.6",
