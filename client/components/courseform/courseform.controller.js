@@ -19,6 +19,8 @@ angular.module('venueApp')
                 data: $scope.course,
                 objectKey: '.k',
                 arrayKey: '[i]'
+            }).then((course) => {
+              return course.data
             });
           }
           promise
