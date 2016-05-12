@@ -61,6 +61,20 @@
         </div>
 
         <div class="mdl-tabs__panel" id="student-panel">
+          <div class="" ng-show="section.pendingStudents.length > 0">
+            <h5>Pending Students</h5>
+            <table class="pending-students text-center table table-hover">
+              <tr ng-repeat="student in section.pendingStudents">
+                <td class="text-left align-middle">{{student.firstName}} {{student.lastName}}</td>
+                <td class="text-center">
+                  <button ng-click='verifyPendingStudent(student)' class='verify mdl-button mdl-js-button mdl-button--raised mdl-button--colored'> Verify </button>
+                </td>
+                <td class="text-center">
+                  <button ng-click='ignorePendingStudent(student)' class='ignore mdl-button mdl-js-button mdl-button--raised'> Ignore </button>
+                </td>
+              </tr>
+            </table>
+          </div>
           <table class="student-table mdl-data-table mdl-js-data-table mdl-shadow--2dp">
             <thead>
               <tr>

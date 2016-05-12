@@ -59,6 +59,22 @@ angular.module('venueApp')
       }
     }
 
+    $scope.verifyPendingStudent = (pendingStudent) => {
+      var section = $scope.section;
+      console.log(pendingStudent)
+      console.log(section)
+      Section.update({id: section._id}, {pendingStudent: pendingStudent._id}, () => {
+          loadSection();
+        });
+    }
+
+    $scope.ignorePendingStudent = (pendingStudent) => {
+      var section = $scope.section;
+      Section.update({id: section._id}, {removePendingStudent: pendingStudent._id}, () => {
+          loadSection();
+        });
+    };
+
     $scope.selectEvent = function(event){
       $scope.selectedEventId = event._id;
       $scope.loadSectionEventSubmissions(event);
