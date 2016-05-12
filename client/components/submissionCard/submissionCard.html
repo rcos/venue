@@ -8,11 +8,7 @@
   <div class='submission-ref mdl-card__actions mdl-card--border'>
     <div class='mdl-card__supporting-text '>
       <div> Submitted: {{data.time | date : "MMM. d, h:mm a"}}</div>
-        Authors:
-          <span ng-repeat="author in data.authors">
-            {{ author.firstName }} {{ author.lastName }}
-            <span ng-hide="$last">, </span>
-          </span>
+        Authors: {{ data.submitter.firstName }} {{ data.submitter.lastName }}
     </div>
   </div>
 </div>
