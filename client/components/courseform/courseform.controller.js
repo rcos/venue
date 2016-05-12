@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('CourseFormCtrl', function($scope, Course){
+  .controller('CourseFormCtrl', function($scope, Course, Upload){
     $scope.courseCreated = false;
     $scope.submitForm = (form)=>{
         $scope.submitted = true;
@@ -12,7 +12,14 @@ angular.module('venueApp')
           if ($scope.updating){
             promise = Course.update($scope.course).$promise;
           }else{
-            promise = Course.create($scope.course).$promise;
+            // promise = Course.create($scope.course).$promise;
+            $scope.course.files = $scope.files;
+            promise =  Upload.upload({
+                url: '/api/courses/',
+                data: $scope.course,
+                objectKey: '.k',
+                arrayKey: '[i]'
+            });
           }
           promise
               .then((course) => {
