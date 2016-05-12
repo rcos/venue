@@ -24,7 +24,6 @@ angular.module('venueApp')
       }, section => {
         $scope.course = section.course;
         $scope.section = section;
-        // TODO: automate by first index of events for Section.
       }, () =>{
         $location.path('/courses');
       });
@@ -74,7 +73,6 @@ angular.module('venueApp')
     };
 
     $scope.editSection = function(){
-      console.log('/courses/' + $routeParams.id + '/sections/' + $routeParams.sectionId + '/edit');
       $location.path('/courses/' + $routeParams.id + '/sections/' + $routeParams.sectionId + '/edit');
     };
 
