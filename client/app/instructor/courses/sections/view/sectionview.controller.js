@@ -64,14 +64,14 @@ angular.module('venueApp')
       console.log(pendingStudent)
       console.log(section)
       Section.update({id: section._id}, {pendingStudent: pendingStudent._id}, () => {
-          loadSection();
+          loadPageSection();
         });
     }
 
     $scope.ignorePendingStudent = (pendingStudent) => {
       var section = $scope.section;
       Section.update({id: section._id}, {removePendingStudent: pendingStudent._id}, () => {
-          loadSection();
+          loadPageSection();
         });
     };
 
