@@ -114,7 +114,6 @@ angular.module('venueApp')
 
         $scope.event.map.events = {
           overlaycomplete: function (dm, name, scope, objs) {
-            console.log('You successfully placed a %s', dm.drawingMode);
             var e = objs[0];
             $scope.allShapes.push(e);
             var newShape = e.overlay;
@@ -129,12 +128,10 @@ angular.module('venueApp')
         };
 
         $scope.deleteButton = function(){
-          console.log('Delete Selected Shape');
           deleteSelectedShape();
         };
 
         $scope.deleteAllButton = function(){
-          console.log('Delete All Shapes');
           deleteAllShape();
         };
 
@@ -206,13 +203,30 @@ angular.module('venueApp')
       $scope.submitted = true;
       // For each place, get the icon, place name, and location.
       var bounds = new google.maps.LatLngBounds();
-
       for (var a = 0; a < $scope.allShapes.length ; a++){
         var shape = $scope.allShapes[a].overlay;
 
         for (var b = 0; b < shape.getPath().getLength() ; b++){
           bounds.extend(shape.getPath().getAt(b));
         }
+      }
+      var allcoordinates = [];
+      for (var a = 0; a < $scope.allShapes.length ; a++){
+        if (shape.getPath().getLength() < 3){
+          continue;
+        }
+        var coords = [];
+        var poly = [];
+        var shape = $scope.allShapes[a].overlay;
+
+        for (var b = 0; b < shape.getPath().getLength() ; b++){
+          coords.push([shape.getPath().getAt(b).lng(), shape.getPath().getAt(b).lat()]);
+        }
+        coords.push([shape.getPath().getAt(0).lng(), shape.getPath().getAt(0).lat()]);
+
+        poly.push(coords);
+
+        allcoordinates.push(poly);
       }
 
       $scope.event.map.bounds = {
@@ -226,7 +240,7 @@ angular.module('venueApp')
         }
       }
 
-      if (form.$valid && $scope.file){
+      if (form.$valid && $scope.file && allcoordinates.length){
         $scope.eventInfo = {
           title: $scope.event.title,
           description: $scope.event.description,
@@ -248,20 +262,7 @@ angular.module('venueApp')
             radius: Math.abs($scope.event.map.bounds.northeast.longitude-$scope.event.map.bounds.southwest.longitude),
             geobounds: {
               type: 'MultiPolygon',
-              coordinates: [(()=>{
-                var shapes = [];
-                for (var a = 0; a < $scope.allShapes.length ; a++){
-                  var coords = [];
-                  var shape = $scope.allShapes[a].overlay;
-
-                  for (var b = 0; b < shape.getPath().getLength() ; b++){
-                    coords.push([shape.getPath().getAt(b).lng(),shape.getPath().getAt(b).lat()]);
-                  }
-
-                  shapes.push(coords);
-                }
-                return shapes;
-              })()],
+              coordinates: allcoordinates,
             },
           },
           imageURL: $scope.event.imageURL,

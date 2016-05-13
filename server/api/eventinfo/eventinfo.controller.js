@@ -126,38 +126,46 @@ exports.create = function(req, res) {
     evnt.creationDate = new Date();
     evnt.author = req.user._id;
     evnt.imageURLs = imagePaths;
-  console.log(evnt.location);
-  console.log(evnt.location.geobounds);
 
-    if ( !evnt.location.geobounds.coordinates || evnt.location.geobounds.coordinates === 0 ) {
-      evnt.location.geo.coordinates =  [[
-                  [
-                       -73.6794438867554,
-                      42.731655780717645
-                  ],[
-                      -73.68399291324465,
-                      42.731655780717645
-                  ],[
-                    -73.68399291324465,
-                      42.73007960926878
-                  ],[
-                       -73.6794438867554,
-                      42.73007960926878
-                  ],[
-                       -73.6794438867554,
-                      42.731655780717645
-                  ]
-                ]];
-
+    if (!evnt.location){
+      throw "There must be a location";
     }
-    console.log(evnt.location.geobounds.coordinates);
+    if (!evnt.location.geobounds || !evnt.location.geobounds.coordinates || !evnt.location.geobounds.coordinates.length){
+      throw "There must be at least one geobound polygon";
+    }
+
+    if(!evnt.location.geo || !evnt.location.geo.coordinates){
+      throw "There must be a geo coordinate";
+    }
+
+
+    var shapes = [];
     for (var a = 0; a < evnt.location.geobounds.coordinates.length; a++){
+      var poly = [];
+
       for (var b = 0; b < evnt.location.geobounds.coordinates[a].length; b++){
+        var allline = [];
         for (var c = 0; c < evnt.location.geobounds.coordinates[a][b].length; c++){
-            console.log(evnt.location.geobounds.coordinates[a][b][c]);
+          var line = [];
+          var coords = evnt.location.geobounds.coordinates[a][b][c];
+          if (!Array.isArray(coords)){
+            coords = Object.keys(coords).map(function (key) {return coords[key]});
+          }
+          for (var d = 0; d < coords.length; d++){
+            line.push(Number(coords[d]));
+          }
+          allline.push(line);
         }
+        poly.push(allline);
       }
+      shapes.push(poly);
     }
+    evnt.location.geobounds.coordinates = shapes;
+
+    for (var a = 0; a < evnt.location.geo.coordinates.length; a++){
+      evnt.location.geo.coordinates[a] = Number(evnt.location.geo.coordinates[a]);
+    }
+    evnt.location.radius = Number(evnt.location.radius);
 
 
     EventInfo.createAsync(evnt)

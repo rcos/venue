@@ -6,7 +6,7 @@
     "async": "^1.5.1",
     "babel-runtime": "^5.8.20",
     "bluebird": "^2.9.34",
-    "body-parser": "^1.13.3",
+    "body-parser": "^1.15.1",
     "composable-middleware": "^0.3.0",
     "compression": "^1.5.2",
     "connect-mongo": "^0.8.1",
