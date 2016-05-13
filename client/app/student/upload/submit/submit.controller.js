@@ -22,17 +22,20 @@ angular.module('venueApp')
 
     $scope.submitEvent = (form)=>{
       $scope.submitted = true;
-      if (form.$valid && $scope.files && $scope.files.length && $scope.coords) {
+      if (form.$valid && $scope.files && $scope.files.length) {
+        var data = {
+          userId: $scope.user._id,
+          eventId: $routeParams.eventid,
+          files: $scope.files,
+          content: $scope.content,
+          title: $scope.title
+        };
+        if($scope.coords){
+          data.coordinates = $scope.coords;
+        }
           Upload.upload({
               url: '/api/submissions/',
-              data: {
-                userId: $scope.user._id,
-                eventId: $routeParams.eventid,
-                files: $scope.files,
-                coordinates: $scope.coords,
-                content: $scope.content,
-                title: $scope.title
-              },
+              data: data,
               objectKey: '.k',
               arrayKey: '[i]'
           }).progress(function (evt) {
