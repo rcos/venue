@@ -21,7 +21,7 @@
   </div>
   <div class='row'>
     <div ng-hide="success" class='col-xs-12 submissionInstructions'>
-      {{sectionEvent.submissionInstructions}}
+        Instructor Note: {{sectionEvent.submissionInstructions}}
     </div>
   </div>
   <div class='row'>
@@ -91,8 +91,9 @@
 
       <div class = "submission-success" ng-show="success">
         <h2> Submission Sent</h2>
-        <div>
-        </div>
+        <h6 ng-hide="coords">
+          No location sent
+        </h6>
       </div>
 
     </div>

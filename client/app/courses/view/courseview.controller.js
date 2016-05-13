@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('CourseViewCtrl', ($scope, $location, $routeParams, Auth, User, Course, Section) => {
+  .controller('CourseViewCtrl', ($scope, $location, $http, $routeParams, Auth, User, Course, Section) => {
     Auth.getCurrentUser((user) => {
       $scope.user = user;
       $scope.isStudent = (!user.isInstructor) && Auth.isLoggedIn();
@@ -49,6 +49,7 @@ angular.module('venueApp')
         studentid: $scope.user._id
       }, course => {
         $scope.course = course;
+        $scope.coursesLoaded = true;
       }, err =>{
         $location.path('/courses')
       });
