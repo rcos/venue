@@ -11,6 +11,10 @@
 
 var _ = require('lodash');
 var Course = require('./course.model');
+var fs = require('fs');
+var mkdirp = require('mkdirp');
+var config = require('../../config/environment');
+import async from 'async';
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -59,6 +63,31 @@ function removeEntity(res) {
   };
 }
 
+function saveEventInfoImage(files, fields, cb){
+  var imagePaths = [],
+      asyncTasks = [];
+  if (!files){return imagePaths;}
+  files.files.forEach(function(file) {
+    var name = file.name;
+    var path = config.imageUploadPath  + 'courses';
+    var destPath = path + '/' + name;
+    imagePaths.push("/api/submissions/image?imgPath=" + destPath);
+    asyncTasks.push( (callback) => {fs.exists(path, (exists) => {
+      mkdirp(path, function (err) {
+        if (err) console.error(err)
+        var is = fs.createReadStream(file.path);
+        var os = fs.createWriteStream(destPath);
+        is.pipe(os);
+        callback();
+      });
+    })});
+  });
+  async.parallel(asyncTasks, (error, results) => {
+    // TODO: Handle Error
+    cb(imagePaths);
+  });
+}
+
 // Gets a list of Courses
 exports.index = function(req, res) {
   Course.findAsync()
@@ -95,18 +124,21 @@ exports.show = function(req, res) {
 
 // Creates a new Course in the DB
 exports.create = function(req, res) {
-  var course = req.body,
+  saveEventInfoImage(req.files, req.body, (imagePaths)=>{
+    var course = req.body,
       date = new Date();
-  course.active = true;
-  if(date.getMonth() < 5){
-    course.semester = "Spring" + (date.getYear() - 100).toString();
-  }
-  else{
-    course.semester = "Fall" + (date.getYear() - 100).toString();
-  }
-  Course.createAsync(course)
+    course.imageURLs = imagePaths;
+    course.active = true;
+    if(date.getMonth() < 5){
+      course.semester = "Spring" + (date.getYear() - 100).toString();
+    }
+    else{
+      course.semester = "Fall" + (date.getYear() - 100).toString();
+    }
+    Course.createAsync(course)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
+  });
 };
 
 // Updates an existing Course in the DB

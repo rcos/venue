@@ -44,6 +44,17 @@
     </p>
   </div>
 
+  <div class="form-group" ng-class="{ 'has-error': submitted && !files }">
+
+  <div ngf-drop ngf-select ng-model="files" class="drop-box"
+      ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+      accept="image/*"
+      ngf-pattern="'image/*'">Drop images here or click to upload</div>
+    <p class="help-block" ng-show="!files && submitted">
+      An event image is required
+    </p>
+  </div>
+
   <div>
     <button class="btn btn-primary btn-lg btn-register" type="submit">
       {{updating ? "Update Course" : "Create Course"}}

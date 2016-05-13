@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .directive('courseCard', function () {
+  .directive('courseCard', function ($http) {
     return {
       templateUrl: 'components/courseCard/courseCard.html',
       restrict: 'EA',
