@@ -61,8 +61,6 @@ angular.module('venueApp')
 
     $scope.verifyPendingStudent = (pendingStudent) => {
       var section = $scope.section;
-      console.log(pendingStudent)
-      console.log(section)
       Section.update({id: section._id}, {pendingStudent: pendingStudent._id}, () => {
           loadPageSection();
         });
