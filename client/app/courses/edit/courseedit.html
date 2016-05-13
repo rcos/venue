@@ -2,14 +2,10 @@
 
 <div class='container courses-page'>
   <div class="courseview">
+
+    <course-title-banner course="course" link="/courses/{{course._id}}"/>
+
     <div class='row'>
-      <a class="col-sm-12 title" ng-href="/courses/{{course._id}}">
-        <div class="background-image"  course-banner course="course"></div>
-        <div class="inside ">
-          <h2> {{ course.name }}</h2>
-          <div class='course-number'>{{course.department}} {{course.courseNumber}}</div>
-        </div>
-      </a>
       <div class='col-xs-12 course-edit'>
       <!-- "course" must already be in scope- this is true after a CourseView -->
         <courseform updating="true"></courseform>

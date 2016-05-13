@@ -2,15 +2,8 @@
 
 <div class='container courses-page'>
   <div class="courseview">
-    <div class='row'>
-      <div class="col-md-12 title">
-        <div class="background-image" course-banner course="course"></div>
-          <div class="inside ">
-            <h2> {{ course.name }}</h2>
-            <div class='course-number'>{{course.department}} {{course.courseNumber}}</div>
-          </div>
-        </div>
-      </div>
+      <course-title-banner-basic course="course"/>
+
       <div class="row row-md-height">
         <div class="col-md-6 left-column col-md-height col-md-top">
           <div class="inside-full-height">

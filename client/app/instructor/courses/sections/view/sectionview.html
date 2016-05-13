@@ -1,7 +1,9 @@
 <navbar></navbar>
 
-<div class='container section-page'>
+<div class='container instructor'>
   <div class="instructorSectionview">
+    <course-title-banner section="section" course="course" link="/courses/{{course._id}}"/>
+
     <div class='row row-height' ng-hide='isInstructor || isStudent'>
       <div class="col-sm-12">
         <h4><a href="/login">Log in</a> to learn more</h4>
@@ -9,21 +11,8 @@
     </div>
 
     <div class='row'>
-
       <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect col-sm-12">
         <div class="mdl-tabs__tab-ba row">
-          <div class="section-title col-sm-4">
-            <div class="">
-              {{ course.name }}
-            </div>
-            <div class="">
-              {{course.department}} {{course.courseNumber}} | Section<span ng-show="section.sectionNumbers.length > 1">s</span>:
-              <span class="big-number text-right">
-                <span ng-repeat="number in section.sectionNumbers track by $index" ng-show="number > -1">
-                  <span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last || section.sectionNumbers.length < 3">, </span>
-                </span>
-            </div>
-          </div>
           <a href="#info-panel" class="mdl-tabs__tab is-active col-sm-2">Information</a>
           <a href="#student-panel" class="mdl-tabs__tab col-sm-2">Students</a>
           <a href="#event-panel" class="mdl-tabs__tab col-sm-2">Events</a>
