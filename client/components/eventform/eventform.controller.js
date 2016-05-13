@@ -1,4 +1,3 @@
-
 // https://github.com/angular-ui/angular-google-maps/blob/master/example/assets/scripts/controllers/issue-624-drawing-manager.js
 'use strict';
 
@@ -191,9 +190,6 @@ angular.module('venueApp')
       $scope.selectingEvent = false;
       $scope.eventInfo = event;
     };
-          // var bounds = map.getBounds();
-          // var ne = bounds.getNorthEast();
-          // var sw = bounds.getSouthWest();
 
     $scope.clearMapPoly = ()=>{
 
