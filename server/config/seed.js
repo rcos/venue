@@ -574,10 +574,11 @@ function allSubmissions(){
       authors: [allUsers().foo._id, allUsers().kelly._id, allUsers().jane._id],
       sectionEvent: allSectionEvents().netArt12Concerts._id,
       location: {
-        address: "110 8th St, Troy, NY 12180",
-        description: "Rensselaer Polytechnic Institute",
         geo: {
-          coordinates: [-73.6672966, 42.7306403],
+          coordinates: [
+               -73.6794438867554,
+              42.731655780717645
+          ],
           type: "Point"
         }
       }
@@ -590,10 +591,11 @@ function allSubmissions(){
       authors: [allUsers().foo._id, allUsers().jane._id, allUsers().kelly._id],
       sectionEvent: allSectionEvents().netArt12Concerts._id,
       location: {
-        address: "1600 Pennsylvania Ave NW, Washington, DC 20500",
-        description: "White House",
         geo: {
-          coordinates: [-77.0366, 38.8977],
+          coordinates: [
+               -73.6794438867554,
+              42.731655780717645
+          ],
           type: "Point"
         }
       }
@@ -606,10 +608,12 @@ function allSubmissions(){
       authors: [allUsers().foo._id, allUsers().jane._id, allUsers().kelly._id],
       sectionEvent: allSectionEvents().netArt12Concerts._id,
       location: {
-        address: "1600 Pennsylvania Ave NW, Washington, DC 20500",
-        description: "White House",
         geo: {
-          coordinates: [-77.0366, 38.8977]
+          coordinates: [
+               -73.6794438867554,
+              42.731655780717645
+          ],
+          type: "Point"
         }
       }
     }

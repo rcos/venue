@@ -23,9 +23,6 @@ var SubmissionSchema = new Schema({
 SubmissionSchema.index({ 'location.geo' : '2dsphere'});
 
 SubmissionSchema.pre("save",function(next) {
-  if ( !this.location.geo.coordinates || this.location.geo.coordinates === 0 ) {
-    this.location.geo.coordinates = [42.7285023,-73.6839912];
-  }
   next();
 });
 
