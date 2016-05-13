@@ -5,10 +5,12 @@ angular.module('venueApp')
     $scope.users = User.query();
 
     $scope.uploadUserCSV = function(file){
+
       if (!file){
         console.log("null file");
         return;
       }
+
       Upload.upload({
           url: '/api/users/csv',
           data: {

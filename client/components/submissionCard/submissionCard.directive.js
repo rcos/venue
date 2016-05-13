@@ -11,7 +11,8 @@ angular.module('venueApp')
         data: '=',
         short: '=',
         sections: '=',
-        click: '&'
+        click: '&',
+        expanded: '='
       },
       link: function (scope, element, attrs) {
         scope.$watch('data', function(){
