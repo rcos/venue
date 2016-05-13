@@ -4,6 +4,7 @@ var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
 import Section from '../section/section.model';
 import SectionEvent from '../sectionevent/sectionevent.model';
+var GeoJSON = require('mongoose-geojson-schema');
 
 var SubmissionSchema = new Schema({
   content: String,
@@ -13,18 +14,13 @@ var SubmissionSchema = new Schema({
   authors: [{type : Schema.Types.ObjectId, ref: 'User'}],
   sectionEvent: {type : Schema.Types.ObjectId, ref: 'SectionEvent'},
   verified: Boolean,
+  locationMatch: Boolean,
   location: {
-    address: String,
-    description: String,
-    geo: {
-      type: {
-        type: String,
-        default: 'Point'
-      },
-      coordinates: [Number]
-    }
+    geo: mongoose.Schema.Types.Point
   }
 },{ timestamps: true});
+
+SubmissionSchema.index({ 'location.geo' : '2dsphere'});
 
 SubmissionSchema.pre("save",function(next) {
   if ( !this.location.geo.coordinates || this.location.geo.coordinates === 0 ) {
@@ -32,9 +28,6 @@ SubmissionSchema.pre("save",function(next) {
   }
   next();
 });
-
-
-SubmissionSchema.index({ 'location.geo' : '2dsphere'});
 
 SubmissionSchema.methods = {
 

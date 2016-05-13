@@ -232,41 +232,47 @@ exports.create = function(req, res) {
       req.body.userId = req.user._id;
     }
 
-        console.log("coordinates",req.body.coordinates);
-
-  SectionEvent.findOne({"_id":req.body.eventId})
-  .populate("info")
-  .execAsync()
-  .then((event)=>{
-      console.log("event",event);
-      console.log("coordinates",event.info.location.geo);
-
-      EventInfo.findOne({"_id":req.body.eventId})
-      .where('location.geo').near({ center: req.body.coordinates , maxDistance: event.info.radius, spherical: true })
-      .execAsync()
-      .then((eventinfo)=>{
-        console.log("eventinfo",eventinfo);
-      });
-  });
   saveSubmissionImage(req.files, req.body, (imagePaths)=>{
-    var submit = {
-      images : imagePaths,
-      submitter : req.body.userId,
-      authors : req.body.authors,
-      sectionEvent : req.body.eventId,
-      location : {
-        geo: {
-          coordinates : req.body.coordinates
-        }
-      },
-      time: Date.now(),
-      content: req.body.content
-    };
+    req.body.coordinates[0] = Number(req.body.coordinates[0]);
+    req.body.coordinates[1] = Number(req.body.coordinates[1]);
+    if (!req.body.authors){
+      req.body.authors = [req.body.userId]
+    }
+    SectionEvent.findOne({"_id":req.body.eventId})
+    .populate("info")
+    .execAsync()
+    .then((event)=>{
 
-    Submission.create(submit, (err, submission) => {
-      if (err) return handleError(res);
-      return res.json(submission);
-    })
+        EventInfo.findOne({"_id":event.info._id})
+        .where('location.geobounds').intersects().geometry({
+          type: "Point",
+          coordinates : req.body.coordinates
+        })
+        .execAsync()
+        .then((eventinfo)=>{
+          var submit = {
+            images : imagePaths,
+            submitter : req.body.userId,
+            authors : req.body.authors,
+            sectionEvent : req.body.eventId,
+            location : {
+              geo: {
+                type: "Point",
+                coordinates : req.body.coordinates
+              }
+            },
+            verified: eventinfo !== null,
+            locationMatch: eventinfo !== null,
+            time: Date.now(),
+            content: req.body.content
+          };
+
+          Submission.create(submit, (err, submission) => {
+            if (err) return handleError(res);
+            return res.json(submission);
+          });
+        });
+    });
   });
 };
 
