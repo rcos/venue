@@ -31,6 +31,7 @@ angular.module('venueApp')
 
     $scope.submitForm = (form)=>{
       $scope.submitted = true;
+      console.log($scope.section.sectionNumbers);
       var section = {
         course: $scope.course._id,
         sectionNumbers:$scope.section.sectionNumbers.split(',').map(Number).sort(),
@@ -52,7 +53,7 @@ angular.module('venueApp')
         }
         promise
           .then((section) => {
-            $location.path('/instructor/courses/' +  $routeParams.id + "/sections/" +  $routeParams.sectionId);
+            $location.path('/instructor/courses/' +  $routeParams.id + "/sections/" +  section._id);
           })
           .catch(err => {
             err = err.data;
