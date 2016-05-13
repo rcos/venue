@@ -9,7 +9,6 @@ angular.module('venueApp')
     });
 
     $scope.viewSection = function(section){
-      console.log("hit");
       $location.path("/instructor/courses/"+section.course._id + "/sections/" + section._id);
     };
 
