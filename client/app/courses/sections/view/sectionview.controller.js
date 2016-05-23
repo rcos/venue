@@ -9,7 +9,6 @@ angular.module('venueApp')
         withSectionsEvent: true,
         withSectionsInstructors: true,
         withSectionsStudents: true,
-        withSectionsPendingStudents: true,
         withEnrollmentStatus: true,
         studentId: $scope.user._id
       }, section => {
@@ -23,49 +22,14 @@ angular.module('venueApp')
       $scope.user = user;
       $scope.isStudent = (!user.isInstructor) && Auth.isLoggedIn();
       $scope.isInstructor = user.isInstructor;
+      if ($scope.isInstructor){
+        $location.path('instructor/courses/'+$routeParams.id+'/sections/'+$routeParams.sectionId);
+      }
       loadSection();
     });
 
-    $scope.loadSectionEventSubmissions = function(sectionEvent){
-      Submission.getAll({'onlySectionEvent': sectionEvent._id, 'withStudents': true}, (submissions)=>{
-        $scope.submissions = submissions;
-        findStudentSubmission();
-      });
-    };
-
-    function findStudentSubmission(){
-      for(var i=0; i < $scope.section.students.length; i++){
-        for(var j=0; j < $scope.submissions.length; j++){
-          if($scope.section.students[i]._id == $scope.submissions[j].submitter._id){
-            $scope.section.students[i].submission = $scope.submissions[j];
-          }
-        }
-      }
-    }
-
     $scope.selecteEvent = function(event){
       $scope.sectionEventSubmissions(event);
-    };
-
-    $scope.verifyPendingStudent = (pendingStudent) => {
-      var section = $scope.section;
-      Section.update({id: section._id}, {pendingStudent: pendingStudent._id}, () => {
-          loadSection();
-        });
-    }
-
-    $scope.ignorePendingStudent = (pendingStudent) => {
-      var section = $scope.section;
-      Section.update({id: section._id}, {removePendingStudent: pendingStudent._id}, () => {
-          loadSection();
-        });
-    };
-
-    $scope.removeStudent = (pendingStudent) => {
-      var section = $scope.section;
-      Section.update({id: section._id}, {removeStudent: pendingStudent._id}, () => {
-          loadSection();
-        });
     };
 
     $scope.enroll = function(){
@@ -78,23 +42,7 @@ angular.module('venueApp')
         loadSection();
       });
     };
-    $scope.editCourse = function(){
-      $location.path('/courses/'+$routeParams.id+'/edit');
-    };
     $scope.viewCourse = function(){
       $location.path('/courses/'+$routeParams.id);
     };
-
-    $scope.editSection = function(){
-      $location.path($location.path() + '/edit');
-    };
-
-    $scope.studentManagement = function(){
-      $location.path($location.path() + '/studentmanagement');
-    };
-
-    $scope.createSection = function(){
-      $location.path('/courses/'+$routeParams.id+'/sections/create');
-    };
-
   });

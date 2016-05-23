@@ -2,65 +2,10 @@
 
 <div class='container courses-page'>
   <div class="sectionview">
-    <div class='row'>
-      <div class="col-sm-12 title">
-          <div class="background-image"  ng-style="{'background-image':'url(\''+course.imageURLs[0]+'\')'}">
-          </div>
-          <div class="row inside">
-            <h2 class = "col-sm-12"> {{ course.name }}</h2>
-            <div class='course-number col-sm-10'>{{course.department}} {{course.courseNumber}} | Section<span ng-show="section.sectionNumbers.length > 1">s</span>:
-              <span class="big-number text-right">
-                <span ng-repeat="number in section.sectionNumbers track by $index" ng-show="number > -1">
-                  <span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last || section.sectionNumbers.length < 3">, </span>
-                </span><span ng-show='isInstructor'>| Instructor<span ng-show="section.instructors.length > 1">s</span>: </span>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
+    <course-title-banner section="section" course="course" link="/courses/{{course._id}}"/>
     <div class='row row-height'>
       <div class="col-sm-12" ng-hide='isInstructor || isStudent'>
         <h4><a href="/login">Log in</a> to learn more</h4>
-      </div>
-
-      <div ng-show='isInstructor' class='col-sm-6 left-column col-sm-height col-sm-top'>
-        <div ng-show="section.pendingStudents.length > 0">
-          <h4>Pending Students</h4>
-          <table class="pending-students text-center table table-hover">
-            <tr ng-repeat="student in section.pendingStudents">
-              <td class="text-left align-middle">{{student.firstName}} {{student.lastName}}</td>
-              <td class="text-center">
-                <button ng-click='verifyPendingStudent(student)' class='verify btn btn-primary'> Verify </button>
-              </td>
-              <td class="text-center">
-                <button ng-click='ignorePendingStudent(student)' class='ignore btn btn-danger'> Ignore </button>
-              </td>
-            </tr>
-          </table>
-
-        <hr/>
-
-        </div>
-
-        <div class="row h4-spacing">
-          <div class='col-md-7 col-sm-6'>
-            <h4 class="no-spacing">Student Submissions</h4>
-            <table class="student-table mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-              <thead>
-                <tr>
-                  <th class="mdl-data-table__cell--non-numeric">Students</th>
-                  <th>Submitted</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="student in section.students">
-                  <td class="mdl-data-table__cell--non-numeric">{{student.firstName}} {{student.lastName}}</td>
-                  <td><i class="material-icons md-18">done</i></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
       </div>
 
       <div ng-show='isStudent' class='col-sm-6 left-column col-sm-height col-sm-top'>
@@ -70,31 +15,7 @@
           </div>
         </div>
         <hr/>
-      </div>
-
-      <div class="col-sm-6 right-column col-sm-height col-sm-top" ng-show='isInstructor'>
-        <div class="events row" ng-show='isInstructor || isStudent'>
-          <div class="col-sm-12">
-            <h4> View Submissions for Event Assignments </h4>
-            <div class="card-container">
-              <div class="col-md-6" ng-repeat='event in section.events' >
-                <event-card click='selecteEvent(event)' data="event"  short="true" preview="true" >  </event-card>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-sm-12">
-            <h4>Submission Preview</h4>
-            <uib-carousel>
-              <uib-slide ng-repeat="student in section.students" active="slide.active">
-                <img http-src="{{student.submission.images[0]}}" alt="submission-image" class="materialboxed" style="height: 200px; width: 600px; overflow: hidden; object-fit: contain;"/>
-                <div class="carousel-caption">
-                  <h5>{{student.firstName}} {{student.lastName}}</h5>
-                </div>
-              </uib-slide>
-            </uib-carousel>
-          </div>
-        </div>
+        <p> In progress.... </p>
       </div>
 
       <div class="col-sm-6 right-column col-sm-height col-sm-top" ng-show='isStudent'>
@@ -122,12 +43,16 @@
               </td>
             </tr>
             <tr>
+              <td class="text-right">Section Number<span ng-show="section.sectionNumbers.length > 1">s</span></td>
+              <td class="text-left">
+                <span ng-repeat="number in section.sectionNumbers track by $index" ng-show="number > -1">
+                  <span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last || section.sectionNumbers.length < 3">, </span>
+                </span>
+              </td>
+            </tr>
+            <tr>
               <td class="text-right">Students</td>
               <td class="text-left">{{section.students.length}}</td>
-            </tr>
-            <tr ng-show="isInstructor">
-              <td class="text-right">Pending Students</td>
-              <td class="text-left">{{section.pendingStudents.length}}</td>
             </tr>
             <tr>
               <td class="text-right">Events</td>
@@ -138,32 +63,17 @@
               <td class="text-left">{{(section.enrollmentPolicy === "approvalRequired")?"approval":section.enrollmentPolicy}}</td>
             </tr>
           </table>
-
-          <hr/>
-
-          <div ng-show="isInstructor && section.students">
-            <h4>Enrolled Students</h4>
-            <table class="pending-students text-center table table-hover">
-              <tr ng-repeat="student in section.students">
-                <td class="text-left align-middle">{{student.firstName}} {{student.lastName}}</td>
-                <td class="text-center">
-                  <button ng-click='removeStudent(student)' class='remove btn btn-danger'> Remove </button>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div class='col-md-7 col-sm-6' ng-hide="section.students || !isInstructor">
-            <h4>No Enrolled Students</h4>
-          </div>
-
-
         </div>
       </div>
     </div>
+    <hr/>
     <div class='row'>
       <div class="col-sm-12 events" ng-show='isStudent'>
         <h4> Events </h4>
-        <div class="card-container">
+        <div ng-hide="section.events.length">
+          <p> Your instructor has not added any events yet. </p>
+        </div>
+        <div class="card-container" ng-show="section.events.length">
           <div class="col-md-4" ng-repeat='event in section.events' >
             <event-card sectionClick='goToEvent(event)' click='goToEvent(event)' data="event"  short="true">  </event-card>
           </div>

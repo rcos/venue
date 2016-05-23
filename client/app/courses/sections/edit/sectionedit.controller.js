@@ -22,5 +22,4 @@ angular.module('venueApp')
     $scope.isInstructor = user.isInstructor;
     loadSection();
   });
-
 });
