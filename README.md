@@ -4,6 +4,13 @@ This project was generated with the [Angular Full-Stack Generator](https://githu
 
 ## Getting Started
 
+### Deploying with Docker
+
+If you'd like the run venue without modifying it, you can use our docker image
+which you can find at [rcos/venue on the docker hub](https://hub.docker.com/r/rcos/venue/).
+
+The instructions for running the docker image are available on docker hub.
+
 ### Prerequisites
 
 - [Git](https://git-scm.com/)
@@ -25,6 +32,17 @@ This project was generated with the [Angular Full-Stack Generator](https://githu
 ## Build & development
 
 Run `grunt build` for building and `grunt serve` for preview.
+
+### Building the Docker Image
+
+To build the docker image, go to your venue directory and run the following
+command.
+
+`docker build -t rcos/venue .`
+
+You can then upload your image (assuming you have the correct permissions) using
+
+`docker push rcos/venue`
 
 ## Testing
 
