@@ -3,10 +3,6 @@
 class NavbarController {
   //start-non-standard
   menu = [{
-    'title': 'Home',
-    'link': '/',
-    "noauth": true
-  }, {
     'title': 'Search Courses',
     'link': '/courses',
     "noauth": true
