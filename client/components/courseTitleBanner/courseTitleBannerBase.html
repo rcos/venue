@@ -1,0 +1,17 @@
+<div class="course-banner" course-banner course="course"></div>
+<div class="row inside">
+  <h2 class="col-sm-12"> {{ course.name }}</h2>
+  <div class='course-number col-sm-10'>{{course.department}} {{course.courseNumber}}
+    <span ng-show="section">| Section<span ng-show="section.sectionNumbers.length > 1">s</span>:
+      <span ng-repeat="number in section.sectionNumbers track by $index" ng-show="number > -1">
+        <span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last || section.sectionNumbers.length < 3">, </span>
+      </span>
+      <span>| Instructor<span ng-show="section.instructors.length > 1">s</span>:
+        <span ng-repeat="instructor in section.instructors">
+          <span ng-show="$last && !$first">& </span>{{instructor.firstName}} {{instructor.lastName}}
+          <span ng-hide="$last">, </span>
+        </span>
+      </span>
+    </span>
+  </div>
+</div>
