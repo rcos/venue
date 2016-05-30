@@ -12,6 +12,7 @@
 var _ = require('lodash');
 var Submission = require('./submission.model');
 var SectionEvent = require('../sectionevent/sectionevent.model');
+var EventInfo = require('../eventinfo/eventinfo.model');
 var Section = require('../section/section.model');
 var multiparty = require('multiparty');
 var User = require('../user/user.model');
@@ -226,26 +227,76 @@ exports.show = function(req, res) {
 
 // Creates a new Submission in the DB
 exports.create = function(req, res) {
-  req.body.userId = req.user._id;
-  saveSubmissionImage(req.files, req.body, (imagePaths)=>{
-    var submit = {
-      images : imagePaths,
-      submitter : req.body.userId,
-      authors : req.body.authors,
-      sectionEvent : req.body.eventId,
-      location : {
-        geo: {
-          coordinates : req.body.coordinates
-        }
-      },
-      time: Date.now(),
-      content: req.body.content
-    };
+  if (req.user._id)
+    {
+      req.body.userId = req.user._id;
+    }
 
-    Submission.create(submit, (err, submission) => {
-      if (err) return handleError(res);
-      return res.json(submission);
-    })
+  saveSubmissionImage(req.files, req.body, (imagePaths)=>{
+
+    if (!req.body.authors){
+      req.body.authors = [req.body.userId]
+    }
+    if (!req.body.coordinates){
+      var submit = {
+        images : imagePaths,
+        submitter : req.body.userId,
+        authors : req.body.authors,
+        sectionEvent : req.body.eventId,
+        verified: false,
+        locationMatch: false,
+        time: Date.now(),
+        content: req.body.content
+      };
+
+      Submission.create(submit, (err, submission) => {
+        if (err) return handleError(res);
+        return res.json(submission);
+      });
+
+    }
+    else{
+      req.body.coordinates[0] = Number(req.body.coordinates[0]);
+      req.body.coordinates[1] = Number(req.body.coordinates[1]);
+
+      SectionEvent.findOne({"_id":req.body.eventId})
+      .populate("info")
+      .execAsync()
+      .then((event)=>{
+        if (!event){
+          throw "No event assignment found"
+        }
+          EventInfo.findOne({"_id":event.info._id})
+          .where('location.geobounds').intersects().geometry({
+            type: "Point",
+            coordinates : req.body.coordinates
+          })
+          .execAsync()
+          .then((eventinfo)=>{
+            var submit = {
+              images : imagePaths,
+              submitter : req.body.userId,
+              authors : req.body.authors,
+              sectionEvent : req.body.eventId,
+              location : {
+                geo: {
+                  type: "Point",
+                  coordinates : req.body.coordinates
+                }
+              },
+              verified: eventinfo !== null,
+              locationMatch: eventinfo !== null,
+              time: Date.now(),
+              content: req.body.content
+            };
+
+            Submission.create(submit, (err, submission) => {
+              if (err) return handleError(res);
+              return res.json(submission);
+            });
+          });
+      });
+    }
   });
 };
 

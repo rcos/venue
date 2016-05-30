@@ -126,6 +126,59 @@ exports.create = function(req, res) {
     evnt.creationDate = new Date();
     evnt.author = req.user._id;
     evnt.imageURLs = imagePaths;
+
+    if (!evnt.location){
+      throw "There must be a location";
+    }
+    if (!evnt.location.geobounds || !evnt.location.geobounds.coordinates || !evnt.location.geobounds.coordinates.length){
+      throw "There must be at least one geobound polygon";
+    }
+
+    if(!evnt.location.geo || !evnt.location.geo.coordinates){
+      throw "There must be a geo coordinate";
+    }
+
+    // We need to parse it like this because there is no garnuntee of valid geojson
+    // and express sometimes changes the array structure to a dict
+
+    var allShapes = []; // all the polygons, inside which a coordinate is valid
+    for (var a = 0; a < evnt.location.geobounds.coordinates.length; a++){
+      var poly = []; // the current polygon, can be made up of multiple lines (there can be a hole)
+      var rawPoly = evnt.location.geobounds.coordinates[a];
+
+      for (var b = 0; b < rawPoly.length; b++){
+        var line = []; // one closed line of the polygon
+        var rawLine = rawPoly[b];
+
+        for (var c = 0; c < rawLine.length; c++){
+          var coordsPair = []; // one closed line of the polygon
+          var rawCoordsPair = evnt.location.geobounds.coordinates[a][b][c]; // a pair of coordinates
+
+          if (!Array.isArray(rawCoordsPair)){ // if express converts it to a dict, change back to a array
+            rawCoordsPair = Object.keys(rawCoordsPair).map(function (key) {
+              return rawCoordsPair[key]
+            });
+          }
+          for (var d = 0; d < rawCoordsPair.length; d++){
+            //Convert coordinates to a number
+            coordsPair.push(Number(rawCoordsPair[d])); // add coordinates to the coordinates Pair
+          }
+          line.push(coordsPair); // add the coordinates Pair to the line
+        }
+        poly.push(line); // add the line to the polygon
+      }
+      allShapes.push(poly); //add the polygon to the list of all shapes
+    }
+    evnt.location.geobounds.coordinates = allShapes; // save the list of all shapes
+
+    for (var a = 0; a < evnt.location.geo.coordinates.length; a++){
+      // Save the bounds as numbers
+      evnt.location.geo.coordinates[a] = Number(evnt.location.geo.coordinates[a]);
+    }
+    //Save the radius as a number
+    evnt.location.radius = Number(evnt.location.radius);
+
+    // Create the eventInfo
     EventInfo.createAsync(evnt)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
