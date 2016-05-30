@@ -138,36 +138,47 @@ exports.create = function(req, res) {
       throw "There must be a geo coordinate";
     }
 
+    // We need to parse it like this because there is no garnuntee of valid geojson
+    // and express sometimes changes the array structure to a dict
 
-    var shapes = [];
+    var allShapes = []; // all the polygons, inside which a coordinate is valid
     for (var a = 0; a < evnt.location.geobounds.coordinates.length; a++){
-      var poly = [];
+      var poly = []; // the current polygon, can be made up of multiple lines (there can be a hole)
+      var rawPoly = evnt.location.geobounds.coordinates[a];
 
-      for (var b = 0; b < evnt.location.geobounds.coordinates[a].length; b++){
-        var allline = [];
-        for (var c = 0; c < evnt.location.geobounds.coordinates[a][b].length; c++){
-          var line = [];
-          var coords = evnt.location.geobounds.coordinates[a][b][c];
-          if (!Array.isArray(coords)){
-            coords = Object.keys(coords).map(function (key) {return coords[key]});
+      for (var b = 0; b < rawPoly.length; b++){
+        var line = []; // one closed line of the polygon
+        var rawLine = rawPoly[b];
+
+        for (var c = 0; c < rawLine.length; c++){
+          var coordsPair = []; // one closed line of the polygon
+          var rawCoordsPair = evnt.location.geobounds.coordinates[a][b][c]; // a pair of coordinates
+
+          if (!Array.isArray(rawCoordsPair)){ // if express converts it to a dict, change back to a array
+            rawCoordsPair = Object.keys(rawCoordsPair).map(function (key) {
+              return rawCoordsPair[key]
+            });
           }
-          for (var d = 0; d < coords.length; d++){
-            line.push(Number(coords[d]));
+          for (var d = 0; d < rawCoordsPair.length; d++){
+            //Convert coordinates to a number
+            coordsPair.push(Number(rawCoordsPair[d])); // add coordinates to the coordinates Pair
           }
-          allline.push(line);
+          line.push(coordsPair); // add the coordinates Pair to the line
         }
-        poly.push(allline);
+        poly.push(line); // add the line to the polygon
       }
-      shapes.push(poly);
+      allShapes.push(poly); //add the polygon to the list of all shapes
     }
-    evnt.location.geobounds.coordinates = shapes;
+    evnt.location.geobounds.coordinates = allShapes; // save the list of all shapes
 
     for (var a = 0; a < evnt.location.geo.coordinates.length; a++){
+      // Save the bounds as numbers
       evnt.location.geo.coordinates[a] = Number(evnt.location.geo.coordinates[a]);
     }
+    //Save the radius as a number
     evnt.location.radius = Number(evnt.location.radius);
 
-
+    // Create the eventInfo
     EventInfo.createAsync(evnt)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));

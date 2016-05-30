@@ -191,40 +191,22 @@ angular.module('venueApp')
       $scope.eventInfo = event;
     };
 
-    $scope.clearMapPoly = ()=>{
-
-    };
-
     $scope.createEventInfo = (form)=>{
       $scope.submitted = true;
       // For each place, get the icon, place name, and location.
       var bounds = new google.maps.LatLngBounds();
+      //Loop through each polygon that was drawn
       for (var a = 0; a < $scope.allShapes.length ; a++){
-        var shape = $scope.allShapes[a].overlay;
+        var shape = $scope.allShapes[a].overlay; // get the shape
 
+        //Loop through each point in the shape
         for (var b = 0; b < shape.getPath().getLength() ; b++){
+          //Add the point to the bounds - so that you can see the entire location
           bounds.extend(shape.getPath().getAt(b));
         }
       }
-      var allcoordinates = [];
-      for (var a = 0; a < $scope.allShapes.length ; a++){
-        if (shape.getPath().getLength() < 3){
-          continue;
-        }
-        var coords = [];
-        var poly = [];
-        var shape = $scope.allShapes[a].overlay;
 
-        for (var b = 0; b < shape.getPath().getLength() ; b++){
-          coords.push([shape.getPath().getAt(b).lng(), shape.getPath().getAt(b).lat()]);
-        }
-        coords.push([shape.getPath().getAt(0).lng(), shape.getPath().getAt(0).lat()]);
-
-        poly.push(coords);
-
-        allcoordinates.push(poly);
-      }
-
+      // Set the bounds to view and save to the one we just defined
       $scope.event.map.bounds = {
         northeast: {
           latitude: bounds.getNorthEast().lat(),
@@ -236,7 +218,42 @@ angular.module('venueApp')
         }
       }
 
-      if (form.$valid && $scope.file && allcoordinates.length){
+      //Save all the shapes in the proper form for geojson
+      var allShapes = [];
+      //Loop through each polygon that was drawn
+      for (var a = 0; a < $scope.allShapes.length ; a++){
+        var shape = $scope.allShapes[a].overlay; // get the shape
+
+        // If it is a line or a point, don't add it
+        if (shape.getPath().getLength() < 3){
+          continue;
+        }
+
+        var poly = []; //Save the polygon (in a seperate array because geojson allows multiple loops)
+
+        var line = []; //Save the coordinates of the shape (closed polygon)
+
+        for (var b = 0; b < shape.getPath().getLength() ; b++){
+          // add each point to the coordinates array
+          var coordsPair = [
+            shape.getPath().getAt(b).lng(),
+            shape.getPath().getAt(b).lat()
+          ];
+          line.push(coordsPair);
+        }
+        //Add the first point to the end to close the shape
+        line.push([shape.getPath().getAt(0).lng(), shape.getPath().getAt(0).lat()]);
+
+        //Add the coordinates array to the polygon
+        poly.push(line);
+
+        //Add the polygon to the array of all coordinates
+        allShapes.push(poly);
+      }
+
+      // Save the event information and send it to the api endpoint
+      // Don't do it if the form is invalid or there are no shapes drawn
+      if (form.$valid && $scope.file && allShapes.length){
         $scope.eventInfo = {
           title: $scope.event.title,
           description: $scope.event.description,
@@ -258,11 +275,13 @@ angular.module('venueApp')
             radius: Math.abs($scope.event.map.bounds.northeast.longitude-$scope.event.map.bounds.southwest.longitude),
             geobounds: {
               type: 'MultiPolygon',
-              coordinates: allcoordinates,
+              coordinates: allShapes,
             },
           },
           imageURL: $scope.event.imageURL,
         };
+
+        //Upload the event
         Upload.upload({
             url: '/api/eventinfos/',
             data: $scope.eventInfo,
