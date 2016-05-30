@@ -78,6 +78,7 @@ angular.module('venueApp')
       }
     };
 
+    // Deselect the current selection
     function clearSelection() {
       if (selectedShape) {
         selectedShape.setEditable(false);
@@ -85,18 +86,21 @@ angular.module('venueApp')
       }
     }
 
+    // Select a new object
     function setSelection(shape) {
       clearSelection();
       selectedShape = shape;
       shape.setEditable(true);
     }
 
+    // Delete the current selection from the map
     function deleteSelectedShape() {
       if (selectedShape) {
         selectedShape.setMap(null);
       }
     }
 
+    // Delete all the shapes from the map
     function deleteAllShape() {
       for (var i = 0; i < $scope.allShapes.length; i++) {
         $scope.allShapes[i].overlay.setMap(null);
@@ -104,32 +108,40 @@ angular.module('venueApp')
       $scope.allShapes = [];
     }
 
+    // Wait for the api to load
     uiGmapGoogleMapApi.then(function(maps) {
       $scope.mapLoaded = true;
       maps.visualRefresh = true;
+      // Set default bounds to be RPI
       $scope.defaultBounds = new google.maps.LatLngBounds(
         new google.maps.LatLng(42.7766, -73.5380),
         new google.maps.LatLng(42.6757, -73.8292));
 
+        // Set functionality based on api events
         $scope.event.map.events = {
+          // When a shape is drawn
           overlaycomplete: function (dm, name, scope, objs) {
             var e = objs[0];
-            $scope.allShapes.push(e);
+            $scope.allShapes.push(e); // Save the shape
             var newShape = e.overlay;
             newShape.type = e.type;
+
+            // When the shape is clicked, set it as editable
             google.maps.event.addListener(newShape, 'click', function() {
               setSelection(newShape);
             });
+
+            // Immediatly set the drawn shape as editable
             setSelection(newShape);
-
-
           }
         };
 
+        // Add functionality to the delete button to delete the current selection
         $scope.deleteButton = function(){
           deleteSelectedShape();
         };
 
+        // Add functionality to the delete all button to delete all shapes
         $scope.deleteAllButton = function(){
           deleteAllShape();
         };
