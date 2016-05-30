@@ -96,8 +96,14 @@ angular.module('venueApp')
     // Delete the current selection from the map
     function deleteSelectedShape() {
       if (selectedShape) {
-        selectedShape.setMap(null);
+        for (var i = 0; i < $scope.allShapes.length; i++) {
+          if ($scope.allShapes[i].overlay === selectedShape){
+            $scope.allShapes.splice(i,1); //Remove from allshapes array
+          }
+        }
+        selectedShape.setMap(null); //remove from map
       }
+      selectedShape = null;
     }
 
     // Delete all the shapes from the map
@@ -106,6 +112,7 @@ angular.module('venueApp')
         $scope.allShapes[i].overlay.setMap(null);
       }
       $scope.allShapes = [];
+      selectedShape = null;
     }
 
     // Wait for the api to load
