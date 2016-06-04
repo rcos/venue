@@ -22,6 +22,7 @@ var config = require('../../config/environment');
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var path = require('path');
 import async from 'async';
+import glob from 'glob';
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -75,19 +76,34 @@ function saveSubmissionImage(files, fields, cb){
       asyncTasks = [];
   if (!files){return imagePaths;}
   files.files.forEach(function(file) {
-    var name = file.name;
-    var path = config.imageUploadPath + 'eventImages/' + fields.userId + '/' + fields.eventId;
-    var destPath = path + '/' + name;
-    imagePaths.push("/api/submissions/image?imgPath=" + destPath);
-    asyncTasks.push( (callback) => {fs.exists(path, (exists) => {
-      mkdirp(path, function (err) {
-        if (err) console.error(err)
-        var is = fs.createReadStream(file.path);
-        var os = fs.createWriteStream(destPath);
-        is.pipe(os);
-        callback();
+    var name = file.name,
+        title = name.substr(0, name.lastIndexOf('.')),
+        fileIndex = 0,
+        path = config.imageUploadPath + 'eventImages/' + fields.userId + '/' + fields.eventId;
+
+    asyncTasks.push( (callback) => {
+      glob((path+"/"+title+"*"), function (er, machedfiles) {
+        machedfiles.forEach((matching) =>{
+          var index = parseInt(matching.substr((path+"/"+title).length).replace( /[{()}]/g, ""));
+          if(!isNaN(index) &&  index >= fileIndex){
+            fileIndex = index + 1;
+          }
+        });
+        name = title + '(' + fileIndex.toString() +')' + name.substr(name.lastIndexOf('.'));
+        var destPath = path + '/' + name;
+
+        imagePaths.push("/api/submissions/image?imgPath=" + destPath);
+        fs.exists(path, (exists) => {
+          mkdirp(path, function (err) {
+            if (err) console.error(err)
+            var is = fs.createReadStream(file.path);
+            var os = fs.createWriteStream(destPath);
+            is.pipe(os);
+            callback();
+          });
+        });
       });
-    })});
+    });
   });
   async.parallel(asyncTasks, (error, results) => {
     // TODO: Handle Error
