@@ -4,11 +4,16 @@
 angular.module('venueApp')
   .controller('EventFormCtrl', function($scope, Auth, EventInfo, User, SectionEvent, Upload, uiGmapGoogleMapApi){
     var eventInfoId = null;
+    $scope.today = new Date();
+    $scope.today.setHours(0,0,0,0);
+
+    $scope.startDate = new Date();
     $scope.courseCreated = false;
     $scope.selectingEvent = true;
     $scope.event = {};
     $scope.event.startDate = new Date();
     $scope.event.endDate = new Date();
+    $scope.event.endDate.setHours($scope.event.endDate.getHours()+1);
     $scope.event.startDateOpen = false;
     $scope.event.endDateOpen = false;
     $scope.event.location = {};
