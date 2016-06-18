@@ -5,6 +5,9 @@ import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import Section from "../section/section.model";
+import Sendgrid from '../../components/email';
+import verificationTokenModel from '../../auth/local/verificationToken.model';
+
 var fs = require('fs');
 
 function validationError(res, statusCode) {
@@ -26,6 +29,40 @@ function respondWith(res, statusCode) {
   return function() {
     res.status(statusCode).end();
   };
+}
+
+/**
+ * Verifies that a user's email has been confirmed
+ */
+function verifyUser(token, callback){
+    verificationTokenModel.findOne({token: token})
+      .then((doc) => {
+        if (doc == null) return callback("[Error] No token found");
+        User.findById(doc.userId)
+          .execAsync()
+          .then((user, err) => {
+            if (err) return callback(err);
+            user.verified = true;
+            user.save(function(err) {
+              callback(err);
+            })
+          })
+      })
+}
+
+function createVerificationToken(req, user){
+  var verificationToken = new verificationTokenModel({userId: user._id});
+  verificationToken.createVerificationToken(function (err, token) {
+      if (err){
+        console.log("Couldn't create verification token", err);
+        return
+      }
+      var message = {
+          email: user.email,
+          name: user.name,
+          verifyURL: req.protocol + "://" + req.get('host') + "/verify/" + token};
+      Sendgrid.signup(message);
+  });
 }
 
 /**
@@ -52,9 +89,21 @@ export function create(req, res, next) {
       var token = jwt.sign({ _id: user._id }, config.secrets.session, {
         expiresIn: 60 * 60 * 5
       });
+      createVerificationToken(req, user);
       res.json({ token });
     })
     .catch(validationError(res));
+}
+
+/**
+ * Verifies a User's email address
+ */
+export function verify(req, res, next) {
+  var token = req.params.token;
+  verifyUser(token, function(err) {
+      if (err) return res.json({verified:false});
+      res.json({verified:true});
+  });
 }
 
 /**

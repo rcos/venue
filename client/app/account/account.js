@@ -25,6 +25,10 @@ angular.module('venueApp')
         controller: 'SettingsController',
         controllerAs: 'vm',
         authenticate: true
+      })
+      .when('/verify/:id', {
+        templateUrl: 'app/account/verify/verify.html',
+        controller: 'VerifyAccountCtrl'
       });
   })
   .run(function($rootScope, $window) {

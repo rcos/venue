@@ -24,6 +24,7 @@ var UserSchema = new Schema({
     default: 'user'
   },
   isInstructor: Boolean,
+  isVerified: Boolean,
   password: {
     type: String,
     select: false
