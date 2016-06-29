@@ -5,6 +5,7 @@ import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import Section from "../section/section.model";
+var path = require('path');
 var fs = require('fs');
 
 function validationError(res, statusCode) {
@@ -57,10 +58,15 @@ export function create(req, res, next) {
     .catch(validationError(res));
 }
 
+export function getExampleCSVUpload(req, res, next){
+  res.sendFile(path.join(__dirname,"./example_csv_upload.csv"));
+}
+
 /**
  * Creates users in database from a CSV file
  */
 export function createFromCSVUpload(req, res, next){
+  console.log("Attempting csv upload");
   var csvFile = req.files.files[0];
   // Parse CSV File
   var fileLines = fs.readFileSync(csvFile.path).toString().split("\n");
@@ -74,6 +80,7 @@ export function createFromCSVUpload(req, res, next){
   var lastNameIndex = -1;
   var emailIndex = -1;
   var passwordIndex = -1;
+  var isInstructorIndex = -1;
   for (var i = 0;i < header.length;i++){
     header[i] = header[i].toLowerCase().trim();
     if (header[i] == "first name"){
@@ -84,6 +91,8 @@ export function createFromCSVUpload(req, res, next){
       emailIndex = i;
     }else if (header[i] == "password"){
       passwordIndex = i;
+    }else if (header[i] == "is instructor"){
+      isInstructorIndex = i;
     }
   }
   if (firstNameIndex == -1){
@@ -94,25 +103,50 @@ export function createFromCSVUpload(req, res, next){
     res.status(500).send({"message": "Missing \"Email\" in header."});
   }else if (passwordIndex == -1){
     res.status(500).send({"message": "Missing \"Password\" in header."});
+  }else if (isInstructorIndex == -1){
+    res.status(500).send({"message": "Missing \"Is Instructor\" in header."});
   }
 
   // Add each user to the server
-  // TODO check for duplicate users
-  for (var i = 1;i < fileLines.length;i++){
-    var firstName = fileLines[i][firstNameIndex];
-    var lastName = fileLines[i][lastNameIndex];
-    var email = fileLines[i][emailIndex];
-    var password = fileLines[i][passwordIndex];
-    var newUser = new User({
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password
+  Promise.all(fileLines.slice(1).map((line) => {
+    return new Promise((resolve, reject) => {
+      console.log("Within promise");
+      var firstName = line[firstNameIndex];
+      var lastName = line[lastNameIndex];
+      var email = line[emailIndex];
+      var password = line[passwordIndex];
+
+      if (firstName == "" || lastName == "" || email == "" || password == ""){
+        resolve("");
+        return;
+      }
+
+      var isInstructorLine = (line[isInstructorIndex] || "").toLowerCase().trim();
+      var isInstructor = (
+          isInstructorLine == "true" ||
+          isInstructorLine == "yes" ||
+          isInstructorLine == "x");
+
+      var newUser = new User({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        isInstructor: isInstructor
+      });
+      newUser.provider = 'local';
+      newUser.role = 'user';
+      newUser.save().then(() => {
+        resolve(`Successfully created user ${firstName} ${lastName}, ${email}`);
+      }).catch((err) => {
+        resolve(`Error creating user ${firstName} ${lastName}, ${email}`);
+      })
     });
-    newUser.provider = 'local';
-    newUser.role = 'user';
-    newUser.save();
-  }
+  })).then(messages => {
+    res.json(messages);
+  }).catch((err) => {
+    console.log("An error occurred doing CSV upload", err);
+  });
 
 }
 
