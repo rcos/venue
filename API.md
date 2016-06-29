@@ -533,6 +533,7 @@ Example Response:
 ```
 
 
+
 `POST /api/users` - Creates a user account, this is called on sign-up.  
 Request returns a javascript web token.
 
@@ -557,6 +558,14 @@ Example Response:
   token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjljNGUzNDllMzM0YzZiNTNjMjYzOTEiLCJpYXQiOjE0NTMwODQyMTIsImV4cCI6MTQ1MzEwMjIxMn0.9z6Akq-MtU6MV4GHSU5lVCbW3WWSRp5aQ0SPr4lXfvo"
 }
 ```
+
+`POST /api/users/csv` - Upload CSV to create multiple groups of users. Requires
+admin level persmissions.
+
+first name  |  last name  |  email                      |  password    |  is instructor
+------------|-------------|-----------------------------|--------------|---------------
+student     |  example    |  student@student.com        |  student     |  no           
+instructor  |  example    |  instructor@instructor.com  |  instructor  |  yes          
 
 
 ## Courses API
