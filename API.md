@@ -11,7 +11,7 @@ the resources.
 
 ## Logging In
 
-`/auth/local` - Returns token for authenticated calls with the API, requires that the X-XSRF and XSRF token, a session id and binary body consisting of a JSON object with `email` and `password`.
+`/auth/local` - Returns token for authenticated calls with the API, requires that the X-XSRF and XSRF token, a session id and binary body consisting of a JSON object with `email` and `password`. Optional params are instructorOnly and studentOnly to allow only the respective user roles to log in.
 
 Example Request (curl)
 ```curl
