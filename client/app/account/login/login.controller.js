@@ -40,24 +40,9 @@ class LoginController {
   }
 
   _devLoginAs(user){
-    var email = user + "@"+user+".com";
-    var pass = user;
-    this.Auth.login({
-      email: email,
-      password: pass
-    }).then(() => {
-      this.getCurrentUser((user) => {
-        // Logged in, redirect to Dashboard
-        if(!user.isInstructor){
-          this.$location.path('/student/dashboard');
-        }
-        else{
-          this.$location.path('/instructor/dashboard');
-        }
-      });
-    }).catch(err => {
-      this.errors.other = err.message;
-    });
+    this.user.email = user + "@"+user+".com";
+    this.user.password = user;
+    return this.login({$valid:true});
   }
 
 }
