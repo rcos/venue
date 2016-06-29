@@ -6,6 +6,8 @@
     <div class="btn btn-default btn-lg" ngf-select="uploadUserCSV($file)">Upload users with CSV</div>
   </form>
   <a href="/api/users/examplecsv.csv" target="_self" download> Download Example CSV </a>
+  <div ng-bind-html="csvResults" ng-show='csvResults'>
+  </div>
 
   <h4> Users </h4>
   <ul class="list-group user-list">

@@ -19,7 +19,7 @@ angular.module('venueApp')
           objectKey: '.k',
           arrayKey: '[i]'
       }).success(((response) => {
-        console.log("success", response);
+        $scope.csvResults = response.join("<br/>");
       }));
     };
 
