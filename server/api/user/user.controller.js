@@ -66,7 +66,6 @@ export function getExampleCSVUpload(req, res, next){
  * Creates users in database from a CSV file
  */
 export function createFromCSVUpload(req, res, next){
-  console.log("Attempting csv upload");
   var csvFile = req.files.files[0];
   // Parse CSV File
   var fileLines = fs.readFileSync(csvFile.path).toString().split("\n");
@@ -110,7 +109,6 @@ export function createFromCSVUpload(req, res, next){
   // Add each user to the server
   Promise.all(fileLines.slice(1).map((line) => {
     return new Promise((resolve, reject) => {
-      console.log("Within promise");
       var firstName = line[firstNameIndex];
       var lastName = line[lastNameIndex];
       var email = line[emailIndex];
