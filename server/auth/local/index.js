@@ -23,8 +23,10 @@ router.post('/', function(req, res, next) {
     User.findById(profile._id).then((user) => {
       if (studentOnly === true && profile.isInstructor){
         res.status(401).json({"message": "user is not a student"});
+        return;
       }else if (instructorOnly === true && !profile.isInstructor){
         res.status(401).json({"message": "user is not an instructor"});
+        return;
       }
       var token = signToken(user._id, user.role);
       res.json({ token, profile });
