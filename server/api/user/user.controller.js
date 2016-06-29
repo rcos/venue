@@ -226,15 +226,19 @@ export function show(req, res, next) {
 export function destroy(req, res) {
   User.findById(req.params.id)
     .then((user)=>{
-      user.lastName = "";
-      user.firstName = "[deleted user]";
-      user.password = "";
-      user.saveAsync()
-        .spread(function(usr) {
+      if (req.params.realDestroy){
+        user.remove().then(() => {
           res.status(200).end();
-        })
-    })
-    .catch(handleError(res));
+        }).catch(handleError(res));
+      }else{
+        user.lastName = "";
+        user.firstName = "[deleted user]";
+        user.password = "DELETED";
+        user.save().then(function(usr) {
+          res.status(200).end();
+        }).catch(handleError(res));
+      }
+    }).catch(handleError(res));
 }
 
 /**
