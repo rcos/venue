@@ -110,7 +110,6 @@ export function createFromCSVUpload(req, res, next){
   // Add each user to the server
   Promise.all(fileLines.slice(1).map((line) => {
     return new Promise((resolve, reject) => {
-      console.log("Within promise");
       var firstName = line[firstNameIndex];
       var lastName = line[lastNameIndex];
       var email = line[emailIndex];
