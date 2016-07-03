@@ -1,11 +1,9 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('EventsCtrl', function ($scope, $location, $routeParams, SectionEvent, User) {
+  .controller('EventsCtrl', function ($scope, $location, $routeParams, SectionEvent, Auth) {
 
-    User.get((user)=>{
-      $scope.user = user;
-    });
+    Auth.getCurrentUser((user) => $scope.user = user);
 
     $scope.event = SectionEvent.get({
       id: $routeParams.id,
