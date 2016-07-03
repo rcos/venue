@@ -28,11 +28,18 @@ function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
         instructorOnly: user.instructorOnly
       })
         .then(res => {
-          $cookies.put('token', res.data.token);
-          currentUser = User.get();
-          return currentUser.$promise;
+          console.log(res.data.profile.isVerified);
+          if(res.data.profile.isVerified){
+            $cookies.put('token', res.data.token);
+            currentUser = User.get();
+            return currentUser.$promise;
+          }
+          else{
+            return res.data.profile;
+          }
         })
         .then(user => {
+          console.log(user);
           safeCb(callback)(null, user);
           return user;
         })
@@ -61,8 +68,6 @@ function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
     createUser(user, callback) {
       return User.save(user,
         function(data) {
-          $cookies.put('token', data.token);
-          currentUser = User.get();
           return safeCb(callback)(null, user);
         },
         function(err) {

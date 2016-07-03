@@ -25,6 +25,18 @@ function UserResource($resource) {
         controller: ''
       }
     },
+    verify: {
+      method: 'GET',
+      params: {
+        id: 'verify'
+      }
+    },
+    resendEmail: {
+      method: 'GET',
+      params: {
+        id: 'resendEmail'
+      }
+    },
     enroll: {
       method: 'PUT',
       params: {

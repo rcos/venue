@@ -15,7 +15,7 @@ angular.module('venueApp')
               isInstructor: true
             })
             .then(() => {
-                $scope.success = true;
+              $location.path('/verify/emailVerification');
             })
             .catch(err => {
               err = err.data;

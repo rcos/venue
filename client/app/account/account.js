@@ -25,6 +25,14 @@ angular.module('venueApp')
         controller: 'SettingsController',
         controllerAs: 'vm',
         authenticate: true
+      })
+      .when('/verify/resendEmail', {
+        templateUrl: 'app/account/verify/resendEmail/resendEmail.html',
+        controller: 'ResendEmailCtrl'
+      })
+      .when('/verify/:id', {
+        templateUrl: 'app/account/verify/verify.html',
+        controller: 'VerifyAccountCtrl'
       });
   })
   .run(function($rootScope, $window) {
