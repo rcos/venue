@@ -177,17 +177,7 @@
 <div class='eventAssignmentForm' ng-hide='selectingEvent || success'>
   <h2>Section Assignment</h2>
   <form class="eventAssignment" name="eventAssignmentForm" ng-submit="submitEventAssignment(eventAssignmentForm)" novalidate>
-    <!-- <div class='selectedEvent'>
-      <img http-src='{{eventInfo.imageURLs[0]}}'/>
-      <div class='event-text'>
-        <div class='title'>
-          {{eventInfo.title}}
-        </div>
-        <div class='description'>
-          {{eventInfo.description | limitTo : 360}}{{eventInfo.description.length > 360 ? "..." : ""}}
-        </div>
-      </div>
-    </div> -->
+    
     <event-card data="eventInfo">  </event-card>
 
     <div class="form-group" ng-class="{ 'has-success': eventAssignmentForm.sections.$valid && (eventAssignmentForm.sections.$touched || submitted),
