@@ -83,38 +83,9 @@
 .eventAssignmentForm{
 
   position:relative;
-
-  .selectedEvent{
-
-    @padding: 4px;
-    @contentHeight: 150px;
-    height: @contentHeight + @padding*2;
-    box-shadow: 1px 1px 5px rgba(0,0,0,.5);
-    margin-bottom: 40px;
-
-    img{
-      width:200px;
-      height:@contentHeight;
-      object-fit: cover;
-      position: absolute;
-      left: @padding;
-      top: @padding;
-    }
-    .event-text{
-      width:100%;
-      padding-left:200px + @padding + 10px;
-      .title{
-        padding-top: 10px;
-        font-size:18px;
-        color:#333;
-        padding-bottom:10px;
-      }
-      .description{
-        color:#888;
-      }
-    }
+  .event-card{
+    margin: 24px 4px;
   }
-
   .course-option{
     padding-bottom:10px;
   }

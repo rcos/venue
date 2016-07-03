@@ -3,13 +3,13 @@
 <div class="eventCreationForm" ng-show='selectingEvent'>
   <h2> Create a new event </h2>
 
-  <form class="form" name="eventInfoForm" ng-submit="createEventInfo(event)" novalidate ng-show="!success">
+  <form class="form" name="eventInfoForm" ng-submit="createEventInfo(eventInfoForm)" novalidate ng-show="!success">
       <h4>Event Info</h4>
 
-    <div class="form-group" ng-class="{ 'has-error': submitted && !event.title }">
+    <div class="form-group" ng-class="{ 'has-success': event.title && (eventInfoForm.title.$touched || submitted), 'has-error': !event.title && (eventInfoForm.title.$touched || submitted) }">
       <label>Title</label>
 
-      <input type="text" name="eventTitle" class="form-control" ng-model="event.title"
+      <input type="text" name="title" class="form-control" ng-model="event.title"
              required/>
 
       <p class="help-block" ng-show="submitted && !event.title">
@@ -17,7 +17,7 @@
       </p>
     </div>
 
-    <div class="form-group" ng-class="{ 'has-error': submitted && !event.description }">
+    <div class="form-group" ng-class="{ 'has-success': event.description && (eventInfoForm.description.$touched || submitted), 'has-error': !event.description && (eventInfoForm.description.$touched || submitted)}">
       <label>Description</label>
 
       <textarea type="text" name="description" class="form-control" ng-model="event.description"
@@ -43,12 +43,12 @@
       </div>
 
     </div>
-    <div class="form-group" ng-class="{ 'has-success': event.startDate.$valid && submitted,
-    'has-error': (event.startDate.$invalid && submitted) || (event.endDate.getTime() <= event.startDate.getTime())  }">
+    <div class="form-group" ng-class="{ 'has-success': eventInfoForm.startDate.$valid && (eventInfoForm.startDate.$touched || submitted),
+    'has-error': (eventInfoForm.startDate.$invalid || (event.endDate.getTime() <= event.startDate.getTime())) && (eventInfoForm.startDate.$touched || submitted)  }">
       <label>Start Date</label>
 
       <p class="input-group">
-          <input type="text" class="form-control" uib-datepicker-popup="EEE. MMMM d, yyyy, h:mm a" ng-model="event.startDate" min-date="today" is-open="event.startDateOpen" required></input>
+          <input name="startDate" type="text" class="form-control" uib-datepicker-popup="EEE. MMMM d, yyyy, h:mm a" ng-model="event.startDate" min-date="today" is-open="event.startDateOpen" required></input>
 
           <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'startDateOpen')"><i class="fa fa-calendar"></i></button>
@@ -56,12 +56,12 @@
       </p>
 
     </div>
-    <div class="form-group" ng-class="{ 'has-success': event.endDate.$valid && submitted,
-    'has-error':(event.endDate.$invalid && submitted) || (event.endDate.getTime() <= event.startDate.getTime())  }">
+    <div class="form-group" ng-class="{ 'has-success': eventInfoForm.endDate.$valid && (event.endDate.getTime() >  event.startDate.getTime()) && (eventInfoForm.endDate.$touched || submitted),
+    'has-error':(eventInfoForm.endDate.$invalid || (event.endDate.getTime() <= event.startDate.getTime())) && (eventInfoForm.endDate.$touched || submitted)  }">
       <label>End Date</label>
 
       <p class="input-group">
-          <input type="text" class="form-control" uib-datepicker-popup="EEE. MMMM d, yyyy, h:mm a" ng-model="event.endDate" min-date="today" is-open="event.endDateOpen" required></input>
+          <input name="endDate" type="text" class="form-control" uib-datepicker-popup="EEE. MMMM d, yyyy, h:mm a" ng-model="event.endDate" min-date="today" is-open="event.endDateOpen" required></input>
 
           <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'endDateOpen')"><i class="fa fa-calendar"></i></button>
@@ -72,11 +72,11 @@
       </p>
     </div>
 
-    <div class="form-group" ng-class="{'has-error': event.map.markers.length == 0 && submitted }">
+    <div class="form-group">
       <h4>Event Location</h4>
 
       <p class="text-muted">
-        Draw polygons over the event locations to specify acceptable locations.
+        Draw polygons over the event boundaries to specify acceptable locations.
       </p>
       <h4 class="text-muted" ng-hide="mapLoaded">Waiting for Google Maps...</h4>
       <div id="map_canvas">
@@ -106,7 +106,7 @@
 
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group" ng-class="{ 'has-error': allShapes.length == 0 && submitted}">
         <button class="btn btn-warning btn-sm" ng-show="mapLoaded" type="button" ng-click="deleteButton()">
           Clear current selection
         </button>
@@ -114,13 +114,13 @@
           Clear all
         </button>
         <p class="help-block" ng-show="allShapes.length == 0 && submitted">
-          A location is required
+          At least one event boundry is required
         </p>
       </div>
-      <div class="form-group" ng-class="{ 'has-error': submitted && !event.location.description }">
+      <div class="form-group" ng-class="{ 'has-success':event.location.description, 'has-error': !event.location.description && (eventInfoForm.locationDescription.$touched || submitted)}">
         <label>Description</label>
 
-        <input type="text" name="eventTitle" class="form-control" ng-model="event.location.description"
+        <input type="text" name="locationDescription" class="form-control" ng-model="event.location.description"
         required/>
 
         <p class="help-block" ng-show="submitted && !event.location.description">
@@ -128,10 +128,10 @@
         </p>
       </div>
 
-      <div class="form-group" ng-class="{ 'has-error': submitted && !event.location.address }">
+      <div class="form-group" ng-class="{ 'has-success':event.location.address, 'has-error': !event.location.address && (eventInfoForm.locationAddress.$touched || submitted)}">
         <label>Address</label>
 
-        <input type="text" name="eventTitle" class="form-control" ng-model="event.location.address"
+        <input type="text" name="locationAddress" class="form-control" ng-model="event.location.address"
         required/>
 
         <p class="help-block" ng-show="submitted && !event.location.address">
@@ -175,23 +175,13 @@
 <!-- ASSIGN EVENT TO SECTIONS -->
 
 <div class='eventAssignmentForm' ng-hide='selectingEvent || success'>
+  <h2>Section Assignment</h2>
+  <form class="eventAssignment" name="eventAssignmentForm" ng-submit="submitEventAssignment(eventAssignmentForm)" novalidate>
+    
+    <event-card data="eventInfo">  </event-card>
 
-  <div class='selectedEvent'>
-    <img http-src='{{eventInfo.imageURLs[0]}}'/>
-    <div class='event-text'>
-      <div class='title'>
-        {{eventInfo.title}}
-      </div>
-      <div class='description'>
-        {{eventInfo.description | limitTo : 360}}{{eventInfo.description.length > 360 ? "..." : ""}}
-      </div>
-    </div>
-  </div>
-
-  <form class="eventAssignment" name="eventAssignment" ng-submit="submitEventAssignment(eventAssignment)" novalidate>
-
-    <div class="form-group" ng-class="{ 'has-success': eventAssignment.sections.$valid && submitted,
-                                        'has-error': (eventAssignmentSectionsError || eventAssignment.sections.$invalid) && submitted }">
+    <div class="form-group" ng-class="{ 'has-success': eventAssignmentForm.sections.$valid && (eventAssignmentForm.sections.$touched || submitted),
+                                        'has-error': (eventAssignmentSectionsError || eventAssignmentForm.sections.$invalid) && (eventAssignmentForm.sections.$touched || submitted) }">
       <label>Event Sections</label>
 
 
@@ -215,8 +205,7 @@
     </div>
 
 
-    <div class="form-group" ng-class="{ 'has-success': eventAssignment.submissionInstructions.$valid && submitted,
-                                        'has-error': eventAssignment.submissionInstructions.$invalid && submitted }">
+    <div class="form-group" ng-class="{ 'has-success': event.submissionInstructions  && (eventAssignmentForm.submissionInstructions.$touched || submitted), 'has-error': !event.submissionInstructions && (eventAssignmentForm.submissionInstructions.$touched || submitted) }">
       <label>Submission Instructions</label>
 
       <textarea type="text" name="submissionInstructions" class="form-control" ng-model="event.submissionInstructions"
@@ -238,5 +227,5 @@
 <!-- WHEN FINISHED -->
 <div class="section-created" ng-show="success">
   <h2>Event Assigned</h2>
-  <a href='/instructor/dashboard'>Click here to go back to your dashboard</a>
+  <h4>Take a look at your <a href='/instructor/dashboard'>dashboard</a></h4>
 </div>

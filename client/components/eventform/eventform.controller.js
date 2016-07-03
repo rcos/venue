@@ -316,6 +316,8 @@ angular.module('venueApp')
           $scope.eventInfo.imageURLs = response.imageURLs;
           eventInfoId = response._id;
           $scope.eventInfo = response;
+          $scope.submitted = false;
+
         }).catch(err => {
             err = err.data;
           });
@@ -364,29 +366,33 @@ angular.module('venueApp')
           $scope.eventAssignmentSectionsError = true;
           return;
         }
-        getSectionIds().forEach((sectionId)=>{
-          var sectionEvent = {
-            section: sectionId,
-            info: $scope.eventInfo._id,
-            author: Auth.getCurrentUser()._id,
-            submissionInstructions: $scope.event.submissionInstructions
-          };
-          SectionEvent.create(sectionEvent).$promise
-            .then((course) => {
-              $scope.success = true;
-            })
-            .catch(err => {
-              $scope.submitted = false;
+        if (form.$valid){
+          getSectionIds().forEach((sectionId)=>{
+            var sectionEvent = {
+              section: sectionId,
+              info: $scope.eventInfo._id,
+              author: Auth.getCurrentUser()._id,
+              submissionInstructions: $scope.event.submissionInstructions
+            };
+            SectionEvent.create(sectionEvent).$promise
+              .then((course) => {
+                $scope.success = true;
+                $scope.event.assignmentId = course._id;
 
-              err = err.data;
-              $scope.errors = {};
+              })
+              .catch(err => {
+                $scope.submitted = false;
 
-              // Update validity of form fields that match the mongoose errors
-              angular.forEach(err.errors, (error, field) => {
-                form[field].$setValidity('mongoose', false);
-                $scope.errors[field] = error.message;
-              });
-            })
-        });
+                err = err.data;
+                $scope.errors = {};
+
+                // Update validity of form fields that match the mongoose errors
+                angular.forEach(err.errors, (error, field) => {
+                  form[field].$setValidity('mongoose', false);
+                  $scope.errors[field] = error.message;
+                });
+              })
+          });
+        }
       };
   });
