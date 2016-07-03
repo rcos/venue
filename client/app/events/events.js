@@ -5,7 +5,6 @@ angular.module('venueApp')
     $routeProvider
       .when('/events/:id', {
         templateUrl: 'app/events/events.html',
-        controller: 'EventsCtrl',
-        authenticate: true
+        controller: 'EventsCtrl'
       });
   });

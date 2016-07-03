@@ -7,7 +7,7 @@ var auth = require('../../auth/auth.service');
 var router = express.Router();
 
 router.get('/', auth.isAuthenticated(), controller.index);
-router.get('/:id', auth.isAuthenticated(), controller.show);
+router.get('/:id', controller.show);
 router.post('/', auth.isInstructor(), controller.create);
 router.put('/:id', auth.isInstructor(), controller.update);
 router.patch('/:id', auth.isInstructor(), controller.update);

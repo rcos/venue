@@ -4,11 +4,11 @@
   <div class="row">
     <div class="col-sm-12">
       <h1>Login</h1>
-      <p>Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@example.com</code> / <code>test</code></p>
-      <p>Admin account is <code>admin@example.com</code> / <code>admin</code></p>
+      <p ng-show='vm.devMode'>Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@example.com</code> / <code>test</code></p>
+      <p ng-show='vm.devMode'>Admin account is <code>admin@example.com</code> / <code>admin</code></p>
     </div>
     <div class="col-sm-12">
-      <div ng-show='vm.Auth.isDeveloper()'>
+      <div ng-show='vm.devMode'>
         <a href='#' ng-click="vm._devLoginAs('bob')"> Login as Bob (instructor) </a> <br/>
         <a href='#' ng-click="vm._devLoginAs('travis')"> Login as Travis (instructor)</a> <br/>
         <a href='#' ng-click="vm._devLoginAs('foo')"> Login as Foo (student)</a> <br/>

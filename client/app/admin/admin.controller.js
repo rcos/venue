@@ -21,6 +21,9 @@ angular.module('venueApp')
       }).success(((response) => {
         $scope.csvResults = response.join("<br/>");
         $scope.users = User.query();
+        $scope.users.sort(( a , b) => {
+          return a.lastName > b.lastName;
+        })
       }));
     };
 

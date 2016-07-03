@@ -5,12 +5,14 @@ class LoginController {
   user = {};
   errors = {};
   submitted = false;
+  devMode = false;
   //end-non-standard
 
-  constructor(Auth, $location) {
+  constructor(Auth, $location, ENV) {
     this.Auth = Auth;
     this.getCurrentUser = Auth.getCurrentUser;
     this.$location = $location;
+    this.devMode = ENV == "development";
   }
 
   login(form) {

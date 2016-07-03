@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('venueApp', [
+  'config',
   'venueApp.auth',
   'venueApp.admin',
   'venueApp.constants',

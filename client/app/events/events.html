@@ -1,7 +1,27 @@
 <navbar></navbar>
 
 <div class='eventPage'>
-  <div class='container'>
+  <div class='container' ng-show='err'>
+    <div class='col-xs-12'>
+      <div ng-show='err.status == 404'>
+        <div class='error-deadend'> we couldn't find that event </div>
+        <div class='error-deadend-msg'>
+          We weren't able to find that event, try to navigate to the event from your <a href="/{{user.isInstructor ? 'instructor' : 'student'}}/events"> dashboard </a>.
+        </div>
+      </div>
+      <div ng-show='err.status != 404'>
+        <div class='error-deadend'> {{err.statusText}} </div>
+        <div class='error-deadend-msg'>
+          We're not sure what happened, send the following debug info to a system administrator.
+        </div>
+        <div class='error-deadend-fullmsg'>
+          {{err}}
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <div class='container' ng-show='!err'>
     <div class='row'>
       <div class='col-xs-12'>
         <div class='title'>
@@ -40,8 +60,11 @@
         <img class="img-responsive" http-src='{{event.info.imageURLs[0]}}'/>
       </div>
       <div class='col-xs-12'>
-        <div class='upload-button-container'>
+        <div class='upload-button-container' ng-show='!user.isInstructor'>
           <button class='upload-button btn btn-md' ng-click='goToEventUpload(event._id)'>Upload to Event</button>
+        </div>
+        <div ng-show='user.isInstructor'>
+          <button class='btn btn-md btn-warning' ng-click='deleteEvent(event)'>Delete Event</button>
         </div>
       </div>
 
