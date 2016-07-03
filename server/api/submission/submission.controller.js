@@ -75,6 +75,9 @@ function saveSubmissionImage(files, fields, cb){
   var imagePaths = [],
       asyncTasks = [];
   if (!files){return imagePaths;}
+  if (!files.files.length){
+    files.files = [files.files];
+  }
   files.files.forEach(function(file) {
     var name = file.name,
         title = name.substr(0, name.lastIndexOf('.')),

@@ -23,7 +23,9 @@ function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
     login(user, callback) {
       return $http.post('/auth/local', {
         email: user.email,
-        password: user.password
+        password: user.password,
+        studentOnly: user.studentOnly,
+        instructorOnly: user.instructorOnly
       })
         .then(res => {
           console.log(res.data.profile.isVerified);

@@ -6,8 +6,8 @@ import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import Section from "../section/section.model";
 import Sendgrid from '../../components/email';
-import verificationTokenModel from '../../auth/local/verificationToken.model';
 
+var path = require('path');
 var fs = require('fs');
 
 function validationError(res, statusCode) {
@@ -35,7 +35,7 @@ function createVerificationToken(req, user){
   user.setVerificationToken();
   var message = {
       email: user.email,
-      name: user.name,
+      name: user.firstName,
       verifyURL: req.protocol + "://" + req.get('host') + "/verify/" + user.verificationToken};
   Sendgrid.signup(message);
 }
@@ -69,6 +69,10 @@ export function create(req, res, next) {
       res.json({ token });
     })
     .catch(validationError(res));
+}
+
+export function getExampleCSVUpload(req, res, next){
+  res.sendFile(path.join(__dirname,"./example_csv_upload.csv"));
 }
 
 /**
@@ -105,6 +109,7 @@ export function createFromCSVUpload(req, res, next){
   var lastNameIndex = -1;
   var emailIndex = -1;
   var passwordIndex = -1;
+  var isInstructorIndex = -1;
   for (var i = 0;i < header.length;i++){
     header[i] = header[i].toLowerCase().trim();
     if (header[i] == "first name"){
@@ -115,6 +120,8 @@ export function createFromCSVUpload(req, res, next){
       emailIndex = i;
     }else if (header[i] == "password"){
       passwordIndex = i;
+    }else if (header[i] == "is instructor"){
+      isInstructorIndex = i;
     }
   }
   if (firstNameIndex == -1){
@@ -125,25 +132,49 @@ export function createFromCSVUpload(req, res, next){
     res.status(500).send({"message": "Missing \"Email\" in header."});
   }else if (passwordIndex == -1){
     res.status(500).send({"message": "Missing \"Password\" in header."});
+  }else if (isInstructorIndex == -1){
+    res.status(500).send({"message": "Missing \"Is Instructor\" in header."});
   }
 
   // Add each user to the server
-  // TODO check for duplicate users
-  for (var i = 1;i < fileLines.length;i++){
-    var firstName = fileLines[i][firstNameIndex];
-    var lastName = fileLines[i][lastNameIndex];
-    var email = fileLines[i][emailIndex];
-    var password = fileLines[i][passwordIndex];
-    var newUser = new User({
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password
+  Promise.all(fileLines.slice(1).map((line) => {
+    return new Promise((resolve, reject) => {
+      var firstName = line[firstNameIndex];
+      var lastName = line[lastNameIndex];
+      var email = line[emailIndex];
+      var password = line[passwordIndex];
+
+      if (firstName == "" || lastName == "" || email == "" || password == ""){
+        resolve("");
+        return;
+      }
+
+      var isInstructorLine = (line[isInstructorIndex] || "").toLowerCase().trim();
+      var isInstructor = (
+          isInstructorLine == "true" ||
+          isInstructorLine == "yes" ||
+          isInstructorLine == "x");
+
+      var newUser = new User({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        isInstructor: isInstructor
+      });
+      newUser.provider = 'local';
+      newUser.role = 'user';
+      newUser.save().then(() => {
+        resolve(`Successfully created user ${firstName} ${lastName}, ${email}`);
+      }).catch((err) => {
+        resolve(`Error creating user ${firstName} ${lastName}, ${email}`);
+      })
     });
-    newUser.provider = 'local';
-    newUser.role = 'user';
-    newUser.save();
-  }
+  })).then(messages => {
+    res.json(messages);
+  }).catch((err) => {
+    console.log("An error occurred doing CSV upload", err);
+  });
 
 }
 
@@ -223,15 +254,19 @@ export function show(req, res, next) {
 export function destroy(req, res) {
   User.findById(req.params.id)
     .then((user)=>{
-      user.lastName = "";
-      user.firstName = "[deleted user]";
-      user.password = "";
-      user.saveAsync()
-        .spread(function(usr) {
+      if (req.params.realDestroy){
+        user.remove().then(() => {
           res.status(200).end();
-        })
-    })
-    .catch(handleError(res));
+        }).catch(handleError(res));
+      }else{
+        user.lastName = "";
+        user.firstName = "[deleted user]";
+        user.password = "DELETED";
+        user.save().then(function(usr) {
+          res.status(200).end();
+        }).catch(handleError(res));
+      }
+    }).catch(handleError(res));
 }
 
 /**
