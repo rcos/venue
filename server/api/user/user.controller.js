@@ -31,38 +31,13 @@ function respondWith(res, statusCode) {
   };
 }
 
-/**
- * Verifies that a user's email has been confirmed
- */
-function verifyUser(token, callback){
-    verificationTokenModel.findOne({token: token})
-      .then((doc) => {
-        if (doc == null) return callback("[Error] No token found");
-        User.findById(doc.userId)
-          .execAsync()
-          .then((user, err) => {
-            if (err) return callback(err);
-            user.verified = true;
-            user.save(function(err) {
-              callback(err);
-            })
-          })
-      })
-}
-
 function createVerificationToken(req, user){
-  var verificationToken = new verificationTokenModel({userId: user._id});
-  verificationToken.createVerificationToken(function (err, token) {
-      if (err){
-        console.log("Couldn't create verification token", err);
-        return
-      }
-      var message = {
-          email: user.email,
-          name: user.name,
-          verifyURL: req.protocol + "://" + req.get('host') + "/verify/" + token};
-      Sendgrid.signup(message);
-  });
+  user.setVerificationToken();
+  var message = {
+      email: user.email,
+      name: user.name,
+      verifyURL: req.protocol + "://" + req.get('host') + "/verify/" + user.verificationToken};
+  Sendgrid.signup(message);
 }
 
 /**
@@ -84,6 +59,7 @@ export function create(req, res, next) {
   var newUser = new User(req.body);
   newUser.provider = 'local';
   newUser.role = 'user';
+  newUser.isVerified = false;
   newUser.saveAsync()
     .spread(function(user) {
       var token = jwt.sign({ _id: user._id }, config.secrets.session, {
@@ -100,10 +76,16 @@ export function create(req, res, next) {
  */
 export function verify(req, res, next) {
   var token = req.params.token;
-  verifyUser(token, function(err) {
-      if (err) return res.json({verified:false});
-      res.json({verified:true});
-  });
+  User.findOneAsync({ 'verificationToken' : token })
+    .then((user) => {
+      if(!user){res.json({isVerified:false});}
+      user.isVerified = true;
+      user.verificationToken = undefined;
+      return user.saveAsync()
+        .then(() => {
+          res.json({isVerified:true});
+        });
+    })
 }
 
 /**

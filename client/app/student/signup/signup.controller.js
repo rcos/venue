@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('StudentSignupCtrl', (Auth, $scope)=>{
+  .controller('StudentSignupCtrl', (Auth, $scope, $location)=>{
       $scope.user = {};
       $scope.errors = {};
 
@@ -16,7 +16,7 @@ angular.module('venueApp')
               isInstructor: false
             })
             .then(() => {
-                $scope.success = true;
+              $location.path('/verify/emailVerification');
             })
             .catch(err => {
               err = err.data;

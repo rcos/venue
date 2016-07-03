@@ -31,6 +31,12 @@ function UserResource($resource) {
         id: 'verify'
       }
     },
+    resendEmail: {
+      method: 'GET',
+      params: {
+        id: 'resendEmail'
+      }
+    },
     enroll: {
       method: 'PUT',
       params: {

@@ -2,14 +2,17 @@
 <div class='container student'>
   <div class='row'>
     <div class='col-sm-12 student-courses'>
-      <h2 ng-show="verified" class="page-header">Account Verified</h2>
-      <h2 ng-hide="verified" class="page-header">Account Not Yet Verified</h2>
+      <h2 ng-show="isVerified" class="page-header">Account Verified</h2>
+      <h2 ng-hide="isVerified" class="page-header">Account Not Yet Verified</h2>
       <div class="col-sm-12">
         <div class="row">
-          <div ng-hide="verified">
-            Please check your email for a verification link.
+          <div ng-hide="isVerified">
+            You should recieve an email from noreply_venue_team@venue_url.com with a verification link.
+            <p>
+              <a ng-click="resendEmail()">Resend Email</a>
+            </p>
           </div>
-          <a ng-click="goToLogin()" ng-show="verified" >Login to start attending events!</a>
+          <a ng-click="goToLogin()" ng-show="isVerified" >Login to start attending events!</a>
         </div>
       </div>
     </div>
