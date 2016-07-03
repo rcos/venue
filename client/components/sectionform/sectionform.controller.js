@@ -31,7 +31,6 @@ angular.module('venueApp')
 
     $scope.submitForm = (form)=>{
       $scope.submitted = true;
-      console.log($scope.section.sectionNumbers);
       var section = {
         course: $scope.course._id,
         sectionNumbers:$scope.section.sectionNumbers.split(',').map(Number).sort(),
@@ -67,4 +66,14 @@ angular.module('venueApp')
           });
       }
     };
+
+    $scope.deleteSection = (section) => {
+      if (confirm("Are you sure you'd like to delete this section? Submissions from this section will be lost!")){
+        Section.delete({id: section._id}, (res) => {
+          // TODO show a page showing the delete was successful
+          $location.path("/courses/" + section.course._id);
+        });
+      }
+    };
+
   });

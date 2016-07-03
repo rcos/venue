@@ -16,10 +16,11 @@ angular.module('venueApp')
     }, () =>{
       $location.path('/courses');
     });
-    }
+  }
   Auth.getCurrentUser((user) => {
     $scope.isStudent = (!user.isInstructor) && Auth.isLoggedIn();
     $scope.isInstructor = user.isInstructor;
     loadSection();
   });
+
 });
