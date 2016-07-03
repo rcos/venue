@@ -2,7 +2,7 @@
   <div class='col-xs-12'>
     <h4> Edit Section </h4>
 
-    <form class="form" name="form" ng-submit="submitForm(form)" novalidate ng-show="!success">
+    <form class="form" name="form" novalidate ng-show="!success">
 
       <div class="form-group" ng-class="{ 'has-success': form.sectionNumbers.$valid && submitted,
                                           'has-error': form.sectionNumbers.$invalid && submitted }">
@@ -45,9 +45,12 @@
         <button type="button" class="btn btn-warning" ng-hide="isInstructor" ng-click="isInstructor = !isInstructor">
           Add yourself as instructor
         </button>
+        <button class="btn btn-primary btn-danger" ng-show="updating == 'true'" ng-click="deleteSection(section)">
+          Delete Section
+        </button>
       </div>
       <div class="form-group" >
-        <button class="btn btn-primary btn-lg btn-register" type="submit">
+        <button class="btn btn-primary btn-lg btn-register" ng-click='submitForm(form)'>
           Submit Section
         </button>
       </div>
