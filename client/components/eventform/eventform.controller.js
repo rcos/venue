@@ -377,7 +377,6 @@ angular.module('venueApp')
             SectionEvent.create(sectionEvent).$promise
               .then((course) => {
                 $scope.success = true;
-                console.log(course);
                 $scope.event.assignmentId = course._id;
 
               })
