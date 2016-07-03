@@ -92,7 +92,7 @@
           </div>
           <div class="card-container" ng-show="section.events.length">
             <div class="col-md-6" ng-repeat='event in section.events' >
-              <event-card click='selecteEvent(event)' data="event"  short="true" preview="true" >  </event-card>
+              <event-card ng-click='goToEvent(event)' data="event"  short="true" preview="true" >  </event-card>
             </div>
           </div>
         </div>
