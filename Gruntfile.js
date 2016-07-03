@@ -646,6 +646,17 @@ module.exports = function (grunt) {
         }
       }
     },
+
+    ngconstant: {
+      options: {
+        name: "config",
+        dest: "./client/app/config.js",
+        constants: {
+          ENV: process.env.NODE_ENV || "development"
+        }
+      },
+      build: {}
+    }
   });
 
   // Used for delaying livereload until after server has restarted
