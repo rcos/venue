@@ -29,9 +29,9 @@ router.post('/', function(req, res, next) {
         res.status(401).json({"message": "Error: cannot log in, user is not an instructor"});
         return;
       }
+      profile = user.profile;
       var token = signToken(user._id, user.role);
       res.json({ token, profile });
-
     });
   })(req, res, next)
 });

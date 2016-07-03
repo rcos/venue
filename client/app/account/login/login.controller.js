@@ -23,17 +23,17 @@ class LoginController {
         email: this.user.email,
         password: this.user.password
       })
-      .then(() => {
-        this.getCurrentUser((user) => {
-          // Logged in, redirect to Dashboard
-          if(!user.isInstructor){
-            this.$location.path('/student/dashboard');
-          }
-          else{
-            this.$location.path('/instructor/dashboard');
-          }
-        });
-
+      .then((user) => {
+        // Logged in, redirect to Dashboard
+        if(!user.isVerified){
+          this.$location.path('/verify/emailVerification');
+        }
+        else if(!user.isInstructor){
+          this.$location.path('/student/dashboard');
+        }
+        else{
+          this.$location.path('/instructor/dashboard');
+        }
       })
       .catch(err => {
         this.errors.other = err.message;

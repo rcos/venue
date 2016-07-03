@@ -4,6 +4,7 @@ import crypto from 'crypto';
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 import {Schema} from 'mongoose';
 import async from 'async';
+import uuid from 'node-uuid';
 import Section from '../section/section.model';
 import Course from '../course/course.model';
 import SectionCtrl from '../section/section.controller';
@@ -24,6 +25,7 @@ var UserSchema = new Schema({
     default: 'user'
   },
   isInstructor: Boolean,
+  isVerified: Boolean,
   password: {
     type: String,
     select: false
@@ -39,7 +41,10 @@ var UserSchema = new Schema({
   facebook: {},
   twitter: {},
   google: {},
-  github: {}
+  github: {},
+  verificationToken: {
+    type: String
+  }
 });
 
 /**
@@ -56,7 +61,8 @@ UserSchema
       'role': this.role,
       'sections': this.sections,
       'isInstructor': this.isInstructor,
-      '_id': this._id
+      '_id': this._id,
+      'isVerified': this.isVerified
     };
   });
 
@@ -336,6 +342,11 @@ UserSchema.methods = {
         })
         return courses;
       });
+  },
+
+  setVerificationToken() {
+    this.verificationToken = uuid.v4();
+    this.save();
   }
 };
 

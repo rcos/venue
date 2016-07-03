@@ -5,6 +5,8 @@ import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import Section from "../section/section.model";
+import Sendgrid from '../../components/email';
+
 var path = require('path');
 var fs = require('fs');
 
@@ -29,6 +31,15 @@ function respondWith(res, statusCode) {
   };
 }
 
+function createVerificationToken(req, user){
+  user.setVerificationToken();
+  var message = {
+      email: user.email,
+      name: user.firstName,
+      verifyURL: req.protocol + "://" + req.get('host') + "/verify/" + user.verificationToken};
+  Sendgrid.signup(message);
+}
+
 /**
  * Get list of users
  * restriction: 'admin'
@@ -48,11 +59,13 @@ export function create(req, res, next) {
   var newUser = new User(req.body);
   newUser.provider = 'local';
   newUser.role = 'user';
+  newUser.isVerified = false;
   newUser.saveAsync()
     .spread(function(user) {
       var token = jwt.sign({ _id: user._id }, config.secrets.session, {
         expiresIn: 60 * 60 * 5
       });
+      createVerificationToken(req, user);
       res.json({ token });
     })
     .catch(validationError(res));
@@ -60,6 +73,23 @@ export function create(req, res, next) {
 
 export function getExampleCSVUpload(req, res, next){
   res.sendFile(path.join(__dirname,"./example_csv_upload.csv"));
+}
+
+/**
+ * Verifies a User's email address
+ */
+export function verify(req, res, next) {
+  var token = req.params.token;
+  User.findOneAsync({ 'verificationToken' : token })
+    .then((user) => {
+      if(!user){res.json({isVerified:false});}
+      user.isVerified = true;
+      user.verificationToken = undefined;
+      return user.saveAsync()
+        .then(() => {
+          res.json({isVerified:true});
+        });
+    })
 }
 
 /**
