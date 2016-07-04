@@ -215,7 +215,7 @@ module.exports = function (grunt) {
             // opens browser on initial server start
             nodemon.on('config:update', function () {
               setTimeout(function () {
-                //require('open')('http://localhost:8080/debug?port=5858');
+                require('open')('http://localhost:8080/debug?port=5858');
               }, 500);
             });
           }
@@ -702,10 +702,13 @@ module.exports = function (grunt) {
       'wiredep:client',
       'postcss',
       'express:dev',
-      'wait',
-      'open',
-      'watch'
+      'wait'
     ]);
+
+    if (target !== "headless" && target !== "dist") grunt.task.run(["open"]);
+
+    grunt.task.run(["watch"]);
+
   });
 
   grunt.registerTask('server', function () {

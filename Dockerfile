@@ -32,4 +32,4 @@ RUN . /root/.bashrc && \
 RUN apt-get clean
 
 EXPOSE 9000
-CMD service mongodb start && cd venue && . /root/.bashrc && grunt serve
+CMD service mongodb start && cd venue && . /root/.bashrc && grunt serve:headless
