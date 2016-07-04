@@ -14,6 +14,9 @@ var Course = require('./course.model');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var config = require('../../config/environment');
+var imageUpload = require('../../components/imageUpload');
+var path = require('path');
+
 import async from 'async';
 
 function handleError(res, statusCode) {
@@ -63,25 +66,22 @@ function removeEntity(res) {
   };
 }
 
-function saveEventInfoImage(files, fields, cb){
+function saveCourseImage(files, fields, cb){
   var imagePaths = [],
       asyncTasks = [];
-  if (!files){return imagePaths;}
+  if (!files){
+    return imagePaths;
+  }
   files.files.forEach(function(file) {
-    var name = file.name;
-    var path = config.imageUploadPath  + 'courses';
-    var destPath = path + '/' + name;
-    imagePaths.push("/api/submissions/image?imgPath=" + destPath);
-    asyncTasks.push( (callback) => {fs.exists(path, (exists) => {
-      mkdirp(path, function (err) {
-        if (err) console.error(err)
-        var is = fs.createReadStream(file.path);
-        var os = fs.createWriteStream(destPath);
-        is.pipe(os);
-        callback();
+    var path = config.imageUploadPath  + 'courses' + '/';
+    asyncTasks.push( (callback) => {
+      var imagePath = imageUpload.saveImage(file, path, function(err) {
+        callback(err)
       });
-    })});
-  });
+      imagePaths.push("/api/courses/image?name=" + imagePath);
+      });
+    });
+
   async.parallel(asyncTasks, (error, results) => {
     // TODO: Handle Error
     cb(imagePaths);
@@ -124,7 +124,7 @@ exports.show = function(req, res) {
 
 // Creates a new Course in the DB
 exports.create = function(req, res) {
-  saveEventInfoImage(req.files, req.body, (imagePaths)=>{
+  saveCourseImage(req.files, req.body, (imagePaths)=>{
     var course = req.body,
       date = new Date();
     course.imageURLs = imagePaths;
@@ -159,4 +159,60 @@ exports.destroy = function(req, res) {
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
+};
+
+exports.image = function(req, res){
+  // Once the server refreshes urls, this should be removed
+  var imgPath;
+  if (req.query.imgPath){
+    imgPath = path.join(__dirname, "../../../", req.query.imgPath);
+    return res.sendFile(imgPath);
+  }
+
+  // Prevents requesting arbitary files from the server
+  if (req.query.name.indexOf('/') !== -1){
+    return res.json(404);
+  }
+
+  // Doesn't have required parameters
+  if (!req.query.name){
+    return res.json(404);
+  }
+
+  var name = req.query.name;
+  if (req.query.size){
+      var extension = path.extname(name);
+      var id = name.substring(0,name.length-extension.length);
+
+    if (req.query.size === 'preview'){
+      name = id + "-preview" + extension;
+    }
+    else if (req.query.size === 'large'){
+      name = id + "-large" + extension;
+    }
+  }
+
+  var source = config.imageUploadPath + 'courses/' + name;
+  imgPath = path.join(__dirname, "../../../", source);
+
+  var stats;
+  try {
+    // Query the entry
+    stats = fs.lstatSync(imgPath);
+    return res.sendFile(imgPath);
+  }
+  catch (e) {
+    name = req.params.name;
+    source = config.imageUploadPath + 'courses/' + name;
+    imgPath = path.join(__dirname, "../../../", source);
+    try {
+        // Query the entry
+        stats = fs.lstatSync(imgPath);
+        return res.sendFile(imgPath);
+    }
+    catch (e) {
+      // File not found, send nothing
+      return res.sendFile("");
+    }
+  }
 };

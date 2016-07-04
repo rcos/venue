@@ -18,9 +18,11 @@ var multiparty = require('multiparty');
 var User = require('../user/user.model');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
-var config = require('../../config/environment');
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var path = require('path');
+var config = require('../../config/environment');
+var imageUpload = require('../../components/imageUpload');
+
 import async from 'async';
 import glob from 'glob';
 
@@ -74,42 +76,23 @@ function removeEntity(res) {
 function saveSubmissionImage(files, fields, cb){
   var imagePaths = [],
       asyncTasks = [];
-  if (!files){return imagePaths;}
-  if (!files.files.length){
-    files.files = [files.files];
+  if (!files){
+    return imagePaths;
   }
+
   files.files.forEach(function(file) {
-    var name = file.name,
-        title = name.substr(0, name.lastIndexOf('.')),
-        fileIndex = 0,
-        path = config.imageUploadPath + 'eventImages/' + fields.userId + '/' + fields.eventId;
-
+    var path = config.imageUploadPath + 'eventImages/' + fields.userId + '/' + fields.eventId + '/';
     asyncTasks.push( (callback) => {
-      glob((path+"/"+title+"*"), function (er, machedfiles) {
-        machedfiles.forEach((matching) =>{
-          var index = parseInt(matching.substr((path+"/"+title).length).replace( /[{()}]/g, ""));
-          if(!isNaN(index) &&  index >= fileIndex){
-            fileIndex = index + 1;
-          }
-        });
-        name = title + '(' + fileIndex.toString() +')' + name.substr(name.lastIndexOf('.'));
-        var destPath = path + '/' + name;
-
-        imagePaths.push("/api/submissions/image?imgPath=" + destPath);
-        fs.exists(path, (exists) => {
-          mkdirp(path, function (err) {
-            if (err) console.error(err)
-            var is = fs.createReadStream(file.path);
-            var os = fs.createWriteStream(destPath);
-            is.pipe(os);
-            callback();
-          });
-        });
+      var imagePath = imageUpload.saveImage(file, path, function(err) {
+        callback(err)
+      });
+      console.log("imagePath",imagePath)
+      imagePaths.push("/api/submissions/image?name=" + imagePath + "&userId=" + fields.userId + "&eventId=" + fields.eventId);
       });
     });
-  });
   async.parallel(asyncTasks, (error, results) => {
     // TODO: Handle Error
+    console.log(error);
     cb(imagePaths);
   });
 }
@@ -232,8 +215,59 @@ exports.index = function(req, res) {
 };
 
 exports.image = function(req, res){
-  var imgPath = path.join(__dirname, "../../../", req.query.imgPath);
-  res.sendFile(imgPath);
+  // Once the server refreshes urls, this should be removed
+  var imgPath;
+  if (req.query.imgPath){
+    imgPath = path.join(__dirname, "../../../", req.query.imgPath);
+    return res.sendFile(imgPath);
+  }
+
+  // Prevents requesting arbitary files from the server
+  if ((req.query.name.indexOf('/') !== -1) && (req.query.userId.indexOf('/') !== -1) && (req.query.eventId.indexOf('/') !== -1)){
+    return res.json(404);
+  }
+
+  // Doesn't have required parameters
+  if (!req.query.name || !req.query.userId || !req.query.eventId){
+    return res.json(404);
+  }
+
+  var name = req.query.name;
+  if (req.query.size){
+      var extension = path.extname(name);
+      var id = name.substring(0,name.length-extension.length);
+
+    if (req.query.size === 'preview'){
+      name = id + "-preview" + extension;
+    }
+    else if (req.query.size === 'large'){
+      name = id + "-large" + extension;
+    }
+  }
+
+  var source = config.imageUploadPath + 'eventImages/' + req.query.userId + '/' + req.query.eventId + '/' + name;
+  imgPath = path.join(__dirname, "../../../", source);
+
+  var stats;
+  try {
+    // Query the entry
+    stats = fs.lstatSync(imgPath);
+    return res.sendFile(imgPath);
+  }
+  catch (e) {
+    name = req.params.name;
+    source = config.imageUploadPath + 'eventImages/' + req.query.userId + '/' + req.query.eventId + '/' + name;
+    imgPath = path.join(__dirname, "../../../", source);
+    try {
+        // Query the entry
+        stats = fs.lstatSync(imgPath);
+        return res.sendFile(imgPath);
+    }
+    catch (e) {
+      // File not found, send nothing
+      return res.sendFile("");
+    }
+  }
 };
 
 // Gets a single Submission from the DB

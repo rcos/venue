@@ -1,5 +1,3 @@
-
-
 'use strict';
 
 angular.module('venueApp')
@@ -13,7 +11,7 @@ angular.module('venueApp')
             promise = Course.update($scope.course).$promise;
           }else{
             // promise = Course.create($scope.course).$promise;
-            $scope.course.files = $scope.files;
+            $scope.course.files = [$scope.files];
             promise =  Upload.upload({
                 url: '/api/courses/',
                 data: $scope.course,
