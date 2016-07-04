@@ -702,10 +702,13 @@ module.exports = function (grunt) {
       'wiredep:client',
       'postcss',
       'express:dev',
-      'wait',
-      'open',
-      'watch'
+      'wait'
     ]);
+
+    if (target !== "headless" && target !== "dist") grunt.task.run(["open"]);
+
+    grunt.task.run(["watch"]);
+
   });
 
   grunt.registerTask('server', function () {
