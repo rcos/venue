@@ -302,7 +302,13 @@ export function enrollInSection(req, res, next) {
   var sectionId = req.body.sectionid;
   Section.findByIdAsync(sectionId)
     .then( section => {
-      section.students.push(userId);
+      if (section.enrollmentPolicy == "approvalRequired"){
+        if (section.pendingStudents.indexOf(userId) == -1){
+          section.pendingStudents.push(userId);
+        }
+      }else{
+        section.students.push(userId);
+      }
       section.save();
       res.json(section);
     })

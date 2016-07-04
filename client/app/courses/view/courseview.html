@@ -99,7 +99,8 @@
                     <button class="btn" ng-click='viewSection(section)'>View</button>
               </td>
               <td>
-                <button ng-click='enroll(section)' ng-hide='section.isEnrolled' class='enroll btn btn-primary'> Enroll </button>
+                <button ng-click='enroll(section)' ng-show='!section.isEnrolled && !section.isPending' class='enroll btn btn-primary'> Enroll </button>
+                <button ng-show='section.isPending' class='enroll btn btn-disabled'> Pending Enrollment </button>
                 <button ng-click='unenroll(section)' ng-show='section.isEnrolled' class='enroll btn btn-info'> Unenroll </button>
               </td>
             </tr>
