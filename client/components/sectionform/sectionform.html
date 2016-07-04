@@ -39,15 +39,18 @@
       </div>
 
       <div class="form-group" >
-        <button type="button" class="btn btn-danger" ng-show="isInstructor" ng-click="isInstructor = !isInstructor">
+        <button type="button" class="btn btn-danger" ng-show="isInstructor" type='button' ng-click="isInstructor = !isInstructor">
           Remove yourself as instructor
         </button>
-        <button type="button" class="btn btn-warning" ng-hide="isInstructor" ng-click="isInstructor = !isInstructor">
+        <button type="button" class="btn btn-warning" ng-hide="isInstructor" type='button' ng-click="isInstructor = !isInstructor">
           Add yourself as instructor
+        </button>
+        <button class="btn btn-primary btn-danger" ng-show="updating == 'true'" type='button' ng-click="deleteSection(section)">
+          Delete Section
         </button>
       </div>
       <div class="form-group" >
-        <button class="btn btn-primary btn-lg btn-register" type="submit">
+        <button class="btn btn-primary btn-lg btn-register" type='submit'>
           Submit Section
         </button>
       </div>

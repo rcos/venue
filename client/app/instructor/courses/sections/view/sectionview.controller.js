@@ -50,6 +50,13 @@ angular.module('venueApp')
       }
     };
 
+    $scope.goToEvent = (event) => {
+      var sectionEvent = event.sectionEvents.find((sectEvent)=>{
+        return sectEvent.section._id === $routeParams.sectionId;
+      });
+      $location.path("/events/" + sectionEvent._id);
+    };
+
     $scope.loadSectionEventSubmissions = function(event){
       $scope.currentEventSelection = event;
       var sectionEvent = event.sectionEvents.find((sectEvent)=>{
