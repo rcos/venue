@@ -15,6 +15,10 @@ var SectionEvent = require('../sectionevent/sectionevent.model');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var config = require('../../config/environment');
+var imageUpload = require('../../components/imageUpload');
+var imageDownload = require('../../components/imageDownload');
+var path = require('path');
+
 import async from 'async';
 
 function handleError(res, statusCode) {
@@ -67,22 +71,20 @@ function removeEntity(res) {
 function saveEventInfoImage(files, fields, cb){
   var imagePaths = [],
       asyncTasks = [];
-  if (!files){return imagePaths;}
+  if (!files){
+    return imagePaths;
+  }
+
   files.files.forEach(function(file) {
-    var name = file.name;
-    var path = config.imageUploadPath  + 'eventInfoImages';
-    var destPath = path + '/' + name;
-    imagePaths.push("/api/submissions/image?imgPath=" + destPath);
-    asyncTasks.push( (callback) => {fs.exists(path, (exists) => {
-      mkdirp(path, function (err) {
-        if (err) console.error(err)
-        var is = fs.createReadStream(file.path);
-        var os = fs.createWriteStream(destPath);
-        is.pipe(os);
-        callback();
+    var path = config.imageUploadPath  + 'eventInfoImages' + '/';
+    asyncTasks.push( (callback) => {
+      var imagePath = imageUpload.saveImage(file, path, function(err) {
+        callback(err)
       });
-    })});
-  });
+      imagePaths.push("/api/eventinfos/image?name=" + imagePath);
+      });
+    });
+
   async.parallel(asyncTasks, (error, results) => {
     // TODO: Handle Error
     cb(imagePaths);
@@ -184,6 +186,33 @@ exports.create = function(req, res) {
     .catch(handleError(res));
   });
 };
+
+
+exports.image = function(req, res){
+  // Once the server refreshes urls, this should be removed
+  var imgPath;
+  if (req.query.imgPath){
+    imgPath = path.join(__dirname, "../../../", req.query.imgPath);
+    return res.sendFile(imgPath);
+  }
+
+  // Prevents requesting arbitary files from the server
+  if (req.query.name.indexOf('/') !== -1){
+    return res.json(404);
+  }
+
+  // Doesn't have required parameters
+  if (!req.query.name){
+    return res.json(404);
+  }
+
+  return imageDownload.getImage(
+    req.query.name,
+    config.imageUploadPath + 'eventInfoImages/',
+    req.query.size,
+    res);
+};
+
 
 // Updates an existing EventInfo in the DB
 exports.update = function(req, res) {

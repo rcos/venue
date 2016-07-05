@@ -9,6 +9,4 @@ angular.module('venueApp')
     $scope.goToCourse = (course) => {
       $location.path("/courses/" + course._id);
     };
-
-
   });
