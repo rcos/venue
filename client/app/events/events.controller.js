@@ -5,20 +5,29 @@ angular.module('venueApp')
 
     Auth.getCurrentUser((user) => $scope.user = user);
 
-    $scope.event = SectionEvent.get({
-      id: $routeParams.id,
-      withEventInfo: true,
-      withEventInfoAuthor: true,
-      withSectionCourse: true,
-      withAuthor: true,
-      withSection: true
-    },
-      sectionEvent => {
-        $scope.event = sectionEvent;
+    $scope.updateEvent = () => {
+      $scope.event = SectionEvent.get({
+        id: $routeParams.id,
+        withEventInfo: true,
+        withEventInfoAuthor: true,
+        withSectionCourse: true,
+        withAuthor: true,
+        withSection: true
       },
-      err => {
-        $scope.err = err;
-      });
+        sectionEvent => {
+          $scope.event = sectionEvent;
+        },
+        err => {
+          $scope.err = err;
+        });
+    };
+
+    $scope.eventChanged = () => {
+      $scope.editting = false;
+      $scope.updateEvent();
+    };
+
+    $scope.updateEvent();
 
     $scope.goToEventUpload = (id) => {
       $location.path("/student/upload/" + id);

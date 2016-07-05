@@ -1,7 +1,8 @@
 <!-- EVENT SELECTION -->
 
 <div class="eventCreationForm" ng-show='selectingEvent'>
-  <h2> Create a new event </h2>
+  <h2 ng-show='!updating'> Create a new event </h2>
+  <h2 ng-show='updating'> Update event </h2>
 
   <form class="form" name="eventInfoForm" ng-submit="createEventInfo(eventInfoForm)" novalidate ng-show="!success">
       <h4>Event Info</h4>
@@ -140,33 +141,35 @@
       </div>
       <div class="form-group">
         <button class="btn btn-inverse btn-lg btn-register" type="submit">
-          Create Event
+          {{ updating ? "Update Event" : "Create Event" }}
         </button>
       </div>
 
   </form>
 
-  <h2> Or select an event from the list below </h2>
-  <!-- TODO use grid directive -->
+  <div ng-show='!updating'>
+    <h2> Or select an event from the list below </h2>
+    <!-- TODO use grid directive -->
 
-  <div class='search-bar-container'>
-    <div class="search-bar">
-      <div class="input-group">
-         <input type="text" ng-model='searchText' class="form-control" placeholder="Search events">
-         <span class="input-group-btn">
-           <button class="btn btn-default" type="button">
-             <span class='glyphicon glyphicon-search'></span>
-           </button>
-         </span>
+    <div class='search-bar-container'>
+      <div class="search-bar">
+        <div class="input-group">
+           <input type="text" ng-model='searchText' class="form-control" placeholder="Search events">
+           <span class="input-group-btn">
+             <button class="btn btn-default" type="button">
+               <span class='glyphicon glyphicon-search'></span>
+             </button>
+           </span>
+         </div>
        </div>
-     </div>
-  </div>
+    </div>
 
-  <div class='events-selection'>
-    <div class='event' ng-click='useEvent(event)' ng-repeat='event in filteredEvents = (eventinfos | filter:searchText)'>
-      <img http-src='{{event.imageURLs[0]}}'/>
-      <div class='title'>{{event.title | limitTo : 50}} {{ event.title.length > 50 ? "-" : ""}}</div>
-      <div class='description'>{{event.description | limitTo : 80}}{{event.description.length > 80 ? "..." : ""}}</div>
+    <div class='events-selection'>
+      <div class='event' ng-click='useEvent(event)' ng-repeat='event in filteredEvents = (eventinfos | filter:searchText)'>
+        <img http-src='{{event.imageURLs[0]}}'/>
+        <div class='title'>{{event.title | limitTo : 50}} {{ event.title.length > 50 ? "-" : ""}}</div>
+        <div class='description'>{{event.description | limitTo : 80}}{{event.description.length > 80 ? "..." : ""}}</div>
+      </div>
     </div>
   </div>
 
@@ -177,7 +180,7 @@
 <div class='eventAssignmentForm' ng-hide='selectingEvent || success'>
   <h2>Section Assignment</h2>
   <form class="eventAssignment" name="eventAssignmentForm" ng-submit="submitEventAssignment(eventAssignmentForm)" novalidate>
-    
+
     <event-card data="eventInfo">  </event-card>
 
     <div class="form-group" ng-class="{ 'has-success': eventAssignmentForm.sections.$valid && (eventAssignmentForm.sections.$touched || submitted),

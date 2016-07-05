@@ -5,9 +5,13 @@ angular.module('venueApp')
     return {
       templateUrl: 'components/eventform/eventform.html',
       controller: 'EventFormCtrl',
-      restrict: 'EA',
+      restrict: 'E',
+      scope: {
+        "onEventInfoSubmit": "&"
+      }, // isolated scope
       link: function (scope, element, attrs) {
         scope.updating = attrs.updating;
+        scope.init();
       }
     };
   });

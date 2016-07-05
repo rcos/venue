@@ -71,9 +71,7 @@ function removeEntity(res) {
 function saveEventInfoImage(files, fields, cb){
   var imagePaths = [],
       asyncTasks = [];
-  if (!files){
-    return imagePaths;
-  }
+  if (!files || !files.files){return imagePaths;}
 
   files.files.forEach(function(file) {
     var path = config.imageUploadPath  + 'eventInfoImages' + '/';
@@ -125,8 +123,9 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   saveEventInfoImage(req.files, req.body, (imagePaths)=>{
     var evnt = req.body;
-    evnt.creationDate = new Date();
-    evnt.author = req.user._id;
+    var updating = evnt.id != null; // TODO move to separate endpoint- this is here to avoid a major refactor
+    if (!updating) evnt.creationDate = new Date();
+    if (!updating) evnt.author = req.user._id;
     evnt.imageURLs = imagePaths;
 
     if (!evnt.location){
@@ -180,10 +179,19 @@ exports.create = function(req, res) {
     //Save the radius as a number
     evnt.location.radius = Number(evnt.location.radius);
 
-    // Create the eventInfo
-    EventInfo.createAsync(evnt)
-    .then(responseWithResult(res, 201))
-    .catch(handleError(res));
+    if (updating){
+      // Update the event
+      EventInfo.findByIdAsync(evnt.id)
+        .then(handleEntityNotFound(res))
+        .then(saveUpdates(evnt))
+        .then(responseWithResult(res))
+        .catch(handleError(res));
+    }else{
+      // Create the eventInfo
+      EventInfo.createAsync(evnt)
+      .then(responseWithResult(res, 201))
+      .catch(handleError(res));
+    }
   });
 };
 

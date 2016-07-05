@@ -21,7 +21,7 @@
       </div>
     </div>
   </div>
-  <div class='container' ng-show='!err'>
+  <div class='container' ng-show='!err && !editting'>
     <div class='row'>
       <div class='col-xs-12'>
         <div class='title'>
@@ -65,10 +65,14 @@
         </div>
         <div ng-show='user.isInstructor'>
           <button class='btn btn-md btn-warning' ng-click='deleteEvent(event)'>Delete Event</button>
+          <button class='btn btn-md' ng-click='editting=true'>Edit Event</button>
         </div>
       </div>
 
     </div>
+  </div>
+  <div class='container' ng-if='editting'>
+    <eventform updating="true" on-event-info-submit="eventChanged()"></eventform>
   </div>
 </div>
 

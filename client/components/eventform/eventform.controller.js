@@ -10,78 +10,89 @@ angular.module('venueApp')
     $scope.startDate = new Date();
     $scope.courseCreated = false;
     $scope.selectingEvent = true;
-    $scope.event = {};
-    $scope.event.startDate = new Date();
-    $scope.event.endDate = new Date();
-    $scope.event.endDate.setHours($scope.event.endDate.getHours()+1);
-    $scope.event.startDateOpen = false;
-    $scope.event.endDateOpen = false;
-    $scope.event.location = {};
+
     $scope.success = false;
     $scope.mapLoaded = false;
     $scope.allShapes = [];
+    $scope.place = {};
     var selectedShape = null;
 
-    $scope.place = {};
+    $scope.init = () => {
+      if (!$scope.updating){
+        $scope.event = {};
+        $scope.event.startDate = new Date();
+        $scope.event.endDate = new Date();
+        $scope.event.endDate.setHours($scope.event.endDate.getHours()+1);
+        $scope.event.startDateOpen = false;
+        $scope.event.endDateOpen = false;
+        $scope.event.location = {};
+      }else{
+        $scope.event = $scope.$parent.event.info;
+        $scope.event.startDate = new Date($scope.event.times[0].start);
+        $scope.event.endDate = new Date($scope.event.times[0].end);
+      }
+
+      $scope.event.searchbox= {
+        template: 'searchbox.tpl.html',
+        position:'TOP_CENTER',
+        options: {
+          bounds: {},
+          visible: true
+        },
+        places: [],
+        events: {
+          places_changed: function (searchBox) {
+            if (searchBox){
+              $scope.event.searchbox.places = searchBox.getPlaces();
+            }
+            if ($scope.event.searchbox.places.length === 0) {
+              return;
+            }
+            // For each place, get the icon, place name, and location.
+            var bounds = new google.maps.LatLngBounds();
+
+            $scope.event.location.address = $scope.event.searchbox.places[0].formatted_address;
+            $scope.event.location.description = $scope.event.searchbox.places[0].name;
+
+            for (var i = 0; i < $scope.event.searchbox.places.length; i++) {
+              var place = $scope.event.searchbox.places[i];
+                bounds.extend(place.geometry.location);
+
+            }
+            $scope.event.map.bounds = {
+              northeast: {
+                latitude: bounds.getNorthEast().lat(),
+                longitude: bounds.getNorthEast().lng()
+              },
+              southwest: {
+                latitude: bounds.getSouthWest().lat(),
+                longitude: bounds.getSouthWest().lng()
+              }
+            }
+          }
+        }
+      };
+
+      $scope.event.map= {
+        control: {},
+        center: {
+          latitude: $scope.updating ? $scope.event.location.geo.coordinates[1]: 42.7285023,
+          longitude:$scope.updating ? $scope.event.location.geo.coordinates[0] : -73.6839912
+        },
+        zoom: 12,
+        dragging: false,
+        drawing: false,
+        bounds: {},
+        markers: [],
+        idkey: 'place_id',
+        options: {scrollwheel: false}
+      };
+    };
 
     $scope.toggleMap = function () {
       $scope.event.searchbox.options.visible = !$scope.event.searchbox.options.visible
     };
-    $scope.event.map= {
-      control: {},
-      center: {
-        latitude: 42.7285023,
-        longitude:-73.6839912
-      },
-      zoom: 12,
-      dragging: false,
-      drawing: false,
-      bounds: {},
-      markers: [],
-      idkey: 'place_id',
-      options: {scrollwheel: false}
-    };
 
-    $scope.event.searchbox= {
-      template: 'searchbox.tpl.html',
-      position:'TOP_CENTER',
-      options: {
-        bounds: {},
-        visible: true
-      },
-      places: [],
-      events: {
-        places_changed: function (searchBox) {
-          if (searchBox){
-            $scope.event.searchbox.places = searchBox.getPlaces();
-          }
-          if ($scope.event.searchbox.places.length === 0) {
-            return;
-          }
-          // For each place, get the icon, place name, and location.
-          var bounds = new google.maps.LatLngBounds();
-
-          $scope.event.location.address = $scope.event.searchbox.places[0].formatted_address;
-          $scope.event.location.description = $scope.event.searchbox.places[0].name;
-
-          for (var i = 0; i < $scope.event.searchbox.places.length; i++) {
-            var place = $scope.event.searchbox.places[i];
-              bounds.extend(place.geometry.location);
-
-          }
-          $scope.event.map.bounds = {
-            northeast: {
-              latitude: bounds.getNorthEast().lat(),
-              longitude: bounds.getNorthEast().lng()
-            },
-            southwest: {
-              latitude: bounds.getSouthWest().lat(),
-              longitude: bounds.getSouthWest().lng()
-            }
-          }
-        }
-      }
-    };
 
     // Deselect the current selection
     function clearSelection() {
@@ -277,7 +288,7 @@ angular.module('venueApp')
 
       // Save the event information and send it to the api endpoint
       // Don't do it if the form is invalid or there are no shapes drawn
-      if (form.$valid && $scope.file && allShapes.length){
+      if (form.$valid && ($scope.updating || $scope.file) && allShapes.length){
         $scope.eventInfo = {
           title: $scope.event.title,
           description: $scope.event.description,
@@ -305,10 +316,15 @@ angular.module('venueApp')
           imageURL: $scope.event.imageURL,
         };
 
+        if ($scope.updating){
+          $scope.eventInfo.id = $scope.event._id;
+        }
+
         //Upload the event
         Upload.upload({
             url: '/api/eventinfos/',
             data: $scope.eventInfo,
+            method: 'POST',
             objectKey: '.k',
             arrayKey: '[i]'
         }).success( (response) => {
@@ -317,10 +333,16 @@ angular.module('venueApp')
           eventInfoId = response._id;
           $scope.eventInfo = response;
           $scope.submitted = false;
+          if ($scope.onEventInfoSubmit) $scope.onEventInfoSubmit();
 
         }).catch(err => {
             err = err.data;
           });
+      }else{
+        // this is better than nothing for now
+        if (!$scope.file) alert("A file needs to be uploaded");
+        if (!$scope.allShapes.length) alert("Please draw around the geographic area");
+        if (!form.$valid) alert("Form is not valid");
       }
     };
 
