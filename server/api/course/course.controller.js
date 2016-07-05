@@ -15,6 +15,7 @@ var fs = require('fs');
 var mkdirp = require('mkdirp');
 var config = require('../../config/environment');
 var imageUpload = require('../../components/imageUpload');
+var imageDownload = require('../../components/imageDownload');
 var path = require('path');
 
 import async from 'async';
@@ -179,40 +180,9 @@ exports.image = function(req, res){
     return res.json(404);
   }
 
-  var name = req.query.name;
-  if (req.query.size){
-      var extension = path.extname(name);
-      var id = name.substring(0,name.length-extension.length);
-
-    if (req.query.size === 'preview'){
-      name = id + "-preview" + extension;
-    }
-    else if (req.query.size === 'large'){
-      name = id + "-large" + extension;
-    }
-  }
-
-  var source = config.imageUploadPath + 'courses/' + name;
-  imgPath = path.join(__dirname, "../../../", source);
-
-  var stats;
-  try {
-    // Query the entry
-    stats = fs.lstatSync(imgPath);
-    return res.sendFile(imgPath);
-  }
-  catch (e) {
-    name = req.params.name;
-    source = config.imageUploadPath + 'courses/' + name;
-    imgPath = path.join(__dirname, "../../../", source);
-    try {
-        // Query the entry
-        stats = fs.lstatSync(imgPath);
-        return res.sendFile(imgPath);
-    }
-    catch (e) {
-      // File not found, send nothing
-      return res.sendFile("");
-    }
-  }
+  return imageDownload.getImage(
+    req.query.name,
+    config.imageUploadPath + 'courses/',
+    req.query.size,
+    res);
 };
