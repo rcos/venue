@@ -64,16 +64,50 @@
           <button class='upload-button btn btn-md' ng-click='goToEventUpload(event._id)'>Upload to Event</button>
         </div>
         <div ng-show='user.isInstructor'>
-          <button class='btn btn-md btn-warning' ng-click='deleteEvent(event)'>Delete Event</button>
-          <button class='btn btn-md' ng-click='editting=true'>Edit Event</button>
+          <div ng-hide='confirm'>
+            <button class='btn btn-md btn-warning' ng-click='deleteEvent(event)'>Remove Assignment</button>
+            <button class='btn btn-md' ng-click='editting=true'>Edit Event</button>
+            <button class='btn btn-md' ng-click='editAssignemnt()'>Edit Assignment</button>
+          </div>
+          <div ng-show='confirm' class="help-block">
+            <div>
+              This will also delete all sections submissions, are you sure you'd like to remove this event?
+            </div>
+            <br>
+            <button class='btn btn-md btn-danger' ng-click='confirmDeleteEvent(event)'>Remove Event Assignment</button>
+            <button class='btn btn-md btn-default' ng-click='cancelDeleteEvent(event)'>cancel</button>
+          </div>
         </div>
       </div>
 
     </div>
   </div>
+
   <div class='container' ng-if='editting'>
     <eventform updating="true" on-event-info-submit="eventChanged()"></eventform>
   </div>
+
+  <div class='container' ng-show='assignmentEdit'>
+      <br>
+      <form class="eventAssignment" name="eventAssignmentForm" ng-submit="updateEventAssignment(eventAssignmentForm)" novalidate>
+
+        <div class="form-group" ng-class="{ 'has-success': assignment.submissionInstructions  && (eventAssignmentForm.submissionInstructions.$touched || submitted), 'has-error': !assignment.submissionInstructions && (eventAssignmentForm.submissionInstructions.$touched || submitted) }">
+          <label>Submission Instructions</label>
+
+          <textarea type="text" name="submissionInstructions" class="form-control" ng-model="assignment.submissionInstructions"
+                 required/>
+
+           <p class="help-block" ng-show="!assignment.submissionInstructions">
+             Submission instructions are required
+           </p>
+        </div>
+        <div>
+          <button class="btn btn-inverse btn-register" type="submit">Save</button>
+        </div>
+
+      </form>
+  </div>
+
 </div>
 
 <footer></footer>

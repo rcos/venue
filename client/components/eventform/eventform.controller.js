@@ -73,7 +73,7 @@ angular.module('venueApp')
         }
       };
 
-      $scope.event.map= {
+      $scope.event.map = {
         control: {},
         center: {
           latitude: $scope.updating ? $scope.event.location.geo.coordinates[1]: 42.7285023,
@@ -353,11 +353,11 @@ angular.module('venueApp')
       $scope.event[prop] = true;
   };
 
-    $scope.isActiveCourse = (course)=>{
+    $scope.isActiveCourse = function(course){
       return course.sections.every((section) => section.active);
     };
 
-    $scope.selectCourse = (course)=>{
+    $scope.selectCourse = function(course){
       if ($scope.isActiveCourse(course)){
         course.sections.forEach((section) => {
           section.active = false;
@@ -382,7 +382,7 @@ angular.module('venueApp')
       return sections;
     }
 
-    $scope.submitEventAssignment = (form)=>{
+    $scope.submitEventAssignment = function(form){
         $scope.submitted = true;
         if(getSectionIds().length == 0){
           $scope.eventAssignmentSectionsError = true;

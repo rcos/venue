@@ -220,9 +220,18 @@ exports.update = function(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
+  console.log("req.params.id",req.params.id);
+  console.log("req.body",req.body);
+
   SectionEvent.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
-    .then(saveUpdates(req.body))
+    .then((entity) => {
+        entity.submissionInstructions = req.body.submissionInstructions
+        return entity.saveAsync()
+          .spread(function(updated) {
+            return updated;
+          });
+      })
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
