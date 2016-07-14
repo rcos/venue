@@ -82,7 +82,7 @@ export function verify(req, res, next) {
   var token = req.params.token;
   User.findOneAsync({ 'verificationToken' : token })
     .then((user) => {
-      if(!user){res.json({isVerified:false});}
+      if(!user){return res.json({isVerified:false});}
       user.isVerified = true;
       user.verificationToken = undefined;
       return user.saveAsync()
