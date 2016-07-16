@@ -31,13 +31,22 @@ function respondWith(res, statusCode) {
   };
 }
 
-function createVerificationToken(req, user){
+function createVerificationToken(req, user, cb){
   user.setVerificationToken();
   var message = {
       email: user.email,
       name: user.firstName,
       verifyURL: req.protocol + "://" + req.get('host') + "/verify/" + user.verificationToken};
-  Sendgrid.signup(message);
+  cb(message);
+}
+
+function createVerificationToken(req, user, cb){
+  user.setVerificationToken();
+  var message = {
+      email: user.email,
+      name: user.firstName,
+      verifyURL: req.protocol + "://" + req.get('host') + "/verify/resetPassword/" + user.verificationToken};
+  cb(message);
 }
 
 /**
@@ -65,7 +74,7 @@ export function create(req, res, next) {
       var token = jwt.sign({ _id: user._id }, config.secrets.session, {
         expiresIn: 60 * 60 * 5
       });
-      createVerificationToken(req, user);
+      createVerificationToken(req, user, (message) => {Sendgrid.signup(message)} );
       res.json({ token });
     })
     .catch(validationError(res));
@@ -109,6 +118,31 @@ export function resendEmail(req, res, nest) {
           return handleError(res)({"message": "User has already been verified"});
         }
         createVerificationToken(req, user)
+        return res.json({success:true});
+      })
+  }
+  else{
+    return handleError(res)({"message": "No email entered"});
+  }
+}
+
+/**
+ * Sends an email with a link to set the account's password
+ */
+export function resetPasswordEmail(req, res, nest) {
+  var emailAddress = req.body.email;
+  if(emailAddress !== undefined){
+    User.findOne({ 'email' : emailAddress })
+      .select('email firstName lastName isVerified')
+      .execAsync()
+      .then((user) => {
+        if(!user){
+          return handleError(res)({"message": "Email has not yet been registered. Sign up for an account."});
+        }
+        if(!user.isVerified){
+          return handleError(res)({"message": "User has not yet been verified"});
+        }
+        createVerificationToken(req, user, (message) => {Sendgrid.forgotPassword(message)} );
         return res.json({success:true});
       })
   }
@@ -318,6 +352,32 @@ export function changePassword(req, res, next) {
       }
     });
 }
+
+/**
+ * Resets a user's password if they forgot it.
+ * Uses email verificaiton via a token
+ */
+export function resetPassword(req, res, next) {
+  var newPass = String(req.body.newPassword);
+  var token = String(req.body.token);
+  User.findOne({ 'verificationToken' : token })
+    .select('_id email password provider salt verificationToken')
+    .execAsync()
+    .then(user => {
+      if (user != null && user.verificationToken == token) {
+        user.password = newPass;
+        user.verificationToken = undefined;
+        return user.saveAsync()
+          .then(() => {
+            res.json({success:true});
+          })
+          .catch(validationError(res));
+      } else {
+        return handleError(res)({"message": "Invalid link"});
+      }
+    });
+}
+
 
 /**
  * Enroll in a section
