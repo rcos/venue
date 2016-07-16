@@ -28,7 +28,6 @@ function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
         instructorOnly: user.instructorOnly
       })
         .then(res => {
-          console.log(res.data.profile.isVerified);
           if(res.data.profile.isVerified){
             $cookies.put('token', res.data.token);
             currentUser = User.get();
@@ -39,7 +38,6 @@ function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
           }
         })
         .then(user => {
-          console.log(user);
           safeCb(callback)(null, user);
           return user;
         })
