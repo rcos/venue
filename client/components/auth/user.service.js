@@ -37,6 +37,12 @@ function UserResource($resource) {
         id: 'resendEmail'
       }
     },
+    resetPassword: {
+      method: 'POST',
+      params: {
+        id: 'resetPassword'
+      }
+    },
     enroll: {
       method: 'PUT',
       params: {

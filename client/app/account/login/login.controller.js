@@ -41,6 +41,10 @@ class LoginController {
     }
   }
 
+  goToForgotPassword(){
+    this.$location.path("/verify/forgotPassword");
+  };
+
   _devLoginAs(user){
     this.user.email = user + "@"+user+".com";
     this.user.password = user;

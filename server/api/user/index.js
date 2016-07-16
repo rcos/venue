@@ -15,9 +15,11 @@ router.get('/:id/sections', auth.isAuthenticated(), controller.sections);
 router.get('/:id/events', auth.isAuthenticated(), controller.events);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 router.put('/:id/enroll', auth.isAuthenticated(), controller.enrollInSection);
+router.put('/password', controller.resetPassword);
 router.put('/:id/unenroll', auth.isAuthenticated(), controller.unenrollInSection);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/resendEmail', controller.resendEmail);
+router.post('/resetPassword', controller.resetPasswordEmail);
 router.post('/', controller.create);
 router.post('/csv', auth.hasRole('admin'), controller.createFromCSVUpload);
 
