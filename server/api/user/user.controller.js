@@ -96,8 +96,8 @@ export function verify(req, res, next) {
  * Resends a verificaiton link for a user to verify their email
  */
 export function resendEmail(req, res, nest) {
-  var emailAdrress = req.body.email;
-  if(emailAdrress != undefined){
+  var emailAddress = req.body.email;
+  if(emailAddress != undefined){
     User.findOne({ 'email' : emailAdrress })
       .select('email firstName lastName isVerified')
       .execAsync()
