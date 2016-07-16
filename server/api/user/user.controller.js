@@ -20,6 +20,7 @@ function validationError(res, statusCode) {
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
+    console.log(err);
     res.status(statusCode).send(err);
   };
 }
@@ -82,7 +83,7 @@ export function verify(req, res, next) {
   var token = req.params.token;
   User.findOneAsync({ 'verificationToken' : token })
     .then((user) => {
-      if(!user){res.json({isVerified:false});}
+      if(!user){return res.json({isVerified:false});}
       user.isVerified = true;
       user.verificationToken = undefined;
       return user.saveAsync()
@@ -90,6 +91,31 @@ export function verify(req, res, next) {
           res.json({isVerified:true});
         });
     })
+}
+
+/**
+ * Resends a verificaiton link for a user to verify their email
+ */
+export function resendEmail(req, res, nest) {
+  var emailAdrress = req.body.email;
+  if(emailAdrress != undefined){
+    User.findOne({ 'email' : emailAdrress })
+      .select('email firstName lastName isVerified')
+      .execAsync()
+      .then((user) => {
+        if(!user){
+          return handleError(res)({"message": "Email has not yet been registered. Sign up for an account."});
+        }
+        if(user.isVerified){
+          return handleError(res)({"message": "User has already been verified"});
+        }
+        createVerificationToken(req, user)
+        return res.json({success:true});
+      })
+  }
+  else{
+    return handleError(res)({"message": "No email entered"});
+  }
 }
 
 /**

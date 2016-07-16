@@ -8,25 +8,21 @@ angular.module('venueApp')
 
     $scope.user = {};
     $scope.errors = {};
+    $scope.success = false;
 
     $scope.sendEmail = (form)=>{
         $scope.submitted = true;
         if (form.$valid) {
           User.resendEmail({
               email: $scope.email
-          })
-          .then(() => {
-              $scope.success = true;
+          }).$promise
+          .then(res => {
+              $scope.success = res.success;
           })
           .catch(err => {
-            err = err.data;
-            $scope.errors = {};
-
             // Update validity of form fields that match the mongoose errors
-            angular.forEach(err.errors, (error, field) => {
-              form[field].$setValidity('mongoose', false);
-              $scope.errors[field] = error.message;
-            });
+            form['email'].$setValidity('mongoose', false);
+            $scope.errors['email'] = err.data.message;
           });
         }
     };
