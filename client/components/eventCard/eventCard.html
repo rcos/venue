@@ -1,4 +1,4 @@
-<div class='mdl-card mdl-shadow--2dp event-card' ng-class="{'short':short}">
+<div class='mdl-card mdl-shadow--2dp event-card' ng-class="{'short':short, 'isPastDate': data.isPastDate}">
   <div class='event-name mdl-card__title mdl-card--expand' ng-style="{'background-image':'url(\''+data.imageURLs[0]+'\')'}" ng-class="{'selected': selected}">
     <div class='overlay'>
       <h2 class="mdl-card__title-text">{{ data.title }} </h2>
