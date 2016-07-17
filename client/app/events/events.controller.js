@@ -4,6 +4,7 @@ angular.module('venueApp')
   .controller('EventsCtrl', function ($scope, $location, $routeParams, SectionEvent, Auth) {
 
     Auth.getCurrentUser((user) => $scope.user = user);
+    $scope.eventId = $routeParams.id;
 
     $scope.event = SectionEvent.get({
       id: $routeParams.id,

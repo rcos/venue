@@ -75,6 +75,7 @@ exports.index = function(req, res) {
   var withAuthor = withDefault(req.query.withAuthor, !onlyNumber && true);
   var withSection = withDefault(req.query.withSection, false);
   var withCourse= withDefault(req.query.withCourse, withSection);
+  var withSectionStudents = withDefault(req.query.withSectionStudents, false);
 
   function respond(query){
     if (withAuthor){
@@ -84,6 +85,8 @@ exports.index = function(req, res) {
       query.populate("info");
     }
     if (withSection){
+      query.populate("section");
+
       if (withCourse){
         query.populate({
           path: 'section',
@@ -93,7 +96,18 @@ exports.index = function(req, res) {
             model: 'Course'
           }
         });
-      }else query.populate("section");
+      }
+
+      if (withSectionStudents){
+        query.populate({
+          path: 'section',
+          model: 'Section',
+          populate: {
+            path: 'students',
+            model: 'User'
+          }
+        });
+      }
     }
 
     query.sort({time: -1});
@@ -117,7 +131,31 @@ exports.index = function(req, res) {
       .catch(handleError(res));
   }
 
-  if (req.query.onlyAuthor || req.query.onlySection || req.query.onlyEvent){
+  if (req.query.onlyUserSections){
+    var user = req.query.onlyUserSections.toLowerCase()=== "me" ? req.user._id : req.query.onlyUserSections;
+
+    Section.findAsync({ $or: [{ instructors: user}, { students: user} ]})
+      .then((sections) => {
+        var sectionIds = sections.map((sec) => sec._id);
+
+        var search = {section: {$in: sectionIds}};
+
+        if (req.query.onlyEvent) search.info = req.query.onlyEvent;
+
+        if (onlyNumber){
+            SectionEvent.count(search)
+            .execAsync()
+            .then((entity)=>{
+              return {"number": entity};
+            })
+            .then(responseWithResult(res))
+            .catch(handleError(res));
+        }
+        else{
+          respond(SectionEvent.find(search));
+        }
+      });
+  }else if (req.query.onlyAuthor || req.query.onlySection || req.query.onlyEvent){
     var search = {};
     if (req.query.onlyAuthor) {
       var authorId = req.query.onlyAuthor.toLowerCase() === "me" ? req.user._id : req.query.onlyAuthor;
@@ -137,24 +175,6 @@ exports.index = function(req, res) {
     else{
       respond(SectionEvent.find(search));
     }
-  }else if (req.query.onlyUserSections){
-    var user = req.query.onlyUserSections.toLowerCase()=== "me" ? req.user._id : req.query.onlyUserSections;
-    Section.findAsync({ $or: [{ instructors: user}, { students: user} ]})
-      .then((sections) => {
-        var sectionIds = sections.map((sec) => sec._id);
-        if (onlyNumber){
-            SectionEvent.count({section: {$in: sectionIds}})
-            .execAsync()
-            .then((entity)=>{
-              return {"number": entity};
-            })
-            .then(responseWithResult(res))
-            .catch(handleError(res));
-        }
-        else{
-          respond(SectionEvent.find({section: {$in: sectionIds}}))
-        }
-      });
   }else if (onlyNumber){
     SectionEvent.count()
     .execAsync()
