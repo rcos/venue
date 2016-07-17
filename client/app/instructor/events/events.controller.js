@@ -10,7 +10,12 @@ angular.module('venueApp')
       $scope.user = user;
       $scope.sections = user.sections;
       $scope.events = user.events;
+      $scope.eventsArray = Object.keys(user.events)
+        .map(eventId => user.events[eventId])
+        .filter(evnt => evnt._id)
+        .reduce((a,b) => a.concat(b), []);
     });
+
 
     $scope.goToEvent = (event) => {
       $location.path("/events/" + event._id);

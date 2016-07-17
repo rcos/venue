@@ -21,7 +21,7 @@
     <div class='container'>
       <div class='row text-center'>
         <course-card class="card col-lg-4 col-md-6" ng-repeat='course in filteredCourses = (courses | filter:searchText)' click='openCourse(course)' data="course" short="false">  </course-card>
-        <div class='no-courses' ng-show='filteredCourses.length == 0'>
+        <div class='no-results' ng-show='filteredCourses.length == 0'>
           no courses found matching search term
         </div>
       </div>
