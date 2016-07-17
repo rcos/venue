@@ -1,13 +1,30 @@
 <navbar></navbar>
-<div class="container instructor">
-  <div class="row">
-    <div class="col-sm-2">
-      <sidebar></sidebar>
+<div class="instructor-search-events">
+  <div class='container'>
+    <div class='row'>
+      <div class='col-xs-12 search-bar-container'>
+        <div class="search-bar">
+          <div class="input-group">
+             <input type="text" ng-model='searchText' class="form-control" placeholder="Search events">
+             <span class="input-group-btn">
+               <button class="btn btn-default" type="button">
+                 <span class='glyphicon glyphicon-search'></span>
+               </button>
+             </span>
+           </div>
+         </div>
+      </div>
     </div>
-    <div class='col-sm-10'>
-      <h1 class="page-header">Events</h1>
-      <div class='event-page instructor-events'>
-          <event-card class="col-md-6" ng-repeat='event in events' data="event" click='goToEvent(event)' sectionClick='goToEvent(event)' short="false" />
+  </div>
+  <div class='class-card-container'>
+    <div class="container">
+      <div class='row text-center'>
+        <div class='event-page instructor-events'>
+          <event-card class="col-lg-4 col-md-6" ng-repeat='event in filteredEvents = (eventsArray | filter:searchText)' data="event" click='goToEvent(event)' sectionClick='goToEvent(event)' short="false" />
+          <div class='no-events' ng-show='filteredEvents.length == 0'>
+            no events found matching search term
+          </div>
+        </div>
       </div>
     </div>
   </div>

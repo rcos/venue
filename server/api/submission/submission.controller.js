@@ -107,6 +107,8 @@ exports.index = function(req, res) {
   var withStudents = withDefault(req.query.withStudents, !onlyNumber && true);
   var withSectionEvent = withDefault(req.query.withSectionEvent, !onlyNumber && true);
   var withEventInfo = withDefault(req.query.withEventInfo, withSectionEvent);
+  var withSection = withDefault(req.query.withSection, false);
+  var withSectionCourse = withDefault(req.query.withSectionCourse, false);
 
   function respond(query){
     if (withStudents){
@@ -114,6 +116,31 @@ exports.index = function(req, res) {
       query.populate("submitter");
     }
     if (withSectionEvent){
+      query.populate("sectionEvent")
+      if (withSection){
+        query.populate({
+          path: 'sectionEvent',
+          model: 'SectionEvent',
+          populate: {
+            path: 'section',
+            model: 'Section'
+          }
+        });
+        if (withSectionCourse){
+          query.populate({
+            path: 'sectionEvent',
+            model: 'SectionEvent',
+            populate: {
+              path: 'section',
+              model: 'Section',
+              populate: {
+                path: "course",
+                model: "Course"
+              }
+            }
+          });
+        }
+      }
       if (withEventInfo){
         query.populate({
           path: 'sectionEvent',
@@ -123,7 +150,7 @@ exports.index = function(req, res) {
             model: 'EventInfo'
           }
         });
-      }else query.populate("sectionEvent");
+      };
     }
 
     query.sort({time: -1});

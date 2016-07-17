@@ -7,6 +7,14 @@ class NavbarController {
     'link': '/courses',
     "noauth": true
   },{
+    'title': 'Search Events',
+    'link': '/instructor/events',
+    'forInstructor': true
+  },{
+    'title': 'Search Events',
+    'link': '/student/events',
+    'forInstructor': false
+  },{
     'title': 'Dashboard',
     'link': '/student/dashboard',
     'forInstructor': false

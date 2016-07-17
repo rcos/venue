@@ -9,7 +9,8 @@ angular.module('venueApp')
           $scope.submitted = true;
           if (form.$valid) {
             Auth.createUser({
-              name: $scope.user.name,
+              firstName: $scope.user.firstName,
+              lastName: $scope.user.lastName,
               email: $scope.user.email,
               password: $scope.user.password,
               isInstructor: true

@@ -64,6 +64,28 @@
         bottom:0px;
       }
     }
+    .create-event{
+
+      @boxSize: 180px;
+
+      display:inline-block;
+      width:@boxSize;
+      height:@boxSize;
+      position:relative;
+      margin:8px;
+      box-shadow:1px 1px 5px rgba(0,0,0,.7);
+      overflow:hidden;
+
+      .fa {
+        font-size: 72px;
+      }
+    }
+    .create-event:hover{
+      cursor:pointer;
+      .description{
+        bottom:0px;
+      }
+    }
   }
   .drop-box {
     .drop-box();

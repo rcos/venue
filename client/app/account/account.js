@@ -30,6 +30,14 @@ angular.module('venueApp')
         templateUrl: 'app/account/verify/resendEmail/resendEmail.html',
         controller: 'ResendEmailCtrl'
       })
+      .when('/verify/forgotPassword', {
+        templateUrl: 'app/account/verify/forgotPassword/forgotPassword.html',
+        controller: 'ForgotPasswordCtrl'
+      })
+      .when('/verify/resetPassword/:id', {
+        templateUrl: 'app/account/verify/resetPassword/resetPassword.html',
+        controller: 'ResetPasswordCtrl'
+      })
       .when('/verify/:id', {
         templateUrl: 'app/account/verify/verify.html',
         controller: 'VerifyAccountCtrl'

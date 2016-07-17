@@ -32,9 +32,15 @@ function UserResource($resource) {
       }
     },
     resendEmail: {
-      method: 'GET',
+      method: 'POST',
       params: {
         id: 'resendEmail'
+      }
+    },
+    resetPassword: {
+      method: 'POST',
+      params: {
+        id: 'resetPassword'
       }
     },
     enroll: {

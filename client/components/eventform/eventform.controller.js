@@ -226,6 +226,11 @@ angular.module('venueApp')
       $scope.eventInfo = event;
     };
 
+    $scope.createEvent = () =>{
+      $scope.selectingEvent = false;
+      $scope.creatingEvent = true;
+    };
+
     $scope.createEventInfo = (form)=>{
       $scope.submitted = true;
       // For each place, get the icon, place name, and location.
@@ -251,7 +256,7 @@ angular.module('venueApp')
           latitude: bounds.getSouthWest().lat(),
           longitude: bounds.getSouthWest().lng()
         }
-      }
+      };
 
       //Save all the shapes in the proper form for geojson
       var allShapes = [];
@@ -329,12 +334,11 @@ angular.module('venueApp')
             arrayKey: '[i]'
         }).success( (response) => {
           $scope.selectingEvent = false;
+          $scope.creatingEvent = false;
           $scope.eventInfo.imageURLs = response.imageURLs;
           eventInfoId = response._id;
           $scope.eventInfo = response;
           $scope.submitted = false;
-          if ($scope.onEventInfoSubmit) $scope.onEventInfoSubmit();
-
         }).catch(err => {
             err = err.data;
           });

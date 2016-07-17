@@ -1,0 +1,27 @@
+<div class="eventCreationForm">
+  <!-- TODO use grid directive -->
+
+  <div class='search-bar-container'>
+    <div class="search-bar">
+      <div class="input-group">
+         <input type="text" ng-model='searchText' class="form-control" placeholder="Search events">
+         <span class="input-group-btn">
+           <button class="btn btn-default" type="button">
+             <span class='glyphicon glyphicon-search'></span>
+           </button>
+         </span>
+       </div>
+     </div>
+  </div>
+
+  <div class='events-selection'>
+    <div class='event' ng-click='useEvent(event)' ng-repeat='event in filteredEvents = (eventinfos | filter:searchText)'>
+      <img http-src='{{event.imageURLs[0]}}'/>
+      <div class='title'>{{event.title | limitTo : 50}} {{ event.title.length > 50 ? "-" : ""}}</div>
+      <div class='description'>{{event.description | limitTo : 80}}{{event.description.length > 80 ? "..." : ""}}</div>
+    </div>
+    <div class='create-event jumbotron' ng-click='createEvent()'>
+      <i class="fa fa-plus fa-5" aria-hidden="true"></i>
+    </div>
+  </div>
+</div>

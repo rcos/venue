@@ -1,0 +1,32 @@
+<div class='row'>
+  <div class='col-xs-12'>
+
+    <!-- Section Filter -->
+    <span class="btn-group">
+      <button
+        ng-repeat="se in allSectionEvents"
+        ng-click="toggleSectionEvent(se)"
+        class='btn btn-md filter-btn btn-primary' ng-class='{active: se.selected}'
+        >
+        <i ng-show='se.selected' class="fa fa-check" aria-hidden="true"></i>
+        <i ng-show='!se.selected' class="fa fa-square-o" aria-hidden="true"></i>
+        &nbsp;
+        {{se.section.course.department}} {{se.section.course.courseNumber}} Section <span ng-repeat="n in se.section.sectionNumbers"> {{ n }} </span>
+      </button>
+    </span>
+
+    <!-- Student Filter -->
+    <span class="btn-group">
+      <button class='btn btn-primary' ng-click="setSubmissionFilter('all')" ng-class="{active: submissionFilter == 'all'}"> All Students </button>
+      <button class='btn btn-primary' ng-click="setSubmissionFilter('submitted')" ng-class="{active: submissionFilter == 'submitted'}"> Only Submitted </button>
+      <button class='btn btn-primary' ng-click="setSubmissionFilter('validated')" ng-class="{active: submissionFilter == 'validated'}"> Only Validated </button>
+    </span>
+
+    <!-- View Mode Select -->
+    <span class="btn-group">
+      <button class='btn btn-primary' ng-click="setViewMode('small')" ng-class="{active: viewMode == 'small'}"> Small </button>
+      <button class='btn btn-primary' ng-click="setViewMode('large')" ng-class="{active: viewMode == 'large'}"> Large </button>
+    </span>
+
+  </div>
+</div>

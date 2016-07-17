@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('ResendEmailCtrl', function ($scope, $routeParams, User, $location) {
+  .controller('ForgotPasswordCtrl', function ($scope, $routeParams, User, $location) {
     $scope.goToLogin = function(){
       $location.path("/login");
     };
@@ -13,7 +13,7 @@ angular.module('venueApp')
     $scope.sendEmail = (form)=>{
         $scope.submitted = true;
         if (form.$valid) {
-          User.resendEmail({
+          User.resetPassword({
               email: $scope.email
           }).$promise
           .then(res => {
