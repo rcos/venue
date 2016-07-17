@@ -338,11 +338,6 @@ angular.module('venueApp')
         }).catch(err => {
             err = err.data;
           });
-      }else{
-        // this is better than nothing for now
-        if (!$scope.file) alert("A file needs to be uploaded");
-        if (!$scope.allShapes.length) alert("Please draw around the geographic area");
-        if (!form.$valid) alert("Form is not valid");
       }
     };
 

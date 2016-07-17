@@ -4,7 +4,7 @@
   <h2 ng-show='!updating'> Create a new event </h2>
   <h2 ng-show='updating'> Update event </h2>
 
-  <form class="form" name="eventInfoForm" ng-submit="createEventInfo(eventInfoForm)" novalidate ng-show="!success">
+  <form class="form" name="eventInfoForm" novalidate ng-show="!success">
       <h4>Event Info</h4>
 
     <div class="form-group" ng-class="{ 'has-success': event.title && (eventInfoForm.title.$touched || submitted), 'has-error': !event.title && (eventInfoForm.title.$touched || submitted) }">
@@ -27,14 +27,14 @@
          The event description is required
        </p>
     </div>
-    <div class="form-group" ng-class="{ 'has-error': submitted && !file }">
+    <div class="form-group" ng-class="{ 'has-error': submitted && !file && !update}">
       <label>Image</label>
 
       <div ngf-drop ngf-select ng-model="file" class="drop-box"
       ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false"
       accept="image/*"
       ngf-pattern="'image/*'">Drop images here or click to upload</div>
-      <p class="help-block" ng-show="!file && submitted">
+      <p class="help-block" ng-show="!file && submitted && !update">
         An event image is required
       </p>
       <div class="image-preview" style="font:smaller">
@@ -42,6 +42,16 @@
         <br/>
         <img ngf-src="file" width = {{imgWidth}}/>
       </div>
+      <div ng-show="updating && file">
+        <br/>
+        <button type='button' class="btn btn-danger" ng-click="file=null" >Remove image</button>
+      </div>
+      <div class="image-preview" style="font:smaller" ng-show="updating && !file">
+        Current image:
+        <br/>
+        <img ngf-src="event.imageURLs[0]" width = {{imgWidth}}/>
+      </div>
+
 
     </div>
     <div class="form-group" ng-class="{ 'has-success': eventInfoForm.startDate.$valid && (eventInfoForm.startDate.$touched || submitted),
@@ -73,6 +83,7 @@
       </p>
     </div>
 
+    <div ng-show="!updating || updateLocation">
     <div class="form-group">
       <h4>Event Location</h4>
 
@@ -139,8 +150,30 @@
           The location address is required
         </p>
       </div>
+      </div>
+      <div ng-show="updating && !updateLocation">
+          <div class="form-group">
+            <label>Description</label>
+            <p>
+              {{event.location.description}}
+            </p>
+          </div>
+          <div class="form-group">
+          <label>Address</label>
+          <p>
+            {{event.location.address}}
+          </p>
+        </div>
+      </div>
+
+      <div ng-show="updating">
+        <button type='button' ng-click="updateLocation = !updateLocation" class="btn btn-warning">{{updateLocation?"Cancel":"Update Location"}}</button>
+        <br/>
+        <br/>
+      </div>
+
       <div class="form-group">
-        <button class="btn btn-inverse btn-lg btn-register" type="submit">
+        <button class="btn btn-inverse btn-lg btn-register" ng-click="createEventInfo(eventInfoForm)">
           {{ updating ? "Update Event" : "Create Event" }}
         </button>
       </div>
