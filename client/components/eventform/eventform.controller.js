@@ -10,6 +10,7 @@ angular.module('venueApp')
     $scope.startDate = new Date();
     $scope.courseCreated = false;
     $scope.selectingEvent = true;
+    $scope.creatingEvent = false;
     $scope.event = {};
     $scope.event.startDate = new Date();
     $scope.event.endDate = new Date();
@@ -215,6 +216,11 @@ angular.module('venueApp')
       $scope.eventInfo = event;
     };
 
+    $scope.createEvent = () =>{
+      $scope.selectingEvent = false;
+      $scope.creatingEvent = true;
+    };
+
     $scope.createEventInfo = (form)=>{
       $scope.submitted = true;
       // For each place, get the icon, place name, and location.
@@ -313,11 +319,11 @@ angular.module('venueApp')
             arrayKey: '[i]'
         }).success( (response) => {
           $scope.selectingEvent = false;
+          $scope.creatingEvent = false;
           $scope.eventInfo.imageURLs = response.imageURLs;
           eventInfoId = response._id;
           $scope.eventInfo = response;
-          $scope.submitted = false;
-
+          $scope.submitted = true;
         }).catch(err => {
             err = err.data;
           });
