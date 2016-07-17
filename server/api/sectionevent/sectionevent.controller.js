@@ -82,7 +82,12 @@ exports.index = function(req, res) {
       query.populate("author");
     }
     if (withEventInfo){
-      query.populate("info");
+      query.populate({
+        path:'info',
+        populate: {
+          path: 'isHappeningNow isPastDate'
+        }
+      });
     }
     if (withSection){
       query.populate("section");
@@ -112,8 +117,9 @@ exports.index = function(req, res) {
 
     query.sort({time: -1});
 
-    query.lean().execAsync()
+    query.execAsync()
       .then((sectionEventsArray)=>{
+        sectionEventsArray = sectionEventsArray.map((sectionEvent)=> sectionEvent.toObject());
         var events = {};
         sectionEventsArray.forEach((sectionEvent)=>{
           if(events[sectionEvent.info._id]){

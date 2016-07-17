@@ -60,14 +60,29 @@ EventInfoSchema.pre("save",function(next) {
   next();
 });
 
+EventInfoSchema
+  .set('toJSON', {
+      virtuals: true
+  });
+
+EventInfoSchema
+  .set('toObject', {
+      virtuals: true
+  });
 
 // VIRTUALS
 EventInfoSchema
     .virtual("isHappeningNow")
     .get(function(){
         var now = new Date();
-        // TODO iterate through times, check if event is happening
-        return true;
+        return this.times.some((time) => time.start.getTime() < now.getTime() && time.end.getTime() > now.getTime())
+    });
+
+EventInfoSchema
+    .virtual("isPastDate")
+    .get(function(){
+        var now = new Date();
+        return this.times.length > 0 && this.times[this.times.length-1].end.getTime() < now.getTime()
     });
 
 EventInfoSchema
