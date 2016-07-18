@@ -16,7 +16,7 @@ angular.module('venueApp')
       });
     };
   })
-  .controller('SubmissionViewCtrl', function($scope, Auth, Submission, Section, SectionEvent){
+  .controller('SubmissionViewCtrl', function($scope, $filter, Auth, Submission, Section, SectionEvent){
 
     $scope.viewMode = 'small';
     $scope.submissionFilter = 'submitted';
@@ -24,6 +24,8 @@ angular.module('venueApp')
     $scope.selectedSections = [];
 
     SectionEvent.get({id: $scope.eventId, withEventInfo:true}, (sectionEvent) => {
+
+      $scope.mainSectionEvent = sectionEvent;
 
       function loadAllSubmissions(){
         Promise.all($scope.allSectionEvents.map(
@@ -101,6 +103,23 @@ angular.module('venueApp')
 
       $scope.setSubmissionFilter = (filter) => {
         $scope.submissionFilter = filter;
+      };
+
+      $scope.getDataAsCSV = () => {
+        var csv = [];
+        csv.push(['Student Name', 'Submitted', 'Validated', 'Course', 'Submission Content', 'Image']);
+        csv = csv.concat(
+          $filter('visibleSubmission')($scope.submissions,$scope.selectedSections ,$scope.submissionFilter , $scope.searchName).map((sub) =>
+            [sub.submitter.name, !sub.didNotSubmit ? 'yes' : 'no', sub.valid ? 'yes': 'no',
+            sub.sectionEvent.section.course.department + sub.sectionEvent.section.course.courseNumber,
+            sub.content, sub.images.join(' ')])
+          );
+        return csv;
+
+        // CSV Content String
+        // var csvContent = csv.reduce((prior, l) =>
+        //   prior + '\n' + l.map(e => '"' + e.replace(/"/g, '\"') + '"').join(','),
+        //   'data:text/csv;charset=utf-8,');
       };
 
     });
