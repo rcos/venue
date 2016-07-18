@@ -115,11 +115,6 @@ angular.module('venueApp')
             sub.content, sub.images.join(' ')])
           );
         return csv;
-
-        // CSV Content String
-        // var csvContent = csv.reduce((prior, l) =>
-        //   prior + '\n' + l.map(e => '"' + e.replace(/"/g, '\"') + '"').join(','),
-        //   'data:text/csv;charset=utf-8,');
       };
 
     });
