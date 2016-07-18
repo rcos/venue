@@ -54,6 +54,7 @@ angular.module('venueApp')
               (student) => student.submissions.filter((sub) => sub.sectionEvent._id == se._id).length == 0
             );
             studentsThatDidNotSubmit.forEach((student) => {
+              student.name = student.firstName + ' ' + student.lastName;
               $scope.submissions.push({
                 submitter: student,
                 didNotSubmit: true,
