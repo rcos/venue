@@ -28,7 +28,7 @@ function allUsers(){return {
   admin: {
     provider: 'local',
     role: 'admin',
-    firstName: 'Admin',
+    firstName: 'admin',
     lastName: 'User',
     email: 'admin@admin.com',
     password: 'admin',
