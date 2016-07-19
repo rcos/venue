@@ -13,17 +13,21 @@ RUN apt-get install \
     libssl-dev \
     git\
     curl\
+    vim\
     nodejs\
     mongodb\
     -y -q --no-install-recommends
+
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh | bash && \
     . /root/.bashrc && \
     nvm install $NODE_VERSION && \
     nvm alias default $NODE_VERSION && \
     nvm use default
 
+COPY . /root/venue
+
 RUN . /root/.bashrc && \
-    git clone https://github.com/rcos/venue.git  && \
+#    git clone https://github.com/rcos/venue.git  && \
     cd venue && \
     npm install -g grunt-cli bower && \
     npm install && \
@@ -32,4 +36,4 @@ RUN . /root/.bashrc && \
 RUN apt-get clean
 
 EXPOSE 9000
-CMD service mongodb start && cd venue && . /root/.bashrc && grunt serve:headless
+CMD service mongodb start && cd venue && . /root/.bashrc && grunt serve:dist

@@ -11,7 +11,7 @@ module.exports = {
   // Server port
   port:   process.env.OPENSHIFT_NODEJS_PORT ||
           process.env.PORT ||
-          8080,
+          9000,
 
   // MongoDB connection options
   mongo: {
@@ -21,7 +21,7 @@ module.exports = {
           process.env.OPENSHIFT_APP_NAME ||
           'mongodb://localhost/venue'
   },
-  
+
   // Images Folder
   imageUploadPath: './data/'
 
