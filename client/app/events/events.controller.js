@@ -31,5 +31,9 @@ angular.module('venueApp')
           $location.path("/instructor/events");
         })
       }
-    }
+    };
+
+    $scope.goToSection = (event) => {
+      $location.path("/instructor/courses/"+event.section.course._id+"/sections/"+event.section._id);
+    };
   });
