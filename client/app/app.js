@@ -16,7 +16,8 @@ angular.module('venueApp', [
   'geolocation',
   'dibari.angular-ellipsis',
   'ui.bootstrap.datetimepicker',
-  'uiGmapgoogle-maps'
+  'uiGmapgoogle-maps',
+  'ngCsv'
 ])
   .config(function($routeProvider, $locationProvider) {
     $routeProvider

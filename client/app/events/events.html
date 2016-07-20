@@ -1,6 +1,6 @@
 <navbar></navbar>
 
-<div class='eventPage'>
+<div class='event-page'>
   <div class='container' ng-show='err'>
     <div class='col-xs-12'>
       <div ng-show='err.status == 404'>
@@ -17,7 +17,6 @@
         <div class='error-deadend-fullmsg'>
           {{err}}
         </div>
-      </div>
       </div>
     </div>
   </div>
@@ -65,10 +64,9 @@
         </div>
         <div ng-show='user.isInstructor'>
           <button class='btn btn-md btn-warning' ng-click='deleteEvent(event)'>Delete Event</button>
+          <button class='btn btn-md btn-primary' ng-click='goToSection(event)'>View {{event.section.course.department}} {{event.section.course.courseNumber}} Sections {{event.section.sectionNumbers.join(",")}}</button>
         </div>
       </div>
-
-
     </div>
   </div>
   <div class='container'>
