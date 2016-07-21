@@ -15,7 +15,11 @@ RUN apt-get install \
     curl\
     vim\
     nodejs\
+    gcc\
+    build-essential\
+    make\
     mongodb\
+    python\
     -y -q --no-install-recommends
 
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh | bash && \
@@ -36,4 +40,4 @@ RUN . /root/.bashrc && \
 RUN apt-get clean
 
 EXPOSE 9000
-CMD service mongodb start && cd venue && . /root/.bashrc && grunt serve:dist
+CMD service mongodb start && cd venue && . /root/.bashrc && tail -f /dev/null
