@@ -15,7 +15,6 @@ module.exports.createAdmin = ()=>{
     return Promise.resolve(null)
   }).catch(() => {
     console.log("Admin does not exist, creating");
-    User.removeAsync({});
     // Admin does not exist, create one
     return User.createAsync({
       provider: 'local',
