@@ -18,6 +18,7 @@ RUN apt-get install \
     gcc\
     build-essential\
     make\
+    nginx\
     mongodb\
     python\
     -y -q --no-install-recommends
@@ -30,8 +31,13 @@ RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh
 
 COPY . /root/venue
 
+# Create mongodb data directory
+RUN mkdir -p /data/db
+
+# Configure nginx
+RUN /root/venue/scripts/docker/configure-path
+
 RUN . /root/.bashrc && \
-#    git clone https://github.com/rcos/venue.git  && \
     cd venue && \
     npm install -g grunt-cli bower && \
     npm install && \
@@ -39,5 +45,5 @@ RUN . /root/.bashrc && \
 
 RUN apt-get clean
 
-EXPOSE 9000
-CMD service mongodb start && cd venue && . /root/.bashrc && tail -f /dev/null
+EXPOSE 9000 80 443
+CMD ["/root/venue/scripts/docker/init-docker"]
