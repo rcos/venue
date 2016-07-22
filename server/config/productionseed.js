@@ -10,8 +10,7 @@ var _ = require('lodash');
 var mongoose = require('mongoose');
 
 module.exports.createAdmin = ()=>{
-  return User.findAsync({"role": "admin"}).then((err, admin) => {
-    console.log(err, admin);
+  return User.findAsync({"role": "admin"}).then((admin) => {
     if (admin.length === 0) throw 'No Admin!';
     return Promise.resolve(null)
   }).catch(() => {
