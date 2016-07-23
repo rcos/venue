@@ -1,0 +1,16 @@
+#!/usr/bin/python
+
+import os
+fdir = os.path.dirname(os.path.realpath(__file__))
+
+import shutil
+
+nginx_raw = open(os.path.join(fdir, '..', 'assets', 'nginx.conf')).read()
+
+if "DOMAIN" in os.environ:
+    nginx_raw = nginx_raw.replace("${DOMAIN}", os.environ["DOMAIN"])
+
+open('/etc/nginx/nginx.conf', 'w').write(nginx_raw)
+
+shutil.rmtree("/etc/nginx/sites-available")
+shutil.rmtree("/etc/nginx/sites-enabled")
