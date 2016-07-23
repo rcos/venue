@@ -19,8 +19,14 @@ module.exports = {
   GOOGLE_SECRET:    'secret',
 
   // Mail Server Settings
+  EMAIL_SERVICE:    'none',
+
   SENDGRID_KEY:     '',
-  SERVER_EMAIL:     'noreply_venue_team@venue_url.com',
+  SERVER_EMAIL:     'venueteam@univserity.edu',
+
+  SMTP_SERVER:      'mail@university.edu',
+  SMTP_LOGIN:       'venueteam@university.edu',
+  SMTP_PASSWORD:    'password',
 
   // Images Folder
   imageUploadPath: './data/',

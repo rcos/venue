@@ -1,5 +1,5 @@
 var sendgrid = require("sendgrid")(config.sendgridKey);
-var config = require('../../config/environment');
+var config = require('../../../config/environment');
 
 module.exports.send = (message, callback) => {
     var email = sendgrid.Email();

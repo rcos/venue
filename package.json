@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "main": "server/app.js",
   "dependencies": {
+    "agenda": "^0.8.1",
     "async": "^1.5.1",
     "babel-runtime": "^5.8.20",
     "bluebird": "^2.9.34",
@@ -29,6 +30,8 @@
     "mongoose-geojson-schema": "^2.1.0",
     "morgan": "~1.6.1",
     "multiparty": "^4.1.2",
+    "ng-csv": "^0.3.6",
+    "nodemailer": "^2.5.0",
     "papercut": "0.0.6",
     "passport": "~0.3.0",
     "passport-facebook": "^2.0.0",
