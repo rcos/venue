@@ -62,6 +62,10 @@ var all = {
     callbackURL:  (process.env.DOMAIN || '') + '/auth/google/callback'
   },
 
+  emailService: process.env.EMAIL_SERVICE,
+  smtpUsername: "",
+  smtpPassword: "",
+  smtpServer: "",
   sendgridKey: process.env.SENDGRID_KEY,
   serverEmail: process.env.SERVER_EMAIL
 };
