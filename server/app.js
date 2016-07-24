@@ -19,7 +19,7 @@ mongoose.connection.on('error', function(err) {
 
 // Populate databases with sample data
 if (config.env === "production") { require("./config/productionseed").seed(); }
-if (config.seedDB) { var seed = require('./config/seed'); seed.seed()}
+if (config.seedDB) { var seed = require('./config/seed'); seed.seed(); }
 
 // Setup server
 var app = express();
@@ -35,11 +35,9 @@ require('./schedule').start(config);
 
 // Start server
 function startServer() {
-    if (!module.parent){
-        server.listen(config.port, config.ip, function() {
-            console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
-        });
-    }
+    server.listen(config.port, config.ip, function() {
+        console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+    });
 }
 
 setImmediate(startServer);
