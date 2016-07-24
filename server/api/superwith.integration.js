@@ -3,13 +3,15 @@
  * an endpoint.
  *
  * Example:
- * superwith([
+ * superwith.test([
  * 	{
  * 		param: "withInstructor=true",
+ * 		should: "get instructor",
  * 		test: (obj) => expect(obj.instructor.is.not.null
  * 	},
  * 	{
  * 		param: "withStudents=true",
+ * 		should: "get students",
  * 		test: (obj) => expect(obj.students.is.a('array')
  * 	},
  * ])(request)
@@ -26,17 +28,20 @@
  * 	More advanced functionality is also possible. In some cases, certain
  * 	parameters should only be tested in the presence of another parameter.
  *
- * superwith([
+ * superwith.test([
  * 	{
  * 		param: "withInstructor=true",
+ * 		should: "get instructor",
  * 		test: (obj) => expect(obj.instructor.is.not.null,
  * 	},
  * 	{
  * 		param: "withStudents=true",
+ * 		should: "get students",
  * 		test: (obj) => expect(obj.students.is.a('array')
  * 		params: [
  * 			{
  * 				param: "withStudentsCourses=true",
+ * 				should: "get student courses",
  * 				test: (obj) => expect(obj.students[0].courses).to.be.a('array')
  * 			}
  * 		]
@@ -53,9 +58,11 @@
  *
  *
  * A parameter list can also specify parameters to never be run with using
- * the "neverWith" : [paramName, paramName...] attribute.
+ * the "neverWith" : [paramName, paramName...] attribute. NOT CURRENTLY
+ * SUPPORTED TODO
  *
- * The "expectFail" attribute can be used when failure is expected.
+ * The "expectFail" attribute can be used when failure is expected. NOT
+ * CURRENTLY SUPPORTED TODO
  *
  *
  */
