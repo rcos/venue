@@ -82,12 +82,9 @@ exports.index = function(req, res) {
       query.populate("author");
     }
     if (withEventInfo){
-      query.populate({
-        path:'info',
-        populate: {
-          path: 'isHappeningNow isPastDate'
-        }
-      });
+      query.populate('info');
+      query.populate('info.isHappeningNow');
+      query.populate('info.isPastDate');
     }
     if (withSection){
       query.populate("section");

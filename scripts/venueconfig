@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker exec -it venue /root/venue/scripts/docker/interactive-configure

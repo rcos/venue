@@ -75,14 +75,14 @@ EventInfoSchema
     .virtual("isHappeningNow")
     .get(function(){
         var now = new Date();
-        return this.times.some((time) => time.start.getTime() < now.getTime() && time.end.getTime() > now.getTime())
+        return this.times.some((time) => time.start.getTime() < now.getTime() && time.end.getTime() > now.getTime());
     });
 
 EventInfoSchema
     .virtual("isPastDate")
     .get(function(){
         var now = new Date();
-        return this.times.length > 0 && this.times[this.times.length-1].end.getTime() < now.getTime()
+        return this.times.length > 0 && this.times[this.times.length-1].end.getTime() < now.getTime();
     });
 
 EventInfoSchema
