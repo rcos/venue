@@ -682,23 +682,30 @@ module.exports.createSubmissions = function(){
 };
 
 module.exports.seed = function(){
-  module.exports.createUsers().then(() => {
-        console.log('finished populating users');
-      });
-  module.exports.createCourses().then(() => {
-        console.log('finished populating courses');
-      });
-
-  module.exports.createSections().then(() => {
-      console.log('finished populating courses');
-    });
-  module.exports.createEvents().then(() => {
-    console.log('finished populating events');
-    });
-  module.exports.createSectionEvents().then(() => {
-    console.log('finished populating events');
-    });
-  module.exports.createSubmissions().then(() => {
-    console.log("finished populating submissions");
-  });
+    return Promise.all([
+        module.exports.createUsers().then(() => {
+            console.log('finished populating users');
+            return Promise.resolve();
+        }),
+        module.exports.createCourses().then(() => {
+            console.log('finished populating courses');
+            return Promise.resolve();
+        }),
+        module.exports.createSections().then(() => {
+            console.log('finished populating courses');
+            return Promise.resolve();
+        }),
+        module.exports.createEvents().then(() => {
+            console.log('finished populating events');
+            return Promise.resolve();
+        }),
+        module.exports.createSectionEvents().then(() => {
+            console.log('finished populating events');
+            return Promise.resolve();
+        }),
+        module.exports.createSubmissions().then(() => {
+            console.log("finished populating submissions");
+            return Promise.resolve();
+        })
+    ]);
 }
