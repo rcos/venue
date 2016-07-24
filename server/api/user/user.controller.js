@@ -5,7 +5,7 @@ import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import Section from "../section/section.model";
-import Sendgrid from '../../components/email';
+import * as email from '../../components/email';
 
 var path = require('path');
 var fs = require('fs');
@@ -31,7 +31,7 @@ function respondWith(res, statusCode) {
   };
 }
 
-function createVerificationToken(req, user, cb){
+function createSignupVerificationToken(req, user, cb){
   user.setVerificationToken();
   var message = {
       email: user.email,
@@ -40,7 +40,7 @@ function createVerificationToken(req, user, cb){
   cb(message);
 }
 
-function createVerificationToken(req, user, cb){
+function createForgotPasswordVerificationToken(req, user, cb){
   user.setVerificationToken();
   var message = {
       email: user.email,
@@ -74,7 +74,7 @@ export function create(req, res, next) {
       var token = jwt.sign({ _id: user._id }, config.secrets.session, {
         expiresIn: 60 * 60 * 5
       });
-      createVerificationToken(req, user, (message) => {Sendgrid.signup(message)} );
+      createSignupVerificationToken(req, user, (message) => email.signup(message));
       res.json({ token });
     })
     .catch(validationError(res));
@@ -117,7 +117,7 @@ export function resendEmail(req, res, nest) {
         if(user.isVerified){
           return handleError(res)({"message": "User has already been verified"});
         }
-        createVerificationToken(req, user)
+        createForgotPasswordVerificationToken(req, user)
         return res.json({success:true});
       })
   }
@@ -142,7 +142,7 @@ export function resetPasswordEmail(req, res, nest) {
         if(!user.isVerified){
           return handleError(res)({"message": "User has not yet been verified"});
         }
-        createVerificationToken(req, user, (message) => {Sendgrid.forgotPassword(message)} );
+        createForgotPasswordVerificationToken(req, user, (message) => email.forgotPassword(message));
         return res.json({success:true});
       })
   }

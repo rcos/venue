@@ -63,11 +63,12 @@ var all = {
   },
 
   emailService: process.env.EMAIL_SERVICE,
-  smtpUsername: "",
-  smtpPassword: "",
-  smtpServer: "",
-  sendgridKey: process.env.SENDGRID_KEY,
-  serverEmail: process.env.SERVER_EMAIL
+  smtpLogin:    process.env.SMTP_LOGIN,
+  smtpPassword: process.env.SMTP_PASSWORD,
+
+  smtpServer:   process.env.SMTP_SERVER,
+  sendgridKey:  process.env.SENDGRID_KEY,
+  serverEmail:  process.env.SERVER_EMAIL
 };
 
 // Export the config object based on the NODE_ENV

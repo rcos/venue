@@ -1,8 +1,8 @@
+var config = require('../../../config/environment');
 var sendgrid = require("sendgrid")(config.sendgridKey);
-var config = require('../../config/environment');
 
 module.exports.send = (message, callback) => {
-    var email = sendgrid.Email();
+    var email = new sendgrid.Email();
     email.addTo(message.email);
     email.subject = message.subject;
     email.from = config.serverEmail;
@@ -13,10 +13,10 @@ module.exports.send = (message, callback) => {
 function sendEmail(email, callback){
     sendgrid.send(email, function(err, json){
         if (err){
-          callback("An error occurred sending the email");
+          if (callback) callback("An error occurred sending the email");
           console.error(err, json);
         }else{
-          callback(null);
+          if (callback) callback(null);
         }
     });
 }
