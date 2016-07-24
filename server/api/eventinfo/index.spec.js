@@ -58,7 +58,7 @@ describe('Eventinfo API Router:', function() {
 
     it('should route to eventinfo.controller.create', function() {
       expect(routerStub.post
-        .withArgs('/', 'eventinfoCtrl.create')
+        .withArgs('/', sinon.match.any, 'eventinfoCtrl.create')
         ).to.have.been.calledOnce;
     });
 
@@ -68,7 +68,7 @@ describe('Eventinfo API Router:', function() {
 
     it('should route to eventinfo.controller.update', function() {
       expect(routerStub.put
-        .withArgs('/:id', 'eventinfoCtrl.update')
+        .withArgs('/:id', sinon.match.any, 'eventinfoCtrl.update')
         ).to.have.been.calledOnce;
     });
 
@@ -78,7 +78,7 @@ describe('Eventinfo API Router:', function() {
 
     it('should route to eventinfo.controller.update', function() {
       expect(routerStub.patch
-        .withArgs('/:id', 'eventinfoCtrl.update')
+        .withArgs('/:id', sinon.match.any, 'eventinfoCtrl.update')
         ).to.have.been.calledOnce;
     });
 
@@ -88,7 +88,7 @@ describe('Eventinfo API Router:', function() {
 
     it('should route to eventinfo.controller.destroy', function() {
       expect(routerStub.delete
-        .withArgs('/:id', 'eventinfoCtrl.destroy')
+        .withArgs('/:id', sinon.match.any, 'eventinfoCtrl.destroy')
         ).to.have.been.calledOnce;
     });
 

@@ -38,7 +38,7 @@ describe('Section API Router:', function() {
 
     it('should route to section.controller.index', function() {
       expect(routerStub.get
-        .withArgs('/', 'sectionCtrl.index')
+        .withArgs('/', sinon.match.any, 'sectionCtrl.index')
         ).to.have.been.calledOnce;
     });
 

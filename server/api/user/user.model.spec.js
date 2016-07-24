@@ -71,16 +71,18 @@ describe('User Model', function() {
     });
 
     it('should be able to get a seed user\'s events', function(done) {
-      User.findOneAsync({"firstName" : "Jane"}).then(function
-        (user){
-          user.getEventsAsync().should.eventually.have.length(3).notify(done);
+      User.findOneAsync({"firstName" : "Jane"}).then((user) => {
+          user.getEventsAsync({})
+            .then((eventObject) => Object.keys(eventObject).map((k) => eventObject[k]))
+            .should.eventually.have.length(2).notify(done);
         });
     });
 
     it('should be able to get a seed instructor\'s events', function(done) {
-      User.findOneAsync({"firstName" : "Bob"}).then(function
-        (user){
-          user.getEventsAsync().should.eventually.have.length(4).notify(done);
+      User.findOneAsync({"firstName" : "Bob"}).then((user) => {
+          user.getEventsAsync({})
+            .then((eventObject) => Object.keys(eventObject).map((k) => eventObject[k]))
+            .should.eventually.have.length(2).notify(done);
         });
     });
   });
