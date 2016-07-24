@@ -2,14 +2,13 @@
 var auth = require("../../auth/local/test.integration");
 var app = require('../..');
 var request = require("supertest");
+var superwith = require("../superwith.integration");
 
 var newCourse;
+var exampleCourseId = '000000000000000000000017';
+var exampleStudentId = '000000000000000000000004';
 
 describe('Course API:', function() {
-
-    before((done) => {
-        auth.init().then(() => done());
-    });
 
     describe('GET /api/courses', function() {
         var courses;
@@ -89,6 +88,31 @@ describe('Course API:', function() {
             expect(course.description).to.equal('This is the brand new course!!!');
         });
 
+    });
+
+    describe("GET /api/course/:id with options", function(){
+        superwith.test(request(app), `/api/courses/${exampleCourseId}`, [
+            {
+                param: 'withSections=true',
+                should: 'get sections',
+                test: (course) => expect(course.sections).to.be.a('array'),
+                params: [
+                    {
+                        param: 'withInstructors=true',
+                        should: 'get instructors',
+                        test: (course) => expect(course.sections[0].instructors).to.be.a('array')
+                    },
+                    {
+                        param: `withSectionEnrollmentStatus=true&studentId=${exampleStudentId}`,
+                        should: 'get student enrollment status',
+                        test: (course) => {
+                            expect(course.sections[0]).to.have.property('isEnrolled')
+                            expect(course.sections[0]).to.have.property('isPending')
+                        }
+                    }
+                ]
+            }
+        ]);
     });
 
     describe('PUT /api/courses/:id', function() {
