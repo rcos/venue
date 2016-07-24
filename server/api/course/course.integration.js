@@ -2,6 +2,13 @@
 
 var app = require('../..');
 var request = require('supertest');
+var superagent = require('superagent');
+var agent = superagent.agent();
+var theAccount = {
+  "email": "test@test.com",
+  "password": "test"
+};
+
 
 var newCourse;
 
@@ -28,6 +35,19 @@ describe('Course API:', function() {
       expect(courses).to.be.instanceOf(Array);
     });
 
+  });
+
+  describe("AUTHENTICATE", () => {
+     it('should log in', () => {
+          request(app)
+                 .post('/auth/local')
+                 .send(theAccount)
+                 .end((err, res) => {
+                     if (err) throw err;
+                     agent.saveCookies(res);
+                     console.log(res);
+                 });
+      });
   });
 
   describe('POST /api/courses', function() {
