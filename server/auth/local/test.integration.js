@@ -1,6 +1,11 @@
+/**
+ * Sets up auth for supertest testing.
+ */
+
 var app = require('../..');
 var request = require('supertest');
 var superagent = require('superagent');
+
 var studentAccount = {
   "email": "foo@foo.com",
   "password": "foo"
@@ -48,7 +53,7 @@ function authRequest(auth){
             get: (...args) => wrapAuth(auth, req.get(...args)),
             post: (...args) => wrapAuth(auth, req.post(...args)),
             patch: (...args) => wrapAuth(auth, req.patch(...args)),
-            del: (...args) => wrapAuth(auth, req.del(...args)),
+            delete: (...args) => wrapAuth(auth, req.delete(...args)),
             put: (...args) => wrapAuth(auth, req.put(...args))
         };
     };
