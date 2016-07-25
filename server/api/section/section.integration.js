@@ -61,6 +61,56 @@ describe('Section API:', function() {
     });
   });
 
+  describe('GET /api/sections?onlyCurrentUser=:id', function() {
+    var sections;
+
+    before(function(done) {
+      auth.student.request(app)
+        .get(`/api/sections?onlyCurrentUser=true`)
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+          sections = res.body;
+          done();
+        });
+    });
+
+    it('should respond with JSON array', function() {
+      expect(sections).to.be.instanceOf(Array);
+      for (var section of sections){
+          expect(section.students).to.include(exampleStudent._id.toString());
+      }
+    });
+  });
+
+  describe('GET /api/sections?onlyUser=me', function() {
+    var sections;
+
+    before(function(done) {
+      auth.student.request(app)
+        .get(`/api/sections?onlyUser=me`)
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+          sections = res.body;
+          done();
+        });
+    });
+
+    it('should respond with JSON array', function() {
+      expect(sections).to.be.instanceOf(Array);
+      for (var section of sections){
+          expect(section.students).to.include(exampleStudent._id.toString());
+      }
+    });
+  });
+
   describe('POST /api/sections', function() {
     beforeEach(function(done) {
       auth.instructor.request(app)
@@ -109,6 +159,48 @@ describe('Section API:', function() {
     it('should respond with the requested section', function() {
       assert.deepEqual(section.sectionNumbers, [1,2,3]);
     });
+  });
+
+  describe('GET /api/sections/:id with options', function() {
+    superwith.test(request(app), `/api/sections/${exampleSection._id}`, [
+        {
+            param: "withSectionCourse=true",
+            should: "return course of section",
+            test: ( section ) => {
+                expect(section.course).to.be.ok;
+                expect(section.course).to.have.property('_id');
+            }
+        },
+        {
+            param: "withSectionInstructors=true",
+            should: "return instructors for section",
+            test: ( section ) => {
+                expect(section.instructors).to.be.a('array');
+            }
+        },
+        {
+            param: "withSectionStudents=true",
+            should: "return students in section",
+            test: ( section ) => {
+                expect(section.students).to.be.a('array');
+            }
+        },
+        {
+            param: "withSectionPendingStudents=true",
+            should: "return pending students",
+            test: ( section ) => {
+                expect(section.pendingStudents).to.be.a('array');
+            }
+        },
+        {
+            param: `withEnrollmentStatus=true&studentId=${exampleStudent._id}`,
+            should: "have enrollment status attached",
+            test: ( section ) => {
+                expect(section).to.have.property('isEnrolled');
+                expect(section).to.have.property('isPending');
+            }
+        }
+    ]);
 
   });
 

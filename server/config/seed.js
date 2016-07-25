@@ -685,6 +685,7 @@ module.exports.exampleInstructor = allUsers().bob;
 module.exports.exampleStudent = allUsers().foo;
 module.exports.exampleSubmission = allSubmissions().submission1;
 module.exports.exampleSectionEvent = allSectionEvents().netArt12Concerts;
+module.exports.exampleSection = allSections().netArt12;
 module.exports.exampleEvent = allEvents().concert;
 module.exports.exampleCourse = allCourses().netArt;
 
