@@ -79,6 +79,29 @@ describe('SectionEvent API:', function() {
       ])
   });
 
+  describe('GET /api/sectionevents just count', () => {
+      var number;
+
+      beforeEach(function(done) {
+        auth.student.request(app)
+          .get('/api/sectionevents?onlyNumber=true')
+          .expect(200)
+          .expect('Content-Type', /json/)
+          .end(function(err, res) {
+            if (err) {
+              return done(err);
+            }
+            number = res.body;
+            done();
+          });
+      });
+
+      it('should respond with JSON array', function() {
+        expect(number).to.have.property('number');
+        expect(number.number).to.be.a('number');
+      });
+  });
+
 
   describe('POST /api/sectionevents', function() {
     beforeEach(function(done) {
