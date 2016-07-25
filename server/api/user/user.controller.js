@@ -289,7 +289,7 @@ export function show(req, res, next) {
   }))
   .spread(ifFlagManipulate(req.query.withSectionEvents, (user,profile,done)=>{
     return user.getSectionEventsAsync(req.query).then((sectionevents)=>{
-      profile.sectionevents = sectionevents;
+      profile.sectionEvents = sectionevents;
       done(user, profile);
     });
   }))

@@ -110,7 +110,7 @@ function superwithTest(req, endpoint, allParams){
         let paramShouldString = params.filter(p=>p.should).map(p=>p.should).join(",");
         let url = endpoint + params.map((p)=>p.param).join("&");
 
-        (skip ? it : it.skip)(`should ${paramShouldString} for ${url}`, (done) => {
+        (skip ? it.skip : it)(`should ${paramShouldString} for ${url}`, (done) => {
             req.get(url)
             .expect(200)
             .end((err, res) => {

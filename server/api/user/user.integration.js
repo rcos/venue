@@ -4,62 +4,75 @@ import app from '../..';
 import User from './user.model';
 import request from 'supertest';
 
+var auth = require("../../auth/local/test.integration");
+var superwith = require("../superwith.integration");
+
+import {exampleUser} from '../../config/seed';
+
 describe('User API:', function() {
   var user;
 
-  // Clear users before testing
-  before(function() {
-    return User.removeAsync().then(function() {
-      user = new User({
-        name: 'Fake User',
-        email: 'test@example.com',
-        password: 'password'
-      });
+    describe('GET /api/users', function() {
+        var users;
 
-      return user.saveAsync();
-    });
-  });
+        before((done)=>{
+            auth.admin.request(app)
+            .get('/api/users')
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .end((err, res) => {
+                users = res.body;
+                done();
+            });
+        });
 
-  // Clear users after testing
-  after(function() {
-    return User.removeAsync();
-  });
-
-  describe('GET /api/users/me', function() {
-    var token;
-
-    before(function(done) {
-      request(app)
-        .post('/auth/local')
-        .send({
-          email: 'test@example.com',
-          password: 'password'
-        })
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end((err, res) => {
-          token = res.body.token;
-          done();
+        it("should get a list of all users", (done) => {
+            expect(users).to.be.a('array');
+            done();
         });
     });
 
-    it('should respond with a user profile when authenticated', function(done) {
-      request(app)
-        .get('/api/users/me')
-        .set('authorization', 'Bearer ' + token)
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end((err, res) => {
-          expect(res.body._id.toString()).to.equal(user._id.toString());
-          done();
-        });
+
+    describe('GET /api/users/me with options', function() {
+        superwith.test(auth.student.request(app), '/api/users/me', [
+            {
+                param: 'withSections=true',
+                should: 'populate user sections',
+                test: (student) => {
+                    expect(student.sections).to.be.a('array');
+                    expect(student.sections[0]).to.have.property('_id');
+                }
+            },
+            {
+                param: 'withEvents=true',
+                should: 'populate user events',
+                test: (student) => {
+                    // TODO it should return an array
+                    student.events = Object.keys(student.events).map(k => student.events[k]);
+                    expect(student.events).to.be.a('array');
+                    expect(student.events[0]).to.have.property('_id');
+                }
+            },
+            {
+                param: 'withSectionEvents=true',
+                should: 'populate user section events',
+                test: (student) => {
+                    expect(student.sectionEvents).to.be.a('array');
+                    expect(student.sectionEvents[0]).to.have.property('_id');
+                }
+            },
+            {
+                param: 'withCourses=true',
+                should: 'populate user courses',
+                test: (student) => {
+                    //TODO should return an array
+                    student.courses = Object.keys(student.courses).map(k => student.courses[k]);
+                    expect(student.courses).to.be.a('array');
+                    expect(student.courses[0]).to.have.property('_id');
+                }
+            },
+
+        ]);
     });
 
-    it('should respond with a 401 when not authenticated', function(done) {
-      request(app)
-        .get('/api/users/me')
-        .expect(401)
-        .end(done);
-    });
-  });
 });

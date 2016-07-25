@@ -12,7 +12,6 @@ var exampleSectionEvent = seed.exampleSectionEvent;
 var exampleStudent = seed.exampleStudent;
 var exampleInstructor = seed.exampleInstructor;
 var exampleSubmission = seed.exampleSubmission;
-console.log(exampleSubmission);
 
 describe('Submission API:', function() {
 
