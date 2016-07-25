@@ -681,6 +681,13 @@ module.exports.createSubmissions = function(){
   });
 };
 
+module.exports.exampleInstructor = allUsers().bob;
+module.exports.exampleStudent = allUsers().foo;
+module.exports.exampleSubmission = allSubmissions().submission1;
+module.exports.exampleSectionEvent = allSectionEvents().netArt12Concerts;
+module.exports.exampleEvent = allEvents().concert;
+module.exports.exampleCourse = allCourses().netArt;
+
 module.exports.seed = function(){
     return Promise.all([
         module.exports.createUsers().then(() => {
