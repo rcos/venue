@@ -110,10 +110,8 @@ function checkSectionReq(req) {
 // Filter by current user ?onlyCurrentUser=true
 
 exports.index = function(req, res, next)  {
-    console.log("\n\nINDEX CALLED\n\n");
     var query = Section.find();
     query = exports.getSectionsExtra(query,req.query);
-    console.log(query);
 
     query
         .execAsync()
@@ -133,15 +131,14 @@ exports.userSections = function(req, res, next) {
     var profile = user.toJSON();
     return Promise.all([user, profile]);
   })
-  .spread((user,profile,done)=>{
-    user.getSectionsAsync(req.query).then((sections) => {
+  .then(([user,profile])=>{
+    return user.getSectionsAsync(req.query).then((sections) => {
       profile.sections = sections;
-      done(user, profile);
+      return Promise.all([user, profile]);
     });
   })
-  .spread((user,profile) => {
+  .then(([user,profile]) => {
     return res.json(profile.sections);
-
   })
   .catch(err => next(err));
 };

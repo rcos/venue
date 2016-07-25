@@ -7,6 +7,7 @@ var superwith = require("../superwith.integration");
 
 var seed = require('../../config/seed');
 var exampleSection = seed.exampleSection;
+var exampleStudent = seed.exampleStudent;
 
 var newSection;
 
@@ -33,6 +34,31 @@ describe('Section API:', function() {
       expect(sections).to.be.instanceOf(Array);
     });
 
+  });
+
+  describe('GET /api/sections?onlyUser=:id', function() {
+    var sections;
+
+    beforeEach(function(done) {
+      auth.instructor.request(app)
+        .get(`/api/sections?onlyUser=${exampleStudent._id}`)
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+          sections = res.body;
+          done();
+        });
+    });
+
+    it('should respond with JSON array', function() {
+      expect(sections).to.be.instanceOf(Array);
+      for (var section of sections){
+          expect(section.students).to.include(exampleStudent._id.toString());
+      }
+    });
   });
 
   describe('POST /api/sections', function() {
