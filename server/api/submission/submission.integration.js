@@ -10,6 +10,9 @@ var superwith = require("../superwith.integration");
 var seed = require('../../config/seed');
 var exampleSectionEvent = seed.exampleSectionEvent;
 var exampleStudent = seed.exampleStudent;
+var exampleInstructor = seed.exampleInstructor;
+var exampleSubmission = seed.exampleSubmission;
+console.log(exampleSubmission);
 
 describe('Submission API:', function() {
 
@@ -87,6 +90,88 @@ describe('Submission API:', function() {
       expect(submission.content).to.equal('This is the brand new submission!!!');
     });
 
+  });
+
+  describe('GET /api/submissions with options', function() {
+
+      var populationOptions = [
+          {
+              param: "withStudents=true",
+              should: "populate submitter and authors",
+              test: (subs) => {
+                  expect(subs[0].submitter).to.have.property("_id");
+                  expect(subs[0].authors[0]).to.have.property("_id");
+              }
+          },
+          {
+              param: "withSectionEvent=true",
+              should: "include associated section event",
+              test: (subs) => {
+                  expect(subs[0].sectionEvent).to.have.property("_id");
+              },
+              params: [
+                  {
+                      param: "withSection=true",
+                      should: "",
+                      test: (subs) => {
+                          expect(subs[0].sectionEvent.section).to.have.property("_id");
+                      },
+                      params: [
+                          {
+                              param: "withSectionCourse=true",
+                              should: "",
+                              test: (subs) => {
+                                  expect(subs[0].sectionEvent.section.course).to.have.property("_id");
+                              }
+                          },
+                          {
+                              param: "withEventInfo=true",
+                              should: "",
+                              test: (subs) => {
+                                  expect(subs[0].sectionEvent.info).to.have.property("_id");
+                              }
+                          }
+                      ]
+                  }
+              ]
+          }
+      ];
+      superwith.test(auth.student.request(app), `/api/submissions`, populationOptions);
+      superwith.test(auth.student.request(app), `/api/submissions`, [
+          {
+              param: `onlyInstructor=${exampleInstructor._id}`,
+              should: 'only return submissions for this instructor',
+              skip: true, // TODO remove
+              test: (subs) => {
+                  var sectionEventId = subs[0].sectionEvent._id ? subs[0].sectionEvent._id : subs[0].sectionEvent;
+                  // TODO make sure the sectionEvent is from a course taught by the instructor
+              },
+              params: populationOptions
+          }
+      ]);
+      superwith.test(auth.student.request(app), `/api/submissions`, [
+          {
+              param: `onlyStudent=${exampleStudent._id}`,
+              should: 'only return submissions for this instructor',
+              skip: true, // TODO remove
+              test: (subs) => {
+                  var sectionEventId = subs[0].sectionEvent._id ? subs[0].sectionEvent._id : subs[0].sectionEvent;
+                  // TODO make sure the sectionEvent is from a course taught by the instructor
+              },
+              params: populationOptions
+          }
+      ]);
+      superwith.test(auth.student.request(app), `/api/submissions`, [
+          {
+              param: `onlySectionEvent=${exampleSectionEvent._id}`,
+              should: 'only return submissions for this section event',
+              test: (subs) => {
+                  var sectionEventId = subs[0].sectionEvent._id ? subs[0].sectionEvent._id : subs[0].sectionEvent;
+                  expect(sectionEventId).to.equal(exampleSectionEvent._id.toString())
+              },
+              params: populationOptions
+          }
+      ]);
   });
 
   describe('PUT /api/submissions/:id', function() {

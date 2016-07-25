@@ -576,6 +576,7 @@ function allSectionEvents(){
 function allSubmissions(){
   return {
     submission1:{
+      _id : mongoose.Types.ObjectId("666666666666666666666661"),
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       images: ["/api/submissions/image?imgPath=./data/eventImages/000000000000000000000004/000000000000000000001000/submission1.jpg"], // path to image on static image server?
       time: Date.now(),

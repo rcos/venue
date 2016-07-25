@@ -56,6 +56,8 @@
  *  GET /path?withInstructor=true&withStudents=true
  *  GET /path?withInstructor=true&withStudents=true&withStudentsCourses=true
  *
+ * The "skip" attribute will allow the test to appear as "pending" when the
+ * test suite is run and the test will not be run.
  *
  * A parameter list can also specify parameters to never be run with using
  * the "neverWith" : [paramName, paramName...] attribute. NOT CURRENTLY
@@ -104,10 +106,11 @@ function superwithTest(req, endpoint, allParams){
 
     for (let params of combinations(allParams)){
 
+        let skip = params.some(p => p.skip);
         let paramShouldString = params.filter(p=>p.should).map(p=>p.should).join(",");
         let url = endpoint + params.map((p)=>p.param).join("&");
 
-        it(`should ${paramShouldString} for ${url}`, (done) => {
+        (skip ? it : it.skip)(`should ${paramShouldString} for ${url}`, (done) => {
             req.get(url)
             .expect(200)
             .end((err, res) => {
