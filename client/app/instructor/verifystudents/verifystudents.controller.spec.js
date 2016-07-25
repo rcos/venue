@@ -5,12 +5,12 @@ describe('Controller: VerifystudentsCtrl', function () {
   // load the controller's module
   beforeEach(module('venueApp'));
 
-  var VerifystudentsCtrl, scope;
+  var VerifyStudentsCtrl, scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    VerifystudentsCtrl = $controller('VerifystudentsCtrl', {
+    VerifyStudentsCtrl = $controller('VerifyStudentsCtrl', {
       $scope: scope
     });
   }));
