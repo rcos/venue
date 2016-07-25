@@ -2,6 +2,11 @@
 
 var app = require('../..');
 var request = require('supertest');
+var auth = require("../../auth/local/test.integration");
+var superwith = require("../superwith.integration");
+
+var seed = require('../../config/seed');
+var exampleSection = seed.exampleSection;
 
 var newSection;
 
@@ -32,7 +37,7 @@ describe('Section API:', function() {
 
   describe('POST /api/sections', function() {
     beforeEach(function(done) {
-      request(app)
+      auth.instructor.request(app)
         .post('/api/sections')
         .send({
           sectionNumbers: [1,2,3]
@@ -85,7 +90,7 @@ describe('Section API:', function() {
     var updatedSection
 
     beforeEach(function(done) {
-      request(app)
+      auth.instructor.request(app)
         .put('/api/sections/' + newSection._id)
         .send({
           sectionNumbers: [1,3,5]
@@ -114,7 +119,7 @@ describe('Section API:', function() {
   describe('DELETE /api/sections/:id', function() {
 
     it('should respond with 204 on successful removal', function(done) {
-      request(app)
+      auth.instructor.request(app)
         .delete('/api/sections/' + newSection._id)
         .expect(204)
         .end(function(err, res) {
@@ -127,7 +132,7 @@ describe('Section API:', function() {
 
     it('should respond with 404 when section does not exist', function(done) {
       request(app)
-        .delete('/api/sections/' + newSection._id)
+        .get('/api/sections/' + newSection._id)
         .expect(404)
         .end(function(err, res) {
           if (err) {
