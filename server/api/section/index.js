@@ -8,21 +8,19 @@ var router = express.Router();
 
 // TODO move this check into the controller
 router.get('/', (req,res,next)=>{
-    if (req.query.onlyUser.toLowerCase() === "me" || req.query.onlyCurrentUser){
-      auth.isAuthenticated()(req, res, ()=>{
-        controller.mySections(req,res,next);
-      })
+    if ((req.query.onlyUser || "").toLowerCase() === "me" || req.query.onlyCurrentUser){
+        auth.isAuthenticated()(req, res, ()=>{
+            controller.mySections(req,res,next);
+        });
+    }else if (req.query.onlyUser){
+        auth.isAuthenticated()(req, res, ()=>{
+            req.params.id = req.query.onlyUser;
+            controller.index(req, res, next);
+        });
+    }else{
+        next();
     }
-    else if (req.query.onlyUser){
-      auth.isAuthenticated()(req, res, ()=>{
-        req.params.id = req.query.onlyUser;
-        controller.index(req, res,next);
-      })
-    }
-    else{
-      next()
-    }
-},controller.index);
+}, controller.index);
 router.get('/:id', controller.show);
 router.post('/', auth.isAuthenticated(), controller.create);
 router.put('/:id', auth.isAuthenticated(), controller.update);

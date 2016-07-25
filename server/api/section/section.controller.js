@@ -110,11 +110,15 @@ function checkSectionReq(req) {
 // Filter by current user ?onlyCurrentUser=true
 
 exports.index = function(req, res, next)  {
+    console.log("\n\nINDEX CALLED\n\n");
     var query = Section.find();
     query = exports.getSectionsExtra(query,req.query);
+    console.log(query);
 
-    query.then(responseWithResult(res))
-    .catch(handleError(res));
+    query
+        .execAsync()
+        .then(responseWithResult(res))
+        .catch(handleError(res));
 };
 
 // Gets a list of Sections for a user
