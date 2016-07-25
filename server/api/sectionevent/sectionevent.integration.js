@@ -35,6 +35,51 @@ describe('SectionEvent API:', function() {
     });
   });
 
+  describe('GET /api/sectionevents with options', () => {
+      superwith.test(auth.student.request(app), '/api/sectionevents?array=true', [
+          {
+              param: "withEventInfo=true",
+              should: "get event info",
+              test: (svnts) => {
+                  expect(svnts[0]).to.have.property('description');
+                  expect(svnts[0]).to.have.property('title');
+              }
+          },
+          {
+              param: "withAuthor=true",
+              should: "get section event author",
+              test: (svnts) => {
+                  expect(svnts[0].sectionEvents[0].author).to.have.property('_id');
+              }
+          },
+          {
+              param: "withSection=true",
+              should: "get section event section",
+              test: (svnts) => {
+                  expect(svnts[0].sectionEvents[0].section).to.have.property('_id');
+              },
+              params: [
+                  {
+                      param: "withCourse=true",
+                      should: "get section event section course",
+                      test: (svnts) => {
+                          expect(svnts[0].sectionEvents[0].section.course).to.have.property('_id');
+                      }
+                  },
+                  {
+                      param: "withSectionStudents=true",
+                      should: "get section event section students",
+                      test: (svnts) => {
+                          expect(svnts[0].sectionEvents[0].section.students).to.be.a('array');
+                      }
+                  }
+              ]
+          }
+
+      ])
+  });
+
+
   describe('POST /api/sectionevents', function() {
     beforeEach(function(done) {
       auth.instructor.request(app)

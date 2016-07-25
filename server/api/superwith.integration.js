@@ -96,34 +96,37 @@ function *combinations(elements){
 
 function superwithTest(req, endpoint, allParams){
     // it('superwith', (done)=>{
+    if (endpoint.indexOf("?") == -1){
+        endpoint += "?";
+    }else{
+        endpoint += "&";
+    }
 
     for (let params of combinations(allParams)){
 
         let paramShouldString = params.filter(p=>p.should).map(p=>p.should).join(",");
-        let url = endpoint + "?" + params.map((p)=>p.param).join("&");
+        let url = endpoint + params.map((p)=>p.param).join("&");
 
         it(`should ${paramShouldString} for ${url}`, (done) => {
             req.get(url)
-               .expect(200)
-               .end((err, res) => {
-                   params.forEach((param) => {
-                       try{
-                           param.test(res.body);
-                       }catch(e){
-                           throw new Error("\n" +
-                               "RESPONSE:\n" +
-                               `${JSON.stringify(res.body)}\n\n` +
-                               `DID NOT ${param.should}\n\n` +
-                               `${e}`
-                           );
-                       }
-                   });
-                   done();
-               });
-        //    });
+            .expect(200)
+            .end((err, res) => {
+                params.forEach((param) => {
+                    try{
+                        param.test(res.body);
+                    }catch(e){
+                        throw new Error("\n" +
+                        "RESPONSE:\n" +
+                        `${JSON.stringify(res.body)}\n\n` +
+                        `DID NOT ${param.should}\n\n` +
+                        `${e}`
+                    );
+                }
             });
-    }
-    // });
+            done();
+        });
+    });
+}
 }
 
 // superwith('/api/course/', [

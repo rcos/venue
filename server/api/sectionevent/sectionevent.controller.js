@@ -85,6 +85,9 @@ exports.index = function(req, res) {
       query.populate('info');
       query.populate('info.isHappeningNow');
       query.populate('info.isPastDate');
+      if (withAuthor){
+        query.populate("info.author");
+      }
     }
     if (withSection){
       query.populate("section");
