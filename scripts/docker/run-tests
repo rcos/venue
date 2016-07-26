@@ -1,3 +1,6 @@
 #!/bin/bash
 
-cd /root/venue && grunt test
+. /root/.bashrc
+. ~/.nvm/nvm.sh
+cd /root/venue
+grunt test
