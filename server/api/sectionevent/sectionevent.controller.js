@@ -85,6 +85,9 @@ exports.index = function(req, res) {
       query.populate('info');
       query.populate('info.isHappeningNow');
       query.populate('info.isPastDate');
+      if (withAuthor){
+        query.populate("info.author");
+      }
     }
     if (withSection){
       query.populate("section");
@@ -128,7 +131,11 @@ exports.index = function(req, res) {
           }
           delete sectionEvent.info;
         })
-        return events;
+        if (withDefault(req.query.array, false)){ // TODO make array default
+            return _.values(events);
+        }else{
+            return events;
+        }
       })
       .then(responseWithResult(res))
       .catch(handleError(res));
@@ -195,20 +202,20 @@ exports.index = function(req, res) {
 exports.show = function(req, res) {
   var query = SectionEvent.findById(req.params.id)
 
-  if (req.query.withEventInfo){
+  if (withDefault(req.query.withEventInfo, false)){
     query = query.populate('info');
   }
-  if (req.query.withSection){
+  if (withDefault(req.query.withSection, false)){
     query = query.populate('section');
   }
-  if (req.query.withAuthor){
+  if (withDefault(req.query.withAuthor, false)){
     query = query.populate('author');
   }
 
   query.lean().execAsync()
     .then(handleEntityNotFound(res))
     .then((entity) =>{
-      if (req.query.withSectionCourse){
+      if (withDefault(req.query.withSectionCourse, false)){
         return Course.populate(entity, {
             path: 'section.course'
         });
@@ -218,7 +225,7 @@ exports.show = function(req, res) {
       }
     })
     .then((entity) =>{
-      if (req.query.withEventInfoAuthor){
+      if (withDefault(req.query.withEventInfoAuthor, false)){
         return User.populate(entity, {
             path: 'info.author'
         });

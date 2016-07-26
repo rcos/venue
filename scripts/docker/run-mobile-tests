@@ -1,0 +1,15 @@
+#!/bin/bash
+
+. /root/.bashrc
+. ~/.nvm/nvm.sh
+rm -rf /root/mobile-api
+cd /root/venue
+grunt serve:headless &
+sleep 10
+git clone https://github.com/seveibar/venue-api-fetch.git /root/mobile-api
+cd /root/mobile-api
+npm install
+npm install -g mocha
+mocha tests
+
+trap 'kill $(jobs -p)' EXIT

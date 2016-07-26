@@ -11,5 +11,9 @@
   "undef": true,
   "smarttabs": true,
   "asi": true,
-  "debug": true
+  "debug": true,
+  "mocha": true,
+  "globals": {
+      "expect": true
+  }
 }

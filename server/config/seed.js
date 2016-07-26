@@ -576,6 +576,7 @@ function allSectionEvents(){
 function allSubmissions(){
   return {
     submission1:{
+      _id : mongoose.Types.ObjectId("666666666666666666666661"),
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       images: ["/api/submissions/image?imgPath=./data/eventImages/000000000000000000000004/000000000000000000001000/submission1.jpg"], // path to image on static image server?
       time: Date.now(),
@@ -681,24 +682,39 @@ module.exports.createSubmissions = function(){
   });
 };
 
-module.exports.seed = function(){
-  module.exports.createUsers().then(() => {
-        console.log('finished populating users');
-      });
-  module.exports.createCourses().then(() => {
-        console.log('finished populating courses');
-      });
+module.exports.exampleInstructor = allUsers().bob;
+module.exports.exampleStudent = allUsers().foo;
+module.exports.exampleSubmission = allSubmissions().submission1;
+module.exports.exampleSectionEvent = allSectionEvents().netArt12Concerts;
+module.exports.exampleSection = allSections().netArt12;
+module.exports.exampleEvent = allEvents().concert;
+module.exports.exampleCourse = allCourses().netArt;
 
-  module.exports.createSections().then(() => {
-      console.log('finished populating courses');
-    });
-  module.exports.createEvents().then(() => {
-    console.log('finished populating events');
-    });
-  module.exports.createSectionEvents().then(() => {
-    console.log('finished populating events');
-    });
-  module.exports.createSubmissions().then(() => {
-    console.log("finished populating submissions");
-  });
+module.exports.seed = function(){
+    return Promise.all([
+        module.exports.createUsers().then(() => {
+            console.log('finished populating users');
+            return Promise.resolve();
+        }),
+        module.exports.createCourses().then(() => {
+            console.log('finished populating courses');
+            return Promise.resolve();
+        }),
+        module.exports.createSections().then(() => {
+            console.log('finished populating courses');
+            return Promise.resolve();
+        }),
+        module.exports.createEvents().then(() => {
+            console.log('finished populating events');
+            return Promise.resolve();
+        }),
+        module.exports.createSectionEvents().then(() => {
+            console.log('finished populating events');
+            return Promise.resolve();
+        }),
+        module.exports.createSubmissions().then(() => {
+            console.log("finished populating submissions");
+            return Promise.resolve();
+        })
+    ]);
 }

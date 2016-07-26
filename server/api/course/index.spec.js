@@ -58,7 +58,7 @@ describe('Course API Router:', function() {
 
     it('should route to course.controller.create', function() {
       expect(routerStub.post
-        .withArgs('/', 'courseCtrl.create')
+        .withArgs('/', sinon.match.any, 'courseCtrl.create')
         ).to.have.been.calledOnce;
     });
 
@@ -68,7 +68,7 @@ describe('Course API Router:', function() {
 
     it('should route to course.controller.update', function() {
       expect(routerStub.put
-        .withArgs('/:id', 'courseCtrl.update')
+        .withArgs('/:id', sinon.match.any, 'courseCtrl.update')
         ).to.have.been.calledOnce;
     });
 
@@ -78,7 +78,7 @@ describe('Course API Router:', function() {
 
     it('should route to course.controller.update', function() {
       expect(routerStub.patch
-        .withArgs('/:id', 'courseCtrl.update')
+        .withArgs('/:id', sinon.match.any, 'courseCtrl.update')
         ).to.have.been.calledOnce;
     });
 
@@ -88,7 +88,7 @@ describe('Course API Router:', function() {
 
     it('should route to course.controller.destroy', function() {
       expect(routerStub.delete
-        .withArgs('/:id', 'courseCtrl.destroy')
+        .withArgs('/:id', sinon.match.any, 'courseCtrl.destroy')
         ).to.have.been.calledOnce;
     });
 
