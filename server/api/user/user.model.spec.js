@@ -46,7 +46,7 @@ describe('User Model', function() {
   describe('#getSections', function() {
     var seed = require('../../config/seed');
     beforeEach(function(done) {
-      return Promise.all([seed.createUsers(), seed.createCourses(), seed.createSections(), seed.createEvents(), seed.createSectionEvents()]).then(()=>{done()});
+      seed.seed().then(() => done())
     });
 
     it('should be able to get a seed user\'s sections', function(done) {
