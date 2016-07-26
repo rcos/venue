@@ -112,7 +112,6 @@ exports.index = function(req, res) {
 
   function respond(query){
     if (withStudents){
-      console.log("ATTEMPTING TO POPULAR STUDENT");
       query.populate("authors");
       query.populate("submitter");
     }
