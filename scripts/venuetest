@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker exec -it venue /bin/bash /root/venue/scripts/docker/run-tests
