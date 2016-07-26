@@ -12,6 +12,9 @@ module.exports = {
   // Images Folder
   imageUploadPath: './data/',
 
+  // Just log outgoing emails
+  emailService: process.env.EMAIL_SERVICE || "MOCK",
+
   // Seed database on startup
   seedDB: true
 

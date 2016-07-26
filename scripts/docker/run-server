@@ -1,0 +1,6 @@
+#!/bin/bash
+
+service nginx stop
+nginx
+cd /root/venue
+grunt serve:dist

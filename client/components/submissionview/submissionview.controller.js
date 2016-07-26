@@ -2,19 +2,21 @@
 
 angular.module('venueApp')
   .filter('visibleSubmission', function(){
-    return (subs, selectedSections, submissionFilter) => {
+    return (subs, selectedSections, submissionFilter, searchName) => {
       if (!subs) return [];
       return subs.filter((sub) => {
         if (!sub) return false;
         if (selectedSections.filter((sec) => sec._id == sub.sectionEvent.section._id).length == 0) return false;
         if (sub.didNotSubmit && submissionFilter == "submitted") return false;
         if (!sub.valid && submissionFilter == "validated") return false;
+        var submitterName = (sub.submitter.firstName + " " + sub.submitter.lastName).toLowerCase();
+        if (searchName && searchName != "" && submitterName.indexOf(searchName) == -1) return false;
 
         return true;
       });
     };
   })
-  .controller('SubmissionViewCtrl', function($scope, Auth, Submission, Section, SectionEvent){
+  .controller('SubmissionViewCtrl', function($scope, $filter, Auth, Submission, Section, SectionEvent){
 
     $scope.viewMode = 'small';
     $scope.submissionFilter = 'submitted';
@@ -22,6 +24,8 @@ angular.module('venueApp')
     $scope.selectedSections = [];
 
     SectionEvent.get({id: $scope.eventId, withEventInfo:true}, (sectionEvent) => {
+
+      $scope.mainSectionEvent = sectionEvent;
 
       function loadAllSubmissions(){
         Promise.all($scope.allSectionEvents.map(
@@ -41,6 +45,8 @@ angular.module('venueApp')
             return student;
           });
 
+          $scope.submissions.forEach(s => s.submitter.name = `${s.submitter.firstName} ${s.submitter.lastName}`);
+
           // Create empty submissions for students that did not submit for each section event
           $scope.allSectionEvents.forEach((se) => {
             var studentsInSection = se.section.students;
@@ -48,6 +54,7 @@ angular.module('venueApp')
               (student) => student.submissions.filter((sub) => sub.sectionEvent._id == se._id).length == 0
             );
             studentsThatDidNotSubmit.forEach((student) => {
+              student.name = student.firstName + ' ' + student.lastName;
               $scope.submissions.push({
                 submitter: student,
                 didNotSubmit: true,
@@ -97,6 +104,18 @@ angular.module('venueApp')
 
       $scope.setSubmissionFilter = (filter) => {
         $scope.submissionFilter = filter;
+      };
+
+      $scope.getDataAsCSV = () => {
+        var csv = [];
+        csv.push(['Student Name', 'Submitted', 'Validated', 'Course', 'Submission Content', 'Image']);
+        csv = csv.concat(
+          $filter('visibleSubmission')($scope.submissions,$scope.selectedSections ,$scope.submissionFilter , $scope.searchName).map((sub) =>
+            [sub.submitter.name, !sub.didNotSubmit ? 'yes' : 'no', sub.valid ? 'yes': 'no',
+            sub.sectionEvent.section.course.department + sub.sectionEvent.section.course.courseNumber,
+            sub.content, sub.images.join(' ')])
+          );
+        return csv;
       };
 
     });

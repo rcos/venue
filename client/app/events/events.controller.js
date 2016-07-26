@@ -82,4 +82,9 @@ angular.module('venueApp')
           });
         }
       };
+
+    $scope.goToSection = (event) => {
+      $location.path("/instructor/courses/"+event.section.course._id+"/sections/"+event.section._id);
+    };
+
   });

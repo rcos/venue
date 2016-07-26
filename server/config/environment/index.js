@@ -62,8 +62,13 @@ var all = {
     callbackURL:  (process.env.DOMAIN || '') + '/auth/google/callback'
   },
 
-  sendgridKey: process.env.SENDGRID_KEY,
-  serverEmail: process.env.SERVER_EMAIL
+  emailService: process.env.EMAIL_SERVICE,
+  smtpLogin:    process.env.SMTP_LOGIN,
+  smtpPassword: process.env.SMTP_PASSWORD,
+
+  smtpServer:   process.env.SMTP_SERVER,
+  sendgridKey:  process.env.SENDGRID_KEY,
+  serverEmail:  process.env.SERVER_EMAIL
 };
 
 // Export the config object based on the NODE_ENV

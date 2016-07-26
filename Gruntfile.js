@@ -676,7 +676,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('serve', function (target) {
-    if (target === 'dist') {
+    if (target === 'dist' || process.env.VENUE_MODE === 'production') {
       return grunt.task.run(['build', 'env:all', 'env:prod', 'express:prod', 'wait', 'express-keepalive']);
     }
 
@@ -705,7 +705,7 @@ module.exports = function (grunt) {
       'wait'
     ]);
 
-    if (target !== "headless" && target !== "dist") grunt.task.run(["open"]);
+    if (target !== "headless") grunt.task.run(["open"]);
 
     grunt.task.run(["watch"]);
 

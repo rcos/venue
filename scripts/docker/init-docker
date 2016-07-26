@@ -1,0 +1,9 @@
+#!/bin/bash
+
+service mongodb start
+/root/venue/scripts/docker/generate-cert
+/root/venue/scripts/docker/configure-nginx
+/usr/sbin/nginx
+cd /root/venue
+# grunt serve:dist
+tail -f /dev/null
