@@ -21,7 +21,7 @@
       </div>
     </div>
   </div>
-  <div class='container' ng-show='!err && !editting'>
+  <div class='container' ng-hide='err'>
     <div class='row'>
       <div class='col-xs-12'>
         <div class='title'>
@@ -53,7 +53,6 @@
         <div class="submissionInstructions">
           {{(event.info.author._id === event.author._id)?"Author":"Authors"}}: {{event.author.firstName}} {{event.author.lastName}}<span ng-hide="event.info.author._id === event.author._id"> and {{event.info.author.firstName}} {{event.info.author.lastName}}</span>
         </div>
-
         <br>
       </div>
       <div class='col-xs-5'>
@@ -61,12 +60,12 @@
       </div>
       <div class='col-xs-12'>
         <div class='upload-button-container' ng-show='!user.isInstructor'>
-          <button class='upload-button btn btn-md' ng-click='goToEventUpload(event._id)'>Upload to Event</button>
+          <button class='upload-button btn btn-md' ng-click='goToEventUpload()'>Upload to Event</button>
         </div>
         <div ng-show='user.isInstructor'>
           <div ng-hide='confirm'>
             <button class='btn btn-md btn-warning' ng-click='deleteEvent(event)'>Remove Assignment</button>
-            <button class='btn btn-md' ng-click='editting=true'>Edit Event</button>
+            <button class='btn btn-md' ng-click='goToEventEdit()'>Edit Event</button>
             <button class='btn btn-md' ng-click='editAssignemnt()'>Edit Assignment</button>
           </div>
           <div ng-show='confirm' class="help-block">
@@ -74,8 +73,8 @@
               This will also delete all sections submissions, are you sure you'd like to remove this event?
             </div>
             <br>
-            <button class='btn btn-md btn-danger' ng-click='confirmDeleteEvent(event)'>Remove Event Assignment</button>
-            <button class='btn btn-md btn-default' ng-click='cancelDeleteEvent(event)'>cancel</button>
+            <button class='btn btn-md btn-danger' ng-click='confirmDeleteEventAssignment(event)'>Remove Event Assignment</button>
+            <button class='btn btn-md btn-default' ng-click='cancelDeleteEventAssignment(event)'>cancel</button>
           </div>
         </div>
       </div>
@@ -87,10 +86,6 @@
     <div ng-show='user.isInstructor'>
       <submissionview event-id="eventId"></submissionview>
     </div>
-  </div>
-
-  <div class='container' ng-if='editting'>
-    <eventform updating="true" on-event-info-submit="eventChanged()"></eventform>
   </div>
 
   <div class='container' ng-show='assignmentEdit'>

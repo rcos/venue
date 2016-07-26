@@ -30,22 +30,26 @@ angular.module('venueApp')
 
     $scope.updateEvent();
 
-    $scope.goToEventUpload = function(id){
-      $location.path("/student/upload/" + id);
+    $scope.goToEventUpload = function(){
+      $location.path("/student/upload/" + $scope.eventId);
+    };
+
+    $scope.goToEventEdit = function(){
+      $location.path("/events/edit/" + $scope.eventId);
     };
 
     $scope.deleteEvent = function(event){
       $scope.confirm = true;
     };
 
-    $scope.confirmDeleteEvent = function(event){
+    $scope.confirmDeleteEventAssignment = function(event){
       $scope.confirm = false;
       SectionEvent.delete({id:event._id}, (response)=>{
         $location.path("/instructor/events");
       })
     };
 
-    $scope.cancelDeleteEvent = function(event){
+    $scope.cancelDeleteEventAssignment = function(event){
       $scope.confirm = false;
     };
 
@@ -62,20 +66,20 @@ angular.module('venueApp')
             submissionInstructions: $scope.assignment.submissionInstructions
           };
           SectionEvent.update(sectionEvent).$promise
-            .then((course) => {
-              $scope.assignmentEdit = false;
-              $scope.updateEvent();
-            })
-            .catch(err => {
-              err = err.data;
-              $scope.errors = {};
+          .then((course) => {
+            $scope.assignmentEdit = false;
+            $scope.updateEvent();
+          })
+          .catch(err => {
+            err = err.data;
+            $scope.errors = {};
 
-              // Update validity of form fields that match the mongoose errors
-              angular.forEach(err.errors, (error, field) => {
-                form[field].$setValidity('mongoose', false);
-                $scope.errors[field] = error.message;
-              });
+            // Update validity of form fields that match the mongoose errors
+            angular.forEach(err.errors, (error, field) => {
+              form[field].$setValidity('mongoose', false);
+              $scope.errors[field] = error.message;
             });
-          }
-        };
-    });
+          });
+        }
+      };
+  });
