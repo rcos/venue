@@ -1,4 +1,5 @@
 #!/bin/bash
-#
+
+set -e
 docker exec -it venue /root/venue/scripts/docker/run-tests
 docker exec -it venue /root/venue/scripts/docker/run-mobile-tests
