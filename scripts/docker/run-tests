@@ -2,7 +2,5 @@
 
 . /root/.bashrc
 . ~/.nvm/nvm.sh
-service nginx stop
-nginx
 cd /root/venue
-grunt serve:dist
+grunt test

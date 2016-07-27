@@ -38,7 +38,7 @@ describe('Section API Router:', function() {
 
     it('should route to section.controller.index', function() {
       expect(routerStub.get
-        .withArgs('/', 'sectionCtrl.index')
+        .withArgs('/', sinon.match.any, 'sectionCtrl.index')
         ).to.have.been.calledOnce;
     });
 
@@ -58,7 +58,7 @@ describe('Section API Router:', function() {
 
     it('should route to section.controller.create', function() {
       expect(routerStub.post
-        .withArgs('/', 'sectionCtrl.create')
+        .withArgs('/',  sinon.match.any, 'sectionCtrl.create')
         ).to.have.been.calledOnce;
     });
 
@@ -68,7 +68,7 @@ describe('Section API Router:', function() {
 
     it('should route to section.controller.update', function() {
       expect(routerStub.put
-        .withArgs('/:id', 'sectionCtrl.update')
+        .withArgs('/:id', sinon.match.any, 'sectionCtrl.update')
         ).to.have.been.calledOnce;
     });
 
@@ -78,7 +78,7 @@ describe('Section API Router:', function() {
 
     it('should route to section.controller.update', function() {
       expect(routerStub.patch
-        .withArgs('/:id', 'sectionCtrl.update')
+        .withArgs('/:id', sinon.match.any, 'sectionCtrl.update')
         ).to.have.been.calledOnce;
     });
 
@@ -88,7 +88,7 @@ describe('Section API Router:', function() {
 
     it('should route to section.controller.destroy', function() {
       expect(routerStub.delete
-        .withArgs('/:id', 'sectionCtrl.destroy')
+        .withArgs('/:id', sinon.match.any, 'sectionCtrl.destroy')
         ).to.have.been.calledOnce;
     });
 

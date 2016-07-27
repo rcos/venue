@@ -113,8 +113,10 @@ exports.index = function(req, res, next)  {
     var query = Section.find();
     query = exports.getSectionsExtra(query,req.query);
 
-    query.then(responseWithResult(res))
-    .catch(handleError(res));
+    query
+        .execAsync()
+        .then(responseWithResult(res))
+        .catch(handleError(res));
 };
 
 // Gets a list of Sections for a user
@@ -129,15 +131,14 @@ exports.userSections = function(req, res, next) {
     var profile = user.toJSON();
     return Promise.all([user, profile]);
   })
-  .spread((user,profile,done)=>{
-    user.getSectionsAsync(req.query).then((sections) => {
+  .then(([user,profile])=>{
+    return user.getSectionsAsync(req.query).then((sections) => {
       profile.sections = sections;
-      done(user, profile);
+      return Promise.all([user, profile]);
     });
   })
-  .spread((user,profile) => {
+  .then(([user,profile]) => {
     return res.json(profile.sections);
-
   })
   .catch(err => next(err));
 };
