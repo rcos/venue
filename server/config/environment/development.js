@@ -9,6 +9,8 @@ module.exports = {
     uri: 'mongodb://localhost/venue-dev'
   },
 
+  serverURL: 'http://127.0.0.1:9000',
+
   // Images Folder
   imageUploadPath: './data/',
 
