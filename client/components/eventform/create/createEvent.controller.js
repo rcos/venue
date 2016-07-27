@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('EventFormCtrl', function($scope, Auth, EventInfo, User, SectionEvent, Upload, uiGmapGoogleMapApi){
+  .controller('CreateEventFormCtrl', function($scope, Auth, EventInfo, User, SectionEvent, Upload, uiGmapGoogleMapApi){
     var eventInfoId = null;
     $scope.today = new Date();
     $scope.today.setHours(0,0,0,0);
@@ -17,9 +17,14 @@ angular.module('venueApp')
     $scope.place = {};
     var selectedShape = null;
 
+    if ($scope.updating){
+      $scope.eventInfo.id = $scope.event._id;
+    }
+
+
     $scope.init = () => {
+      $scope.event = $scope.eventContainer.info;
       if (!$scope.updating){
-        $scope.event = {};
         $scope.event.startDate = new Date();
         $scope.event.endDate = new Date();
         $scope.event.endDate.setHours($scope.event.endDate.getHours()+1);
@@ -27,12 +32,11 @@ angular.module('venueApp')
         $scope.event.endDateOpen = false;
         $scope.event.location = {};
       }else{
-        $scope.event = $scope.$parent.event.info;
         $scope.event.startDate = new Date($scope.event.times[0].start);
         $scope.event.endDate = new Date($scope.event.times[0].end);
       }
 
-      $scope.event.searchbox= {
+      $scope.event.searchbox = {
         template: 'searchbox.tpl.html',
         position:'TOP_CENTER',
         options: {
@@ -204,60 +208,6 @@ angular.module('venueApp')
 
     });
 
-
-    EventInfo.getAll({}, (eventinfos) => {
-      $scope.eventinfos = eventinfos;
-    });
-
-    User.get({withSections:true, withSectionCourse:true}, (user) => {
-      var coursesObj = {};
-      user.sections.forEach((section) => {
-        var course = coursesObj[section.course._id] || section.course;
-        course.sections = course.sections || [];
-        course.sections.push(section);
-        coursesObj[section.course._id] = course;
-      });
-      $scope.courses = _.values(coursesObj);
-    });
-
-    $scope.useEvent = (event)=>{
-      eventInfoId = event._id;
-      $scope.selectingEvent = false;
-      $scope.eventInfo = event;
-    };
-
-    $scope.createEvent = () =>{
-      $scope.selectingEvent = false;
-      $scope.creatingEvent = true;
-    };
-
-    $scope.createEventInfo = (form)=>{
-      $scope.submitted = true;
-      // For each place, get the icon, place name, and location.
-      var bounds = new google.maps.LatLngBounds();
-      //Loop through each polygon that was drawn
-      for (var a = 0; a < $scope.allShapes.length ; a++){
-        var shape = $scope.allShapes[a].overlay; // get the shape
-
-        //Loop through each point in the shape
-        for (var b = 0; b < shape.getPath().getLength() ; b++){
-          //Add the point to the bounds - so that you can see the entire location
-          bounds.extend(shape.getPath().getAt(b));
-        }
-      }
-
-      // Set the bounds to view and save to the one we just defined
-      $scope.event.map.bounds = {
-        northeast: {
-          latitude: bounds.getNorthEast().lat(),
-          longitude: bounds.getNorthEast().lng()
-        },
-        southwest: {
-          latitude: bounds.getSouthWest().lat(),
-          longitude: bounds.getSouthWest().lng()
-        }
-      };
-
       //Save all the shapes in the proper form for geojson
       var allShapes = [];
       //Loop through each polygon that was drawn
@@ -321,10 +271,6 @@ angular.module('venueApp')
           imageURL: $scope.event.imageURL,
         };
 
-        if ($scope.updating){
-          $scope.eventInfo.id = $scope.event._id;
-        }
-
         //Upload the event
         Upload.upload({
             url: '/api/eventinfos/',
@@ -342,7 +288,6 @@ angular.module('venueApp')
         }).catch(err => {
             err = err.data;
           });
-      }
     };
 
     $scope.openCalendar = function(e, prop) {
@@ -351,69 +296,4 @@ angular.module('venueApp')
 
       $scope.event[prop] = true;
   };
-
-    $scope.isActiveCourse = function(course){
-      return course.sections.every((section) => section.active);
-    };
-
-    $scope.selectCourse = function(course){
-      if ($scope.isActiveCourse(course)){
-        course.sections.forEach((section) => {
-          section.active = false;
-        });
-      }else{
-        course.sections.forEach((section) => {
-          section.active = true;
-        });
-      }
-    };
-
-    $scope.onSectionClick = function(section){
-      section.active = !section.active;
-    };
-
-    function getSectionIds(){
-      window.courses = $scope.courses;
-      var sections = $scope.courses
-        .reduce((prev,course) => prev.concat(course.sections), [])
-        .filter((section)=>section.active)
-        .map((section) => section._id);
-      return sections;
-    }
-
-    $scope.submitEventAssignment = function(form){
-        $scope.submitted = true;
-        if(getSectionIds().length == 0){
-          $scope.eventAssignmentSectionsError = true;
-          return;
-        }
-        if (form.$valid){
-          getSectionIds().forEach((sectionId)=>{
-            var sectionEvent = {
-              section: sectionId,
-              info: $scope.eventInfo._id,
-              author: Auth.getCurrentUser()._id,
-              submissionInstructions: $scope.event.submissionInstructions
-            };
-            SectionEvent.create(sectionEvent).$promise
-              .then((course) => {
-                $scope.success = true;
-                $scope.event.assignmentId = course._id;
-
-              })
-              .catch(err => {
-                $scope.submitted = false;
-
-                err = err.data;
-                $scope.errors = {};
-
-                // Update validity of form fields that match the mongoose errors
-                angular.forEach(err.errors, (error, field) => {
-                  form[field].$setValidity('mongoose', false);
-                  $scope.errors[field] = error.message;
-                });
-              })
-          });
-        }
-      };
-  });
+});
