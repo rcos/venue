@@ -40,7 +40,7 @@
           <p class="help-block" ng-show="form.email.$error.email && vm.submitted">
              Please enter a valid email.
           </p>
-          <div>
+          <div ng-show='vm.CAS_ENABLED'>
               <a href='/auth/cas' target="_self"> Login with CAS </a>
           </div>
 
