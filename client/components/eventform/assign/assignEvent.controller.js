@@ -68,11 +68,11 @@ angular.module('venueApp')
               .then((course) => {
                 createdSuccess += 1;
                 $scope.event.assignmentId = course._id;
-                if (createdSuccess != sections.length){
+                if (createdSuccess === sections.length){
                   $scope.success = true;
                   $scope.onSubmit();
                 }
-)
+
               })
               .catch(err => {
                 err = err.data;
