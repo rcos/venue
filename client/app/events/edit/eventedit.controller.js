@@ -1,13 +1,15 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('EventsCtrl', function ($scope, $location, $routeParams, SectionEvent, Auth) {
-    $scope.assignment = {};
+  .controller('EditEventsCtrl', function ($scope, $location, $routeParams, SectionEvent, Auth) {
     Auth.getCurrentUser((user) => $scope.user = user);
+
+    $scope.event = {info:{}};
+    $scope.assignment = {};
     $scope.eventId = $routeParams.id;
 
     $scope.updateEvent = function(){
-      $scope.event = SectionEvent.get({
+      SectionEvent.get({
         id: $routeParams.id,
         withEventInfo: true,
         withEventInfoAuthor: true,
@@ -15,17 +17,17 @@ angular.module('venueApp')
         withAuthor: true,
         withSection: true
       },
-        sectionEvent => {
-          $scope.event = sectionEvent;
-        },
-        err => {
-          $scope.err = err;
-        });
+      sectionEvent => {
+        $scope.event = {info:sectionEvent.info};
+      },
+      err => {
+        $scope.err = err;
+      });
     };
 
-    $scope.editDone = function(){
+    $scope.doneEdit = function(){
       $location.path("/events/" + $scope.eventId);
-    };
-
+    }
     $scope.updateEvent();
+
   });

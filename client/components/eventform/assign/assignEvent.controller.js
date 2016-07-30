@@ -57,7 +57,6 @@ angular.module('venueApp')
           var sections = getSectionIds();
           var createdSuccess = 0;
           sections.forEach((sectionId)=>{
-            console.log(sectionId);
             var sectionEvent = {
               section: sectionId,
               info: $scope.eventInfo._id,
@@ -70,9 +69,10 @@ angular.module('venueApp')
                 $scope.event.assignmentId = course._id;
                 if (createdSuccess === sections.length){
                   $scope.success = true;
-                  $scope.onSubmit();
+                  if ($scope.onSubmit){
+                    $scope.onSubmit();
+                  }
                 }
-
               })
               .catch(err => {
                 err = err.data;

@@ -5,7 +5,7 @@ angular.module('venueApp')
     $routeProvider
       .when('/events/edit/:id', {
         templateUrl: 'app/events/edit/eventedit.html',
-        controller: 'EventsCtrl'
+        controller: 'EditEventsCtrl'
       })
       .when('/events/:id', {
         templateUrl: 'app/events/events.html',

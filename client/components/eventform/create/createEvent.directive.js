@@ -8,11 +8,11 @@ angular.module('venueApp')
       restrict: 'E',
       scope: {
         "onSubmit": "&",
-        "updating": "=",
         "eventContainer": "=event"
       }, // isolated scope
       link: function (scope, element) {
-        scope.init();
+        scope.loadData = function(){
+        }
       }
     };
   });

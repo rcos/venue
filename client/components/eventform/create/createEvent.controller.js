@@ -3,7 +3,7 @@
 
 angular.module('venueApp')
   .controller('CreateEventFormCtrl', function($scope, Auth, EventInfo, User, SectionEvent, Upload, uiGmapGoogleMapApi){
-    var eventInfoId = null;
+
     $scope.today = new Date();
     $scope.today.setHours(0,0,0,0);
 
@@ -17,27 +17,16 @@ angular.module('venueApp')
     $scope.place = {};
     var selectedShape = null;
 
-    if ($scope.updating){
-      $scope.eventInfo.id = $scope.event._id;
-    }
-
-
     $scope.init = () => {
       $scope.event = $scope.eventContainer.info;
-      if (!$scope.updating){
-        $scope.event.startDate = new Date();
-        $scope.event.endDate = new Date();
-        $scope.event.endDate.setHours($scope.event.endDate.getHours()+1);
-        $scope.event.startDateOpen = false;
-        $scope.event.endDateOpen = false;
-        $scope.event.location = {};
-      }
-      else{
-        $scope.event.startDate = new Date($scope.event.times[0].start);
-        $scope.event.endDate = new Date($scope.event.times[0].end);
-      }
+      $scope.event.startDate = new Date();
+      $scope.event.endDate = new Date();
+      $scope.event.endDate.setHours($scope.event.endDate.getHours()+1);
+      $scope.event.startDateOpen = false;
+      $scope.event.endDateOpen = false;
+      $scope.event.location = {};
 
-      $scope.event.searchbox = {
+      $scope.searchbox = {
         template: 'searchbox.tpl.html',
         position:'TOP_CENTER',
         options: {
@@ -48,23 +37,23 @@ angular.module('venueApp')
         events: {
           places_changed: function (searchBox) {
             if (searchBox){
-              $scope.event.searchbox.places = searchBox.getPlaces();
+              $scope.searchbox.places = searchBox.getPlaces();
             }
-            if ($scope.event.searchbox.places.length === 0) {
+            if ($scope.searchbox.places.length === 0) {
               return;
             }
             // For each place, get the icon, place name, and location.
             var bounds = new google.maps.LatLngBounds();
 
-            $scope.event.location.address = $scope.event.searchbox.places[0].formatted_address;
-            $scope.event.location.description = $scope.event.searchbox.places[0].name;
+            $scope.event.location.address = $scope.searchbox.places[0].formatted_address;
+            $scope.event.location.description = $scope.searchbox.places[0].name;
 
-            for (var i = 0; i < $scope.event.searchbox.places.length; i++) {
-              var place = $scope.event.searchbox.places[i];
+            for (var i = 0; i < $scope.searchbox.places.length; i++) {
+              var place = $scope.searchbox.places[i];
                 bounds.extend(place.geometry.location);
 
             }
-            $scope.event.map.bounds = {
+            $scope.map.bounds = {
               northeast: {
                 latitude: bounds.getNorthEast().lat(),
                 longitude: bounds.getNorthEast().lng()
@@ -78,11 +67,11 @@ angular.module('venueApp')
         }
       };
 
-      $scope.event.map = {
+      $scope.map = {
         control: {},
         center: {
-          latitude: $scope.updating ? $scope.event.location.geo.coordinates[1]: 42.7285023,
-          longitude:$scope.updating ? $scope.event.location.geo.coordinates[0] : -73.6839912
+          latitude:  42.7285023,
+          longitude: -73.6839912
         },
         zoom: 12,
         dragging: false,
@@ -94,8 +83,80 @@ angular.module('venueApp')
       };
     };
 
+    // Wait for the api to load
+    uiGmapGoogleMapApi.then(function(maps) {
+      $scope.mapLoaded = true;
+      maps.visualRefresh = true;
+      // Set default bounds to be RPI
+      $scope.defaultBounds = new google.maps.LatLngBounds(
+        new google.maps.LatLng(42.7766, -73.5380),
+        new google.maps.LatLng(42.6757, -73.8292));
+
+        // Set functionality based on api events
+        $scope.map.events = {
+          // When a shape is drawn
+          overlaycomplete: function (dm, name, scope, objs) {
+            var e = objs[0];
+            $scope.allShapes.push(e); // Save the shape
+            var newShape = e.overlay;
+            newShape.type = e.type;
+
+            // When the shape is clicked, set it as editable
+            google.maps.event.addListener(newShape, 'click', function() {
+              setSelection(newShape);
+            });
+
+            // Immediatly set the drawn shape as editable
+            setSelection(newShape);
+          }
+        };
+
+        // Add functionality to the delete button to delete the current selection
+        $scope.deleteButton = function(){
+          deleteSelectedShape();
+        };
+
+        // Add functionality to the delete all button to delete all shapes
+        $scope.deleteAllButton = function(){
+          deleteAllShape();
+        };
+
+        $scope.map.bounds = {
+          northeast: {
+            latitude:$scope.defaultBounds.getNorthEast().lat(),
+            longitude:$scope.defaultBounds.getNorthEast().lng()
+          },
+          southwest: {
+            latitude:$scope.defaultBounds.getSouthWest().lat(),
+            longitude:-$scope.defaultBounds.getSouthWest().lng()
+          }
+        };
+
+        $scope.searchbox.options.bounds = new google.maps.LatLngBounds($scope.defaultBounds.getNorthEast(), $scope.defaultBounds.getSouthWest());
+
+        $scope.selected = {
+          options: {
+            visible:false
+          },
+          templateurl:'window.tpl.html',
+          templateparameter: {}
+        };
+
+        $scope.map.drawingManager = {};
+        $scope.map.drawingManager.options = {
+          drawingMode: google.maps.drawing.OverlayType.POLYGON,
+          drawingControl: true,
+          drawingControlOptions: {
+            position: google.maps.ControlPosition.TOP_RIGHT,
+            drawingModes: [
+              google.maps.drawing.OverlayType.POLYGON,
+            ]
+          }
+        };
+    });
+
     $scope.toggleMap = function () {
-      $scope.event.searchbox.options.visible = !$scope.event.searchbox.options.visible
+      $scope.searchbox.options.visible = !$scope.searchbox.options.visible
     };
 
     // Deselect the current selection
@@ -134,79 +195,6 @@ angular.module('venueApp')
       $scope.allShapes = [];
       selectedShape = null;
     }
-
-    // Wait for the api to load
-    uiGmapGoogleMapApi.then(function(maps) {
-      $scope.mapLoaded = true;
-      maps.visualRefresh = true;
-      // Set default bounds to be RPI
-      $scope.defaultBounds = new google.maps.LatLngBounds(
-        new google.maps.LatLng(42.7766, -73.5380),
-        new google.maps.LatLng(42.6757, -73.8292));
-
-        // Set functionality based on api events
-        $scope.event.map.events = {
-          // When a shape is drawn
-          overlaycomplete: function (dm, name, scope, objs) {
-            var e = objs[0];
-            $scope.allShapes.push(e); // Save the shape
-            var newShape = e.overlay;
-            newShape.type = e.type;
-
-            // When the shape is clicked, set it as editable
-            google.maps.event.addListener(newShape, 'click', function() {
-              setSelection(newShape);
-            });
-
-            // Immediatly set the drawn shape as editable
-            setSelection(newShape);
-          }
-        };
-
-        // Add functionality to the delete button to delete the current selection
-        $scope.deleteButton = function(){
-          deleteSelectedShape();
-        };
-
-        // Add functionality to the delete all button to delete all shapes
-        $scope.deleteAllButton = function(){
-          deleteAllShape();
-        };
-
-        $scope.event.map.bounds = {
-          northeast: {
-            latitude:$scope.defaultBounds.getNorthEast().lat(),
-            longitude:$scope.defaultBounds.getNorthEast().lng()
-          },
-          southwest: {
-            latitude:$scope.defaultBounds.getSouthWest().lat(),
-            longitude:-$scope.defaultBounds.getSouthWest().lng()
-          }
-        };
-
-        $scope.event.searchbox.options.bounds = new google.maps.LatLngBounds($scope.defaultBounds.getNorthEast(), $scope.defaultBounds.getSouthWest());
-
-        $scope.event.selected = {
-          options: {
-            visible:false
-          },
-          templateurl:'window.tpl.html',
-          templateparameter: {}
-        };
-
-        $scope.event.map.drawingManager = {};
-        $scope.event.map.drawingManager.options = {
-          drawingMode: google.maps.drawing.OverlayType.POLYGON,
-          drawingControl: true,
-          drawingControlOptions: {
-            position: google.maps.ControlPosition.TOP_RIGHT,
-            drawingModes: [
-              google.maps.drawing.OverlayType.POLYGON,
-            ]
-          }
-        };
-
-    });
 
     var savePolygonsToGeoJSON = function(){
         //Save all the shapes in the proper form for geojson
@@ -267,7 +255,7 @@ angular.module('venueApp')
       var bounds = getBounds();
 
       // Set the bounds to view and save to the one we just defined
-      $scope.event.map.bounds = {
+      $scope.map.bounds = {
         northeast: {
           latitude: bounds.getNorthEast().lat(),
           longitude: bounds.getNorthEast().lng()
@@ -283,7 +271,7 @@ angular.module('venueApp')
 
       // Save the event information and send it to the api endpoint
       // Don't do it if the form is invalid or there are no shapes drawn
-      if (form.$valid && ($scope.updating || $scope.file) && allShapes.length){
+      if (form.$valid && $scope.file && allShapes.length){
         $scope.eventInfo = {
           title: $scope.event.title,
           description: $scope.event.description,
@@ -298,11 +286,11 @@ angular.module('venueApp')
             geo: {
               type: 'Point',
               coordinates: [
-                $scope.event.map.center.longitude,
-                $scope.event.map.center.latitude
+                $scope.map.center.longitude,
+                $scope.map.center.latitude
               ]
             },
-            radius: Math.abs($scope.event.map.bounds.northeast.longitude-$scope.event.map.bounds.southwest.longitude),
+            radius: Math.abs($scope.map.bounds.northeast.longitude-$scope.map.bounds.southwest.longitude),
             geobounds: {
               type: 'MultiPolygon',
               coordinates: allShapes,
@@ -310,7 +298,6 @@ angular.module('venueApp')
           },
           imageURL: $scope.event.imageURL,
         };
-
         //Upload the event
         Upload.upload({
           url: '/api/eventinfos/',
@@ -321,7 +308,9 @@ angular.module('venueApp')
         }).success( (response) => {
           $scope.eventContainer.info = response;
           $scope.submitted = false;
-          $scope.onSubmit();
+          if ($scope.onSubmit){
+            $scope.onSubmit();
+          }
         }).catch(err => {
           err = err.data;
         });
@@ -334,4 +323,5 @@ angular.module('venueApp')
 
       $scope.event[prop] = true;
     };
+    $scope.init();
 });
