@@ -1,5 +1,7 @@
 angular.module('config', [])
 
-.constant('ENV', 'development')
+.constant('ENV', 'test')
+
+.constant('CAS_ENABLED', true)
 
 ;

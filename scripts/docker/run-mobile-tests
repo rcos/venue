@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 . /root/.bashrc
 . ~/.nvm/nvm.sh
 rm -rf /root/mobile-api

@@ -24,12 +24,15 @@ var all = {
   // Server IP
   ip: process.env.IP || '0.0.0.0',
 
+  // Server base e.g. http://venue.university.edu:9000
+  serverURL: process.env.SERVER_URL,
+
   // Should we populate the DB with sample data?
   seedDB: false,
 
-  // Secret for session, you will want to change this and make it an environment variable
+  // Secret for session
   secrets: {
-    session: 'venue-secret'
+    session: process.env.VENUE_SECRET || 'venue-secret'
   },
 
   // MongoDB connection options
@@ -61,6 +64,13 @@ var all = {
     clientSecret: process.env.GOOGLE_SECRET || 'secret',
     callbackURL:  (process.env.DOMAIN || '') + '/auth/google/callback'
   },
+
+  cas: {
+      serverURL: process.env.CAS_SERVER_URL,
+      version:   process.env.CAS_VERSION
+  },
+
+  schoolEmailSuffix:  process.env.SCHOOL_EMAIL_SUFFIX,
 
   emailService: process.env.EMAIL_SERVICE,
   smtpLogin:    process.env.SMTP_LOGIN,
