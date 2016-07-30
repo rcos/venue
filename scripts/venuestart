@@ -1,3 +1,22 @@
 #!/bin/bash
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-docker run -e "DOMAIN=localhost" --name venue -dit rcos/venue
+
+# Simple docker run
+# docker run -p 443:443 -p 9000:9000 -p 80:80 --name venue -dit rcos/venue
+
+# See venuestart-dev for some example environment variables
+
+# This will pull from the server's environment variables
+docker run \
+-e DOMAIN \
+-e DOMAIN_NAME \
+-e VENUE_SECRET \
+-e CAS_SERVER_URL \
+-e CAS_VERSION \
+-e SCHOOL_EMAIL_SUFFIX \
+-e EMAIL_SERVICE \
+-e SMTP_LOGIN \
+-e EMAIL_SERVICE \
+-e SERVER_EMAIL \
+-e SMTP_PASSWORD \
+-p 443:443 -p 9000:9000 -p 80:80 \
+--name venue -dit rcos/venue

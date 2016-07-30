@@ -7,8 +7,8 @@ import shutil
 
 nginx_raw = open(os.path.join(fdir, '..', 'assets', 'nginx.conf')).read()
 
-if "DOMAIN" in os.environ:
-    nginx_raw = nginx_raw.replace("${DOMAIN}", os.environ["DOMAIN"])
+if "DOMAIN_NAME" in os.environ:
+    nginx_raw = nginx_raw.replace("${DOMAIN_NAME}", os.environ["DOMAIN_NAME"])
 
 open('/etc/nginx/nginx.conf', 'w').write(nginx_raw)
 
