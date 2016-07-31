@@ -20,7 +20,16 @@ var SectionEventSchema = new Schema({
 SectionEventSchema.methods = {
 
   getRelatedUsers(){
-    return this.section.populate().execAsync().then(section => section.students);
+    return this.execPopulate({
+        path:"section",
+        populate: {
+            path:"students",
+            model:"User"
+        }
+    }).then(section => {
+        console.log("asd", section);
+        return section.students
+    });
   },
 
   updateUserNotifications(){

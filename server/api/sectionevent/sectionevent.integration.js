@@ -5,12 +5,42 @@ var request = require('supertest');
 var auth = require("../../auth/local/test.integration");
 var superwith = require("../superwith.integration");
 
+var SectionEvent = require('./sectionevent.model');
+
 var seed = require('../../config/seed');
 var exampleSectionEvent = seed.exampleSectionEvent;
 var exampleStudent = seed.exampleStudent;
 
 var newSectionEvent;
 
+describe("SectionEvent Notification Handling", function(){
+    var sectionEvent;
+
+    before(done => {
+        SectionEvent.findByIdAsync(exampleSectionEvent._id).then(se => {
+            sectionEvent = se;
+            done();
+        });
+    });
+
+    var relatedUsers;
+    describe("Static Methods", () => {
+        before(done => {
+            sectionEvent.getRelatedUsers().then(users => {
+                relatedUsers = users;
+                done();
+            });
+        });
+
+        it("getRelatedUsers() should return users", done => {
+            console.log(users);
+            expect(users).to.be.a('array');
+        });
+    });
+
+});
+
+/*
 describe('SectionEvent API:', function() {
 
   describe('GET /api/sectionevents', function() {
@@ -259,3 +289,4 @@ describe('SectionEvent API:', function() {
   });
 
 });
+*/
