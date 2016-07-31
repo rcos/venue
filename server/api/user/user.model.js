@@ -367,7 +367,10 @@ UserSchema.methods = {
     this.save();
   },
 
-  updateNotifications() {
+  updateNotifications(events) {
+      if (!events.isArray()){
+          events = [events];
+      }
      console.log("Calling update notifications");
   }
 };
