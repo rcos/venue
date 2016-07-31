@@ -8,11 +8,12 @@ class LoginController {
   devMode = false;
   //end-non-standard
 
-  constructor(Auth, $location, ENV) {
+  constructor(Auth, $location, ENV, CAS_ENABLED) {
     this.Auth = Auth;
     this.getCurrentUser = Auth.getCurrentUser;
     this.$location = $location;
     this.devMode = ENV == "development";
+    this.CAS_ENABLED = CAS_ENABLED;
   }
 
   login(form) {

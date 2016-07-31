@@ -1,0 +1,17 @@
+#!/bin/bash
+
+docker run \
+-e "DOMAIN=https://127.0.0.1" \
+-e "DOMAIN_NAME=127.0.0.1" \
+-e "VENUE_SECRET=randomstring" \
+-e "CAS_SERVER_URL=http://cas-auth.university.edu/cas" \
+-e "CAS_VERSION=CAS3.0" \
+-e "SCHOOL_EMAIL_SUFFIX=@university.edu" \
+-e "EMAIL_SERVICE=mail.university.edu" \
+-e "SMTP_LOGIN=schoolid" \
+-e "SENDGRID_KEY=''" \
+-e "EMAIL_SERVICE=MOCK" \ # MOCK, SMTP or SENDGRID
+-e "SERVER_EMAIL=schoolid@university.edu" \
+-e "SMTP_PASSWORD=smtpPassword" \
+-p 443:443 -p 9000:9000 -p 80:80 \
+--name venue -dit rcos/venue
