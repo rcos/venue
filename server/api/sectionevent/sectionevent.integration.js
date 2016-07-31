@@ -32,9 +32,8 @@ describe("SectionEvent Notification Handling", function(){
             });
         });
 
-        it("getRelatedUsers() should return users", done => {
-            console.log(users);
-            expect(users).to.be.a('array');
+        it("getRelatedUsers() should return users", () => {
+            expect(relatedUsers).to.be.a('array');
         });
     });
 

@@ -20,26 +20,23 @@ var SectionEventSchema = new Schema({
 SectionEventSchema.methods = {
 
   getRelatedUsers(){
-    return this.execPopulate({
+    return this.populate({
         path:"section",
         populate: {
             path:"students",
             model:"User"
         }
-    }).then(section => {
-        console.log("asd", section);
-        return section.students
-    });
+    }).execPopulate().then(se => se.section.students);
   },
 
   updateUserNotifications(){
-      this.getFullEvent().then(fullEvent => {
-          this.getRelatedUsers().then(users => {
-              users.forEach(user => {
-                  user.updateNotifications([fullEvent]);
-              })
-          });
-      });
+    //   this.getFullEvent().then(fullEvent => {
+    //       this.getRelatedUsers().then(users => {
+    //           users.forEach(user => {
+    //               user.updateNotifications([fullEvent]);
+    //           })
+    //       });
+    //   });
   },
 
   getFullEvent(){

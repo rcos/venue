@@ -118,7 +118,12 @@ EventInfoSchema.methods = {
      getRelatedUsers(){
          return SectionEvent.findAsync({info:this._id})
          .then(sectionEvents =>{
-             return sectionEvents.map(se => se.getRelatedUsers())
+             return Promise.all(sectionEvents.map(se => se.getRelatedUsers()))
+                           .then(userLists=>
+                               userLists.reduce((a,b) => {
+                                   return a.concat(b);
+                               }, [])
+                           );
          });
      },
 
