@@ -33,10 +33,14 @@ SectionSchema
  */
 SectionSchema.methods = {
 
+  getRelatedUsers(){
+    return this.students;
+  },
+
   updateStudentNotification(){
     // Remove all notification for students in this section
     scheduler.cancel({'sectionId':this._id})
-    console.log("canceled notificaionts form section");
+    console.log("canceled notificaionts form section")
     // Create a new set of notificaitons for students
     // TODO: create notificaitons
   },

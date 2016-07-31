@@ -19,6 +19,13 @@ var SectionEventSchema = new Schema({
  */
 SectionEventSchema.methods = {
 
+  getRelatedUsers(){
+    Section.findAsync({info:this._id})
+      .then(sections =>{
+        return sections.map(section => section.getRelatedUsers())
+      })
+  },
+
   fullRemove(){
     return Submission.find({sectionEvent:this._id}).remove().execAsync()
       .then(()=>{

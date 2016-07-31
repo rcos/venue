@@ -21,6 +21,13 @@ var CourseSchema = new Schema({
  */
 CourseSchema.methods = {
 
+  getRelatedUsers(){
+    Section.findAsync({course:this._id})
+      .then(sections =>{
+        return sections.map(section => section.getRelatedUsers())
+      })
+  },
+
   /**
    * Returns sections for a course
    * @param opts: [optional] Additional flags e.g. {withInstructors:true}

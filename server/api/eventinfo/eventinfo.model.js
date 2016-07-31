@@ -112,6 +112,13 @@ EventInfoSchema
  */
 EventInfoSchema.methods = {
 
+  getRelatedUsers(){
+    SectionEvent.findAsync({info:this._id})
+      .then(sectionEvents =>{
+        return sectionEvents.map(se => se.getRelatedUsers())
+      })
+  },
+
     /**
      * Returns section events for an event
      * @param opts: [optional] Additional flags
