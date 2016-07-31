@@ -15,6 +15,7 @@ export default function(app) {
   app.use('/api/sectionevents', require('./api/sectionevent'));
   app.use('/api/submissions', require('./api/submission'));
   app.use('/api/users', require('./api/user'));
+  app.use('/api/misc', require('./api/misc'));
   app.use('/auth', require('./auth'));
 
   // All undefined asset or api routes should return a 404
