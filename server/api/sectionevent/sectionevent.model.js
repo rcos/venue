@@ -20,10 +20,33 @@ var SectionEventSchema = new Schema({
 SectionEventSchema.methods = {
 
   getRelatedUsers(){
-    Section.findAsync({info:this._id})
-      .then(sections =>{
-        return sections.map(section => section.getRelatedUsers())
-      })
+    return this.section.populate().execAsync().then(section => section.students);
+  },
+
+  updateUserNotifications(){
+      this.getFullEvent().then(fullEvent => {
+          this.getRelatedUsers().then(users => {
+              users.forEach(user => {
+                  user.updateNotifications([fullEvent]);
+              })
+          });
+      });
+  },
+
+  getFullEvent(){
+      return new Promise((resolve, reject) => {
+          this.populate("info")
+          .populate({
+              path: 'section',
+              populate: {
+                  path: 'course',
+                  model: 'Course'
+              }
+          }, (err, evnt) => {
+              if (err) return reject(err);
+              resolve(evnt);
+          });
+      });
   },
 
   fullRemove(){
@@ -31,16 +54,7 @@ SectionEventSchema.methods = {
       .then(()=>{
           return this.removeAsync();
       });
-  },
-  updateEmails(){
-    return;
-    // Section.findById(this.section)
-    //   .execAsync()
-    //   .then(section=>{
-    //     section.updateEmails();
-    //   })
   }
-
 };
 
 module.exports = mongoose.model('SectionEvent', SectionEventSchema);

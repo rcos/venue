@@ -22,7 +22,7 @@ var CourseSchema = new Schema({
 CourseSchema.methods = {
 
   getRelatedUsers(){
-    Section.findAsync({course:this._id})
+    return Section.findAsync({course:this._id})
       .then(sections =>{
         return sections.map(section => section.getRelatedUsers())
       })

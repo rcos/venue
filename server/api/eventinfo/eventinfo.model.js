@@ -99,11 +99,11 @@ EventInfoSchema
 EventInfoSchema
   .pre('save', function(next) {
     // Handle new/update times
-    if (this.isModified('times')) {
-      console.log("time modified");
-      // Check that new time is valid
-      scheduler.update({"eventInfo._id": this._id}, this.toObject(), new Date());
-    }
+    SectionEvent.findAsync({info: this._id}).then(sectionEvents => {
+        sectionEvents.forEach(se => {
+            se.updateUserNotifications();
+        });
+    });
     return next();
   });
 
@@ -112,12 +112,15 @@ EventInfoSchema
  */
 EventInfoSchema.methods = {
 
-  getRelatedUsers(){
-    SectionEvent.findAsync({info:this._id})
-      .then(sectionEvents =>{
-        return sectionEvents.map(se => se.getRelatedUsers())
-      })
-  },
+    /**
+     * Returns all related users.
+     */
+     getRelatedUsers(){
+         return SectionEvent.findAsync({info:this._id})
+         .then(sectionEvents =>{
+             return sectionEvents.map(se => se.getRelatedUsers())
+         });
+     },
 
     /**
      * Returns section events for an event

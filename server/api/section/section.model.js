@@ -21,10 +21,14 @@ var SectionSchema = new Schema({
 SectionSchema
   .pre('save', function(next) {
     // Handle new/update times
-    if (this.isModified('students')) {
-      // update SectionEvents with event info
-      this.updateStudentNotification();
-    }
+    Promise.all([
+        this.getRelatedUsers(true),
+        this.getEventsAsync()
+    ]).then((users, events) => {
+        users.forEach(user => {
+            user.updateNotifications(events);
+        });
+    });
     return next();
   });
 
@@ -33,24 +37,14 @@ SectionSchema
  */
 SectionSchema.methods = {
 
-  getRelatedUsers(){
-    return this.students;
+  getRelatedUsers(populate = false){
+      if (populate){
+          return this.execPopulate('students').then(fullSection => fullSection.students);
+      }else{
+          return Promise.resolve(this.students);
+      }
   },
 
-  updateStudentNotification(){
-    // Remove all notification for students in this section
-    scheduler.cancel({'sectionId':this._id})
-    console.log("canceled notificaionts form section")
-    // Create a new set of notificaitons for students
-    // TODO: create notificaitons
-  },
-
-  // Removes all scheduled notificaitons for selected student in current Section
-  removeStudentNotification(studentId){
-    scheduler.cancel({"user._id":studentId, 'sectionId': this._id});
-  },
-
-  //withEventSectionNumbers
     getEventsAsync(opts){
       var events = [];
       var query = Event.find({section : this._id})

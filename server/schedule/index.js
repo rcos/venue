@@ -18,18 +18,18 @@
 var Agenda = require("agenda");
 var agenda = exports.agenda = null;
 
-// var showMessageJob = require('./jobs/showMessage');
-var sectionEventJob = require('./jobs/sectionEvent');
+var showMessageJob = require('./jobs/showMessage');
+// var sectionEventJob = require('./jobs/sectionEvent');
 
 function setupJobs(){
-  // showMessageJob.setup(agenda);
-  sectionEventJob.setup(agenda);
+  showMessageJob.setup(agenda);
+  // sectionEventJob.setup(agenda);
 }
 
 function configurePeriodicJobs(){
 
   // EXAMPLE JOB SCHEDULING
-  // agenda.every('5 seconds', 'show message');
+  agenda.every('5 seconds', 'show message');
 }
 
 /**
@@ -77,30 +77,3 @@ exports.schedule = (when, task, params, cb) => agenda.schedule(when, task, param
  * @param  {Function} cb  called with parameters (err, numRemoved)
  */
 exports.cancel = (query, cb) => agenda.cancel(query, cb);
-
-/**
- * Updates a scheduled job's data field or time
- * @param  {Object} query i.e. "eventInfoId: 'a1200412933532'"
- * @param  {string} data Information regarding the scheduled event
- * @param  {any}   params parameters to job
- */
-exports.update = (query, data, params) => {
-  data = data || {};
-  params = params || {};
-  console.log("scheduler updating!")
-
-  agenda.jobs(query, function(err, jobs) {
-    if(params.hasOwnProperty("updateTime")) {
-      jobs.forEach(job =>{
-        // Update time based off user
-        console.log("update job here!")
-      })
-    }
-    Object.keys(data).forEach(function(key,index) {
-      jobs.forEach(job =>{
-        job[key] = data[key]
-      })
-    });
-    jobs.save();
-  });
-}

@@ -365,6 +365,10 @@ UserSchema.methods = {
   setVerificationToken() {
     this.verificationToken = uuid.v4();
     this.save();
+  },
+
+  updateNotifications() {
+     console.log("Calling update notifications");
   }
 };
 
