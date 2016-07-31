@@ -25,7 +25,7 @@ var all = {
   ip: process.env.IP || '0.0.0.0',
 
   // Server base e.g. http://venue.university.edu:9000
-  serverURL: process.env.SERVER_URL,
+  serverURL: process.env.DOMAIN,
 
   // Should we populate the DB with sample data?
   seedDB: false,

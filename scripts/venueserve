@@ -1,3 +1,8 @@
 #!/bin/bash
 
-docker exec -it venue /root/venue/scripts/docker/run-server
+if [ "$1" == "--background" ]
+then
+    docker exec -dit venue /root/venue/scripts/docker/run-server
+else
+    docker exec -it venue /root/venue/scripts/docker/run-server
+fi
