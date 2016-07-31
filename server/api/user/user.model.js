@@ -8,6 +8,7 @@ import uuid from 'node-uuid';
 import Section from '../section/section.model';
 import Course from '../course/course.model';
 import SectionCtrl from '../section/section.controller';
+var scheduler = require('../../schedule');
 
 import SectionEvent from '../sectionevent/sectionevent.model';
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
@@ -44,6 +45,13 @@ var UserSchema = new Schema({
   github: {},
   verificationToken: {
     type: String
+  },
+  preferences: {
+    recieveEmails: {
+      type: Boolean,
+      default: true
+    },
+    emailNotifyAheadMinutes: [{type:Number}]
   }
 });
 
@@ -167,6 +175,16 @@ UserSchema
  * Methods
  */
 UserSchema.methods = {
+
+  emailUpdate(message){
+    message.eventInfo.time.forEach(time=>{
+      this.preferences.emailNotifyAheadMinutes.forEach(minutesAhead => {
+        var notifyTime = new Date(time.start.getTime() - minutesAhead*60000);
+        scheduler.schedule(notifyTime, "sectionEvent reminder", {user:this.toObject(), sectionId: message.section._id, eventInfo: message.eventInfo.toObject()});
+      })
+    })
+  },
+
   /**
    * Authenticate - check if the passwords are the same
    *

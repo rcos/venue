@@ -69,6 +69,7 @@ export function create(req, res, next) {
   newUser.provider = 'local';
   newUser.role = 'user';
   newUser.isVerified = false;
+  newUser.preferences = {emailNotifyAheadMinutes : [30]};
   newUser.saveAsync()
     .spread(function(user) {
       var token = jwt.sign({ _id: user._id }, config.secrets.session, {

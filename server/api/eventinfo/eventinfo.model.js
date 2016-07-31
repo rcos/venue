@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 import SectionEvent from '../sectionevent/sectionevent.model';
 import Course from '../course/course.model';
 var GeoJSON = require('mongoose-geojson-schema');
+var scheduler = require('../../schedule');
 
 var EventInfoSchema = new Schema({
   title: String,
@@ -91,6 +92,20 @@ EventInfoSchema
         // TODO iterate through submissions and generate list of attendees
         return [];
     });
+
+/**
+ * Pre-save hook
+ */
+EventInfoSchema
+  .pre('save', function(next) {
+    // Handle new/update times
+    if (this.isModified('times')) {
+      console.log("time modified");
+      // Check that new time is valid
+      scheduler.update({"eventInfo._id": this._id}, this.toObject(), new Date());
+    }
+    return next();
+  });
 
 /**
  * Methods

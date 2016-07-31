@@ -3,6 +3,7 @@
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
 import Submission from '../submission/submission.model';
+import Section from '../section/section.model';
 
 var SectionEventSchema = new Schema({
   section: {type: Schema.Types.ObjectId, ref: 'Section'},
@@ -11,6 +12,7 @@ var SectionEventSchema = new Schema({
   submissionInstructions: String,
   creationDate: Date
 });
+
 
 /**
  * Methods
@@ -22,7 +24,16 @@ SectionEventSchema.methods = {
       .then(()=>{
           return this.removeAsync();
       });
+  },
+  updateEmails(){
+    return;
+    // Section.findById(this.section)
+    //   .execAsync()
+    //   .then(section=>{
+    //     section.updateEmails();
+    //   })
   }
+
 };
 
 module.exports = mongoose.model('SectionEvent', SectionEventSchema);

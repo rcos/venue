@@ -24,6 +24,7 @@ function allUsers(){return {
     isVerified: true,
     isInstructor: false,
     _id: mongoose.Types.ObjectId('000000000000000000000000'),
+    preferences: {emailNotifyAheadMinutes: [30]},
   },
   admin: {
     provider: 'local',
@@ -35,7 +36,7 @@ function allUsers(){return {
     isVerified: true,
     isInstructor: true,
     _id: mongoose.Types.ObjectId('000000000000000000000001'),
-
+    preferences: {emailNotifyAheadMinutes: [30]},
   },
   bob: {
     provider: 'local',
@@ -46,6 +47,7 @@ function allUsers(){return {
     isVerified: true,
     isInstructor: true,
     _id: mongoose.Types.ObjectId('000000000000000000000002'),
+    preferences: {emailNotifyAheadMinutes: [30]},
   },
   travis: {
     provider: 'local',
@@ -56,6 +58,7 @@ function allUsers(){return {
     isVerified: true,
     isInstructor: true,
     _id: mongoose.Types.ObjectId('000000000000000000000003'),
+    preferences: {emailNotifyAheadMinutes: [30]},
   },
   foo: {
     provider: 'local',
@@ -66,6 +69,7 @@ function allUsers(){return {
     isVerified: true,
     isInstructor: false,
     _id: mongoose.Types.ObjectId('000000000000000000000004'),
+    preferences: {emailNotifyAheadMinutes: [30]},
   },
   kelly: {
     provider: 'local',
@@ -76,6 +80,7 @@ function allUsers(){return {
     isVerified: true,
     isInstructor: false,
     _id: mongoose.Types.ObjectId('000000000000000000000005'),
+    preferences: {emailNotifyAheadMinutes: [30]},
   },
   jane: {
     provider: 'local',
@@ -86,6 +91,7 @@ function allUsers(){return {
     isVerified: true,
     isInstructor: false,
     _id: mongoose.Types.ObjectId('000000000000000000000006'),
+    preferences: {emailNotifyAheadMinutes: [30]},
   },
   curt:{
     _id : mongoose.Types.ObjectId("111111111111111111111111"),
@@ -97,6 +103,7 @@ function allUsers(){return {
     isVerified: true,
     isInstructor : false,
     role : "user",
+    preferences: {emailNotifyAheadMinutes: [30]},
   },
   venue:{
     _id : mongoose.Types.ObjectId("111111111111111111111112"),
@@ -107,7 +114,8 @@ function allUsers(){return {
     isInstructor : true,
     role : "admin",
     firstName : "Venue",
-    lastName : "Team"
+    lastName : "Team",
+    preferences: {emailNotifyAheadMinutes: [30]},
   }
 
 
