@@ -4,12 +4,44 @@ var app = require('../..');
 var request = require('supertest');
 var auth = require("../../auth/local/test.integration");
 var superwith = require("../superwith.integration");
+var Section = require("./section.model");
 
 var seed = require('../../config/seed');
 var exampleSection = seed.exampleSection;
 var exampleStudent = seed.exampleStudent;
 
 var newSection;
+
+describe("Notification Tests", () => {
+
+    var section;
+
+    before(done => {
+        Section.findByIdAsync(exampleSection._id).then(sec => {
+            section = sec;
+            done();
+        });
+    });
+
+    describe("Static Method Tests", ()=>{
+        var relatedUsers;
+
+        before(done => {
+            section.getRelatedUsers().then(users => {
+                relatedUsers = users;
+                done();
+            });
+        });
+
+        it("expect getRelatedUsers to return users", () => {
+            expect(relatedUsers).to.be.a('array');
+            expect(relatedUsers[0]).to.have.property('firstName');
+            expect(relatedUsers[0]).to.have.property('lastName');
+            expect(relatedUsers[0]).to.have.property('isInstructor');
+        });
+
+    });
+});
 
 describe('Section API:', function() {
 

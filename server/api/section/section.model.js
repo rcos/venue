@@ -37,12 +37,8 @@ SectionSchema
  */
 SectionSchema.methods = {
 
-  getRelatedUsers(populate = false){
-      if (populate){
-          return this.execPopulate('students').then(fullSection => fullSection.students);
-      }else{
-          return Promise.resolve(this.students);
-      }
+  getRelatedUsers(){
+      return this.populate('students').execPopulate().then(fullSection => fullSection.students);
   },
 
     getEventsAsync(opts){
