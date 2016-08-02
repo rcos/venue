@@ -662,6 +662,7 @@ module.exports = function (grunt) {
       build: {}
     },
 
+    // Bad HTML breaks productions!
     htmllint: {
         options: {
             force: false,
@@ -681,6 +682,7 @@ module.exports = function (grunt) {
             "id-class-style": false,
             "id-no-dup": false,
             "img-req-src": false,
+            'img-req-alt': false,
             "indent-style": false,
             "indent-width": false,
             "label-req-for": false,
@@ -689,10 +691,20 @@ module.exports = function (grunt) {
             "spec-char-escape": false,
             "tag-bans": false,
             "tag-name-lowercase": false,
+            "tag-name-match": false,
 
             "tag-close":true,
-            "tag-name-match": true
 
+        },
+        src: [
+            '<%= yeoman.client %>/{app,components}/**/*.html'
+        ]
+    },
+
+    // Bad HTML breaks production!
+    htmlhint: {
+        options: {
+            'tag-pair': true
         },
         src: [
             '<%= yeoman.client %>/{app,components}/**/*.html'
@@ -775,6 +787,7 @@ module.exports = function (grunt) {
         'concurrent:pre',
         'concurrent:test',
         'htmllint',
+        'htmlhint',
         'injector',
         'postcss',
         'wiredep:test',
