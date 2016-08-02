@@ -7,8 +7,8 @@ nginx
 cd /root/venue
 
 if [ "$PRODUCTION_RUN" == "yes" ]; then
-    echo "SERVING PRODUCTION" | tee /root/venue.log
-    grunt serve:dist | tee /root/venue.log
+    echo "SERVING PRODUCTION" | tee /root/venueprod.log
+    grunt serve:dist | tee /root/venueprod.log
 else
     echo "SERVING HEADLESS" | tee /root/venue.log
     grunt serve:headless | tee /root/venue.log
