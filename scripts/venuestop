@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker exec venue killall -9 node
+docker exec venue killall -9 grunt

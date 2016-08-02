@@ -5,4 +5,11 @@
 service nginx stop
 nginx
 cd /root/venue
-grunt serve:dist
+
+if [ "$PRODUCTION_RUN" == "yes" ]; then
+    echo "SERVING PRODUCTION" >> /root/venue.log
+    grunt serve:dist >> /root/venue.log
+else
+    echo "SERVING HEADLESS" >> /root/venue.log
+    grunt serve:headless >> /root/venue.log
+fi
