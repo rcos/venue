@@ -1,0 +1,75 @@
+// https://github.com/angular-ui/angular-google-maps/blob/master/example/assets/scripts/controllers/issue-624-drawing-manager.js
+'use strict';
+
+angular.module('venueApp')
+  .controller('EditEventFormCtrl', function($scope, Auth, EventInfo, User, SectionEvent, Upload){
+
+    $scope.today = new Date();
+    $scope.today.setHours(0,0,0,0);
+
+    $scope.startDate = new Date();
+    $scope.courseCreated = false;
+    $scope.selectingEvent = true;
+
+    $scope.success = false;
+    $scope.mapLoaded = false;
+    $scope.allShapes = [];
+    $scope.place = {};
+    var selectedShape = null;
+    $scope.event = $scope.eventContainer.info || {};
+    $scope.$watch('eventContainer', function(newValue, oldValue) {
+        $scope.event = $scope.eventContainer.info || {};
+        $scope.event.startDate = $scope.event.times ? new Date($scope.event.times[0].start) : new Date();
+        $scope.event.endDate = $scope.event.times ? new Date($scope.event.times[0].end) : new Date();
+    });
+
+    if ($scope.event.times){
+      $scope.event.startDate = $scope.event.times ? new Date($scope.event.times[0].start) : new Date();
+      $scope.event.endDate = $scope.event.times ? new Date($scope.event.times[0].end) : new Date();
+    }
+
+    $scope.createEventInfo = function(form){
+      $scope.submitted = true;
+
+      // Save the event information and send it to the api endpoint
+      // Don't do it if the form is invalid or there are no shapes drawn
+      if (form.$valid){
+        $scope.eventInfo = {
+          id: $scope.event._id,
+          title: $scope.event.title,
+          description: $scope.event.description,
+          times:[{
+            start: $scope.event.startDate,
+            end: $scope.event.endDate
+          }],
+          files: [$scope.file],
+          location: $scope.event.location,
+          imageURL: $scope.event.imageURL,
+        };
+
+        //Upload the event
+        Upload.upload({
+          url: '/api/eventinfos/',
+          data: $scope.eventInfo,
+          method: 'POST',
+          objectKey: '.k',
+          arrayKey: '[i]'
+        }).success( (response) => {
+          $scope.eventContainer.info = response;
+          $scope.submitted = false;
+          if ($scope.onSubmit){
+            $scope.onSubmit();
+          }
+        }).catch(err => {
+          err = err.data;
+        });
+      };
+    };
+
+    $scope.openCalendar = function(e, prop) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      $scope.event[prop] = true;
+    };
+});
