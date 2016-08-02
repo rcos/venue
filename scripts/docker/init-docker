@@ -5,6 +5,7 @@ if [ "$INTERNAL_MONGO" == "yes" ]; then
 else
     service mongodb stop
 fi
+chmod +x /root # for nginx
 /root/venue/scripts/docker/generate-cert
 /root/venue/scripts/docker/configure-nginx
 /usr/sbin/nginx
