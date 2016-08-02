@@ -15,5 +15,5 @@ docker run \
 -e "SMTP_PASSWORD=smtpPassword" \
 -e "INTERNAL_MONGO=yes" \
 -e "PRODUCTION_RUN=no" \
--p 443:443 -p 9000:9000 -p 80:80 \
+-P \
 --name venue -dit rcos/venue
