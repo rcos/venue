@@ -368,7 +368,7 @@ UserSchema.methods = {
   },
 
   updateNotifications(events) {
-      if (!events.isArray()){
+      if (!Array.isArray(events)){
           events = [events];
       }
      console.log("Calling update notifications");

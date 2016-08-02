@@ -3,11 +3,14 @@
 import app from '../..';
 import User from './user.model';
 import request from 'supertest';
+import SectionEvent from '../sectionevent/sectionevent.model';
 
+var scheduler = require('../../schedule');
 var auth = require("../../auth/local/test.integration");
 var superwith = require("../superwith.integration");
+var mongoose = require('mongoose');
 
-import {exampleUser} from '../../config/seed';
+import {exampleStudent, exampleSectionEvent} from '../../config/seed';
 
 describe('User API:', function() {
   var user;
@@ -74,5 +77,47 @@ describe('User API:', function() {
 
         ]);
     });
+
+});
+
+// Step 1: delete all user notificaionts
+// Step 2: update student notificaionts with populate notificaitons
+// Step 3: chewck to see if uses have notificaiotns for that event
+describe.only('User notification:', function() {
+  var user;
+  var notificaitonsRemoved = 0;
+
+    describe('update student notificaitons', function() {
+
+      before((done)=>{
+        scheduler.cancel({'data.user._id': exampleStudent._id}, (err, numRemoved)=>{
+          notificaitonsRemoved = numRemoved;
+          done();
+        })
+      });
+
+      before((done)=>{
+        SectionEvent.findByIdAsync(exampleSectionEvent._id)
+          .then(se=>{
+            return se.getFullEvent()
+          })
+          .then(fullEvent=>{
+            return Promise.all([fullEvent, User.findByIdAsync(exampleStudent._id)]);
+           })
+           .then(([fullEvent, student]) => {
+              student.updateNotifications(fullEvent);
+              done();
+          });
+        });
+
+        it("should have a job set for the student", (done) => {
+          scheduler.jobs({'data.user._id': exampleStudent._id}, function(err, jobs) {
+            console.log(jobs);
+            // Work with jobs (see below)
+            done();
+          });
+        });
+    });
+
 
 });
