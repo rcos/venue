@@ -6,7 +6,17 @@
     </div>
     <div class='col-sm-10 newevent'>
       <h1 class="page-header">New Event</h1>
-      <eventform></eventform>
+        <!-- Select an EVENT for course assignment -->
+        <select-event event="event" on-submit="doneSelect(create)" ng-if='stage.select'></select-event>
+        <create-event event="event" on-submit="doneCreate()" ng-if='stage.create'></create-event>
+        <assign-event event="event" on-submit="doneAssign()" ng-if='stage.assign'></assign-event>
+
+        <!-- WHEN FINISHED -->
+        <div class="section-created" ng-show="stage.done">
+          <h2>Event Assigned</h2>
+          <h4>Take a look at your <a href='/instructor/dashboard'>dashboard</a></h4>
+        </div>
+
     </div>
   </div>
 </div>

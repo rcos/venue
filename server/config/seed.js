@@ -444,7 +444,7 @@ function allEvents(){
       _id : mongoose.Types.ObjectId("444444444444444444444441"),
       title : "National Medal of Science Black-tie Gala",
       description : "A gala to celebrate the amazing individuals who have won the highest science, technology, engineering, and mathematics award in the United States. Their achievements shape cultural revolutions, drive world economies, and change the face of life as we know it. Their stories will inspire the next generation.",
-      imageURLs : ["http://www.officiallycrowned.org/wp-content/uploads/2015/10/Special-Occasions-Event-Planning-Revelry-Event-Designers-1.jpg"],
+      imageURLs : ["https://s-media-cache-ak0.pinimg.com/564x/c2/55/e1/c255e1075e260409a29de6d8af20b638.jpg"],
       creationDate : "2016-01-21T11:35:26.867Z",
       author : allUsers().venue._id,
       times : [
@@ -531,7 +531,7 @@ function allSectionEvents(){
     art1Dancing: {
       section: allSections().art1._id,// Art, Community and Technology section 1
       course: allCourses().art._id,//Art, Community and Technology
-      submissionInstructions:"",
+      submissionInstructions:"Dance!",
       author: allUsers().bob._id, //Bob
       creationDate: new Date("January 4, 2016 05:49:06"),
       info: allEvents().dancing._id,//Dancing Through the Years

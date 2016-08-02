@@ -1,0 +1,150 @@
+<!-- Create EVENT SELECTION -->
+<div class="eventCreationForm">
+  <h2> Create a new event </h2>
+
+  <form class="form" name="eventInfoForm" ng-submit="createEventInfo(eventInfoForm)" novalidate ng-show="!success">
+      <h4>Event Info</h4>
+
+    <div class="form-group" ng-class="{ 'has-success': event.title && (eventInfoForm.title.$touched || submitted), 'has-error': !event.title && (eventInfoForm.title.$touched || submitted) }">
+      <label>Title</label>
+
+      <input type="text" name="title" class="form-control" ng-model="event.title"
+             required/>
+
+      <p class="help-block" ng-show="submitted && !event.title">
+        The event title is required
+      </p>
+    </div>
+
+    <div class="form-group" ng-class="{ 'has-success': event.description && (eventInfoForm.description.$touched || submitted), 'has-error': !event.description && (eventInfoForm.description.$touched || submitted)}">
+      <label>Description</label>
+
+      <textarea type="text" name="description" class="form-control" ng-model="event.description"
+             required> </textarea>
+       <p class="help-block" ng-show="submitted && !event.description">
+         The event description is required
+       </p>
+    </div>
+    <div class="form-group" ng-class="{ 'has-error': submitted && !file && !update}">
+      <label>Image</label>
+
+      <div ngf-drop ngf-select ng-model="file" class="drop-box"
+      ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false"
+      accept="image/*"
+      ngf-pattern="'image/*'">Drop images here or click to upload</div>
+      <p class="help-block" ng-show="!file && submitted && !update">
+        An event image is required
+      </p>
+      <div class="image-preview" style="font:smaller">
+        {{file.name}} {{file.$error}} {{file.$errorParam}}
+        <br/>
+        <img ngf-src="file" width = {{imgWidth}}/>
+      </div>
+
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': eventInfoForm.startDate.$valid && (eventInfoForm.startDate.$touched || submitted),
+    'has-error': (eventInfoForm.startDate.$invalid || (event.endDate.getTime() <= event.startDate.getTime())) && (eventInfoForm.startDate.$touched || submitted)  }">
+      <label>Start Date</label>
+
+      <p class="input-group">
+          <input name="startDate" type="text" class="form-control" uib-datepicker-popup="EEE. MMMM d, yyyy, h:mm a" ng-model="event.startDate" min-date="today" is-open="event.startDateOpen" required></input>
+
+          <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'startDateOpen')"><i class="fa fa-calendar"></i></button>
+          </span>
+      </p>
+
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': eventInfoForm.endDate.$valid && (event.endDate.getTime() >  event.startDate.getTime()) && (eventInfoForm.endDate.$touched || submitted),
+    'has-error':(eventInfoForm.endDate.$invalid || (event.endDate.getTime() <= event.startDate.getTime())) && (eventInfoForm.endDate.$touched || submitted)  }">
+      <label>End Date</label>
+
+      <p class="input-group">
+          <input name="endDate" type="text" class="form-control" uib-datepicker-popup="EEE. MMMM d, yyyy, h:mm a" ng-model="event.endDate" min-date="today" is-open="event.endDateOpen" required></input>
+
+          <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'endDateOpen')"><i class="fa fa-calendar"></i></button>
+          </span>
+      </p>
+      <p class="help-block" ng-show="(event.startDate.$invalid && submitted) || (event.endDate.getTime() <= event.startDate.getTime())">
+        The end date must be after the start date
+      </p>
+    </div>
+
+    <div class="form-group">
+      <h4>Event Location</h4>
+
+      <p class="text-muted">
+        Draw polygons over the event boundaries to specify acceptable locations.
+      </p>
+      <h4 class="text-muted" ng-hide="mapLoaded">Waiting for Google Maps...</h4>
+      <div id="map_canvas">
+          <ui-gmap-google-map
+                  center="map.center"
+                  zoom="map.zoom"
+                  dragging="map.dragging"
+                  bounds="map.bounds"
+                  events="map.events"
+                  options="map.options"
+                  pan="true"
+                  control="map.control"
+                  >
+              <ui-gmap-search-box options="searchbox.options" template="searchbox.template"
+                              events="searchbox.events" position="searchbox.position"></ui-gmap-search-box>
+
+              <ui-gmap-markers idkey="map.idkey" models="map.markers" coords="'self'" icon="'icon'"
+                               click="'onClicked'"></ui-gmap-markers>
+              <ui-gmap-window coords="selected" idkey="selected.place_id" templateurl="selected.templateurl"
+                              templateparameter="selected.templateparameter" options="selected.options"
+                              closeClick='selected.closeClick()' ng-cloak>
+
+              </ui-gmap-window>
+              <ui-gmap-drawing-manager options="map.drawingManager.options" control="map.drawingManager.control" events="map.events"></ui-gmap-drawing-manager>
+
+          </ui-gmap-google-map>
+        </div>
+      </div>
+      <div class="form-group" ng-class="{ 'has-error': allShapes.length == 0 && submitted}">
+        <button class="btn btn-warning btn-sm" ng-show="mapLoaded" type="button" ng-click="deleteButton()">
+          Clear current selection
+        </button>
+        <button class="btn btn-warning btn-sm" ng-show="mapLoaded" type="button" ng-click="deleteAllButton()">
+          Clear all
+        </button>
+        <p class="help-block" ng-show="allShapes.length == 0 && submitted">
+          At least one event boundary is required
+        </p>
+      </div>
+
+      <div class="form-group" ng-class="{ 'has-success':event.location.description, 'has-error': !event.location.description && (eventInfoForm.locationDescription.$touched || submitted)}">
+        <label>Description</label>
+
+        <input type="text" name="locationDescription" class="form-control" ng-model="event.location.description"
+        required/>
+
+        <p class="help-block" ng-show="submitted && !event.location.description">
+          The location description is required
+        </p>
+      </div>
+
+      <div class="form-group" ng-class="{ 'has-success':event.location.address, 'has-error': !event.location.address && (eventInfoForm.locationAddress.$touched || submitted)}">
+        <label>Address</label>
+
+        <input type="text" name="locationAddress" class="form-control" ng-model="event.location.address"
+        required/>
+
+        <p class="help-block" ng-show="submitted && !event.location.address">
+          The location address is required
+        </p>
+      </div>
+      <div>
+
+      <div class="form-group">
+        <button class="btn btn-inverse btn-lg btn-register" ng-click="createEventInfo(eventInfoForm)">
+          Create Event
+        </button>
+      </div>
+
+  </form>
+
+</div>
