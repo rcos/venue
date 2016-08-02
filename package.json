@@ -74,6 +74,7 @@
     "grunt-express-server": "^0.5.1",
     "grunt-filerev": "^2.3.1",
     "grunt-google-cdn": "~0.4.0",
+    "grunt-htmllint": "^0.2.7",
     "grunt-injector": "^0.6.0",
     "grunt-jscs": "^2.1.0",
     "grunt-karma": "~0.12.0",

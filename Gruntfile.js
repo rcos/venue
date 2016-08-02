@@ -660,7 +660,45 @@ module.exports = function (grunt) {
         }
       },
       build: {}
+    },
+
+    htmllint: {
+        options: {
+            force: false,
+
+            // These are disabled because we were launching and didn't have
+            // time to fix our HTML, there are several hundred errors so
+            // enable them slowly.
+            "attr-bans": [],
+            "attr-name-ignore-regex": false,
+            "attr-name-style": false,
+            "attr-quote-style": false,
+            "attr-req-value": false,
+            "class-style": false,
+            "class-no-dup": false,
+            "head-req-title": false,
+            "id-class-no-ad": false,
+            "id-class-style": false,
+            "id-no-dup": false,
+            "img-req-src": false,
+            "indent-style": false,
+            "indent-width": false,
+            "label-req-for": false,
+            "line-end-style": false,
+            "line-max-len": false,
+            "spec-char-escape": false,
+            "tag-bans": false,
+            "tag-name-lowercase": false,
+
+            "tag-close":true,
+            "tag-name-match": true
+
+        },
+        src: [
+            '<%= yeoman.client %>/{app,components}/**/*.html'
+        ]
     }
+
   });
 
   // Used for delaying livereload until after server has restarted
@@ -736,6 +774,7 @@ module.exports = function (grunt) {
         'env:all',
         'concurrent:pre',
         'concurrent:test',
+        'htmllint',
         'injector',
         'postcss',
         'wiredep:test',
