@@ -56,6 +56,7 @@ angular.module('venueApp')
         if (form.$valid){
           var sections = getSectionIds();
           var createdSuccess = 0;
+          var createSectionEventsPromises = [];
           sections.forEach((sectionId)=>{
             var sectionEvent = {
               section: sectionId,
@@ -63,15 +64,13 @@ angular.module('venueApp')
               author: Auth.getCurrentUser()._id,
               submissionInstructions: $scope.event.submissionInstructions
             };
-            SectionEvent.create(sectionEvent).$promise
+            createSectionEventsPromises.push(SectionEvent.create(sectionEvent))
+            Promise.all(createSectionEventsPromises)
               .then((course) => {
-                createdSuccess += 1;
                 $scope.event.assignmentId = course._id;
-                if (createdSuccess === sections.length){
-                  $scope.success = true;
-                  if ($scope.onSubmit){
-                    $scope.onSubmit();
-                  }
+                $scope.success = true;
+                if ($scope.onSubmit){
+                  $scope.onSubmit();
                 }
               })
               .catch(err => {
