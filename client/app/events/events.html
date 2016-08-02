@@ -79,32 +79,34 @@
       </div>
     </div>
   </div>
+
+  <div class='container' ng-show='assignmentEdit'>
+      <br>
+      <form class="eventAssignment" name="eventAssignmentForm" ng-submit="updateEventAssignment(eventAssignmentForm)" novalidate>
+
+          <div class="form-group" ng-class="{ 'has-success': assignment.submissionInstructions  && (eventAssignmentForm.submissionInstructions.$touched || submitted), 'has-error': !assignment.submissionInstructions && (eventAssignmentForm.submissionInstructions.$touched || submitted) }">
+              <label>Submission Instructions</label>
+
+              <textarea type="text" name="submissionInstructions" class="form-control" ng-model="assignment.submissionInstructions"
+              required/>
+
+              <p class="help-block" ng-show="!assignment.submissionInstructions">
+                  Submission instructions are required
+              </p>
+          </div>
+          <div>
+              <button class="btn btn-inverse btn-register" type="submit">Save</button>
+          </div>
+
+      </form>
+  </div>
+
   <div class='container'>
     <div ng-show='user.isInstructor'>
       <submissionview event-id="eventId"></submissionview>
     </div>
   </div>
 
-  <div class='container' ng-show='assignmentEdit'>
-      <br>
-      <form class="eventAssignment" name="eventAssignmentForm" ng-submit="updateEventAssignment(eventAssignmentForm)" novalidate>
-
-        <div class="form-group" ng-class="{ 'has-success': assignment.submissionInstructions  && (eventAssignmentForm.submissionInstructions.$touched || submitted), 'has-error': !assignment.submissionInstructions && (eventAssignmentForm.submissionInstructions.$touched || submitted) }">
-          <label>Submission Instructions</label>
-
-          <textarea type="text" name="submissionInstructions" class="form-control" ng-model="assignment.submissionInstructions"
-                 required/>
-
-           <p class="help-block" ng-show="!assignment.submissionInstructions">
-             Submission instructions are required
-           </p>
-        </div>
-        <div>
-          <button class="btn btn-inverse btn-register" type="submit">Save</button>
-        </div>
-
-      </form>
-  </div>
 
 </div>
 
