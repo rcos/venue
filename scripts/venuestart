@@ -26,6 +26,8 @@ docker run \
 -e SMTP_PASSWORD \
 -e INTERNAL_MONGO \
 -e PRODUCTION_RUN \
+-e LOCAL_LOGIN \
+-e DEBUG_LOGIN \
 -P \
 --net="host" \
 -v "$CERTS_DIRECTORY:/root/certs:rw" \

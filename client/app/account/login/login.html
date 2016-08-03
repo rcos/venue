@@ -4,21 +4,28 @@
   <div class="row">
     <div class="col-sm-12">
       <h1>Login</h1>
-      <p ng-show='vm.devMode'>Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@example.com</code> / <code>test</code></p>
-      <p ng-show='vm.devMode'>Admin account is <code>admin@example.com</code> / <code>admin</code></p>
+      <p ng-show="vm.devMode && vm.DEBUG_LOGIN_ENABLED">Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@test.com</code> / <code>test</code></p>
+      <p ng-show="vm.devMode && vm.DEBUG_LOGIN_ENABLED">Admin account is <code>admin@admin.com</code> / <code>admin</code></p>
     </div>
     <div class="col-sm-12">
-      <div ng-show='vm.devMode'>
-        <a href='#' ng-click="vm._devLoginAs('bob')"> Login as Bob (instructor) </a> <br/>
-        <a href='#' ng-click="vm._devLoginAs('travis')"> Login as Travis (instructor)</a> <br/>
-        <a href='#' ng-click="vm._devLoginAs('foo')"> Login as Foo (student)</a> <br/>
-        <a href='#' ng-click="vm._devLoginAs('kelly')"> Login as Kelly (student)</a> <br/>
-        <a href='#' ng-click="vm._devLoginAs('jane')"> Login as Jane (student)</a> <br/>
-        <a href='#' ng-click="vm._devLoginAs('test')"> Login as Test (student)</a> <br/>
-        <a href='#' ng-click="vm._devLoginAs('admin')"> Login as Admin (admin)</a> <br/>
+      <div ng-show="vm.devMode && vm.DEBUG_LOGIN_ENABLED">
+        <a href="#" ng-click="vm._devLoginAs('bob')"> Login as Bob (instructor) </a> <br/>
+        <a href="#" ng-click="vm._devLoginAs('travis')"> Login as Travis (instructor)</a> <br/>
+        <a href="#" ng-click="vm._devLoginAs('foo')"> Login as Foo (student)</a> <br/>
+        <a href="#" ng-click="vm._devLoginAs('kelly')"> Login as Kelly (student)</a> <br/>
+        <a href="#" ng-click="vm._devLoginAs('jane')"> Login as Jane (student)</a> <br/>
+        <a href="#" ng-click="vm._devLoginAs('test')"> Login as Test (student)</a> <br/>
+        <a href="#" ng-click="vm._devLoginAs('admin')"> Login as Admin (admin)</a> <br/>
         <br/>
       </div>
-      <form class="form" name="form" ng-submit="vm.login(form)" novalidate>
+      <div style='margin-bottom:10px;' ng-show="vm.CAS_ENABLED">
+          <a href="/auth/cas" target="_self">
+              <button class="btn btn-primary btn-lg">
+                  <i class="fa fa-check-square-o"></i> Login with CAS
+              </button>
+          </a>
+      </div>
+      <form ng-show="vm.LOCAL_LOGIN_ENABLED" class="form" name="form" ng-submit="vm.login(form)" novalidate>
 
         <div class="form-group">
           <label>Email</label>
@@ -30,7 +37,7 @@
           <label>Password</label>
 
           <input type="password" name="password" class="form-control" ng-model="vm.user.password" required>
-          <a href='#' ng-click="vm.goToForgotPassword()"> Forgot Password</a> <br/>
+          <a href="#" ng-click="vm.goToForgotPassword()"> Forgot Password</a> <br/>
         </div>
 
         <div class="form-group has-error">
@@ -40,9 +47,6 @@
           <p class="help-block" ng-show="form.email.$error.email && vm.submitted">
              Please enter a valid email.
           </p>
-          <div ng-show='vm.CAS_ENABLED'>
-              <a href='/auth/cas' target="_self"> Login with CAS </a>
-          </div>
 
           <p class="help-block">{{ vm.errors.other }}</p>
         </div>
