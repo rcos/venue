@@ -19,5 +19,8 @@ docker run \
 -e EMAIL_SERVICE \
 -e SERVER_EMAIL \
 -e SMTP_PASSWORD \
--p 443:443 -p 9000:9000 -p 80:80 \
+-e INTERNAL_MONGO \
+-e PRODUCTION_RUN \
+-P \
+--net="host" \
 --name venue -dit rcos/venue

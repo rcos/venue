@@ -1,6 +1,11 @@
 #!/bin/bash
 
-service mongodb start
+if [ "$INTERNAL_MONGO" == "yes" ]; then
+    service mongodb start
+else
+    service mongodb stop
+fi
+chmod +x /root # for nginx
 /root/venue/scripts/docker/generate-cert
 /root/venue/scripts/docker/configure-nginx
 /usr/sbin/nginx

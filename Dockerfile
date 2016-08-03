@@ -19,6 +19,7 @@ RUN apt-get install \
     build-essential\
     make\
     nginx\
+    psmisc\
     mongodb\
     python\
     -y -q --no-install-recommends
@@ -45,5 +46,5 @@ RUN . /root/.bashrc && \
 
 RUN apt-get clean
 
-EXPOSE 9000 80 443
+EXPOSE 9000 80 443 27017
 CMD ["/root/venue/scripts/docker/init-docker"]
