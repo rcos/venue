@@ -6,18 +6,30 @@ var auth = require("../../auth/local/test.integration");
 var superwith = require("../superwith.integration");
 var EventInfo = require("./eventinfo.model");
 
-var newEventInfo;
-var eventinfoExampleId = "000000000000000000000020";
+var moment = require('moment');
 
+var User = require("../user/user.model");
+
+var seed = require('../../config/seed');
+var exampleStudent = seed.exampleStudent;
+var eventinfoExampleId = seed.exampleEvent._id;
+
+var newEventInfo;
 
 describe("EventInfo Static Methods", ()=>{
 
     var eventInfo;
+    var student;
 
-    before(done => {
-        EventInfo.findByIdAsync(eventinfoExampleId).then(evnt => {
+    before(() => {
+        return EventInfo.findByIdAsync(eventinfoExampleId).then(evnt => {
             eventInfo = evnt;
-            done();
+        });
+    });
+
+    before(() => {
+        return User.findByIdAsync(exampleStudent._id).then(stdent => {
+          student = stdent;
         });
     });
 
@@ -36,6 +48,25 @@ describe("EventInfo Static Methods", ()=>{
             expect(relatedUsers[0]).to.have.property('lastName');
             expect(relatedUsers[0]).to.have.property('isInstructor');
         });
+    });
+
+    describe("notification updating on eventinfo change", () => {
+      before(() => student.clearNotifications());
+
+      before(() => {
+        eventInfo.times = [{
+            start: moment().add(1,'hour').toDate(),
+            end: moment().add(1,'hour').toDate()
+        }];
+        return eventInfo.saveAsync();
+      });
+
+      it('should have given the student notifications', () => {
+        return student.getNotifications().then(jobs => {
+            expect(jobs.length).to.be.at.least(1);
+        });
+      });
+
     });
 
 });
