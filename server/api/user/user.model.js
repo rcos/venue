@@ -370,6 +370,16 @@ UserSchema.methods = {
     this.save();
   },
 
+  // WARNING: This should only be called in testing
+  clearNotifications() {
+    return scheduler.cancel({'data.user._id': this._id});
+  },
+
+  // WARNING: This should only be called in testing
+  getNotifications() {
+    return scheduler.jobs({'data.user._id': this._id});
+  },
+
   updateNotifications(events) {
     if (!Array.isArray(events)){
       events = [events];

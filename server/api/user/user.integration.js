@@ -81,54 +81,41 @@ describe('User API:', function() {
 
 });
 
-describe('User notification:', function() {
+describe.only('User notification:', function() {
 
     var student;
     var fullEvent;
 
-    before(done => {
-      SectionEvent.findByIdAsync(exampleSectionEvent._id)
+    before(() => {
+      return SectionEvent.findByIdAsync(exampleSectionEvent._id)
         .then(se=>{
           return se.getFullEvent()
         }).then(evnt => {
           fullEvent = evnt;
-          done();
         });
     });
 
-    before(done =>{
-      User.findByIdAsync(exampleStudent._id).then(user => {
+    before(() =>{
+      return User.findByIdAsync(exampleStudent._id).then(user => {
         student = user;
-        done();
       });
     });
 
-    var populatedJobTimes;
     describe("Populate a student's notifications", () => {
 
-      before(done=>{
-        scheduler.cancel({'data.user._id': exampleStudent._id})
-        .then(numRemoved => {
-          done();
-        });
-      });
+      before(() => student.clearNotifications());
 
-      before(done => {
-          student.updateNotifications(fullEvent).then(()=>{
-            done();
-          });
-      });
+      before(() => student.updateNotifications(fullEvent));
 
-      it("should have user notifications", done => {
-        scheduler.jobs({'data.user._id': exampleStudent._id}, function(err, jobs) {
-          populatedJobTimes = jobs.map(j => j.attrs.nextRunAt);
+      it("should have user notifications", () => {
+        return student.getNotifications().then((jobs) => {
           expect(jobs.length).to.equal(2);
-          done();
         });
       });
     });
 
     describe("update student notifications after time change", () => {
+
       before(() => {
         // Change time by an hour
         fullEvent.info.times = [{
@@ -137,18 +124,12 @@ describe('User notification:', function() {
         }];
       });
 
-      before(done => {
-        student.updateNotifications(fullEvent).then(()=>{
-          done();
-        });
-      });
+      before(() => student.updateNotifications(fullEvent));
 
-      it("should update when event times change", done => {
-        scheduler.jobs({'data.user._id': exampleStudent._id}, function(err, jobs) {
-          var newTimes = jobs.map(j => j.attrs.nextRunAt);
+      it("should update when event times change", () => {
+        return student.getNotifications().then((jobs) => {
           expect(jobs.length).to.be.equal(1);
           expect(moment(jobs[0].attrs.nextRunAt).fromNow().toString()).to.equal("in 30 minutes");
-          done();
         });
       });
 
