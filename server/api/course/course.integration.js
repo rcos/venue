@@ -8,7 +8,7 @@ var newCourse;
 var exampleCourseId = '000000000000000000000017';
 var exampleStudentId = '000000000000000000000004';
 
-describe.skip('Course API:', function() {
+describe('Course API:', function() {
 
     describe('GET /api/courses', function() {
         var courses;

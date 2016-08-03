@@ -30,29 +30,28 @@ SectionEventSchema.methods = {
   },
 
   updateUserNotifications(){
-    //   this.getFullEvent().then(fullEvent => {
-    //       this.getRelatedUsers().then(users => {
-    //           users.forEach(user => {
-    //               user.updateNotifications([fullEvent]);
-    //           })
-    //       });
-    //   });
+    return this.getFullEvent().then(fullEvent => {
+        return this.getRelatedUsers().then(users => {
+          return Promise.all(users.map(user => user.updateNotifications([fullEvent])));
+        });
+    }).catch(err => {
+      console.log(err);
+    })
   },
 
   getFullEvent(){
-      return new Promise((resolve, reject) => {
-          this.populate("info")
+      return this.populate({path:"info", model:'EventInfo'})
           .populate({
               path: 'section',
               populate: {
                   path: 'course',
                   model: 'Course'
               }
-          }, (err, evnt) => {
-              if (err) return reject(err);
-              resolve(evnt);
+          })
+          .execPopulate().then((event) => {
+              if(event.info === null) throw new Error("EventInfo null");
+              return Promise.resolve(event);
           });
-      });
   },
 
   fullRemove(){

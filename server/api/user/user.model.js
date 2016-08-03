@@ -371,8 +371,21 @@ UserSchema.methods = {
       if (!Array.isArray(events)){
           events = [events];
       }
-     console.log("Calling update notifications");
-  }
+     // Remove Events for specified user and SectionEvent
+     return Promise.all(events.map(event => {
+       scheduler.cancel({'data.user._id': this._id, 'data.sectionId': event.section._id})
+     })).then(()=>{
+       // For each event/event time/email preference make a new notification.
+       events.forEach(event => {
+        event.info.times.forEach(time =>{
+          this.preferences.emailNotifyAheadMinutes.forEach(minutesAhead => {
+            var notifyTime = new Date(time.start.getTime() - minutesAhead*60000);
+            scheduler.schedule(notifyTime, "sectionEvent reminder", {user:this.toObject(), sectionId: event.section._id, eventInfo:event.info.toObject()});
+          });
+        });
+      });
+    });
+   }
 };
 
 export default mongoose.model('User', UserSchema);

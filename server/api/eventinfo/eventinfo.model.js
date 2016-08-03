@@ -100,11 +100,8 @@ EventInfoSchema
   .pre('save', function(next) {
     // Handle new/update times
     SectionEvent.findAsync({info: this._id}).then(sectionEvents => {
-        sectionEvents.forEach(se => {
-            se.updateUserNotifications();
-        });
-    });
-    return next();
+      return Promise.all(sectionEvents.map(se => se.updateUserNotifications()));
+    }).then(()=> next());
   });
 
 /**

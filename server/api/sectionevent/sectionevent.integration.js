@@ -10,6 +10,7 @@ var SectionEvent = require('./sectionevent.model');
 var seed = require('../../config/seed');
 var exampleSectionEvent = seed.exampleSectionEvent;
 var exampleStudent = seed.exampleStudent;
+var scheduler = require('../../schedule');
 
 var newSectionEvent;
 
@@ -37,9 +38,30 @@ describe("SectionEvent Notification Handling", function(){
         });
     });
 
+    describe('Set notifications for event', function() {
+
+      before((done)=>{
+        scheduler.cancel({'data.user._id': exampleStudent._id})
+          .then(numRemoved => {
+            done();
+          });
+      });
+
+      before((done)=>{
+        sectionEvent.updateUserNotifications()
+          .then(() => done());
+      });
+
+      it("getRelatedUsers() should return users", () => {
+          expect(relatedUsers).to.be.a('array');
+      });
+
+
+    });
+
 });
 
-/*
+
 describe('SectionEvent API:', function() {
 
   describe('GET /api/sectionevents', function() {
@@ -137,7 +159,13 @@ describe('SectionEvent API:', function() {
       auth.instructor.request(app)
         .post('/api/sectionevents')
         .send({
+          section: '000000000000000000000120',
+          course: '000000000000000000000010',
           submissionInstructions: 'New SectionEvent',
+          author: '000000000000000000000003',
+          creationDate: new Date(),
+          info: '000000000000000000000020',
+          _id: '555555555555555555555555'
         })
         .expect(201)
         .expect('Content-Type', /json/)
@@ -284,8 +312,6 @@ describe('SectionEvent API:', function() {
           done();
         });
     });
-
   });
 
 });
-*/

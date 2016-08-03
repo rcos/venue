@@ -76,7 +76,17 @@ exports.schedule = (when, task, params, cb) => agenda.schedule(when, task, param
  * @param  {Object} query i.e. "eventInfoId: 'a1200412933532'"
  * @param  {Function} cb  called with parameters (err, numRemoved)
  */
-exports.cancel = (query, cb) => agenda.cancel(query, cb);
+exports.cancel = (query) => {
+   return new Promise((resolve, reject) => {
+    agenda.cancel(query, (err, numRemoved)=>{
+      if(err){
+        reject(err);
+      }else{
+        resolve(numRemoved);
+      }
+    });
+  });
+}
 
 /**
  * Searches using a  full mongodb-native find query.

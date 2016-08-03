@@ -78,15 +78,9 @@ function notifySectionCreation(sectionEvent){
       .then(section => {
         section.students.forEach(student => {
           scheduler.now("create sectionEvent", {user:student.toObject(), sectionId: section._id, eventInfo: eventInfo.toObject()});
-          eventInfo.time.forEach(time=>{
-            student.preferences.emailNotifyAheadMinutes.forEach(minutesAhead => {
-              var notifyTime = new Date(time.start.getTime() - minutesAhead*60000);
-              scheduler.schedule(notifyTime, "sectionEvent reminder", {user:student.toObject(), sectionId: section._id, eventInfo: eventInfo.toObject()});
-            })
-          })
         })
-        return sectionEvent;
-      })
+        return sectionEvent.updateUserNotifications();
+      }).then(()=> {return sectionEvent});
     }
 }
 

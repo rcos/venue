@@ -80,20 +80,14 @@ describe('User API:', function() {
 
 });
 
-// Step 1: delete all user notificaionts
-// Step 2: update student notificaionts with populate notificaitons
-// Step 3: chewck to see if uses have notificaiotns for that event
-describe.only('User notification:', function() {
-  var user;
-  var notificaitonsRemoved = 0;
+describe('User notification:', function() {
 
     describe('update student notificaitons', function() {
-
       before((done)=>{
-        scheduler.cancel({'data.user._id': exampleStudent._id}, (err, numRemoved)=>{
-          notificaitonsRemoved = numRemoved;
-          done();
-        })
+        scheduler.cancel({'data.user._id': exampleStudent._id})
+          .then(numRemoved => {
+            done();
+          });
       });
 
       before((done)=>{
@@ -105,19 +99,16 @@ describe.only('User notification:', function() {
             return Promise.all([fullEvent, User.findByIdAsync(exampleStudent._id)]);
            })
            .then(([fullEvent, student]) => {
-              student.updateNotifications(fullEvent);
-              done();
+              student.updateNotifications(fullEvent)
+                .then(()=> done());
           });
-        });
+      });
 
         it("should have a job set for the student", (done) => {
           scheduler.jobs({'data.user._id': exampleStudent._id}, function(err, jobs) {
-            console.log(jobs);
-            // Work with jobs (see below)
+            expect(jobs.length).to.equal(2);
             done();
           });
         });
     });
-
-
 });

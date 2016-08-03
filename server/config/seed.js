@@ -709,7 +709,7 @@ module.exports.seed = function(){
             return Promise.resolve();
         }),
         module.exports.createSections().then(() => {
-            console.log('finished populating courses');
+            console.log('finished populating sections');
             return Promise.resolve();
         }),
         module.exports.createEvents().then(() => {
@@ -717,7 +717,7 @@ module.exports.seed = function(){
             return Promise.resolve();
         }),
         module.exports.createSectionEvents().then(() => {
-            console.log('finished populating events');
+            console.log('finished populating section events');
             return Promise.resolve();
         }),
         module.exports.createSubmissions().then(() => {
