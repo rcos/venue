@@ -14,7 +14,7 @@ var scheduler = require('../../schedule');
 
 var newSectionEvent;
 
-describe("SectionEvent Notification Handling", function(){
+describe.only("SectionEvent Notification Handling", function(){
     var sectionEvent;
 
     before(done => {
@@ -52,10 +52,12 @@ describe("SectionEvent Notification Handling", function(){
           .then(() => done());
       });
 
-      it("getRelatedUsers() should return users", () => {
-          expect(relatedUsers).to.be.a('array');
+      it("should have given the user notifications", done => {
+        scheduler.jobs({'data.user._id': exampleStudent._id}, function(err, jobs) {
+          expect(jobs.length).to.be.at.least(1);
+          done();
+        });
       });
-
 
     });
 
