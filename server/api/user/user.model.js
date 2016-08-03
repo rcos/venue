@@ -51,7 +51,10 @@ var UserSchema = new Schema({
       type: Boolean,
       default: true
     },
-    emailNotifyAheadMinutes: [{type:Number}]
+    emailNotifyAheadMinutes: {
+      type: [{type:Number}],
+      default: [0, 30]
+    }
   }
 });
 
@@ -368,24 +371,28 @@ UserSchema.methods = {
   },
 
   updateNotifications(events) {
-      if (!Array.isArray(events)){
-          events = [events];
-      }
-     // Remove Events for specified user and SectionEvent
-     return Promise.all(events.map(event => {
-       scheduler.cancel({'data.user._id': this._id, 'data.sectionId': event.section._id})
-     })).then(()=>{
-       // For each event/event time/email preference make a new notification.
-       events.forEach(event => {
-        event.info.times.forEach(time =>{
-          this.preferences.emailNotifyAheadMinutes.forEach(minutesAhead => {
+    if (!Array.isArray(events)){
+      events = [events];
+    }
+    // Remove Events for specified user and SectionEvent
+    return Promise.all(events.map(event => {
+      return scheduler.cancel({'data.user._id': this._id, 'data.eventId': event._id});
+    })).then(()=>{
+      // For each event/event time/email preference make a new notification.
+      return Promise.all(events.map(event => {
+        return Promise.all(event.info.times.map(time =>{
+          return Promise.all(this.preferences.emailNotifyAheadMinutes.map(minutesAhead => {
             var notifyTime = new Date(time.start.getTime() - minutesAhead*60000);
-            scheduler.schedule(notifyTime, "sectionEvent reminder", {user:this.toObject(), sectionId: event.section._id, eventInfo:event.info.toObject()});
-          });
-        });
-      });
+            return scheduler.schedule(notifyTime, "sectionEvent reminder", {
+              user:this.toObject(),
+              eventId: event._id,
+              eventInfo:event.info.toObject()
+            });
+          }));
+        }));
+      }));
     });
-   }
+  }
 };
 
 export default mongoose.model('User', UserSchema);
