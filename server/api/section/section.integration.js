@@ -5,6 +5,7 @@ var request = require('supertest');
 var auth = require("../../auth/local/test.integration");
 var superwith = require("../superwith.integration");
 var Section = require("./section.model");
+var User = require("../user/user.model");
 
 var seed = require('../../config/seed');
 var exampleSection = seed.exampleSection;
@@ -16,20 +17,18 @@ describe("Notification Tests", () => {
 
     var section;
 
-    before(done => {
-        Section.findByIdAsync(exampleSection._id).then(sec => {
+    before(() => {
+        return Section.findByIdAsync(exampleSection._id).then(sec => {
             section = sec;
-            done();
         });
     });
 
     describe("Static Method Tests", ()=>{
         var relatedUsers;
 
-        before(done => {
-            section.getRelatedUsers().then(users => {
+        before(() => {
+            return section.getRelatedUsers().then(users => {
                 relatedUsers = users;
-                done();
             });
         });
 
@@ -39,8 +38,34 @@ describe("Notification Tests", () => {
             expect(relatedUsers[0]).to.have.property('lastName');
             expect(relatedUsers[0]).to.have.property('isInstructor');
         });
+    });
+
+
+    var student;
+
+    before(() => {
+      return User.findByIdAsync(exampleStudent._id).then((stdent) =>{
+        student = stdent;
+      })
+    });
+
+    describe("Adding student", () => {
+
+      before(() => student.clearNotifications());
+
+      before((done) => {
+        section.students.push(exampleStudent._id);
+        return section.saveAsync().then(() => done());
+      });
+
+      it('should have given the student notifications', () => {
+        return student.getNotifications().then(jobs => {
+            expect(jobs.length).to.be.at.least(1);
+        });
+      });
 
     });
+
 });
 
 describe('Section API:', function() {

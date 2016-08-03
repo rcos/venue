@@ -22,14 +22,16 @@ SectionSchema
   .pre('save', function(next) {
     // Handle new/update times
     Promise.all([
-        this.getRelatedUsers(true),
-        this.getEventsAsync()
-    ]).then((users, events) => {
-        users.forEach(user => {
-            user.updateNotifications(events);
+        this.getRelatedUsers(),
+        this.getSectionEventsAsync()
+    ]).then(([users, events]) => {
+        Promise.all(users.map(user => {
+          // console.log(user, events);
+            return user.updateNotifications(events);
+        })).then(()=>{
+          next();
         });
     });
-    return next();
   });
 
 /**
@@ -39,6 +41,12 @@ SectionSchema.methods = {
 
   getRelatedUsers(){
       return this.populate('students').execPopulate().then(fullSection => fullSection.students);
+  },
+
+  getSectionEventsAsync(opts){
+    return Event.find({section: this._id}).execAsync().then((secs) => {
+      return Promise.all(secs.map(sec => sec.getFullEvent()));
+    });
   },
 
     getEventsAsync(opts){

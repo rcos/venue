@@ -392,6 +392,7 @@ UserSchema.methods = {
       return Promise.all(events.map(event => {
         return Promise.all(event.info.times.map(time =>{
           return Promise.all(this.preferences.emailNotifyAheadMinutes.map(minutesAhead => {
+            if (this.firstName == 'Foo') console.log(time, minutesAhead);
             var notifyTime = new Date(time.start.getTime() - minutesAhead*60000);
             return scheduler.schedule(notifyTime, "sectionEvent reminder", {
               user:this.toObject(),

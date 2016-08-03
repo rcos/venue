@@ -32,7 +32,7 @@ SectionEventSchema.methods = {
   updateUserNotifications(){
     return this.getFullEvent().then(fullEvent => {
         return this.getRelatedUsers().then(users => {
-          return Promise.all(users.map(user => user.updateNotifications([fullEvent])));
+          return Promise.all(users.map(user => user.updateNotifications(fullEvent)));
         });
     }).catch(err => {
       console.log(err);

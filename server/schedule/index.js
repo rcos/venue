@@ -94,4 +94,8 @@ exports.cancel = (query) => {
  * @param  {Object} query i.e. "eventInfoId: 'a1200412933532'"
  * @param  {Function} cb  called with parameters (err, jobs)
  */
-exports.jobs = (query, cb) => agenda.jobs(query, cb);
+exports.jobs = (query, cb) => {
+  return new Promise((resolve, reject) =>
+    agenda.jobs(query, (err, jobs) => err ? reject(err) : resolve(jobs))
+  );
+};

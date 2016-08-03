@@ -708,14 +708,16 @@ module.exports.seed = function(){
             console.log('finished populating courses');
             return Promise.resolve();
         }),
-        module.exports.createSections().then(() => {
+        module.exports.createEvents().then(() => {
+          console.log('finished populating events');
+          return Promise.resolve();
+        })
+      ]).then(() => {
+        return module.exports.createSections().then(() => {
             console.log('finished populating sections');
             return Promise.resolve();
-        }),
-        module.exports.createEvents().then(() => {
-            console.log('finished populating events');
-            return Promise.resolve();
-        }),
+        });
+      }).then(() => { Promise.all([
         module.exports.createSectionEvents().then(() => {
             console.log('finished populating section events');
             return Promise.resolve();
@@ -724,5 +726,6 @@ module.exports.seed = function(){
             console.log("finished populating submissions");
             return Promise.resolve();
         })
-    ]);
+      ])
+    });
 }

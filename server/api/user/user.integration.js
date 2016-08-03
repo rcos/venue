@@ -81,7 +81,7 @@ describe('User API:', function() {
 
 });
 
-describe.only('User notification:', function() {
+describe('User notification:', function() {
 
     var student;
     var fullEvent;
