@@ -18,18 +18,19 @@
 var Agenda = require("agenda");
 var agenda = exports.agenda = null;
 
-var showMessageJob = require('./jobs/showMessage');
-// var sectionEventJob = require('./jobs/sectionEvent');
+// EXAMPLE JOB
+// var showMessageJob = require('./jobs/showMessage');
+var sectionEventJob = require('./jobs/sectionEvent');
 
 function setupJobs(){
-  showMessageJob.setup(agenda);
-  // sectionEventJob.setup(agenda);
+    // EXAMPLE JOB SETUP
+    // showMessageJob.setup(agenda);
+    sectionEventJob.setup(agenda);
 }
 
 function configurePeriodicJobs(){
-
   // EXAMPLE JOB SCHEDULING
-  agenda.every('5 seconds', 'show message');
+  // agenda.every('5 seconds', 'show message');
 }
 
 /**
@@ -69,7 +70,11 @@ exports.now = (task, params, cb) => agenda.now(task, params, cb)
  * @param  {Function} cb     called after job added to queue
  * @return {Job} Agenda job object
  */
-exports.schedule = (when, task, params, cb) => agenda.schedule(when, task, params, cb);
+exports.schedule = (when, task, params) => {
+    return new Promise((resolve, reject) => {
+        agenda.schedule(when, task, params, () => resolve());
+    });
+};
 
 /**
  * Cancels a scheduled a job matching the query
@@ -78,13 +83,9 @@ exports.schedule = (when, task, params, cb) => agenda.schedule(when, task, param
  */
 exports.cancel = (query) => {
    return new Promise((resolve, reject) => {
-    agenda.cancel(query, (err, numRemoved)=>{
-      if(err){
-        reject(err);
-      }else{
-        resolve(numRemoved);
-      }
-    });
+    agenda.cancel(query, (err, numRemoved)=> err ?
+      reject(err) : resolve(numRemoved)
+    );
   });
 }
 

@@ -5,6 +5,7 @@ import User from './user.model';
 import request from 'supertest';
 import SectionEvent from '../sectionevent/sectionevent.model';
 
+var moment = require('moment');
 var scheduler = require('../../schedule');
 var auth = require("../../auth/local/test.integration");
 var superwith = require("../superwith.integration");
@@ -82,33 +83,74 @@ describe('User API:', function() {
 
 describe('User notification:', function() {
 
-    describe('update student notificaitons', function() {
-      before((done)=>{
-        scheduler.cancel({'data.user._id': exampleStudent._id})
-          .then(numRemoved => {
-            done();
-          });
-      });
+    var student;
+    var fullEvent;
 
-      before((done)=>{
-        SectionEvent.findByIdAsync(exampleSectionEvent._id)
-          .then(se=>{
-            return se.getFullEvent()
-          })
-          .then(fullEvent=>{
-            return Promise.all([fullEvent, User.findByIdAsync(exampleStudent._id)]);
-           })
-           .then(([fullEvent, student]) => {
-              student.updateNotifications(fullEvent)
-                .then(()=> done());
-          });
-      });
-
-        it("should have a job set for the student", (done) => {
-          scheduler.jobs({'data.user._id': exampleStudent._id}, function(err, jobs) {
-            expect(jobs.length).to.equal(2);
-            done();
-          });
+    before(done => {
+      SectionEvent.findByIdAsync(exampleSectionEvent._id)
+        .then(se=>{
+          return se.getFullEvent()
+        }).then(evnt => {
+          fullEvent = evnt;
+          done();
         });
+    });
+
+    before(done =>{
+      User.findByIdAsync(exampleStudent._id).then(user => {
+        student = user;
+        done();
+      });
+    });
+
+    var populatedJobTimes;
+    describe("Populate a student's notifications", () => {
+
+      before(done=>{
+        scheduler.cancel({'data.user._id': exampleStudent._id})
+        .then(numRemoved => {
+          done();
+        });
+      });
+
+      before(done => {
+          student.updateNotifications(fullEvent).then(()=>{
+            done();
+          });
+      });
+
+      it("should have user notifications", done => {
+        scheduler.jobs({'data.user._id': exampleStudent._id}, function(err, jobs) {
+          populatedJobTimes = jobs.map(j => j.attrs.nextRunAt);
+          expect(jobs.length).to.equal(2);
+          done();
+        });
+      });
+    });
+
+    describe("update student notifications after time change", () => {
+      before(() => {
+        // Change time by an hour
+        fullEvent.info.times = [{
+          start: moment().add(1, 'hour').toDate(),
+          end: moment().add(1, 'hour').add(30,'minutes').toDate()
+        }];
+      });
+
+      before(done => {
+        student.updateNotifications(fullEvent).then(()=>{
+          done();
+        });
+      });
+
+      it("should update when event times change", done => {
+        scheduler.jobs({'data.user._id': exampleStudent._id}, function(err, jobs) {
+          var newTimes = jobs.map(j => j.attrs.nextRunAt);
+          expect(jobs.length).to.be.equal(1);
+          expect(moment(jobs[0].attrs.nextRunAt).fromNow().toString()).to.equal("in 30 minutes");
+          done();
+        });
+      });
+
     });
 });
