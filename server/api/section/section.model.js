@@ -26,7 +26,6 @@ SectionSchema
         this.getSectionEventsAsync()
     ]).then(([users, events]) => {
         Promise.all(users.map(user => {
-          // console.log(user, events);
             return user.updateNotifications(events);
         })).then(()=>{
           next();
