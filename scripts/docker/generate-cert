@@ -1,3 +1,6 @@
 #!/bin/bash
 
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /root/cert.key -out /root/cert.crt -subj "/CN=$DOMAIN/O=$COMPANY/C=US"
+if [ ! "$(ls -A /home/certs)" ]; then
+    mkdir -p /root/certs
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /root/certs/cert.key -out /root/certs/cert.crt -subj "/CN=$DOMAIN/O=$COMPANY/C=US"
+fi

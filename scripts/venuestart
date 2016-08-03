@@ -5,6 +5,11 @@
 
 # See venuestart-dev for some example environment variables
 
+if [ -z "$CERTS_DIRECTORY" ]; then
+    echo "Please set \$CERTS_DIRECTORY (if empty, self-signed certs will be generated)"
+    exit 1
+fi
+
 # This will pull from the server's environment variables
 docker run \
 -e DOMAIN \
@@ -23,4 +28,5 @@ docker run \
 -e PRODUCTION_RUN \
 -P \
 --net="host" \
+-v "$CERTS_DIRECTORY:/root/certs:rw" \
 --name venue -dit rcos/venue
