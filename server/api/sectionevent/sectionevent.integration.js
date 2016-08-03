@@ -6,6 +6,7 @@ var auth = require("../../auth/local/test.integration");
 var superwith = require("../superwith.integration");
 
 var SectionEvent = require('./sectionevent.model');
+var User = require("../user/user.model");
 
 var seed = require('../../config/seed');
 var exampleSectionEvent = seed.exampleSectionEvent;
@@ -14,22 +15,27 @@ var scheduler = require('../../schedule');
 
 var newSectionEvent;
 
-describe.only("SectionEvent Notification Handling", function(){
+describe("SectionEvent Notification Handling", function(){
     var sectionEvent;
+    var student;
 
-    before(done => {
-        SectionEvent.findByIdAsync(exampleSectionEvent._id).then(se => {
+    before(() => {
+        return SectionEvent.findByIdAsync(exampleSectionEvent._id).then(se => {
             sectionEvent = se;
-            done();
+        });
+    });
+
+    before(() => {
+        return User.findByIdAsync(exampleStudent._id).then(stdent => {
+          student = stdent;
         });
     });
 
     var relatedUsers;
     describe("Static Methods", () => {
-        before(done => {
-            sectionEvent.getRelatedUsers().then(users => {
+        before(() => {
+            return sectionEvent.getRelatedUsers().then(users => {
                 relatedUsers = users;
-                done();
             });
         });
 
@@ -40,22 +46,13 @@ describe.only("SectionEvent Notification Handling", function(){
 
     describe('Set notifications for event', function() {
 
-      before((done)=>{
-        scheduler.cancel({'data.user._id': exampleStudent._id})
-          .then(numRemoved => {
-            done();
-          });
-      });
+      before(() => student.clearNotifications());
 
-      before((done)=>{
-        sectionEvent.updateUserNotifications()
-          .then(() => done());
-      });
+      before(()=> sectionEvent.updateUserNotifications());
 
-      it("should have given the user notifications", done => {
-        scheduler.jobs({'data.user._id': exampleStudent._id}, function(err, jobs) {
+      it("should have given the user notifications", () => {
+        return student.getNotifications().then((jobs) => {
           expect(jobs.length).to.be.at.least(1);
-          done();
         });
       });
 
