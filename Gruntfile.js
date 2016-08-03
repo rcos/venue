@@ -654,7 +654,9 @@ module.exports = function (grunt) {
         dest: "./client/app/config.js",
         constants: {
           ENV: process.env.NODE_ENV || "development",
-          CAS_ENABLED: process.env.CAS_SERVER_URL != ""
+          CAS_ENABLED: process.env.CAS_SERVER_URL != "",
+          LOCAL_LOGIN_ENABLED: process.env.LOCAL_LOGIN != "no",
+          DEBUG_LOGIN_ENABLED: process.env.DEBUG_LOGIN != "no"
         }
       },
       build: {}
