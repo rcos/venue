@@ -163,13 +163,6 @@ exports.destroy = function(req, res) {
 };
 
 exports.image = function(req, res){
-  // Once the server refreshes urls, this should be removed
-  var imgPath;
-  if (req.query.imgPath){
-    imgPath = path.join(__dirname, "../../../", req.query.imgPath);
-    return res.sendFile(imgPath);
-  }
-
   // Prevents requesting arbitary files from the server
   if (req.params.name.indexOf('/') !== -1){
     return res.json(404);

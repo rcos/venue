@@ -87,7 +87,7 @@ function saveSubmissionImage(files, fields, cb){
       var imagePath = imageUpload.saveImage(file, path, function(err) {
         callback(err)
       });
-      imagePaths.push("/api/submissions/image/" + imagePath + "/" + fields.userId + "/" + fields.eventId);
+      imagePaths.push("/api/submissions/image/" + fields.userId + "/" + fields.eventId + "/" + imagePath);
       });
     });
   async.parallel(asyncTasks, (error, results) => {
