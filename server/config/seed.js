@@ -118,7 +118,7 @@ function allCourses(){return {
     netArt:{
       name: 'Net Art',
       department: "ARTS",
-      imageURLs: ["https://images.unsplash.com/photo-1423768164017-3f27c066407f?fm=jpg&dpr=0.75&h=500"], // url to image
+      imageURLs: ["/api/courses/image/net_art-1470286856650.jpg"], // url to image
       courseNumber: 2030,
       description: "Net Art is a hands-on studio course that uses the examination of the historical and theoretical aspects of Web-based art and virtual social spaces as a launching pad for individual student work. Considerable work at the conceptual level and a survey of Web-oriented software and programming enable students to create new works in net-based art.",
       semester: "Fall15",
@@ -128,7 +128,7 @@ function allCourses(){return {
     openSource:{
       name: "Introduction to Open Source",
       department: "CSCI",
-      imageURLs: ["https://images.unsplash.com/photo-1454817481404-7e84c1b73b4a?fm=jpg&dpr=0.75&h=500"], // url to image
+      imageURLs: ["/api/courses/image/open_source-7e84c1b73b4a-1470286931306.jpeg"], // url to image
       courseNumber: 2963,
       description: "The goal of this course is to provide a strong foundation in open source software development in preparation for jobs in industry or for more advanced courses. An important component of this course is participation in a community and contributing to an open source project. This course also provides an understanding of open source software tools and community, an understanding of open source licensing, an understanding of testing, version control, and open source software stacks. Students must come with a desire to learn new things, as well as the ability to adapt to open source tools and packages.",
       semester: "Spring15",
@@ -138,7 +138,7 @@ function allCourses(){return {
     robotics:{
       name: "Mestizo Robotics",
       department: "ARCH",
-      imageURLs: ["https://images.unsplash.com/photo-1453282716202-de94e528067c?fm=jpg&dpr=0.75&h=500"], // url to image
+      imageURLs: ["/api/courses/image/robotics-1470287067489.jpeg"], // url to image
       courseNumber: 4968,
       description: "Students will participate in the development of an artistic academic project comprised of an interconnected spherical robotic community dispersed and developed by different research units throughout the Americas.",
       semester: "Spring15",
@@ -148,7 +148,7 @@ function allCourses(){return {
     art:{
       name: "Art, Community and Technology",
       department: "ARTS",
-      imageURLs: ["https://images.unsplash.com/photo-1453106037972-08fbfe790762?fm=jpg&dpr=0.75&h=500"], // url to image
+      imageURLs: ["/api/courses/image/art_tech-1470287125149.jpeg"], // url to image
       courseNumber: 4080,
       description: "Through direct experience in the community, this course explores the complex roles and relationships of art, education and technology, students will develop a plan to work with a media arts center, community organization or school; final teams will produce real-world arts and education projects that ultimately will be realized as significant additions to their professional portfolio.  The projects can include a range from traditional arts practice to creative writing, creative IT models to community art and activism. We will examine diverse case studies, with special focus on the development and sustainability of a new local media arts center in Troy, the Sanctuary for Independent Media.  Students from a wide interdisciplinary range of studies are encouraged to enroll: a strong interest in how you can integrate creativity into your own knowledge base, and a desire to do field work in the community, are all that is required.",
       semester: "Spring15",
@@ -158,7 +158,7 @@ function allCourses(){return {
     imaging:{
       name: "Media Studio: Imaging",
       department: "ARTS",
-      imageURLs: ["https://images.unsplash.com/photo-1441986380878-c4248f5b8b5b?fm=jpg&dpr=0.75&h=500"], // url to image
+      imageURLs: ["/api/courses/image/media_studio-1470287179137.jpeg"], // url to image
       courseNumber: 1020,
       description: "This course introduces students to digital photography, web design, and interactive multimedia in making art. Students broaden their understanding of such topics as composition, effective use of images, color theory, typography, and narrative flow. Inquiry and experimentation are encouraged, leading towards the development of the skill and techniques needed to create visual art with electronic media.",
       semester: "Spring15",
@@ -168,7 +168,7 @@ function allCourses(){return {
     materials:{
       name: "Materials and Design",
       department: "ARCH",
-      imageURLs: ["https://images.unsplash.com/photo-1454047637795-79e3325dfa0e?fm=jpg&dpr=0.75&h=500"], // url to image
+      imageURLs: ["/api/courses/image/materials_design-1470287222831.jpeg"], // url to image
       courseNumber: 2510,
       description: "This course establishes an understanding of the most common materials, their properties and resulting uses, and the implications of their uses in the larger context of material life cycles. The structural makeup of metals, ceramics, polymers, and composite materials is discovered and their resulting properties, costs, and life cycle consequences are clarified. An understanding of basic mechanical properties is established hands on by conducting tension, compression, and 3-point bending tests (mse-lab). Physical performance of material constructs as synergy between form and material properties is further illustrated. Experiments are conducted that introduce such major concepts as structural loading, properties of sections, and resulting system performance. Sustainability: The concept of life cycles is introduced; material and energy flows are tracked throughout the entire material life cycle. This will be accomplished alongside introducing major material groupings (metals, polymers, ceramics, and composites). Students come to realize that environmental concerns are directly related to structural composition and material availability. Consequences of resource extraction, distribution, manipulation, use, and disposal, reuse or recycle are addressed at both local and global scales. Selected field trips to materials extraction, processing, manufacturing, disposal, and recycling facilities are aimed to give physical meaning to the concept of life cycle.",
       semester: "Spring15",
@@ -178,7 +178,7 @@ function allCourses(){return {
     designStudio:{
       name: "Design Studio",
       department: "ARCH",
-      imageURLs: ["https://images.unsplash.com/photo-1460626399219-57a00a2361cb?fm=jpg&dpr=0.75&h=500"], // url to image
+      imageURLs: ["/api/courses/image/design_studio-1470287264740.jpeg"], // url to image
       courseNumber: 2200,
       description: "Design studio introducing students from all disciplines to general design through a series of short projects. The projects stress critical and creative thinking and invention, interdisciplinary collaboration, observation and perception, communication and visualization. Students will begin open-ended investigations using sketching, photography, model making, and computing.",
       semester: "Spring15",
@@ -188,7 +188,7 @@ function allCourses(){return {
     citiesLands:{
       name: "Cities/Lands",
       department: "ARCH",
-      imageURLs: ["https://images.unsplash.com/photo-1438893761775-f1db119d27b2?fm=jpg&dpr=0.75&h=500"], // url to image
+      imageURLs: ["/api/courses/image/cities_lands-1470287294747.jpeg"], // url to image
       courseNumber: 4040,
       description: "This lecture-seminar is an examination of the parallel historical formation and operation of human settlements together with the territories associated with them, and the interrelations among them in Western Europe, North America, China, the Middle East, and North Africa. The purpose is to better understand the role spatial organization plays in the construction of social practices, human subjectivities, and technologies of power. While the differing paradigmatic notions of architectural and landscape practices will be explored in each cultural situation, the emphasis will be on the formative processes operating at all scales and among scales, and the more general design practices that have emerged, and could emerge, from these understandings.",
       semester: "Spring15",
@@ -198,7 +198,7 @@ function allCourses(){return {
     venue:{
       _id : mongoose.Types.ObjectId("222222222222222222222220"),
       department : "TEST",
-      imageURLs: ["https://images.unsplash.com/photo-1451188502541-13943edb6acb?fm=jpg&dpr=0.75&h=500"], // url to image
+      imageURLs: ["/api/courses/image/test-1470287331303.jpeg"], // url to image
       courseNumber : 1234,
       name : "Venue Testing",
       description : "This course is for testing new venue features.",
@@ -308,7 +308,7 @@ function allEvents(){
       concerts:{
       title: "Art_X Concerts: Examine Intersections of Science, Art",
       description: "Faculty of the School of Humanities, Arts and Social Sciences (HASS) collaborate with the Center for Biotechnology and Interdisciplinary Studies (CBIS) and local Troy artists on two Art_X concerts to discover the art in science and the science in art.  The concerts, which will be held on Tuesday October 6 and October 20 at 4:30 pm in the CBIS Auditorium, are free and open to the RPI community. Following each concert, there will be a reception hosted by CBIS in the Gallery of the CBIS Auditorium.",
-      imageURLs: ["http://news.rpi.edu/sites/default/files/cbis-news_0.jpeg"], // url to image
+      imageURLs: ["/api/eventinfos/image/rpi_concerts-1470324497084.jpeg"], // url to image
       author: allUsers().travis._id, //Travis
       creationDate: new Date("January 1, 2016 03:24:00"),
       location: {
@@ -353,7 +353,7 @@ function allEvents(){
     dancing:{
       title: "Dancing Through the Years",
       description: "Judson Laipply dances the last 50 years.",
-      imageURLs: ["http://www.lhsdoi.com/wp-content/uploads/2014/04/photo-1-950x950.jpg"], // url to image
+      imageURLs: ["/api/eventinfos/image/dancing-1470324472479.jpeg"], // url to image
       author: allUsers().bob._id, //Bob
       creationDate: new Date("January 4, 2016 05:49:06"),
       location: {
@@ -397,7 +397,7 @@ function allEvents(){
       _id : mongoose.Types.ObjectId("444444444444444444444440"),
       title : "National Medal of Science Reception",
       description : "President Shirley Ann Jackson named recipient of National Medal of Science, the nation‚Äôs highest honor in science and technology. The award recognizes individuals deserving of special recognition for their outstanding cumulative contributions to knowledge in the physical, biological, mathematical, engineering, or behavioral or social sciences, in service to the nation.",
-      imageURLs : ["https://i.ytimg.com/vi/kKDpgJLh93o/maxresdefault.jpg"],
+      imageURLs : ["/api/eventinfos/image/national_medal-1470324440176.jpeg"],
       author : allUsers().venue._id,
       times : [
         {
@@ -444,7 +444,7 @@ function allEvents(){
       _id : mongoose.Types.ObjectId("444444444444444444444441"),
       title : "National Medal of Science Black-tie Gala",
       description : "A gala to celebrate the amazing individuals who have won the highest science, technology, engineering, and mathematics award in the United States. Their achievements shape cultural revolutions, drive world economies, and change the face of life as we know it. Their stories will inspire the next generation.",
-      imageURLs : ["http://www.officiallycrowned.org/wp-content/uploads/2015/10/Special-Occasions-Event-Planning-Revelry-Event-Designers-1.jpg"],
+      imageURLs : ["/api/eventinfos/image/gala-1470287713130.jpeg"],
       creationDate : "2016-01-21T11:35:26.867Z",
       author : allUsers().venue._id,
       times : [
@@ -578,7 +578,7 @@ function allSubmissions(){
     submission1:{
       _id : mongoose.Types.ObjectId("666666666666666666666661"),
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      images: ["/api/submissions/image?imgPath=./data/eventImages/000000000000000000000004/000000000000000000001000/submission1.jpg"], // path to image on static image server?
+      images: ["/api/submissions/image/000000000000000000000004/000000000000000000001000/submission1.jpg"], // path to image on static image server?
       time: Date.now(),
       submitter: allUsers().foo._id,
       authors: [allUsers().foo._id, allUsers().kelly._id, allUsers().jane._id],
@@ -595,7 +595,7 @@ function allSubmissions(){
     },
     submission2:{
       content: "Aenean venenatis sodales sollicitudin. Ut quis auctor tellus. Suspendisse eu dictum dolor, sed eleifend nisi. Sed sit amet odio eget felis scelerisque cursus eu id erat. Suspendisse volutpat magna libero, mattis semper justo aliquet sed. Suspendisse nisi neque, suscipit sit amet vehicula ut, luctus vitae diam. Vivamus congue orci sem, at mattis tortor sagittis id. Nullam malesuada diam nec mollis dictum. Suspendisse non turpis eu nunc auctor interdum. Nullam sollicitudin orci sapien, vitae bibendum nisi iaculis vitae. Nunc egestas porta ante non ullamcorper. Morbi odio ex, mattis a posuere at, tincidunt at turpis. Nullam quis maximus ipsum, a dapibus orci. Etiam vehicula ante non tincidunt fermentum. Nunc tristique sed ligula ac molestie.",
-      images: ["/api/submissions/image?imgPath=./data/eventImages/000000000000000000000004/000000000000000000001000/submission2.jpg"], // path to image on static image server?
+      images: ["/api/submissions/image/000000000000000000000004/000000000000000000001000/submission2.jpg"], // path to image on static image server?
       time: Date.now(),
       submitter: allUsers().kelly._id,
       authors: [allUsers().foo._id, allUsers().jane._id, allUsers().kelly._id],
@@ -612,7 +612,7 @@ function allSubmissions(){
     },
     submission3:{
       content: "Cu partem officiis sed, est ex dicit tacimates honestatis, id eam libris facilis singulis. Case tota virtute his cu. Illud fierent accusata mel at, qui ne nemore vivendo legendos. Eripuit aliquid consequat pro eu.",
-      images: ["/api/submissions/image?imgPath=./data/eventImages/000000000000000000000006/000000000000000000001000/submission1.jpg"], // path to image on static image server?
+      images: ["/api/submissions/image/000000000000000000000006/000000000000000000001000/submission1.jpg"], // path to image on static image server?
       time: Date.now(),
       submitter: allUsers().jane._id,
       authors: [allUsers().foo._id, allUsers().jane._id, allUsers().kelly._id],
