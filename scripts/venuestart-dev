@@ -13,5 +13,7 @@ docker run \
 -e "EMAIL_SERVICE=MOCK" \ # MOCK, SMTP or SENDGRID
 -e "SERVER_EMAIL=schoolid@university.edu" \
 -e "SMTP_PASSWORD=smtpPassword" \
--p 443:443 -p 9000:9000 -p 80:80 \
+-e "INTERNAL_MONGO=yes" \
+-e "PRODUCTION_RUN=no" \
+-P \
 --name venue -dit rcos/venue

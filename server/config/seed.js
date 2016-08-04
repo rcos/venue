@@ -531,7 +531,7 @@ function allSectionEvents(){
     art1Dancing: {
       section: allSections().art1._id,// Art, Community and Technology section 1
       course: allCourses().art._id,//Art, Community and Technology
-      submissionInstructions:"",
+      submissionInstructions:"Dance!",
       author: allUsers().bob._id, //Bob
       creationDate: new Date("January 4, 2016 05:49:06"),
       info: allEvents().dancing._id,//Dancing Through the Years

@@ -35,7 +35,7 @@ class NavbarController {
   isCollapsed = true;
   //end-non-standard
 
-  constructor($location, Auth) {
+  constructor($location, Auth, $window) {
     this.$location = $location;
     this.isLoggedIn = Auth.isLoggedIn;
     this.isAdmin = Auth.isAdmin;
@@ -45,6 +45,16 @@ class NavbarController {
       this.isInstructor = user.isInstructor;
       this.user = user;
     });
+
+    this.help = () => {
+        if (this.user.firstName && this.isStudent){
+            $window.location.href = "https://github.com/rcos/venue/wiki/Student-How-to";
+        }else if (this.isInstructor){
+            $window.location.href = "https://github.com/rcos/venue/wiki/Instructor-How-to";
+        }else{
+            $window.location.href = "https://github.com/rcos/venue/wiki";
+        }
+    };
   }
 
   isMenuAccessible(navItem){

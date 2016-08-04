@@ -1,5 +1,6 @@
 <div class="eventCreationForm">
   <!-- TODO use grid directive -->
+  <h2> Assign or Create an Event </h2>
 
   <div class='search-bar-container'>
     <div class="search-bar">
@@ -13,7 +14,7 @@
        </div>
      </div>
   </div>
-
+  <br/>
   <div class='events-selection'>
     <div class='event' ng-click='useEvent(event)' ng-repeat='event in filteredEvents = (eventinfos | filter:searchText)'>
       <img http-src='{{event.imageURLs[0]}}'/>
