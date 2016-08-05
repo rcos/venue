@@ -4,12 +4,69 @@ var app = require('../..');
 var request = require('supertest');
 var auth = require("../../auth/local/test.integration");
 var superwith = require("../superwith.integration");
+var Section = require("./section.model");
+var User = require("../user/user.model");
 
 var seed = require('../../config/seed');
 var exampleSection = seed.exampleSection;
 var exampleStudent = seed.exampleStudent;
 
 var newSection;
+
+describe("Notification Tests", () => {
+
+    var section;
+
+    before(() => {
+        return Section.findByIdAsync(exampleSection._id).then(sec => {
+            section = sec;
+        });
+    });
+
+    describe("Static Method Tests", ()=>{
+        var relatedUsers;
+
+        before(() => {
+            return section.getRelatedUsers().then(users => {
+                relatedUsers = users;
+            });
+        });
+
+        it("expect getRelatedUsers to return users", () => {
+            expect(relatedUsers).to.be.a('array');
+            expect(relatedUsers[0]).to.have.property('firstName');
+            expect(relatedUsers[0]).to.have.property('lastName');
+            expect(relatedUsers[0]).to.have.property('isInstructor');
+        });
+    });
+
+
+    var student;
+
+    before(() => {
+      return User.findByIdAsync(exampleStudent._id).then((stdent) =>{
+        student = stdent;
+      })
+    });
+
+    describe("Adding student", () => {
+
+      before(() => student.clearNotifications());
+
+      before((done) => {
+        section.students.push(exampleStudent._id);
+        return section.saveAsync().then(() => done());
+      });
+
+      it('should have given the student notifications', () => {
+        return student.getNotifications().then(jobs => {
+            expect(jobs.length).to.be.at.least(1);
+        });
+      });
+
+    });
+
+});
 
 describe('Section API:', function() {
 

@@ -18,14 +18,17 @@
 var Agenda = require("agenda");
 var agenda = exports.agenda = null;
 
-var showMessageJob = require('./jobs/showMessage');
+// EXAMPLE JOB
+// var showMessageJob = require('./jobs/showMessage');
+var sectionEventJob = require('./jobs/sectionEvent');
 
 function setupJobs(){
-  showMessageJob.setup(agenda);
+    // EXAMPLE JOB SETUP
+    // showMessageJob.setup(agenda);
+    sectionEventJob.setup(agenda);
 }
 
 function configurePeriodicJobs(){
-
   // EXAMPLE JOB SCHEDULING
   // agenda.every('5 seconds', 'show message');
 }
@@ -67,4 +70,32 @@ exports.now = (task, params, cb) => agenda.now(task, params, cb)
  * @param  {Function} cb     called after job added to queue
  * @return {Job} Agenda job object
  */
-exports.schedule = (when, task, params, cb) => agenda.schedule(when, task, params, cb);
+exports.schedule = (when, task, params) => {
+    return new Promise((resolve, reject) => {
+        agenda.schedule(when, task, params, () => resolve());
+    });
+};
+
+/**
+ * Cancels a scheduled a job matching the query
+ * @param  {Object} query i.e. "eventInfoId: 'a1200412933532'"
+ * @param  {Function} cb  called with parameters (err, numRemoved)
+ */
+exports.cancel = (query) => {
+   return new Promise((resolve, reject) => {
+    agenda.cancel(query, (err, numRemoved)=> err ?
+      reject(err) : resolve(numRemoved)
+    );
+  });
+}
+
+/**
+ * Searches using a  full mongodb-native find query.
+ * @param  {Object} query i.e. "eventInfoId: 'a1200412933532'"
+ * @param  {Function} cb  called with parameters (err, jobs)
+ */
+exports.jobs = (query, cb) => {
+  return new Promise((resolve, reject) =>
+    agenda.jobs(query, (err, jobs) => err ? reject(err) : resolve(jobs))
+  );
+};

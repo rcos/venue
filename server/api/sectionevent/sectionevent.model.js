@@ -3,6 +3,7 @@
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
 import Submission from '../submission/submission.model';
+import Section from '../section/section.model';
 
 var SectionEventSchema = new Schema({
   section: {type: Schema.Types.ObjectId, ref: 'Section'},
@@ -12,10 +13,46 @@ var SectionEventSchema = new Schema({
   creationDate: Date
 });
 
+
 /**
  * Methods
  */
 SectionEventSchema.methods = {
+
+  getRelatedUsers(){
+    return this.populate({
+        path:"section",
+        populate: {
+            path:"students",
+            model:"User"
+        }
+    }).execPopulate().then(se => se.section.students);
+  },
+
+  updateUserNotifications(){
+    return this.getFullEvent().then(fullEvent => {
+        return this.getRelatedUsers().then(users => {
+          return Promise.all(users.map(user => user.updateNotifications(fullEvent)));
+        });
+    }).catch(err => {
+      console.log(err);
+    })
+  },
+
+  getFullEvent(){
+      return this.populate({path:"info", model:'EventInfo'})
+          .populate({
+              path: 'section',
+              populate: {
+                  path: 'course',
+                  model: 'Course'
+              }
+          })
+          .execPopulate().then((event) => {
+              if(event.info === null) throw new Error("EventInfo null");
+              return Promise.resolve(event);
+          });
+  },
 
   fullRemove(){
     return Submission.find({sectionEvent:this._id}).remove().execAsync()
@@ -25,4 +62,4 @@ SectionEventSchema.methods = {
   }
 };
 
-module.exports = mongoose.model('SectionEvent', SectionEventSchema);
+export default mongoose.model('SectionEvent', SectionEventSchema);

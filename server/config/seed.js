@@ -24,6 +24,7 @@ function allUsers(){return {
     isVerified: true,
     isInstructor: false,
     _id: mongoose.Types.ObjectId('000000000000000000000000'),
+    preferences: {emailNotifyAheadMinutes: [30]},
   },
   admin: {
     provider: 'local',
@@ -35,7 +36,7 @@ function allUsers(){return {
     isVerified: true,
     isInstructor: true,
     _id: mongoose.Types.ObjectId('000000000000000000000001'),
-
+    preferences: {emailNotifyAheadMinutes: [30]},
   },
   bob: {
     provider: 'local',
@@ -46,6 +47,7 @@ function allUsers(){return {
     isVerified: true,
     isInstructor: true,
     _id: mongoose.Types.ObjectId('000000000000000000000002'),
+    preferences: {emailNotifyAheadMinutes: [30]},
   },
   travis: {
     provider: 'local',
@@ -56,6 +58,7 @@ function allUsers(){return {
     isVerified: true,
     isInstructor: true,
     _id: mongoose.Types.ObjectId('000000000000000000000003'),
+    preferences: {emailNotifyAheadMinutes: [30]},
   },
   foo: {
     provider: 'local',
@@ -66,6 +69,7 @@ function allUsers(){return {
     isVerified: true,
     isInstructor: false,
     _id: mongoose.Types.ObjectId('000000000000000000000004'),
+    preferences: {emailNotifyAheadMinutes: [30]},
   },
   kelly: {
     provider: 'local',
@@ -76,6 +80,7 @@ function allUsers(){return {
     isVerified: true,
     isInstructor: false,
     _id: mongoose.Types.ObjectId('000000000000000000000005'),
+    preferences: {emailNotifyAheadMinutes: [30]},
   },
   jane: {
     provider: 'local',
@@ -86,6 +91,7 @@ function allUsers(){return {
     isVerified: true,
     isInstructor: false,
     _id: mongoose.Types.ObjectId('000000000000000000000006'),
+    preferences: {emailNotifyAheadMinutes: [30]},
   },
   curt:{
     _id : mongoose.Types.ObjectId("111111111111111111111111"),
@@ -97,6 +103,7 @@ function allUsers(){return {
     isVerified: true,
     isInstructor : false,
     role : "user",
+    preferences: {emailNotifyAheadMinutes: [30]},
   },
   venue:{
     _id : mongoose.Types.ObjectId("111111111111111111111112"),
@@ -107,7 +114,8 @@ function allUsers(){return {
     isInstructor : true,
     role : "admin",
     firstName : "Venue",
-    lastName : "Team"
+    lastName : "Team",
+    preferences: {emailNotifyAheadMinutes: [30]},
   }
 
 
@@ -687,7 +695,7 @@ module.exports.exampleStudent = allUsers().foo;
 module.exports.exampleSubmission = allSubmissions().submission1;
 module.exports.exampleSectionEvent = allSectionEvents().netArt12Concerts;
 module.exports.exampleSection = allSections().netArt12;
-module.exports.exampleEvent = allEvents().concert;
+module.exports.exampleEvent = allEvents().concerts;
 module.exports.exampleCourse = allCourses().netArt;
 
 module.exports.seed = function(){
@@ -700,21 +708,24 @@ module.exports.seed = function(){
             console.log('finished populating courses');
             return Promise.resolve();
         }),
-        module.exports.createSections().then(() => {
-            console.log('finished populating courses');
-            return Promise.resolve();
-        }),
         module.exports.createEvents().then(() => {
-            console.log('finished populating events');
+          console.log('finished populating events');
+          return Promise.resolve();
+        })
+      ]).then(() => {
+        return module.exports.createSections().then(() => {
+            console.log('finished populating sections');
             return Promise.resolve();
-        }),
+        });
+      }).then(() => { Promise.all([
         module.exports.createSectionEvents().then(() => {
-            console.log('finished populating events');
+            console.log('finished populating section events');
             return Promise.resolve();
         }),
         module.exports.createSubmissions().then(() => {
             console.log("finished populating submissions");
             return Promise.resolve();
         })
-    ]);
+      ])
+    });
 }

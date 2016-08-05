@@ -4,6 +4,7 @@ var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
 import Event from '../sectionevent/sectionevent.model';
 var async = require('async');
+var scheduler = require('../../schedule');
 
 var SectionSchema = new Schema({
   course: {type : Schema.Types.ObjectId, ref: 'Course'},
@@ -15,10 +16,38 @@ var SectionSchema = new Schema({
 });
 
 /**
+ * Pre-save hook
+ */
+SectionSchema
+  .pre('save', function(next) {
+    // Handle new/update times
+    Promise.all([
+        this.getRelatedUsers(),
+        this.getSectionEventsAsync()
+    ]).then(([users, events]) => {
+        Promise.all(users.map(user => {
+            return user.updateNotifications(events);
+        })).then(()=>{
+          next();
+        });
+    });
+  });
+
+/**
  * Methods
  */
 SectionSchema.methods = {
-  //withEventSectionNumbers
+
+  getRelatedUsers(){
+      return this.populate('students').execPopulate().then(fullSection => fullSection.students);
+  },
+
+  getSectionEventsAsync(opts){
+    return Event.find({section: this._id}).execAsync().then((secs) => {
+      return Promise.all(secs.map(sec => sec.getFullEvent()));
+    });
+  },
+
     getEventsAsync(opts){
       var events = [];
       var query = Event.find({section : this._id})
@@ -52,4 +81,4 @@ SectionSchema.methods = {
     }
 };
 
-module.exports = mongoose.model('Section', SectionSchema);
+export default mongoose.model('Section', SectionSchema);

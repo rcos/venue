@@ -8,7 +8,8 @@ var fs = require('fs');
 var path = require('path');
 var signupTemplate = fs.readFileSync(path.join(__dirname,"templates","signup.html"), "utf8");
 var forgotPasswordTemplate = fs.readFileSync(path.join(__dirname,"templates","forgotPassword.html"), "utf8");
-
+var eventCreatedTemplate = fs.readFileSync(path.join(__dirname,"templates","eventCreated.html"), "utf8");
+var eventReminderTemplate = fs.readFileSync(path.join(__dirname,"templates","eventReminder.html"), "utf8");
 var emailClient;
 switch(config.emailService){
   case "SMTP":
@@ -53,3 +54,56 @@ switch(config.emailService){
    message.subject = "[Venue] Forgot Email";
    emailClient.send(message, callback);
  };
+
+ /**
+  * Sends a "forgot password" email.
+  * @param  {object}   message  {email, name, verifyURL}
+  * @param  {Function} callback Function to call after queuing or sending email
+  */
+  module.exports.createSectionEvent = (message, callback) => {
+    callback = callback || function(){};
+    var timeString = "";
+    Object.keys(message.eventInfo.times).map(key => {
+      return String(message.eventInfo.times[key].start);
+    }).forEach((time)=>{
+      timeString = timeString.concat(time+ " ");
+    })
+    var templated = eventCreatedTemplate.replace(/\-name\-/g, message.user.firstName)
+                                          .replace(/\-eventName\-/g, message.eventInfo.title)
+                                          .replace(/\-eventDescription\-/g, message.eventInfo.description)
+                                          .replace(/\-eventLocationAddress\-/g, message.eventInfo.location.address)
+                                          .replace(/\-eventLocationDescription\-/g, message.eventInfo.location.description)
+                                          .replace(/\-time\-/g, timeString);
+
+    message.email = message.user.email;
+    message.html = templated;
+    message.subject = "[Venue] New Event";
+    emailClient.send(message, callback);
+  };
+
+ /**
+  * Sends a "forgot password" email.
+  * @param  {object}   message  {email, name, verifyURL}
+  * @param  {Function} callback Function to call after queuing or sending email
+  */
+  module.exports.remindSectionEvent = (message, callback) => {
+    callback = callback || function(){};
+    var timeString = "";
+    Object.keys(message.eventInfo.times).map(key => {
+      return String(message.eventInfo.times[key].start);
+    }).forEach((time)=>{
+      timeString = timeString.concat(time+ " ");
+    })
+    var templated = eventReminderTemplate.replace(/\-name\-/g, message.user.firstName)
+                                          .replace(/\-eventName\-/g, message.eventInfo.title)
+                                          .replace(/\-eventDescription\-/g, message.eventInfo.description)
+                                          .replace(/\-eventLocationAddress\-/g, message.eventInfo.location.address)
+                                          .replace(/\-eventLocationDescription\-/g, message.eventInfo.location.description)
+                                          .replace(/\-time\-/g, timeString);
+
+    message.email = message.user.email;
+    templated.replace(/\-time\-/g, timeString);
+    message.html = templated;
+    message.subject = "[Venue] Event Reminder";
+    emailClient.send(message, callback);
+  };

@@ -3,11 +3,15 @@
 import app from '../..';
 import User from './user.model';
 import request from 'supertest';
+import SectionEvent from '../sectionevent/sectionevent.model';
 
+var moment = require('moment');
+var scheduler = require('../../schedule');
 var auth = require("../../auth/local/test.integration");
 var superwith = require("../superwith.integration");
+var mongoose = require('mongoose');
 
-import {exampleUser} from '../../config/seed';
+import {exampleStudent, exampleSectionEvent} from '../../config/seed';
 
 describe('User API:', function() {
   var user;
@@ -75,4 +79,59 @@ describe('User API:', function() {
         ]);
     });
 
+});
+
+describe('User notification:', function() {
+
+    var student;
+    var fullEvent;
+
+    before(() => {
+      return SectionEvent.findByIdAsync(exampleSectionEvent._id)
+        .then(se=>{
+          return se.getFullEvent()
+        }).then(evnt => {
+          fullEvent = evnt;
+        });
+    });
+
+    before(() =>{
+      return User.findByIdAsync(exampleStudent._id).then(user => {
+        student = user;
+      });
+    });
+
+    describe("Populate a student's notifications", () => {
+
+      before(() => student.clearNotifications());
+
+      before(() => student.updateNotifications(fullEvent));
+
+      it("should have user notifications", () => {
+        return student.getNotifications().then((jobs) => {
+          expect(jobs.length).to.be.at.least(1);
+        });
+      });
+    });
+
+    describe("update student notifications after time change", () => {
+
+      before(() => {
+        // Change time by an hour
+        fullEvent.info.times = [{
+          start: moment().add(1, 'hour').toDate(),
+          end: moment().add(1, 'hour').add(30,'minutes').toDate()
+        }];
+      });
+
+      before(() => student.updateNotifications(fullEvent));
+
+      it("should update when event times change", () => {
+        return student.getNotifications().then((jobs) => {
+          expect(jobs.length).to.be.equal(1);
+          expect(moment(jobs[0].attrs.nextRunAt).fromNow().toString()).to.equal("in 30 minutes");
+        });
+      });
+
+    });
 });

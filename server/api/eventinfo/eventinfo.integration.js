@@ -4,9 +4,73 @@ var app = require('../..');
 var request = require('supertest');
 var auth = require("../../auth/local/test.integration");
 var superwith = require("../superwith.integration");
+var EventInfo = require("./eventinfo.model");
+
+var moment = require('moment');
+
+var User = require("../user/user.model");
+
+var seed = require('../../config/seed');
+var exampleStudent = seed.exampleStudent;
+var eventinfoExampleId = seed.exampleEvent._id;
 
 var newEventInfo;
-var eventinfoExampleId = "000000000000000000000020";
+
+describe("EventInfo Static Methods", ()=>{
+
+    var eventInfo;
+    var student;
+
+    before(() => {
+        return EventInfo.findByIdAsync(eventinfoExampleId).then(evnt => {
+            eventInfo = evnt;
+        });
+    });
+
+    before(() => {
+        return User.findByIdAsync(exampleStudent._id).then(stdent => {
+          student = stdent;
+        });
+    });
+
+    var relatedUsers;
+    describe("Static Methods", () => {
+        before(done => {
+            eventInfo.getRelatedUsers().then(users => {
+                relatedUsers = users;
+                done();
+            });
+        });
+
+        it("getRelatedUsers() should return users", () => {
+            expect(relatedUsers).to.be.a('array');
+            expect(relatedUsers[0]).to.have.property('firstName');
+            expect(relatedUsers[0]).to.have.property('lastName');
+            expect(relatedUsers[0]).to.have.property('isInstructor');
+        });
+    });
+
+    describe("notification updating on eventinfo change", () => {
+      before(() => student.clearNotifications());
+
+      before(() => {
+        eventInfo.times = [{
+            start: moment().add(1,'hour').toDate(),
+            end: moment().add(1,'hour').toDate()
+        }];
+        return eventInfo.saveAsync();
+      });
+
+      it('should have given the student notifications', () => {
+        return student.getNotifications().then(jobs => {
+            expect(jobs.length).to.be.at.least(1);
+        });
+      });
+
+    });
+
+});
+
 
 describe('EventInfo API:', function() {
 

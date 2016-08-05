@@ -466,7 +466,7 @@ module.exports = function (grunt) {
       options: {
         reporter: 'spec',
         require: 'mocha.conf.js',
-        bail: false,
+        bail: true,
         timeout: 5000 // set default mocha spec timeout
       },
       unit: {

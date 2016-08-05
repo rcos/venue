@@ -8,6 +8,7 @@ import uuid from 'node-uuid';
 import Section from '../section/section.model';
 import Course from '../course/course.model';
 import SectionCtrl from '../section/section.controller';
+var scheduler = require('../../schedule');
 
 import SectionEvent from '../sectionevent/sectionevent.model';
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
@@ -44,6 +45,16 @@ var UserSchema = new Schema({
   github: {},
   verificationToken: {
     type: String
+  },
+  preferences: {
+    recieveEmails: {
+      type: Boolean,
+      default: true
+    },
+    emailNotifyAheadMinutes: {
+      type: [{type:Number}],
+      default: [0, 30]
+    }
   }
 });
 
@@ -167,6 +178,16 @@ UserSchema
  * Methods
  */
 UserSchema.methods = {
+
+  emailUpdate(message){
+    message.eventInfo.time.forEach(time=>{
+      this.preferences.emailNotifyAheadMinutes.forEach(minutesAhead => {
+        var notifyTime = new Date(time.start.getTime() - minutesAhead*60000);
+        scheduler.schedule(notifyTime, "sectionEvent reminder", {user:this.toObject(), sectionId: message.section._id, eventInfo: message.eventInfo.toObject()});
+      })
+    })
+  },
+
   /**
    * Authenticate - check if the passwords are the same
    *
@@ -347,6 +368,40 @@ UserSchema.methods = {
   setVerificationToken() {
     this.verificationToken = uuid.v4();
     this.save();
+  },
+
+  // WARNING: This should only be called in testing
+  clearNotifications() {
+    return scheduler.cancel({'data.user._id': this._id});
+  },
+
+  // WARNING: This should only be called in testing
+  getNotifications() {
+    return scheduler.jobs({'data.user._id': this._id});
+  },
+
+  updateNotifications(events) {
+    if (!Array.isArray(events)){
+      events = [events];
+    }
+    // Remove Events for specified user and SectionEvent
+    return Promise.all(events.map(event => {
+      return scheduler.cancel({'data.user._id': this._id, 'data.eventId': event._id});
+    })).then(()=>{
+      // For each event/event time/email preference make a new notification.
+      return Promise.all(events.map(event => {
+        return Promise.all(event.info.times.map(time =>{
+          return Promise.all(this.preferences.emailNotifyAheadMinutes.map(minutesAhead => {
+            var notifyTime = new Date(time.start.getTime() - minutesAhead*60000);
+            return scheduler.schedule(notifyTime, "sectionEvent reminder", {
+              user:this.toObject(),
+              eventId: event._id,
+              eventInfo:event.info.toObject()
+            });
+          }));
+        }));
+      }));
+    });
   }
 };
 

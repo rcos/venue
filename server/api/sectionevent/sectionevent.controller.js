@@ -10,6 +10,8 @@
 'use strict';
 
 var _ = require('lodash');
+var scheduler = require('../../schedule');
+var EventInfo = require('../eventinfo/eventinfo.model');
 var SectionEvent = require('./sectionevent.model');
 var Submission = require('../submission/submission.model');
 var Section = require('../section/section.model');
@@ -66,6 +68,20 @@ function fullRemove(res){
 function withDefault(queryString, defaultValue){
   if (queryString === undefined) return defaultValue;
   else return queryString.toLowerCase()==="true";
+}
+
+function notifySectionCreation(sectionEvent){
+  return (eventInfo)=>{
+    return Section.findById(sectionEvent.section)
+      .populate('students', 'email preferences firstName lastName')
+      .execAsync()
+      .then(section => {
+        section.students.forEach(student => {
+          scheduler.now("create sectionEvent", {user:student.toObject(), sectionId: section._id, eventInfo: eventInfo.toObject()});
+        })
+        return sectionEvent.updateUserNotifications();
+      }).then(()=> {return sectionEvent});
+    }
 }
 
 // Gets a list of SectionEvents
@@ -241,6 +257,10 @@ exports.show = function(req, res) {
 // Creates a new SectionEvent in the DB
 exports.create = function(req, res) {
   SectionEvent.createAsync(req.body)
+    .then( sectionEvent => {
+      return EventInfo.findByIdAsync(sectionEvent.info)
+        .then(notifySectionCreation(sectionEvent))
+    })
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
 };

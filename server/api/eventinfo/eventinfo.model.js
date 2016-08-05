@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 import SectionEvent from '../sectionevent/sectionevent.model';
 import Course from '../course/course.model';
 var GeoJSON = require('mongoose-geojson-schema');
+var scheduler = require('../../schedule');
 
 var EventInfoSchema = new Schema({
   title: String,
@@ -93,9 +94,35 @@ EventInfoSchema
     });
 
 /**
+ * Pre-save hook
+ */
+EventInfoSchema
+  .pre('save', function(next) {
+    // Handle new/update times
+    SectionEvent.findAsync({info: this._id}).then(sectionEvents => {
+      return Promise.all(sectionEvents.map(se => se.updateUserNotifications()));
+    }).then(()=> next());
+  });
+
+/**
  * Methods
  */
 EventInfoSchema.methods = {
+
+    /**
+     * Returns all related users.
+     */
+     getRelatedUsers(){
+         return SectionEvent.findAsync({info:this._id})
+         .then(sectionEvents =>{
+             return Promise.all(sectionEvents.map(se => se.getRelatedUsers()))
+                           .then(userLists=>
+                               userLists.reduce((a,b) => {
+                                   return a.concat(b);
+                               }, [])
+                           );
+         });
+     },
 
     /**
      * Returns section events for an event

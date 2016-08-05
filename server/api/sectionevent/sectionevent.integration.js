@@ -5,11 +5,61 @@ var request = require('supertest');
 var auth = require("../../auth/local/test.integration");
 var superwith = require("../superwith.integration");
 
+var SectionEvent = require('./sectionevent.model');
+var User = require("../user/user.model");
+
 var seed = require('../../config/seed');
 var exampleSectionEvent = seed.exampleSectionEvent;
 var exampleStudent = seed.exampleStudent;
+var scheduler = require('../../schedule');
 
 var newSectionEvent;
+
+describe("SectionEvent Notification Handling", function(){
+    var sectionEvent;
+    var student;
+
+    before(() => {
+        return SectionEvent.findByIdAsync(exampleSectionEvent._id).then(se => {
+            sectionEvent = se;
+        });
+    });
+
+    before(() => {
+        return User.findByIdAsync(exampleStudent._id).then(stdent => {
+          student = stdent;
+        });
+    });
+
+    var relatedUsers;
+    describe("Static Methods", () => {
+        before(() => {
+            return sectionEvent.getRelatedUsers().then(users => {
+                relatedUsers = users;
+            });
+        });
+
+        it("getRelatedUsers() should return users", () => {
+            expect(relatedUsers).to.be.a('array');
+        });
+    });
+
+    describe('Set notifications for event', function() {
+
+      before(() => student.clearNotifications());
+
+      before(()=> sectionEvent.updateUserNotifications());
+
+      it("should have given the user notifications", () => {
+        return student.getNotifications().then((jobs) => {
+          expect(jobs.length).to.be.at.least(1);
+        });
+      });
+
+    });
+
+});
+
 
 describe('SectionEvent API:', function() {
 
@@ -108,7 +158,13 @@ describe('SectionEvent API:', function() {
       auth.instructor.request(app)
         .post('/api/sectionevents')
         .send({
+          section: '000000000000000000000120',
+          course: '000000000000000000000010',
           submissionInstructions: 'New SectionEvent',
+          author: '000000000000000000000003',
+          creationDate: new Date(),
+          info: '000000000000000000000020',
+          _id: '555555555555555555555555'
         })
         .expect(201)
         .expect('Content-Type', /json/)
@@ -255,7 +311,6 @@ describe('SectionEvent API:', function() {
           done();
         });
     });
-
   });
 
 });

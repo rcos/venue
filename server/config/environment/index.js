@@ -79,6 +79,7 @@ var all = {
   smtpServer:   process.env.SMTP_SERVER,
   sendgridKey:  process.env.SENDGRID_KEY,
   serverEmail:  process.env.SERVER_EMAIL
+
 };
 
 // Export the config object based on the NODE_ENV
