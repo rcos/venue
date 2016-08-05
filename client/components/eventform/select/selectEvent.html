@@ -17,7 +17,7 @@
   <br/>
   <div class='events-selection'>
     <div class='event' ng-click='useEvent(event)' ng-repeat='event in filteredEvents = (eventinfos | filter:searchText)'>
-      <img http-src='{{event.imageURLs[0]}}'></img>
+      <img http-src='{{event.imageURLs[0]}}'/>
       <div class='title'>{{event.title | limitTo : 50}} {{ event.title.length > 50 ? "-" : ""}}</div>
       <div class='description'>{{event.description | limitTo : 80}}{{event.description.length > 80 ? "..." : ""}}</div>
     </div>

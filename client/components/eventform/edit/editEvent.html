@@ -9,7 +9,7 @@
       <label>Title</label>
 
       <input type="text" name="title" class="form-control" ng-model="event.title"
-             required></input>
+             required/>
 
       <p class="help-block" ng-show="submitted && !event.title">
         The event title is required
@@ -38,7 +38,7 @@
       <div class="image-preview" style="font:smaller">
         {{file.name}} {{file.$error}} {{file.$errorParam}}
         <br/>
-        <img ngf-src="file" width = {{imgWidth}}></img>
+        <img ngf-src="file" width = {{imgWidth}}/>
       </div>
       <div ng-show="file">
         <br/>
@@ -47,7 +47,7 @@
       <div class="image-preview" style="font:smaller" ng-show="!file">
         Current image:
         <br/>
-        <img ngf-src="event.imageURLs[0]" width = {{imgWidth}}></img>
+        <img ngf-src="event.imageURLs[0]" width = {{imgWidth}}/>
       </div>
 
     </div>
@@ -56,7 +56,7 @@
       <label>Start Date</label>
 
       <p class="input-group">
-          <input name="startDate" type="text" class="form-control" uib-datepicker-popup="EEE. MMMM d, yyyy, h:mm a" ng-model="event.startDate" min-date="today" is-open="event.startDateOpen" required></input>
+          <input name="startDate" type="text" class="form-control" uib-datepicker-popup="EEE. MMMM d, yyyy, h:mm a" ng-model="event.startDate" min-date="today" is-open="event.startDateOpen" required/>
 
           <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'startDateOpen')"><i class="fa fa-calendar"></i></button>
@@ -69,7 +69,7 @@
       <label>End Date</label>
 
       <p class="input-group">
-          <input name="endDate" type="text" class="form-control" uib-datepicker-popup="EEE. MMMM d, yyyy, h:mm a" ng-model="event.endDate" min-date="today" is-open="event.endDateOpen" required></input>
+          <input name="endDate" type="text" class="form-control" uib-datepicker-popup="EEE. MMMM d, yyyy, h:mm a" ng-model="event.endDate" min-date="today" is-open="event.endDateOpen" required/>
 
           <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'endDateOpen')"><i class="fa fa-calendar"></i></button>
@@ -84,7 +84,7 @@
       <label>Description</label>
 
       <input type="text" name="locationDescription" class="form-control" ng-model="event.location.description"
-      required></input>
+      required/>
 
       <p class="help-block" ng-show="submitted && !event.location.description">
         The location description is required
@@ -95,7 +95,7 @@
       <label>Address</label>
 
       <input type="text" name="locationAddress" class="form-control" ng-model="event.location.address"
-      required></input>
+      required/>
 
       <p class="help-block" ng-show="submitted && !event.location.address">
         The location address is required
