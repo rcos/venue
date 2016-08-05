@@ -79,7 +79,7 @@ function saveCourseImage(files, fields, cb){
       var imagePath = imageUpload.saveImage(file, path, function(err) {
         callback(err)
       });
-      imagePaths.push("/api/courses/image?name=" + imagePath);
+      imagePaths.push("/api/courses/image/" + imagePath);
       });
     });
 
@@ -163,26 +163,23 @@ exports.destroy = function(req, res) {
 };
 
 exports.image = function(req, res){
-  // Once the server refreshes urls, this should be removed
-  var imgPath;
-  if (req.query.imgPath){
-    imgPath = path.join(__dirname, "../../../", req.query.imgPath);
-    return res.sendFile(imgPath);
-  }
-
   // Prevents requesting arbitary files from the server
-  if (req.query.name.indexOf('/') !== -1){
+  if (req.params.name.indexOf('/') !== -1){
     return res.json(404);
   }
 
   // Doesn't have required parameters
-  if (!req.query.name){
+  if (!req.params.name){
     return res.json(404);
   }
 
   return imageDownload.getImage(
-    req.query.name,
+    req.params.name,
     config.imageUploadPath + 'courses/',
     req.query.size,
     res);
+};
+exports.imageSize = function(req, res){
+  req.query.size = req.params.size;
+  return exports.image(req, res);
 };

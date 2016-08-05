@@ -41,7 +41,7 @@ exports.getImage = function (originalName, filepath, size, res) {
         return res.sendFile(imgPath);
     }
     catch (e) {
-      // File not found, send 404 
+      // File not found, send 404
       return res.json(404);
     }
   }
