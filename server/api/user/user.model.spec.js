@@ -26,9 +26,7 @@ describe('User Model', function() {
     genUser();
   });
 
-  afterEach(function() {
-    return User.removeAsync();
-  });
+  afterEach(() => User.removeAsync());
 
   it('should begin with no users', function() {
     return expect(User.findAsync({})).to
@@ -45,9 +43,7 @@ describe('User Model', function() {
 
   describe('#getSections', function() {
     var seed = require('../../config/seed');
-    beforeEach(function(done) {
-      seed.seed().then(() => done())
-    });
+    beforeEach(() => seed.seed());
 
     it('should be able to get a seed user\'s sections', function(done) {
       User.findOneAsync({"firstName" : "Jane"}).then(function
@@ -66,9 +62,7 @@ describe('User Model', function() {
 
   describe('#getEvents', function() {
     var seed = require('../../config/seed');
-    beforeEach(function(done) {
-      return Promise.all([seed.createUsers(), seed.createCourses(), seed.createSections(), seed.createEvents(), seed.createSectionEvents()]).then(()=>{done()});
-    });
+    beforeEach(() => seed.seed());
 
     it('should be able to get a seed user\'s events', function(done) {
       User.findOneAsync({"firstName" : "Jane"}).then((user) => {
