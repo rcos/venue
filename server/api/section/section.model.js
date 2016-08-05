@@ -81,4 +81,4 @@ SectionSchema.methods = {
     }
 };
 
-module.exports = mongoose.model('Section', SectionSchema);
+export default mongoose.model('Section', SectionSchema);

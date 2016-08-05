@@ -62,4 +62,4 @@ SectionEventSchema.methods = {
   }
 };
 
-module.exports = mongoose.model('SectionEvent', SectionEventSchema);
+export default mongoose.model('SectionEvent', SectionEventSchema);
