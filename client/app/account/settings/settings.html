@@ -12,7 +12,7 @@
           <label>Current Password</label>
 
           <input type="password" name="password" class="form-control" ng-model="vm.user.oldPassword"
-                 mongoose-error/>
+                 mongoose-error></input>
           <p class="help-block" ng-show="form.password.$error.mongoose">
               {{ vm.errors.other }}
           </p>
@@ -23,7 +23,7 @@
 
           <input type="password" name="newPassword" class="form-control" ng-model="vm.user.newPassword"
                  ng-minlength="3"
-                 required/>
+                 required></input>
           <p class="help-block"
              ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || vm.submitted)">
             Password must be at least 3 characters.
@@ -36,7 +36,7 @@
           <input type="password" name="confirmPassword" class="form-control" ng-model="vm.user.confirmPassword"
                  match="vm.user.newPassword"
                  ng-minlength="3"
-                 required=""/>
+                 required=""></input>
           <p class="help-block"
              ng-show="form.confirmPassword.$error.match && vm.submitted">
             Passwords must match.

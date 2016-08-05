@@ -20,7 +20,7 @@
     <div class='container'>
       <div class='row text-center'>
         <div class='event-page student-events'>
-          <event-card class="col-lg-4 col-md-6" ng-repeat='event in filteredEvents = (eventsArray | filter:searchText)' data="event" short="false" click='goToEvent(event)' sectionClick='goToEvent(event)' />
+          <event-card class="col-lg-4 col-md-6" ng-repeat='event in filteredEvents = (eventsArray | filter:searchText)' data="event" short="false" click='goToEvent(event)' sectionClick='goToEvent(event)'></event-card>
           <div class='no-results' ng-show='filteredEvents.length == 0'>
             no events found matching search term
           </div>

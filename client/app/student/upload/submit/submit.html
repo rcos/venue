@@ -3,7 +3,7 @@
 <div class="container upload-page">
   <div class="row">
     <div ng-hide="success" class="col-sm-12">
-      <img class="banner-img" http-src='{{sectionEvent.info.imageURLs[0]}}'/>
+      <img class="banner-img" http-src='{{sectionEvent.info.imageURLs[0]}}'></img>
       <div class="event-summary ">
         <h1>Event Attendance</h1>
         <div class='title'>{{sectionEvent.info.title}}</div>
@@ -33,7 +33,7 @@
           <label>Title</label>
 
           <input type="text" name="title" class="form-control" ng-model="title"
-                 required/>
+                 required></input>
           <p class="help-block" ng-show="form.title.$error.required && submitted">
             A title is required
           </p>
@@ -44,7 +44,7 @@
           <label>Content</label>
 
           <textarea type="text" name="content" class="form-control" ng-model="content"
-                 required/>
+                 required></input>
           <p class="help-block" ng-show="form.content.$error.required && submitted">
             Content is required
           </p>
@@ -57,7 +57,7 @@
 
           <div class="btn btn-default btn-lg" ngf-select ng-model="files" ngf-multiple="true"
           ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB">Select File</div>
-          <br />
+          <br/>
 
           <div ngf-drop ngf-select ng-model="files" class="drop-box"
               ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
@@ -70,7 +70,7 @@
                 <div class="file-name">
                   {{f.name}} {{f.$error}} {{f.$errorParam}}
                 </div>
-                <img ngf-src="f" width = {{imgWidth}}/>
+                <img ngf-src="f" width = {{imgWidth}}></img>
               </li>
           </ul>
           <p class="help-block" ng-show="!files && submitted">

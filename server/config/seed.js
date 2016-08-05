@@ -126,7 +126,7 @@ function allCourses(){return {
     netArt:{
       name: 'Net Art',
       department: "ARTS",
-      imageURLs: ["/api/courses/image/net_art-1470286856650.jpg"], // url to image
+      imageURLs: ["/api/courses/image/net_art-1470286856650.jpeg"], // url to image
       courseNumber: 2030,
       description: "Net Art is a hands-on studio course that uses the examination of the historical and theoretical aspects of Web-based art and virtual social spaces as a launching pad for individual student work. Considerable work at the conceptual level and a survey of Web-oriented software and programming enable students to create new works in net-based art.",
       semester: "Fall15",
@@ -620,7 +620,7 @@ function allSubmissions(){
     },
     submission3:{
       content: "Cu partem officiis sed, est ex dicit tacimates honestatis, id eam libris facilis singulis. Case tota virtute his cu. Illud fierent accusata mel at, qui ne nemore vivendo legendos. Eripuit aliquid consequat pro eu.",
-      images: ["/api/submissions/image/000000000000000000000006/000000000000000000001000/submission1.jpg"], // path to image on static image server?
+      images: ["/api/submissions/image/000000000000000000000004/000000000000000000001000/submission1.jpg"], // path to image on static image server?
       time: Date.now(),
       submitter: allUsers().jane._id,
       authors: [allUsers().foo._id, allUsers().jane._id, allUsers().kelly._id],

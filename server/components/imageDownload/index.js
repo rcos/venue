@@ -24,14 +24,18 @@ exports.getImage = function (originalName, filepath, size, res) {
 
   var source = filepath + name;
   var imgPath = path.join(__dirname, "../../../", source);
+    console.log("imgPath",imgPath);
 
   var stats;
   try {
     // Query the entry
     stats = fs.lstatSync(imgPath);
+    console.log("stats",stats);
     return res.sendFile(imgPath);
   }
   catch (e) {
+    console.log("stats2",stats);
+
     name = originalName;
     source = filepath + name;
     imgPath = path.join(__dirname, "../../../", source);

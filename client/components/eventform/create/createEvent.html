@@ -9,7 +9,7 @@
       <label>Title</label>
 
       <input type="text" name="title" class="form-control" ng-model="event.title"
-             required/>
+             required></input>
 
       <p class="help-block" ng-show="submitted && !event.title">
         The event title is required
@@ -38,7 +38,7 @@
       <div class="image-preview" style="font:smaller">
         {{file.name}} {{file.$error}} {{file.$errorParam}}
         <br/>
-        <img ngf-src="file" width = {{imgWidth}}/>
+        <img ngf-src="file" width = {{imgWidth}}></img>
       </div>
 
     </div>
@@ -120,7 +120,7 @@
         <label>Description</label>
 
         <input type="text" name="locationDescription" class="form-control" ng-model="event.location.description"
-        required/>
+        required></input>
 
         <p class="help-block" ng-show="submitted && !event.location.description">
           The location description is required
@@ -131,7 +131,7 @@
         <label>Address</label>
 
         <input type="text" name="locationAddress" class="form-control" ng-model="event.location.address"
-        required/>
+        required></input>
 
         <p class="help-block" ng-show="submitted && !event.location.address">
           The location address is required
