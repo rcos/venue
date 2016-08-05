@@ -5,6 +5,10 @@
       </div>
       <div class='submission-desc mdl-card__supporting-text'>
         <div>Event: {{ data.sectionEvent.info.title }}</div>
+        <div>Course: {{ data.sectionEvent.section.course.department }} {{data.sectionEvent.section.course.courseNumber}} | {{ data.sectionEvent.section.course.name }}</div>
+        <div>Sections :
+          <span ng-repeat="num in data.sectionEvent.section.sectionNumbers"> {{num}}<span ng-hide="$last">, </span></span>
+        </div>
       </div>
       <div class='submission-ref mdl-card__actions mdl-card--border'>
         <div class='mdl-card__supporting-text '>

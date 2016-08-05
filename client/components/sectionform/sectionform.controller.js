@@ -22,7 +22,12 @@ angular.module('venueApp')
         }
       });
       $scope.section = $scope.course.sections.splice(currentSection, 1)[0];
-      $scope.section.sectionNumbers = $scope.section.sectionNumbers.toString();
+      $scope.section.sectionNumbersText = $scope.section.sectionNumbers.toString();
+      $scope.$watch('section.sectionNumbers', function(newValue, oldValue) {
+        console.log("Loaded section Numbers")
+        $scope.section.sectionNumbersText = $scope.section.sectionNumbers.toString();
+      });
+
       $scope.isInstructor = $scope.section.instructors.some((instr)=>{
         return instr == $scope.user._id;
       })
@@ -33,7 +38,7 @@ angular.module('venueApp')
       $scope.submitted = true;
       var section = {
         course: $scope.course._id,
-        sectionNumbers:$scope.section.sectionNumbers.split(',').map(Number).sort(),
+        sectionNumbers:$scope.section.sectionNumbersText.split(',').map(Number).sort(),
         enrollmentPolicy: $scope.section.enrollmentPolicy
       }
       if (form.$valid) {
