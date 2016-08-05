@@ -3,7 +3,7 @@ services:
   - docker
 
 install:
-  - scripts/venuepackage
+  - scripts/venuepackage --clean
   - scripts/venuestart
 
 script:
