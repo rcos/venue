@@ -8,13 +8,15 @@
           <h1 class="page-header">Dashboard</h1>
           <div class="row">
             <div class="col-sm-6 courses">
-              <h3> Courses </h3>
+              <h3> Your Courses </h3>
+              <h4 ng-hide="coursesLength">Create a <a href="/instructor/newcourse">course</a></h4>
               <div class="card-container">
                 <course-card ng-repeat='course in courses' click='goToCourse(course)' data="course"  short="true" sections='course.sections'>  </course-card>
               </div>
             </div>
             <div class="col-sm-6 events">
-              <h3> Events </h3>
+              <h3> Your Events </h3>
+              <h4 ng-hide="eventsLength">Assign a <a href="/instructor/newevent">event</a></h4>
               <div class="card-container">
                 <event-card ng-repeat='event in events' data="event"  short="true">  </event-card>
               </div>

@@ -8,10 +8,10 @@
   <div class='course-ref mdl-card__actions mdl-card--border'>
     <a href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" ng-click="click(data)">
       {{ data.department }} {{data.courseNumber}}
-      <span class='course-sect' ng-show="sections"> | sections :
+      <span class='course-sect' ng-show="sections"> | Sections
         <span ng-repeat="sec in sections">
-          <span ng-repeat="num in sec.sectionNumbers"> {{num}}<span ng-hide="$last && $parent.$last">, </span></span>
-          <!-- <span ng-hide="$last"> | </span> -->
+          <span ng-repeat="num in sec.sectionNumbers"> {{num}}<span ng-hide="$last">, </span></span>
+          <span ng-hide="$last"> ; </span>
         </span>
       </span>
     </a>

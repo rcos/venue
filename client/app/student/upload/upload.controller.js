@@ -8,6 +8,8 @@ angular.module('venueApp')
 
     SectionEvent.getAll({onlyUserSections:'me',withEventInfo:true,withSection:true},(events)=>{
       $scope.events = events;
+      $scope.eventsLength = angular.equals(events,{})?0:1
+
     });
 
     $scope.goToUploadForEvent = (event) =>{

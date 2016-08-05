@@ -6,6 +6,8 @@
     </div>
     <div class="col-sm-10 instructor-courses">
       <h1 class="page-header">Courses</h1>
+      <h3 ng-hide="coursesLength">You are not the instructor for any sections yet</h3>
+      <h4 ng-hide="coursesLength">Create a <a href="/instructor/newcourse">course</a> to get started</h4>
       <div class="card-container row">
         <course-card class="col-md-6" ng-repeat='course in user.courses' click='goToCourse(course)' data="course" short="false" sections='course.sections'>  </course-card>
       </div>

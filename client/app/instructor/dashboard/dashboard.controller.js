@@ -7,6 +7,9 @@ angular.module('venueApp')
       $scope.user = user;
       $scope.events = user.events;
       $scope.courses = user.courses;
+      $scope.coursesLength = angular.equals(user.courses,{})?0:1
+      $scope.eventsLength = angular.equals(user.events, {})?0:1
+
     });
 
     $scope.goToCourse = (course) => {
