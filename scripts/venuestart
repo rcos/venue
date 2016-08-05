@@ -10,6 +10,11 @@ if [ -z "$CERTS_DIRECTORY" ]; then
     exit 1
 fi
 
+if [ -z "$DATA_DIRECTORY" ]; then
+    echo "Please set \$DATA_DIRECTORY"
+    exit 1
+fi
+
 # This will pull from the server's environment variables
 docker run \
 -e DOMAIN \
@@ -31,4 +36,5 @@ docker run \
 -P \
 --net="host" \
 -v "$CERTS_DIRECTORY:/root/certs:rw" \
+-v "$DATA_DIRECTORY:/root/data:rw" \
 --name venue -dit rcos/venue
