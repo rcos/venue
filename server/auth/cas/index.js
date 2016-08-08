@@ -34,7 +34,13 @@ function requestCASLogin(req, res, next) {
             profile = user.profile;
             var token = signToken(user._id, user.role);
             res.cookie('token',token , { maxAge: 900000 });
-            res.redirect("/");
+            let mobileLogin = req.query.mobile && req.query.mobile.toLowerCase() === "true";
+            if (mobileLogin){
+              res.json({ token, profile });
+            }else{
+              res.redirect("/");
+            }
+
         });
     })(req, res, next)
 }
