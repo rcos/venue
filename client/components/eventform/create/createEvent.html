@@ -47,7 +47,7 @@
       <label>Start Date</label>
 
       <p class="input-group">
-          <input name="startDate" type="text" class="form-control" uib-datepicker-popup="EEE. MMMM d, yyyy, h:mm a" ng-model="event.startDate" min-date="today" is-open="event.startDateOpen" required></input>
+          <input name="startDate" type="text" class="form-control" uib-datepicker-popup="EEE. MMMM d, yyyy, h:mm a" ng-model="event.startDate" min-date="today" is-open="event.startDateOpen" required/>
 
           <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'startDateOpen')"><i class="fa fa-calendar"></i></button>
@@ -60,7 +60,7 @@
       <label>End Date</label>
 
       <p class="input-group">
-          <input name="endDate" type="text" class="form-control" uib-datepicker-popup="EEE. MMMM d, yyyy, h:mm a" ng-model="event.endDate" min-date="today" is-open="event.endDateOpen" required></input>
+          <input name="endDate" type="text" class="form-control" uib-datepicker-popup="EEE. MMMM d, yyyy, h:mm a" ng-model="event.endDate" min-date="today" is-open="event.endDateOpen" required/>
 
           <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'endDateOpen')"><i class="fa fa-calendar"></i></button>
@@ -137,7 +137,6 @@
           The location address is required
         </p>
       </div>
-      <div>
 
       <div class="form-group">
         <button class="btn btn-inverse btn-lg btn-register" ng-click="createEventInfo(eventInfoForm)">

@@ -660,7 +660,57 @@ module.exports = function (grunt) {
         }
       },
       build: {}
+    },
+
+    // Bad HTML breaks productions!
+    htmllint: {
+        options: {
+            force: false,
+
+            // These are disabled because we were launching and didn't have
+            // time to fix our HTML, there are several hundred errors so
+            // enable them slowly.
+            "attr-bans": [],
+            "attr-name-ignore-regex": false,
+            "attr-name-style": false,
+            "attr-quote-style": false,
+            "attr-req-value": false,
+            "class-style": false,
+            "class-no-dup": false,
+            "head-req-title": false,
+            "id-class-no-ad": false,
+            "id-class-style": false,
+            "id-no-dup": false,
+            "img-req-src": false,
+            'img-req-alt': false,
+            "indent-style": false,
+            "indent-width": false,
+            "label-req-for": false,
+            "line-end-style": false,
+            "line-max-len": false,
+            "spec-char-escape": false,
+            "tag-bans": false,
+            "tag-name-lowercase": false,
+            "tag-name-match": false,
+
+            "tag-close":true,
+
+        },
+        src: [
+            '<%= yeoman.client %>/{app,components}/**/*.html'
+        ]
+    },
+
+    // Bad HTML breaks production!
+    htmlhint: {
+        options: {
+            'tag-pair': true
+        },
+        src: [
+            '<%= yeoman.client %>/{app,components}/**/*.html'
+        ]
     }
+
   });
 
   // Used for delaying livereload until after server has restarted
@@ -736,6 +786,8 @@ module.exports = function (grunt) {
         'env:all',
         'concurrent:pre',
         'concurrent:test',
+        'htmllint',
+        'htmlhint',
         'injector',
         'postcss',
         'wiredep:test',

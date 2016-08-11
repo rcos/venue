@@ -52,7 +52,7 @@
         <div class="submissionInstructions">
           {{(event.info.author._id === event.author._id)?"Author":"Authors"}}: {{event.author.firstName}} {{event.author.lastName}}<span ng-hide="event.info.author._id === event.author._id"> and {{event.info.author.firstName}} {{event.info.author.lastName}}</span>
         </div>
-        <br>
+        <br/>
       </div>
       <div class='col-xs-5'>
         <img class="img-responsive" http-src='{{event.info.imageURLs[0]}}'/>
@@ -71,7 +71,7 @@
             <div>
               This will also delete all sections submissions, are you sure you'd like to remove this event?
             </div>
-            <br>
+            <br/>
             <button class='btn btn-md btn-danger' ng-click='confirmDeleteEventAssignment(event)'>Remove Event Assignment</button>
             <button class='btn btn-md btn-default' ng-click='cancelDeleteEventAssignment(event)'>cancel</button>
           </div>
@@ -81,14 +81,14 @@
   </div>
 
   <div class='container' ng-show='assignmentEdit'>
-      <br>
+      <br/>
       <form class="eventAssignment" name="eventAssignmentForm" ng-submit="updateEventAssignment(eventAssignmentForm)" novalidate>
 
           <div class="form-group" ng-class="{ 'has-success': assignment.submissionInstructions  && (eventAssignmentForm.submissionInstructions.$touched || submitted), 'has-error': !assignment.submissionInstructions && (eventAssignmentForm.submissionInstructions.$touched || submitted) }">
               <label>Submission Instructions</label>
 
               <textarea type="text" name="submissionInstructions" class="form-control" ng-model="assignment.submissionInstructions"
-              required/>
+              required></textarea>
 
               <p class="help-block" ng-show="!assignment.submissionInstructions">
                   Submission instructions are required

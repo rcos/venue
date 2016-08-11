@@ -4,7 +4,7 @@
       <h2 class="mdl-card__title-text">{{ data.title }} </h2>
     </div>
   </div>
-  <div class='event-desc mdl-card__supporting-text' data-ng-bind="data.description" data-ellipsis ng-hide="short || preview"/>
+  <div class='event-desc mdl-card__supporting-text' data-ng-bind="data.description" data-ellipsis ng-hide="short || preview"></div>
   <div ng-hide="preview" class='event-dates mdl-card__supporting-text'>
       Times:
         <div ng-repeat="time in data.times"> {{time.start | date : "MMM. d, h:mm a"}} - {{time.end | date : "MMM. d, h:mm a"}}<span ng-hide="$last && $parent.$last">, </span></div>
@@ -15,7 +15,6 @@
           {{ sectionEvent.section.course.department }} {{sectionEvent.section.course.courseNumber}}
           <span class='event-sect'> | sections :
             <span ng-repeat="num in sectionEvent.section.sectionNumbers"> {{num}}<span ng-hide="$last">, </span></span>
-            <!-- <span ng-hide="$last"> | </span> -->
           </span>
         </a>
     </div>
