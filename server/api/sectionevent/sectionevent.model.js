@@ -24,7 +24,8 @@ SectionEventSchema.methods = {
         path:"section",
         populate: {
             path:"students",
-            model:"User"
+            model:"User",
+            select: "email preferences firstName lastName"
         }
     }).execPopulate().then(se => se.section.students);
   },
