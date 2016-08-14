@@ -1,4 +1,10 @@
 # venue
+[![Build Status](https://travis-ci.org/rcos/venue.svg?branch=dev)](https://travis-ci.org/rcos/venue)
+[![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg?maxAge=2592000)]() 
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/rcos/venue/dev/LICENSE.md)
+
+[![GitHub issues](https://img.shields.io/github/issues/rcos/venue.svg?maxAge=2592000)]() 
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/rcos/venue.svg)]() 
 
 This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 3.1.0.
 
