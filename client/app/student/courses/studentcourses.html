@@ -6,8 +6,8 @@
     </div>
     <div class='col-sm-10 student-courses'>
       <h1 class="page-header">Courses</h1>
-      <h3 ng-hide="coursesLength">You haven't signed up for any courses yet</h3>
-      <h4 ng-hide="coursesLength"><a href="/courses">Enroll</a> in a section to get started</h4>
+      <h3 ng-hide="anyCourses">You haven't signed up for any courses yet</h3>
+      <h4 ng-hide="anyCourses"><a href="/courses">Enroll</a> in a section to get started</h4>
 
       <div class="card-container row">
         <course-card class="col-md-6" ng-repeat='course in user.courses' click='goToCourse(course)' data="course" short="false" sections='course.sections'>  </course-card>

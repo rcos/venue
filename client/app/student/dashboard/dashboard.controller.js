@@ -12,9 +12,9 @@ angular.module('venueApp')
 
       User.get({id: user._id, withCourses:true, withEvents: true, withEventSections: true}, (user) => {
         $scope.user = user;
-        $scope.coursesLength = angular.equals(user.courses,{})?0:1
+        $scope.anyCourses = angular.equals(user.courses,{})?0:1
 
-        $scope.eventsLength = angular.equals(user.events, {})?0:1
+        $scope.anyEvents = angular.equals(user.events, {})?0:1
 
       });
     });

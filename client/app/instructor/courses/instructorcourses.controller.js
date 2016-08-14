@@ -4,7 +4,7 @@ angular.module('venueApp')
   .controller('InstructorCoursesCtrl', function ($scope, $location, User) {
     User.get({withCourses: true}, (user)=>{
       $scope.user = user;
-      $scope.coursesLength = angular.equals(user.courses,{})?0:1
+      $scope.anyCourses = angular.equals(user.courses,{})?0:1
 
     });
 
