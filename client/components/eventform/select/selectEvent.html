@@ -1,8 +1,9 @@
 <div class="eventCreationForm">
   <!-- TODO use grid directive -->
-  <h2> Assign or Create an Event </h2>
+  <h3> Assign or Create an Event </h3>
+  <h4 ng-hide="eventinfos.length"> No existing events, create a new one to get started </h4>
 
-  <div class='search-bar-container'>
+  <div class='search-bar-container' ng-show="eventinfos.length">
     <div class="search-bar">
       <div class="input-group">
          <input type="text" ng-model='searchText' class="form-control" placeholder="Search events">

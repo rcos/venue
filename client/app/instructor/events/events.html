@@ -1,32 +1,39 @@
 <navbar></navbar>
-<div class="instructor-search-events">
-  <div class='container'>
-    <div class='row'>
-      <div class='col-xs-12 search-bar-container'>
-        <div class="search-bar">
-          <div class="input-group">
-             <input type="text" ng-model='searchText' class="form-control" placeholder="Search events">
-             <span class="input-group-btn">
-               <button class="btn btn-default" type="button">
-                 <span class='glyphicon glyphicon-search'></span>
-               </button>
-             </span>
-           </div>
-         </div>
+<div class="container instructor-events">
+  <div class="row">
+      <div class="col-sm-2">
+        <sidebar></sidebar>
       </div>
-    </div>
-  </div>
-  <div class='class-card-container'>
-    <div class="container">
-      <div class='row text-center'>
-        <div class='event-page instructor-events'>
-          <event-card class="col-lg-4 col-md-6" ng-repeat='event in filteredEvents = (eventsArray | filter:searchText)' data="event" click='goToEvent(event)' sectionClick='goToEvent(event)' short="false"></event-card>
-          <div class='no-events' ng-show='filteredEvents.length == 0'>
-            no events found matching search term
+      <div class="col-sm-10 instructor-search-events">
+        <h1 class="page-header">Your Events</h1>
+        <h3 ng-hide="eventsArray.length">No events assigned yet</h3>
+        <h4 ng-hide="eventsArray.length">Create an <a href="/instructor/newevent">event</a> to get started</h4>
+
+        <div class='row' ng-show="eventsArray.length">
+          <div class='col-xs-12 search-bar-container'>
+            <div class="search-bar">
+              <div class="input-group">
+                 <input type="text" ng-model='searchText' class="form-control" placeholder="Search events">
+                 <span class="input-group-btn">
+                   <button class="btn btn-default" type="button">
+                     <span class='glyphicon glyphicon-search'></span>
+                   </button>
+                 </span>
+               </div>
+             </div>
+          </div>
+        </div>
+        <div class='class-card-container' ng-show="eventsArray.length">
+          <div class='row text-center'>
+            <div class='event-page'>
+              <event-card class="col-md-6" ng-repeat='event in filteredEvents = (eventsArray | filter:searchText)' data="event" click='goToEvent(event)' sectionClick='goToEvent(event)' short="false" />
+              <div class='no-events' ng-show='filteredEvents.length == 0'>
+                no events found matching search term
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </div>
 <footer></footer>

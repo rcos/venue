@@ -6,7 +6,9 @@
     </div>
     <div class='col-sm-10'>
       <h1 class="page-header">Event Submission</h1>
-      <div class='upload-events'>
+      <h3 ng-hide="eventsLength">No events assigned yet</h3>
+
+      <div ng-show="eventsLength" class='upload-events'>
           <h3>Select event</h3>
           <div class="events">
             <event-card class="col-md-6" ng-repeat='event in events' data="event" short="true" click='goToUploadForEvent(event)' sectionClick='goToUploadForEvent(event)'></event-card>

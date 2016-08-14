@@ -2,19 +2,8 @@
 
 class NavbarController {
   //start-non-standard
-  menu = [{
-    'title': 'Search Courses',
-    'link': '/courses',
-    "noauth": true
-  },{
-    'title': 'Search Events',
-    'link': '/instructor/events',
-    'forInstructor': true
-  },{
-    'title': 'Search Events',
-    'link': '/student/events',
-    'forInstructor': false
-  },{
+  menu = [
+  {
     'title': 'Dashboard',
     'link': '/student/dashboard',
     'forInstructor': false
@@ -30,6 +19,18 @@ class NavbarController {
     'title': 'Create Event',
     'link': '/instructor/newevent',
     'forInstructor': true
+  },{
+    'title': 'Events',
+    'link': '/instructor/events',
+    'forInstructor': true
+  },{
+    'title': 'Events',
+    'link': '/student/events',
+    'forInstructor': false
+  },{
+    'title': 'Search Courses',
+    'link': '/courses',
+    "noauth": true
   }];
 
   isCollapsed = true;

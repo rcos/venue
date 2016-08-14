@@ -6,8 +6,10 @@
         </div>
         <div class='col-sm-10'>
           <h1 class="page-header">Submissions</h1>
+          <h3 ng-hide="submissions.length">No submissions yet</h3>
+          <h4>Upload a <a href="/student/upload">submission</a></h4>
           <div>
-            <submission-card class="col-md-6" ng-repeat='submission in submissions' data="submission" short="true"></submission-card>
+            <submission-card class="col-md-6" ng-repeat="submission in submissions" click="goToEvent(submission.sectionEvent)" data="submission" short="true" />
           </div>
         </div>
       </div>
