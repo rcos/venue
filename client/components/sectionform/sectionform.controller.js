@@ -24,7 +24,6 @@ angular.module('venueApp')
       $scope.section = $scope.course.sections.splice(currentSection, 1)[0];
       $scope.section.sectionNumbersText = $scope.section.sectionNumbers.toString();
       $scope.$watch('section.sectionNumbers', function(newValue, oldValue) {
-        console.log("Loaded section Numbers")
         $scope.section.sectionNumbersText = $scope.section.sectionNumbers.toString();
       });
 
