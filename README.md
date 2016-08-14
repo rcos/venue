@@ -1,5 +1,5 @@
 # venue
-[![Build Status](https://travis-ci.org/rcos/venue.svg?branch=dev)](https://travis-ci.org/rcos/venue)
+[![Build Status](https://travis-ci.org/rcos/venue.svg)](https://travis-ci.org/rcos/venue)
 [![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg?maxAge=2592000)]() 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/rcos/venue/dev/LICENSE.md)
 
