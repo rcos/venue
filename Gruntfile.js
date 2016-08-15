@@ -771,6 +771,15 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', function(target, option) {
+
+    if (target === "integration"){
+      return grunt.task.run([
+        'env:all',
+        'env:test',
+        'mochaTest:integration'
+      ]);
+    }
+
     if (target === 'server') {
       return grunt.task.run([
         'env:all',

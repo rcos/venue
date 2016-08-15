@@ -9,17 +9,8 @@ import mongoose from 'mongoose';
 mongoose.Promise = require('bluebird');
 import config from './config/environment';
 import http from 'http';
-
-// Connect to MongoDB
-mongoose.connect(config.mongo.uri, config.mongo.options);
-mongoose.connection.on('error', function(err) {
-  console.error('MongoDB connection error: ' + err);
-  process.exit(-1);
-});
-
-// Populate databases with sample data
-if (config.env === "production") { require("./config/productionseed").seed(); }
-if (config.seedDB) { var seed = require('./config/seed'); seed.seed(); }
+import * as seed from './config/seed';
+import {seed as productionSeed} from './config/productionseed';
 
 // Setup server
 var app = express();
@@ -33,14 +24,45 @@ require('./config/express')(app);
 require('./routes')(app);
 require('./schedule').start(config);
 
-// Start server
-function startServer() {
-    server.listen(config.port, config.ip, function() {
-        console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+
+// Connect to MongoDB
+mongoose.connect(config.mongo.uri, config.mongo.options, () => {
+  console.log("Mongoose connected");
+  beginSeeding();
+});
+mongoose.connection.on('error', function(err) {
+  console.error('MongoDB connection error: ' + err);
+  process.exit(-1);
+});
+
+// Populate databases with sample data
+function beginSeeding(){
+  if (config.seedDB) {
+    seed.seed().then(() => {
+      console.log("Seed was successful");
+      setImmediate(startServer);
+    }).catch((err) => {
+      console.log("Seed failure!", err);
     });
+  }else if (config.env === "production") {
+    productionSeed.seed().then(()=>{
+      console.log("Production seed successful");
+      setImmediate(startServer);
+    }).catch(()=>{
+      console.log("Seed failure!", err);
+    })
+  }else{
+    setImmediate(startServer);
+  }
 }
 
-setImmediate(startServer);
+function startServer() {
+  server.listen(config.port, config.ip, function() {
+    console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+    app.emit('listening');
+    app.isListening = true;
+  });
+}
 
 // Expose app
 exports = module.exports = app;

@@ -14,126 +14,113 @@ var _ = require('lodash');
 
 var mongoose = require('mongoose');
 
-function allUsers(){return {
-  test: {
-    provider: 'local',
-    firstName: 'Test',
-    lastName: 'User',
-    email: 'test@test.com',
-    password: 'test',
-    isVerified: true,
-    isInstructor: false,
-    _id: mongoose.Types.ObjectId('000000000000000000000000'),
-    preferences: {emailNotifyAheadMinutes: [30]},
-  },
-  blank: {
-    provider: 'local',
-    firstName: 'Blank',
-    lastName: 'White',
-    email: 'blank@blank.com',
-    password: 'blank',
-    isVerified: true,
-    isInstructor: true,
-    _id: mongoose.Types.ObjectId('000000000000000000000007'),
-    preferences: {emailNotifyAheadMinutes: [60]},
-  },
-  admin: {
-    provider: 'local',
-    role: 'admin',
-    firstName: 'admin',
-    lastName: 'User',
-    email: 'admin@admin.com',
-    password: 'admin',
-    isVerified: true,
-    isInstructor: true,
-    _id: mongoose.Types.ObjectId('000000000000000000000001'),
-    preferences: {emailNotifyAheadMinutes: [30]},
-  },
-  bob: {
-    provider: 'local',
-    firstName: 'Bob',
-    lastName: 'Dylan',
-    email: 'bob@bob.com',
-    password: 'bob',
-    isVerified: true,
-    isInstructor: true,
-    _id: mongoose.Types.ObjectId('000000000000000000000002'),
-    preferences: {emailNotifyAheadMinutes: [30]},
-  },
-  travis: {
-    provider: 'local',
-    firstName: 'Travis',
-    lastName: 'Smith',
-    email: 'travis@travis.com',
-    password: 'travis',
-    isVerified: true,
-    isInstructor: true,
-    _id: mongoose.Types.ObjectId('000000000000000000000003'),
-    preferences: {emailNotifyAheadMinutes: [30]},
-  },
-  foo: {
-    provider: 'local',
-    firstName: 'Foo',
-    lastName: 'Bar',
-    email: 'foo@foo.com',
-    password: 'foo',
-    isVerified: true,
-    isInstructor: false,
-    _id: mongoose.Types.ObjectId('000000000000000000000004'),
-    preferences: {emailNotifyAheadMinutes: [30]},
-  },
-  kelly: {
-    provider: 'local',
-    firstName: 'Kelly',
-    lastName: 'Simon',
-    email: 'kelly@kelly.com',
-    password: 'kelly',
-    isVerified: true,
-    isInstructor: false,
-    _id: mongoose.Types.ObjectId('000000000000000000000005'),
-    preferences: {emailNotifyAheadMinutes: [30]},
-  },
-  jane: {
-    provider: 'local',
-    firstName: 'Jane',
-    lastName: 'Eagle',
-    email: 'jane@jane.com',
-    password: 'jane',
-    isVerified: true,
-    isInstructor: false,
-    _id: mongoose.Types.ObjectId('000000000000000000000006'),
-    preferences: {emailNotifyAheadMinutes: [30]},
-  },
-  curt:{
-    _id : mongoose.Types.ObjectId("111111111111111111111111"),
-    provider : "local",
-    firstName : "Curt",
-    lastName : "Breneman",
-    email : "curt@curt.com",
-    password : "curt",
-    isVerified: true,
-    isInstructor : false,
-    role : "user",
-    preferences: {emailNotifyAheadMinutes: [30]},
-  },
-  venue:{
-    _id : mongoose.Types.ObjectId("111111111111111111111112"),
-    provider : "local",
-    email : "venue@rpi.edu",
-    password : "venue",
-    isVerified: true,
-    isInstructor : true,
-    role : "admin",
-    firstName : "Venue",
-    lastName : "Team",
-    preferences: {emailNotifyAheadMinutes: [30]},
-  }
-
-
-}
+export function allUsers(){return {
+    test: {
+      provider: 'local',
+      firstName: 'Test',
+      lastName: 'User',
+      email: 'test@test.com',
+      password: 'test',
+      isVerified: true,
+      isInstructor: false,
+      _id: mongoose.Types.ObjectId('000000000000000000000000'),
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
+    admin: {
+      provider: 'local',
+      role: 'admin',
+      firstName: 'admin',
+      lastName: 'User',
+      email: 'admin@admin.com',
+      password: 'admin',
+      isVerified: true,
+      isInstructor: true,
+      _id: mongoose.Types.ObjectId('000000000000000000000001'),
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
+    bob: {
+      provider: 'local',
+      firstName: 'Bob',
+      lastName: 'Dylan',
+      email: 'bob@bob.com',
+      password: 'bob',
+      isVerified: true,
+      isInstructor: true,
+      _id: mongoose.Types.ObjectId('000000000000000000000002'),
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
+    travis: {
+      provider: 'local',
+      firstName: 'Travis',
+      lastName: 'Smith',
+      email: 'travis@travis.com',
+      password: 'travis',
+      isVerified: true,
+      isInstructor: true,
+      _id: mongoose.Types.ObjectId('000000000000000000000003'),
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
+    foo: {
+      provider: 'local',
+      firstName: 'Foo',
+      lastName: 'Bar',
+      email: 'foo@foo.com',
+      password: 'foo',
+      isVerified: true,
+      isInstructor: false,
+      _id: mongoose.Types.ObjectId('000000000000000000000004'),
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
+    kelly: {
+      provider: 'local',
+      firstName: 'Kelly',
+      lastName: 'Simon',
+      email: 'kelly@kelly.com',
+      password: 'kelly',
+      isVerified: true,
+      isInstructor: false,
+      _id: mongoose.Types.ObjectId('000000000000000000000005'),
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
+    jane: {
+      provider: 'local',
+      firstName: 'Jane',
+      lastName: 'Eagle',
+      email: 'jane@jane.com',
+      password: 'jane',
+      isVerified: true,
+      isInstructor: false,
+      _id: mongoose.Types.ObjectId('000000000000000000000006'),
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
+    curt:{
+      _id : mongoose.Types.ObjectId("111111111111111111111111"),
+      provider : "local",
+      firstName : "Curt",
+      lastName : "Breneman",
+      email : "curt@curt.com",
+      password : "curt",
+      isVerified: true,
+      isInstructor : false,
+      role : "user",
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
+    venue:{
+      _id : mongoose.Types.ObjectId("111111111111111111111112"),
+      provider : "local",
+      email : "venue@rpi.edu",
+      password : "venue",
+      isVerified: true,
+      isInstructor : true,
+      role : "admin",
+      firstName : "Venue",
+      lastName : "Team",
+      preferences: {emailNotifyAheadMinutes: [30]},
+    }
+  };
 }
 
-function allCourses(){return {
+export function allCourses(){return {
     netArt:{
       name: 'Net Art',
       department: "ARTS",
@@ -224,10 +211,10 @@ function allCourses(){return {
       active : true,
       semester : "Spring16",
       }
-  }
+  };
 }
 
-function allSections(){ return {
+export function allSections(){ return {
     netArt12: {
       sectionNumbers: [1,2],
       enrollmentPolicy: "closed",
@@ -322,7 +309,7 @@ function allSections(){ return {
 }
 
 
-function allEvents(){
+export function allEvents(){
   return {
       concerts:{
       title: "Art_X Concerts: Examine Intersections of Science, Art",
@@ -338,26 +325,30 @@ function allEvents(){
           type: "Point"
         },
         geobounds : {
-          coordinates : [[[
+          // These coordinates represent a location surrounding RPI
+          // and brunswick, they are used in validation testing
+          "coordinates": [
             [
-                 -73.6794438867554,
-                42.731655780717645
-            ],[
-                -73.68399291324465,
-                42.731655780717645
-            ],[
-              -73.68399291324465,
-                42.73007960926878
-            ],[
-                 -73.6794438867554,
-                42.73007960926878
-            ],[
-                 -73.6794438867554,
-                42.731655780717645
+              [
+                [-73.6786079406738,42.7404566603398],
+                [-73.699893951416, 42.7268391495544],
+                [-73.6693382263184,42.7038843572483],
+                [-73.6429023742676,42.7217948682557],
+                [-73.6786079406738,42.7404566603398]
+              ]
+            ],
+            [
+              [
+                [-73.5735511779785,42.7414652458955  ],
+                [-73.5745811462402,42.728604551111   ],
+                [-73.5481452941895,42.7303699024239  ],
+                [-73.5484886169434,42.7429780934664  ],
+                [-73.5735511779785,42.7414652458955  ]
+              ]
             ]
-          ]]],
-          type : "MultiPolygon"
-        },
+          ],
+          "type": "MultiPolygon"
+        }
 
       },
       times: [{
@@ -509,7 +500,7 @@ function allEvents(){
   }
 }
 
-function allSectionEvents(){
+export function allSectionEvents(){
   return{
     netArt12Concerts: {
       section: allSections().netArt12._id,//Net art sections 1,2
@@ -592,7 +583,7 @@ function allSectionEvents(){
   }
 }
 
-function allSubmissions(){
+export function allSubmissions(){
   return {
     submission1:{
       _id : mongoose.Types.ObjectId("666666666666666666666661"),
@@ -649,56 +640,44 @@ function allSubmissions(){
   }
 }
 
+module.exports.clearDB = function(){
+  return new Promise((resolve, reject) => {
+    mongoose.connection.db.dropDatabase((err, res) => {
+      if (err) return reject(err);
+      resolve();
+    });
+  });
+};
 
 // Create Users
 module.exports.createUsers = function(){
-  return User.find({}).removeAsync()
-  .then(() => {
-    return User.createAsync(_.values(allUsers()));
-  });
+  return User.createAsync(_.values(allUsers()));
 }
 
 
 // Create Courses
 module.exports.createCourses = function(){
-  return Course.find({}).removeAsync()
-  .then(() => {
-    return Course.createAsync(_.values(allCourses()));
-  });
+  return Course.createAsync(_.values(allCourses()));
 }
 
 // Create Courses
 module.exports.createSections = function(){
-  return Section.find({}).removeAsync()
-  .then(() => {
-    return Section.createAsync(_.values(allSections()));
-  });
+  return Section.createAsync(_.values(allSections()));
 }
 
 // Create Events
 module.exports.createEvents = function(){
-  return Event.find({}).removeAsync()
-  .then(() => {
-    return Event.createAsync(_.values(allEvents()));
-
-  });
+  return Event.createAsync(_.values(allEvents()));
 }
 // Create Section Events
 
 module.exports.createSectionEvents = function(){
-  return SectionEvent.find({}).removeAsync()
-  .then(() => {
-    return SectionEvent.createAsync(_.values(allSectionEvents()));
-
-  });
+  return SectionEvent.createAsync(_.values(allSectionEvents()));
 }
 
 // Create Submissions
 module.exports.createSubmissions = function(){
-  return Submission.find({}).removeAsync()
-  .then(() => {
-    return Submission.createAsync(_.values(allSubmissions()));
-  });
+  return Submission.createAsync(_.values(allSubmissions()));
 };
 
 module.exports.exampleInstructor = allUsers().bob;
@@ -710,33 +689,32 @@ module.exports.exampleEvent = allEvents().concerts;
 module.exports.exampleCourse = allCourses().netArt;
 
 module.exports.seed = function(){
-    return Promise.all([
-        module.exports.createUsers().then(() => {
-            console.log('finished populating users');
-            return Promise.resolve();
-        }),
-        module.exports.createCourses().then(() => {
-            console.log('finished populating courses');
-            return Promise.resolve();
-        }),
-        module.exports.createEvents().then(() => {
-          console.log('finished populating events');
-          return Promise.resolve();
-        })
-      ]).then(() => {
-        return module.exports.createSections().then(() => {
-            console.log('finished populating sections');
-            return Promise.resolve();
-        });
-      }).then(() => { Promise.all([
-        module.exports.createSectionEvents().then(() => {
-            console.log('finished populating section events');
-            return Promise.resolve();
-        }),
-        module.exports.createSubmissions().then(() => {
-            console.log("finished populating submissions");
-            return Promise.resolve();
-        })
-      ])
+  var resolved = false;
+  return new Promise((resolve, reject) => {
+
+    setTimeout(() => {
+      if (!resolved){
+        reject("Seeding timed out");
+      }
+    },20000)
+
+    return module.exports.clearDB()
+    .then(module.exports.createUsers).then(() => {
+      console.log('finished populating users');
+    }).then(module.exports.createCourses).then(() => {
+      console.log('finished populating courses');
+    }).then(module.exports.createEvents).then(() => {
+      console.log('finished populating events');
+    }).then(module.exports.createSections).then(()=>{
+      console.log('finished populating sections');
+    }).then(module.exports.createSectionEvents).then(()=>{
+      console.log('finished populating section events');
+    }).then(module.exports.createSubmissions).then(()=>{
+      console.log("finished populating submissions");
+    }).then( () => resolve() )
+    .catch((err) => {
+      reject("Error seeding the database!", err);
     });
+  });
+
 }
