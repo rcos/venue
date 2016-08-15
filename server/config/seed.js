@@ -14,7 +14,7 @@ var _ = require('lodash');
 
 var mongoose = require('mongoose');
 
-function allUsers(){return {
+export function allUsers(){return {
     test: {
       provider: 'local',
       firstName: 'Test',
@@ -120,7 +120,7 @@ function allUsers(){return {
   };
 }
 
-function allCourses(){return {
+export function allCourses(){return {
     netArt:{
       name: 'Net Art',
       department: "ARTS",
@@ -214,7 +214,7 @@ function allCourses(){return {
   };
 }
 
-function allSections(){ return {
+export function allSections(){ return {
     netArt12: {
       sectionNumbers: [1,2],
       enrollmentPolicy: "closed",
@@ -309,7 +309,7 @@ function allSections(){ return {
 }
 
 
-function allEvents(){
+export function allEvents(){
   return {
       concerts:{
       title: "Art_X Concerts: Examine Intersections of Science, Art",
@@ -500,7 +500,7 @@ function allEvents(){
   }
 }
 
-function allSectionEvents(){
+export function allSectionEvents(){
   return{
     netArt12Concerts: {
       section: allSections().netArt12._id,//Net art sections 1,2
@@ -583,7 +583,7 @@ function allSectionEvents(){
   }
 }
 
-function allSubmissions(){
+export function allSubmissions(){
   return {
     submission1:{
       _id : mongoose.Types.ObjectId("666666666666666666666661"),
