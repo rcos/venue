@@ -26,17 +26,6 @@ function allUsers(){return {
     _id: mongoose.Types.ObjectId('000000000000000000000000'),
     preferences: {emailNotifyAheadMinutes: [30]},
   },
-  blank: {
-    provider: 'local',
-    firstName: 'Blank',
-    lastName: 'White',
-    email: 'blank@blank.com',
-    password: 'blank',
-    isVerified: true,
-    isInstructor: true,
-    _id: mongoose.Types.ObjectId('000000000000000000000007'),
-    preferences: {emailNotifyAheadMinutes: [60]},
-  },
   admin: {
     provider: 'local',
     role: 'admin',

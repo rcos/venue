@@ -231,4 +231,37 @@ describe('Submission API:', function() {
 
   });
 
+  describe("Valid Submission Tests", () => {
+
+    var course = seed.allCourses().netArt;
+    var section = seed.allSections().netArt12;
+    var info = seed.allEvents().concerts;
+    var sectionEvent = seed.allSectionEvents().netArt12Concerts;
+    var newSubmission;
+
+    describe("Passing validation", () => {
+
+      before(()=>{
+        auth.student.request(app)
+        .post('/api/submissions')
+        .type('form')
+        .field('userId', exampleStudent._id.toString())
+        .field('eventId', exampleSectionEvent._id.toString())
+        .field('coordinates[0]', info.coordinates[0])
+        .field('coordinates[1]', info.coordinates[1])
+        .field('content', 'This is the brand new submission!!!')
+        .attach('files[0]', './client/assets/images/empac.jpg')
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+          newSubmission = res.body;
+          done();
+        });
+      });
+
+    });
+
+  });
+
 });
