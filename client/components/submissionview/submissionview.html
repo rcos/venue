@@ -43,7 +43,7 @@
         </div>
 
         <div class='col-xs-1 centered'> <!-- Validated -->
-          <div style='text-align:center'> <i ng-show='submission.valid' class='fa fa-check' aria-hidden="true"></i> </div>
+          <div style='text-align:center'> <i ng-show='submission.verified' class='fa fa-check' aria-hidden="true"></i> </div>
         </div>
 
         <div class='col-xs-2 centered'> <!-- Section -->
@@ -74,8 +74,8 @@
               <i ng-show='!submission.didNotSubmit' class='fa fa-check' aria-hidden="true"></i>
               <i ng-show='submission.didNotSubmit' class='fa fa-times' aria-hidden="true"></i>
               {{ submission.didNotSubmit ? "Not Submitted" : "Submitted" }} |
-              <i ng-show='submission.valid' class='fa fa-check' aria-hidden="true"></i>
-              <i ng-show='!submission.valid' class='fa fa-times' aria-hidden="true"></i>
+              <i ng-show='submission.verified' class='fa fa-check' aria-hidden="true"></i>
+              <i ng-show='!submission.verified' class='fa fa-times' aria-hidden="true"></i>
               Validated |
               {{ submission.sectionEvent.section.course.department }}
               {{ submission.sectionEvent.section.course.courseNumber }}

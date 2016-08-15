@@ -9,7 +9,7 @@ import mongoose from 'mongoose';
 mongoose.Promise = require('bluebird');
 import config from './config/environment';
 import http from 'http';
-import seed from './config/seed';
+import * as seed from './config/seed';
 import {seed as productionSeed} from './config/productionseed';
 
 // Setup server
