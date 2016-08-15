@@ -40,6 +40,7 @@ export default function(app) {
   // oauth 1.0 strategy, and Lusca depends on sessions
   app.use(session({
     secret: config.secrets.session,
+    secure: env === "production",
     saveUninitialized: true,
     resave: false,
     store: new mongoStore({
