@@ -12,6 +12,19 @@ import http from 'http';
 import seed from './config/seed';
 import {seed as productionSeed} from './config/productionseed';
 
+// Setup server
+var app = express();
+var server = http.createServer(app);
+var socketio = require('socket.io')(server, {
+  serveClient: config.env !== 'production',
+  path: '/socket.io-client'
+});
+require('./config/socketio')(socketio);
+require('./config/express')(app);
+require('./routes')(app);
+require('./schedule').start(config);
+
+
 // Connect to MongoDB
 mongoose.connect(config.mongo.uri, config.mongo.options, () => {
   console.log("Mongoose connected");
@@ -43,22 +56,12 @@ function beginSeeding(){
   }
 }
 
-// Setup server
-var app = express();
-var server = http.createServer(app);
-var socketio = require('socket.io')(server, {
-  serveClient: config.env !== 'production',
-  path: '/socket.io-client'
-});
-require('./config/socketio')(socketio);
-require('./config/express')(app);
-require('./routes')(app);
-require('./schedule').start(config);
-
 function startServer() {
-    server.listen(config.port, config.ip, function() {
-        console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
-    });
+  server.listen(config.port, config.ip, function() {
+    console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+    app.emit('listening');
+    app.isListening = true;
+  });
 }
 
 // Expose app

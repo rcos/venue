@@ -2,9 +2,8 @@ var seed = require('../config/seed').seed;
 var auth = require("../auth/local/test.integration");
 var app = require("../");
 
-console.log("GOT HERE");
-
 before((done) => {
+  if (app.isListening) return done();
   app.on('listening', () => {
     done();
   });
