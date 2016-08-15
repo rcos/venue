@@ -37,4 +37,4 @@ docker run \
 --net="host" \
 -v "$CERTS_DIRECTORY:/root/certs:rw" \
 -v "$DATA_DIRECTORY:/root/data:rw" \
---name venue -dit rcos/venue
+--name venue -dit rcos/venue:rpi

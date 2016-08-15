@@ -16,4 +16,4 @@ docker run \
 -e "INTERNAL_MONGO=yes" \
 -e "PRODUCTION_RUN=no" \
 -P \
---name venue -dit rcos/venue
+--name venue -dit rcos/venue:rpi
