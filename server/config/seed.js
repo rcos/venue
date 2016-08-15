@@ -15,111 +15,109 @@ var _ = require('lodash');
 var mongoose = require('mongoose');
 
 function allUsers(){return {
-  test: {
-    provider: 'local',
-    firstName: 'Test',
-    lastName: 'User',
-    email: 'test@test.com',
-    password: 'test',
-    isVerified: true,
-    isInstructor: false,
-    _id: mongoose.Types.ObjectId('000000000000000000000000'),
-    preferences: {emailNotifyAheadMinutes: [30]},
-  },
-  admin: {
-    provider: 'local',
-    role: 'admin',
-    firstName: 'admin',
-    lastName: 'User',
-    email: 'admin@admin.com',
-    password: 'admin',
-    isVerified: true,
-    isInstructor: true,
-    _id: mongoose.Types.ObjectId('000000000000000000000001'),
-    preferences: {emailNotifyAheadMinutes: [30]},
-  },
-  bob: {
-    provider: 'local',
-    firstName: 'Bob',
-    lastName: 'Dylan',
-    email: 'bob@bob.com',
-    password: 'bob',
-    isVerified: true,
-    isInstructor: true,
-    _id: mongoose.Types.ObjectId('000000000000000000000002'),
-    preferences: {emailNotifyAheadMinutes: [30]},
-  },
-  travis: {
-    provider: 'local',
-    firstName: 'Travis',
-    lastName: 'Smith',
-    email: 'travis@travis.com',
-    password: 'travis',
-    isVerified: true,
-    isInstructor: true,
-    _id: mongoose.Types.ObjectId('000000000000000000000003'),
-    preferences: {emailNotifyAheadMinutes: [30]},
-  },
-  foo: {
-    provider: 'local',
-    firstName: 'Foo',
-    lastName: 'Bar',
-    email: 'foo@foo.com',
-    password: 'foo',
-    isVerified: true,
-    isInstructor: false,
-    _id: mongoose.Types.ObjectId('000000000000000000000004'),
-    preferences: {emailNotifyAheadMinutes: [30]},
-  },
-  kelly: {
-    provider: 'local',
-    firstName: 'Kelly',
-    lastName: 'Simon',
-    email: 'kelly@kelly.com',
-    password: 'kelly',
-    isVerified: true,
-    isInstructor: false,
-    _id: mongoose.Types.ObjectId('000000000000000000000005'),
-    preferences: {emailNotifyAheadMinutes: [30]},
-  },
-  jane: {
-    provider: 'local',
-    firstName: 'Jane',
-    lastName: 'Eagle',
-    email: 'jane@jane.com',
-    password: 'jane',
-    isVerified: true,
-    isInstructor: false,
-    _id: mongoose.Types.ObjectId('000000000000000000000006'),
-    preferences: {emailNotifyAheadMinutes: [30]},
-  },
-  curt:{
-    _id : mongoose.Types.ObjectId("111111111111111111111111"),
-    provider : "local",
-    firstName : "Curt",
-    lastName : "Breneman",
-    email : "curt@curt.com",
-    password : "curt",
-    isVerified: true,
-    isInstructor : false,
-    role : "user",
-    preferences: {emailNotifyAheadMinutes: [30]},
-  },
-  venue:{
-    _id : mongoose.Types.ObjectId("111111111111111111111112"),
-    provider : "local",
-    email : "venue@rpi.edu",
-    password : "venue",
-    isVerified: true,
-    isInstructor : true,
-    role : "admin",
-    firstName : "Venue",
-    lastName : "Team",
-    preferences: {emailNotifyAheadMinutes: [30]},
-  }
-
-
-}
+    test: {
+      provider: 'local',
+      firstName: 'Test',
+      lastName: 'User',
+      email: 'test@test.com',
+      password: 'test',
+      isVerified: true,
+      isInstructor: false,
+      _id: mongoose.Types.ObjectId('000000000000000000000000'),
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
+    admin: {
+      provider: 'local',
+      role: 'admin',
+      firstName: 'admin',
+      lastName: 'User',
+      email: 'admin@admin.com',
+      password: 'admin',
+      isVerified: true,
+      isInstructor: true,
+      _id: mongoose.Types.ObjectId('000000000000000000000001'),
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
+    bob: {
+      provider: 'local',
+      firstName: 'Bob',
+      lastName: 'Dylan',
+      email: 'bob@bob.com',
+      password: 'bob',
+      isVerified: true,
+      isInstructor: true,
+      _id: mongoose.Types.ObjectId('000000000000000000000002'),
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
+    travis: {
+      provider: 'local',
+      firstName: 'Travis',
+      lastName: 'Smith',
+      email: 'travis@travis.com',
+      password: 'travis',
+      isVerified: true,
+      isInstructor: true,
+      _id: mongoose.Types.ObjectId('000000000000000000000003'),
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
+    foo: {
+      provider: 'local',
+      firstName: 'Foo',
+      lastName: 'Bar',
+      email: 'foo@foo.com',
+      password: 'foo',
+      isVerified: true,
+      isInstructor: false,
+      _id: mongoose.Types.ObjectId('000000000000000000000004'),
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
+    kelly: {
+      provider: 'local',
+      firstName: 'Kelly',
+      lastName: 'Simon',
+      email: 'kelly@kelly.com',
+      password: 'kelly',
+      isVerified: true,
+      isInstructor: false,
+      _id: mongoose.Types.ObjectId('000000000000000000000005'),
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
+    jane: {
+      provider: 'local',
+      firstName: 'Jane',
+      lastName: 'Eagle',
+      email: 'jane@jane.com',
+      password: 'jane',
+      isVerified: true,
+      isInstructor: false,
+      _id: mongoose.Types.ObjectId('000000000000000000000006'),
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
+    curt:{
+      _id : mongoose.Types.ObjectId("111111111111111111111111"),
+      provider : "local",
+      firstName : "Curt",
+      lastName : "Breneman",
+      email : "curt@curt.com",
+      password : "curt",
+      isVerified: true,
+      isInstructor : false,
+      role : "user",
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
+    venue:{
+      _id : mongoose.Types.ObjectId("111111111111111111111112"),
+      provider : "local",
+      email : "venue@rpi.edu",
+      password : "venue",
+      isVerified: true,
+      isInstructor : true,
+      role : "admin",
+      firstName : "Venue",
+      lastName : "Team",
+      preferences: {emailNotifyAheadMinutes: [30]},
+    }
+  };
 }
 
 function allCourses(){return {
@@ -213,7 +211,7 @@ function allCourses(){return {
       active : true,
       semester : "Spring16",
       }
-  }
+  };
 }
 
 function allSections(){ return {
@@ -699,33 +697,31 @@ module.exports.exampleEvent = allEvents().concerts;
 module.exports.exampleCourse = allCourses().netArt;
 
 module.exports.seed = function(){
-    return Promise.all([
-        module.exports.createUsers().then(() => {
-            console.log('finished populating users');
-            return Promise.resolve();
-        }),
-        module.exports.createCourses().then(() => {
-            console.log('finished populating courses');
-            return Promise.resolve();
-        }),
-        module.exports.createEvents().then(() => {
-          console.log('finished populating events');
-          return Promise.resolve();
-        })
-      ]).then(() => {
-        return module.exports.createSections().then(() => {
-            console.log('finished populating sections');
-            return Promise.resolve();
-        });
-      }).then(() => { Promise.all([
-        module.exports.createSectionEvents().then(() => {
-            console.log('finished populating section events');
-            return Promise.resolve();
-        }),
-        module.exports.createSubmissions().then(() => {
-            console.log("finished populating submissions");
-            return Promise.resolve();
-        })
-      ])
+  var resolved = false;
+  return new Promise((resolve, reject) => {
+
+    setTimeout(() => {
+      if (!resolved){
+        reject("Seeding timed out");
+      }
+    },10000)
+
+    return module.exports.createUsers().then(() => {
+      console.log('finished populating users');
+    }).then(module.exports.createCourses).then(() => {
+      console.log('finished populating courses');
+    }).then(module.exports.createEvents).then(() => {
+      console.log('finished populating events');
+    }).then(module.exports.createSections).then(()=>{
+      console.log('finished populating sections');
+    }).then(module.exports.createSectionEvents).then(()=>{
+      console.log('finished populating section events');
+    }).then(module.exports.createSubmissions).then(()=>{
+      console.log("finished populating submissions");
+    }).then( () => resolve() )
+    .catch((err) => {
+      reject("Error seeding the database!", err);
     });
+  });
+
 }
