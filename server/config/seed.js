@@ -325,26 +325,30 @@ function allEvents(){
           type: "Point"
         },
         geobounds : {
-          coordinates : [[[
+          // These coordinates represent a location surrounding RPI
+          // and brunswick, they are used in validation testing
+          "coordinates": [
             [
-                 -73.6794438867554,
-                42.731655780717645
-            ],[
-                -73.68399291324465,
-                42.731655780717645
-            ],[
-              -73.68399291324465,
-                42.73007960926878
-            ],[
-                 -73.6794438867554,
-                42.73007960926878
-            ],[
-                 -73.6794438867554,
-                42.731655780717645
+              [
+                [-73.6786079406738,42.7404566603398],
+                [-73.699893951416, 42.7268391495544],
+                [-73.6693382263184,42.7038843572483],
+                [-73.6429023742676,42.7217948682557],
+                [-73.6786079406738,42.7404566603398]
+              ]
+            ],
+            [
+              [
+                [-73.5735511779785,42.7414652458955  ],
+                [-73.5745811462402,42.728604551111   ],
+                [-73.5481452941895,42.7303699024239  ],
+                [-73.5484886169434,42.7429780934664  ],
+                [-73.5735511779785,42.7414652458955  ]
+              ]
             ]
-          ]]],
-          type : "MultiPolygon"
-        },
+          ],
+          "type": "MultiPolygon"
+        }
 
       },
       times: [{
@@ -636,56 +640,44 @@ function allSubmissions(){
   }
 }
 
+module.exports.clearDB = function(){
+  return new Promise((resolve, reject) => {
+    mongoose.connection.db.dropDatabase((err, res) => {
+      if (err) return reject(err);
+      resolve();
+    });
+  });
+};
 
 // Create Users
 module.exports.createUsers = function(){
-  return User.find({}).removeAsync()
-  .then(() => {
-    return User.createAsync(_.values(allUsers()));
-  });
+  return User.createAsync(_.values(allUsers()));
 }
 
 
 // Create Courses
 module.exports.createCourses = function(){
-  return Course.find({}).removeAsync()
-  .then(() => {
-    return Course.createAsync(_.values(allCourses()));
-  });
+  return Course.createAsync(_.values(allCourses()));
 }
 
 // Create Courses
 module.exports.createSections = function(){
-  return Section.find({}).removeAsync()
-  .then(() => {
-    return Section.createAsync(_.values(allSections()));
-  });
+  return Section.createAsync(_.values(allSections()));
 }
 
 // Create Events
 module.exports.createEvents = function(){
-  return Event.find({}).removeAsync()
-  .then(() => {
-    return Event.createAsync(_.values(allEvents()));
-
-  });
+  return Event.createAsync(_.values(allEvents()));
 }
 // Create Section Events
 
 module.exports.createSectionEvents = function(){
-  return SectionEvent.find({}).removeAsync()
-  .then(() => {
-    return SectionEvent.createAsync(_.values(allSectionEvents()));
-
-  });
+  return SectionEvent.createAsync(_.values(allSectionEvents()));
 }
 
 // Create Submissions
 module.exports.createSubmissions = function(){
-  return Submission.find({}).removeAsync()
-  .then(() => {
-    return Submission.createAsync(_.values(allSubmissions()));
-  });
+  return Submission.createAsync(_.values(allSubmissions()));
 };
 
 module.exports.exampleInstructor = allUsers().bob;
@@ -704,9 +696,10 @@ module.exports.seed = function(){
       if (!resolved){
         reject("Seeding timed out");
       }
-    },10000)
+    },20000)
 
-    return module.exports.createUsers().then(() => {
+    return module.exports.clearDB()
+    .then(module.exports.createUsers).then(() => {
       console.log('finished populating users');
     }).then(module.exports.createCourses).then(() => {
       console.log('finished populating courses');
