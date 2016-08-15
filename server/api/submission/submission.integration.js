@@ -239,7 +239,7 @@ describe('Submission API:', function() {
     var info = seed.allEvents().concerts;
     var sectionEvent = seed.allSectionEvents().netArt12Concerts;
 
-    describe.only("passing validation", () => {
+    describe("passing validation", () => {
 
       testassets.validLocations.forEach((validLocation) => {
         let newSubmission;
@@ -263,14 +263,14 @@ describe('Submission API:', function() {
           });
         });
 
-        it('should be a valid location', (done) => {
-          expect(newSubmission.valid).to.be.true;
+        it('should be a valid location', () => {
+          expect(newSubmission.locationMatch).to.be.true;
         });
       });
 
     });
 
-    describe.only("failing validation", () => {
+    describe("failing validation", () => {
 
       testassets.badLocations.forEach((badLocation) => {
         let newSubmission;
@@ -294,8 +294,8 @@ describe('Submission API:', function() {
           });
         });
 
-        it('should be a valid location', (done) => {
-          expect(newSubmission.valid).to.be.false;
+        it('should be an invalid location', () => {
+          expect(newSubmission.locationMatch).to.be.false;
         });
       });
 

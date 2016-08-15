@@ -99,8 +99,8 @@ module.exports.geoFeatures = {
 module.exports.validLocations = [{
   "coordinates": module.exports.geoFeatures.features[0].geometry.coordinates
 }, {
-  "coordinates": module.exports.geoFeatures.features[1].geometry.coordinates
+  "coordinates": module.exports.geoFeatures.features[2].geometry.coordinates
 }];
 module.exports.badLocations = [{
-  "coordinates": module.exports.geoFeatures.features[2].geometry.coordinates
+  "coordinates": module.exports.geoFeatures.features[1].geometry.coordinates
 }];
