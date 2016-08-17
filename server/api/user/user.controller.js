@@ -470,7 +470,7 @@ export function authCallback(req, res, next) {
   res.redirect('/');
 }
 
-export function promoteIstr(req, res, next) {
+export function promoteToInstructor(req, res, next) {
   User.findOneAsync({ _id: req.body.userId })
     .then(user => {
       if (!user) {

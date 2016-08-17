@@ -33,7 +33,7 @@ angular.module('venueApp')
     };
 
     $scope.addInstr = function(user) {
-      User.promoteIstr({userId: user._id}, () => {
+      User.promoteToInstructor({userId: user._id}, () => {
           $scope.users = User.query();
           $scope.users.sort(( a , b) => {
             return a.lastName > b.lastName;

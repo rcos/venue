@@ -79,20 +79,35 @@ describe('User API:', function() {
         ]);
     });
 
-    describe.only('GET /api/users/promoteIstr', function() {
+    describe('PUT /api/users/promoteToInstructor', function() {
         var users;
+        var studentId;
+
+        before(() => {
+          return User.createAsync({
+              provider: 'cas',
+              firstName: "teststudent",
+              lastName: '',
+              role: 'user',
+              email: "testStudent@university.edu",
+              password: "asdasdasdasd",
+              isVerified: true,
+              isInstructor: false
+          }).then((user) => {
+            studentId = user._id;
+          })
+        })
 
         it("should change student to instructor", (done) => {
-
           auth.admin.request(app)
-          .post('/api/users/promoteIstr')
+          .put('/api/users/promoteToInstructor')
           .send({
-            userId: exampleStudent._id
+            userId: studentId
           })
           .expect(204)
           .expect('Content-Type', /json/)
           .end((err, res) => {
-              User.findByIdAsync(exampleStudent._id)
+              User.findByIdAsync(studentId)
                 .then(user => {
                   expect(user.isInstructor).to.be.true;
                   done();
