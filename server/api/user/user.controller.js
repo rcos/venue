@@ -469,3 +469,24 @@ export function events(req, res, next) {
 export function authCallback(req, res, next) {
   res.redirect('/');
 }
+
+export function promoteToInstructor(req, res, next) {
+  User.findOneAsync({ _id: req.body.userId })
+    .then(user => {
+      if (!user) {
+        return res.status(401).end();
+      }
+      if(!user.isInstructor) {
+        user.isInstructor = true;
+        return user.saveAsync()
+          .then(() => {
+            res.status(204).end();
+          })
+          .catch(handleError(res));
+      }
+      else {
+        return res.status(403).end();
+      }
+    })
+    .catch(err => next(err));
+}

@@ -18,6 +18,7 @@ router.put('/:id/enroll', auth.isAuthenticated(), controller.enrollInSection);
 router.put('/password', controller.resetPassword);
 router.put('/:id/unenroll', auth.isAuthenticated(), controller.unenrollInSection);
 router.get('/:id', auth.isAuthenticated(), controller.show);
+router.put('/promoteToInstructor', auth.hasRole('admin'), controller.promoteToInstructor);
 router.post('/resendEmail', controller.resendEmail);
 router.post('/resetPassword', controller.resetPasswordEmail);
 router.post('/', controller.create);
