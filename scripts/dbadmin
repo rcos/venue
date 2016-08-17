@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+  echo "Please specify the user email to make an admin";
+  exit 1;
+fi
+
+docker exec -it mongo mongo venue --eval "db.getCollection('users').update({\"email\": \"$1\"}, { \"$set\": { \"role\": \"admin\" } })"
