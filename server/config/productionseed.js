@@ -5,6 +5,8 @@ import Event from '../api/eventinfo/eventinfo.model';
 import SectionEvent from '../api/sectionevent/sectionevent.model';
 import Section from '../api/section/section.model';
 import Submission from '../api/submission/submission.model';
+import fs from 'fs';
+import config from './environment';
 var _ = require('lodash');
 
 var mongoose = require('mongoose');
@@ -30,6 +32,41 @@ module.exports.createAdmin = ()=>{
   })
 };
 
+export function prepareDataDirectory(){
+  console.log("Preparing data directory " + config.imageUploadPath);
+  return new Promise(resolve => {
+    fs.stat(config.imageUploadPath, (err, stats) => {
+      if (err){
+        // We need to create the directory
+        try{
+          fs.mkdirSync(config.imageUploadPath);
+          fs.mkdirSync(config.imageUploadPath + "courses");
+          fs.mkdirSync(config.imageUploadPath + "eventImages");
+          fs.mkdirSync(config.imageUploadPath + "eventInfoImages");
+          resolve();
+        }catch(e){
+          console.log("Error seeding data directory");
+          resolve();
+        }
+      }else{
+        // Possibly an empty directory, attempt to create subdirs
+        // fs.mkdirSync(config.imageUploadPath);
+        try{
+          fs.mkdirSync(config.imageUploadPath + "courses");
+          fs.mkdirSync(config.imageUploadPath + "eventImages");
+          fs.mkdirSync(config.imageUploadPath + "eventInfoImages");
+        }catch(e){
+          // Ignore this error, it's probably an existing data dir
+        }finally{
+          resolve();
+        }
+      }
+
+    });
+  });
+}
+
 module.exports.seed = function(){
-  return module.exports.createAdmin();
+  return module.exports.createAdmin().then(
+    prepareDataDirectory);
 };
