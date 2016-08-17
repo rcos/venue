@@ -32,6 +32,15 @@ angular.module('venueApp')
       $scope.users.splice(this.users.indexOf(user), 1);
     };
 
+    $scope.addInstr = function(user) {
+      User.promoteToInstructor({userId: user._id}, () => {
+          $scope.users = User.query();
+          $scope.users.sort(( a , b) => {
+            return a.lastName > b.lastName;
+          })
+        })
+    };
+
     $scope.reseed = () => {
         if (confirm("This clear the database, are you sure?") &&
             confirm("You cannot revert this operation, are you really sure?")){
