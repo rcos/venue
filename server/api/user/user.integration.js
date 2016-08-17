@@ -79,6 +79,29 @@ describe('User API:', function() {
         ]);
     });
 
+    describe.only('GET /api/users/promoteIstr', function() {
+        var users;
+
+        it("should change student to instructor", (done) => {
+
+          auth.admin.request(app)
+          .post('/api/users/promoteIstr')
+          .send({
+            userId: exampleStudent._id
+          })
+          .expect(204)
+          .expect('Content-Type', /json/)
+          .end((err, res) => {
+              User.findByIdAsync(exampleStudent._id)
+                .then(user => {
+                  expect(user.isInstructor).to.be.true;
+                  done();
+                })
+          });
+
+        });
+      });
+
 });
 
 describe('User notification:', function() {
