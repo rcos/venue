@@ -7,6 +7,7 @@ import async from 'async';
 import uuid from 'node-uuid';
 import Section from '../section/section.model';
 import Course from '../course/course.model';
+import Submission from '../submission/submission.model';
 import SectionCtrl from '../section/section.controller';
 var scheduler = require('../../schedule');
 
@@ -363,6 +364,11 @@ UserSchema.methods = {
         })
         return courses;
       });
+  },
+
+  getSubmissionsAsync(opts){
+    var query = Submission.find({submitter: mongoose.Types.ObjectId(this._id)});
+    return query.lean().execAsync();
   },
 
   setVerificationToken() {

@@ -301,6 +301,12 @@ export function show(req, res, next) {
       done(user, profile);
     });
   }))
+  .spread(ifFlagManipulate(req.query.withSubmissions, (user,profile,done)=>{
+    return user.getSubmissionsAsync(req.query).then((submissions)=>{
+      profile.submissions = submissions;
+      done(user, profile);
+    });
+  }))
   .spread((user,profile) => {
     return res.json(profile);
   })
