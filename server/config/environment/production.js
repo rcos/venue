@@ -1,5 +1,7 @@
 'use strict';
 
+import path from 'path';
+
 // Production specific configuration
 // =================================
 module.exports = {
@@ -23,6 +25,6 @@ module.exports = {
   },
 
   // Images Folder
-  imageUploadPath: './data/'
+  imageUploadPath: process.env.IN_DOCKER ? '/root/data/' : path.resolve('./dist/data') + '/'
 
 };

@@ -22,8 +22,7 @@ exports.getImage = function (originalName, filepath, size, res) {
     }
   }
 
-  var source = filepath + name;
-  var imgPath = path.join(__dirname, "../../../", source);
+  let imgPath = path.join(filepath, name);
 
   var stats;
   try {
@@ -32,9 +31,7 @@ exports.getImage = function (originalName, filepath, size, res) {
     return res.sendFile(imgPath);
   }
   catch (e) {
-    name = originalName;
-    source = filepath + name;
-    imgPath = path.join(__dirname, "../../../", source);
+    imgPath = path.join(filepath, originalName);
     try {
         // Query the entry
         stats = fs.lstatSync(imgPath);

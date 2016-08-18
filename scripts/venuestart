@@ -33,6 +33,7 @@ docker run \
 -e PRODUCTION_RUN \
 -e LOCAL_LOGIN \
 -e DEBUG_LOGIN \
+-e IN_DOCKER="yes" \
 -P \
 --net="host" \
 -v "$CERTS_DIRECTORY:/root/certs:rw" \

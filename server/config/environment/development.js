@@ -1,5 +1,7 @@
 'use strict';
 
+import path from 'path';
+
 // Development specific configuration
 // ==================================
 module.exports = {
@@ -12,7 +14,7 @@ module.exports = {
   serverURL: process.env.DOMAIN || 'http://127.0.0.1:9000',
 
   // Images Folder
-  imageUploadPath: './data/',
+  imageUploadPath: path.resolve('./data') + '/',
 
   // Just log outgoing emails
   emailService: process.env.EMAIL_SERVICE || "MOCK",
