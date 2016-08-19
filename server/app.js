@@ -11,18 +11,24 @@ import config from './config/environment';
 import http from 'http';
 import * as seed from './config/seed';
 import * as productionSeed from './config/productionseed';
+import socketioModule from 'socket.io';
+import socketioConfig from './config/socketio';
+import expressConfig from './config/express';
+import routes from './routes';
+import schedule from './schedule';
+
 
 // Setup server
 var app = express();
 var server = http.createServer(app);
-var socketio = require('socket.io')(server, {
+var socketio = socketioModule(server, {
   serveClient: config.env !== 'production',
   path: '/socket.io-client'
 });
-require('./config/socketio')(socketio);
-require('./config/express')(app);
-require('./routes')(app);
-require('./schedule').start(config);
+socketioConfig(socketio);
+expressConfig(app);
+routes(app);
+schedule.start(config);
 
 
 // Connect to MongoDB

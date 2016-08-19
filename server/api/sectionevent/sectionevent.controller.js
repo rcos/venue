@@ -10,13 +10,13 @@
 'use strict';
 
 var _ = require('lodash');
-var scheduler = require('../../schedule');
-var EventInfo = require('../eventinfo/eventinfo.model');
-var SectionEvent = require('./sectionevent.model');
-var Submission = require('../submission/submission.model');
-var Section = require('../section/section.model');
-var User = require('../user/user.model');
-var Course = require('../course/course.model');
+import scheduler from '../../schedule';
+import EventInfo from '../eventinfo/eventinfo.model';
+import SectionEvent from './sectionevent.model';
+import Submission from '../submission/submission.model';
+import Section from '../section/section.model';
+import User from '../user/user.model';
+import Course from '../course/course.model';
 import SectionCtrl from '../section/section.controller';
 
 function handleError(res, statusCode) {
@@ -216,7 +216,7 @@ exports.index = function(req, res) {
 };
 // Gets a single SectionEvent from the DB
 exports.show = function(req, res) {
-  var query = SectionEvent.findById(req.params.id)
+  var query = SectionEvent.findById(req.params.id);
 
   if (withDefault(req.query.withEventInfo, false)){
     query = query.populate('info');
