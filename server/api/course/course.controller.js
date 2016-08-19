@@ -47,10 +47,11 @@ function handleEntityNotFound(res) {
 }
 
 function saveUpdates(updates) {
+  console.log("Saving"< updates);
   return function(entity) {
     var updated = _.merge(entity, updates);
     return updated.saveAsync()
-      .spread(function(updated) {
+      .then(updated => {
         return updated;
       });
   };
@@ -90,14 +91,14 @@ function saveCourseImage(files, fields, cb){
 }
 
 // Gets a list of Courses
-exports.index = function(req, res) {
+export function index(req, res) {
   Course.findAsync()
     .then(responseWithResult(res))
     .catch(handleError(res));
-};
+}
 
 // Gets a single Course from the DB
-exports.show = function(req, res) {
+export function show(req, res) {
   var dbquery = Course.findById(req.params.id);
   dbquery.execAsync()
     .then(handleEntityNotFound(res))
@@ -124,7 +125,7 @@ exports.show = function(req, res) {
 };
 
 // Creates a new Course in the DB
-exports.create = function(req, res) {
+export function create(req, res) {
   saveCourseImage(req.files, req.body, (imagePaths)=>{
     var course = req.body,
       date = new Date();
@@ -143,7 +144,7 @@ exports.create = function(req, res) {
 };
 
 // Updates an existing Course in the DB
-exports.update = function(req, res) {
+export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
@@ -151,18 +152,21 @@ exports.update = function(req, res) {
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(responseWithResult(res))
+    .catch((err,dat)=>{
+      console.log(err, dat);
+    })
     .catch(handleError(res));
 };
 
 // Deletes a Course from the DB
-exports.destroy = function(req, res) {
+export function destroy(req, res) {
   Course.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
 };
 
-exports.image = function(req, res){
+export function image(req, res){
   // Prevents requesting arbitary files from the server
   if (req.params.name.indexOf('/') !== -1){
     return res.json(404);
@@ -179,7 +183,8 @@ exports.image = function(req, res){
     req.query.size,
     res);
 };
-exports.imageSize = function(req, res){
+
+export function imageSize(req, res){
   req.query.size = req.params.size;
   return exports.image(req, res);
 };
