@@ -541,9 +541,6 @@ module.exports = function (grunt) {
     babel: {
       options: {
         sourceMap: true,
-        optional: [
-          'es7.classProperties'
-        ]
       },
       client: {
         files: [{
@@ -555,7 +552,7 @@ module.exports = function (grunt) {
       },
       server: {
         options: {
-          optional: ['runtime']
+          sourceMap: true
         },
         files: [{
           expand: true,

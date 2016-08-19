@@ -11,7 +11,7 @@ angular.module('venueApp')
       function link(scope, element, attrs) {
         attrs.$observe('httpSrc', (value) => {
           if (value[0] == "/"){
-            $http.get(attrs.httpSrc, {responseType: 'arraybuffer'}, )
+            $http.get(attrs.httpSrc, {responseType: 'arraybuffer'})
               .then((response) => {
                 var imageBlob = new Blob([response.data], { type: response.headers('Content-Type') });
                 var ImageUrl = (window.URL || window.webkitURL).createObjectURL(imageBlob);

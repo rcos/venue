@@ -11,7 +11,7 @@ angular.module('venueApp')
         scope.$watch('course', function(){
           if(scope.course && scope.course.imageURLs){
             if(scope.course.imageURLs.length > 0 && scope.course.imageURLs[0].startsWith('/api/')){
-              $http.get(scope.course.imageURLs[0], {responseType: 'arraybuffer'}, )
+              $http.get(scope.course.imageURLs[0], {responseType: 'arraybuffer'})
               .then((response) => {
                 var imageBlob = new Blob([response.data], { type: response.headers('Content-Type') });
                 var imageUrl = (window.URL || window.webkitURL).createObjectURL(imageBlob);
