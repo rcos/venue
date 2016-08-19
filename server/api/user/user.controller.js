@@ -290,7 +290,7 @@ export function show(req, res, next) {
   }))
   .spread(ifFlagManipulate(req.query.withSectionEvents, (user,profile,done)=>{
     return user.getSectionEventsAsync(req.query).then((sectionevents)=>{
-      profile.sectionEvents = sectionevents;
+      profile.sectionEvents = sectionevents.map(se => se.toObject());
       done(user, profile);
     });
   }))
@@ -301,9 +301,14 @@ export function show(req, res, next) {
       done(user, profile);
     });
   }))
-  .spread(ifFlagManipulate(req.query.withSubmissions, (user,profile,done)=>{
+  .spread(ifFlagManipulate((req.query.withSectionEvents && req.query.withSubmissionFlag), (user,profile,done)=>{
     return user.getSubmissionsAsync(req.query).then((submissions)=>{
-      profile.submissions = submissions;
+      submissions.forEach(submission => {
+        profile.sectionEvents = profile.sectionEvents.map( se => {
+          se.submitted = se.submitted || submission.sectionEvent == se._id;
+          return se;
+        });
+      });
       done(user, profile);
     });
   }))
