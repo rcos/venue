@@ -75,7 +75,14 @@ describe('User API:', function() {
                     expect(student.courses[0]).to.have.property('_id');
                 }
             },
-
+            {
+                param: 'withSectionEvents=true&withSubmissionFlag=true',
+                should: 'populate user section events with submission flag',
+                test: (student) => {
+                    expect(student.sectionEvents).to.be.a('array');
+                    expect(student.sectionEvents[0]).to.have.property('submitted');
+                }
+            },
         ]);
     });
 

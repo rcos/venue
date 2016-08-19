@@ -290,7 +290,7 @@ export function show(req, res, next) {
   }))
   .spread(ifFlagManipulate(req.query.withSectionEvents, (user,profile,done)=>{
     return user.getSectionEventsAsync(req.query).then((sectionevents)=>{
-      profile.sectionEvents = sectionevents;
+      profile.sectionEvents = sectionevents.map(se => se.toObject());
       done(user, profile);
     });
   }))
@@ -298,6 +298,17 @@ export function show(req, res, next) {
   .spread(ifFlagManipulate(req.query.withCourses, (user,profile,done)=>{
     return user.getCoursesAsync(req.query).then((courses)=>{
       profile.courses = courses;
+      done(user, profile);
+    });
+  }))
+  .spread(ifFlagManipulate((req.query.withSectionEvents && req.query.withSubmissionFlag), (user,profile,done)=>{
+    return user.getSubmissionsAsync(req.query).then((submissions)=>{
+      submissions.forEach(submission => {
+        profile.sectionEvents = profile.sectionEvents.map( se => {
+          se.submitted = se.submitted || submission.sectionEvent == se._id;
+          return se;
+        });
+      });
       done(user, profile);
     });
   }))
