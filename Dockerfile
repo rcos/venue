@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 # Create app directory
 WORKDIR /root
 
-ENV NODE_VERSION 5
+ENV NODE_VERSION 6
 
 # Install dependencies
 RUN apt-get update
