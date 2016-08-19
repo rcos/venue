@@ -71,10 +71,6 @@
 
 // var auth = require("../auth/local/test.integration");
 
-module.exports = {
-    test: superwithTest
-};
-
 function *combinations(elements){
     // Each element can either be present, or not present
     if (elements.length == 0){
@@ -96,7 +92,7 @@ function *combinations(elements){
     }
 }
 
-function superwithTest(req, endpoint, allParams){
+export function test(req, endpoint, allParams){
     // it('superwith', (done)=>{
     if (endpoint.indexOf("?") == -1){
         endpoint += "?";

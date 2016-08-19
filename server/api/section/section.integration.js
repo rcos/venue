@@ -1,15 +1,13 @@
 'use strict';
 
-var app = require('../..');
-var request = require('supertest');
-var auth = require("../../auth/local/test.integration");
-var superwith = require("../superwith.integration");
-var Section = require("./section.model");
-var User = require("../user/user.model");
+import app from '../..';
+import request from 'supertest';
+import auth from "../../auth/local/test.integration";
+import * as superwith from "../superwith.integration";
+import Section from "./section.model";
+import User from "../user/user.model";
 
-var seed = require('../../config/seed');
-var exampleSection = seed.exampleSection;
-var exampleStudent = seed.exampleStudent;
+import {seed, exampleSection, exampleStudent} from '../../config/seed';
 
 var newSection;
 
@@ -53,9 +51,9 @@ describe("Notification Tests", () => {
 
       before(() => student.clearNotifications());
 
-      before((done) => {
+      before(() => {
         section.students.push(exampleStudent._id);
-        return section.saveAsync().then(() => done());
+        return section.saveAsync();
       });
 
       it('should have given the student notifications', () => {

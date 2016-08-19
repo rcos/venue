@@ -1,14 +1,14 @@
 'use strict';
 
-var app = require('../..');
-var request = require('supertest');
-var auth = require("../../auth/local/test.integration");
-var superwith = require("../superwith.integration");
-var EventInfo = require("./eventinfo.model");
+import app from '../..';
+import request from 'supertest';
+import auth from "../../auth/local/test.integration";
+import * as superwith from "../superwith.integration";
+import EventInfo from "./eventinfo.model";
 
 var moment = require('moment');
 
-var User = require("../user/user.model");
+import User from "../user/user.model";
 
 var seed = require('../../config/seed');
 var exampleStudent = seed.exampleStudent;
