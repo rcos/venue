@@ -27,4 +27,4 @@ router.put('/:id', auth.isInstructor(), controller.update);
 router.patch('/:id',  auth.isInstructor(), controller.update);
 router.delete('/:id',  auth.isInstructor(), controller.destroy);
 
-module.exports = router;
+export default router;

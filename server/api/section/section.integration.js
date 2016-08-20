@@ -71,7 +71,7 @@ describe('Section API:', function() {
   describe('GET /api/sections', function() {
     var sections;
 
-    beforeEach(function(done) {
+    before(function(done) {
       request(app)
         .get('/api/sections')
         .expect(200)
@@ -94,7 +94,7 @@ describe('Section API:', function() {
   describe('GET /api/sections?onlyUser=:id', function() {
     var sections;
 
-    beforeEach(function(done) {
+    before(function(done) {
       auth.instructor.request(app)
         .get(`/api/sections?onlyUser=${exampleStudent._id}`)
         .expect(200)
@@ -111,7 +111,7 @@ describe('Section API:', function() {
     it('should respond with JSON array', function() {
       expect(sections).to.be.instanceOf(Array);
       for (var section of sections){
-          expect(section.students).to.include(exampleStudent._id.toString());
+        expect(section.students).to.include(exampleStudent._id.toString());
       }
     });
   });
