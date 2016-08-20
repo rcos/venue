@@ -1,0 +1,15 @@
+[ignore]
+.*/dist/.*
+
+.*/bower_components/es5-shim/.*
+.*/bower_components/markerclustererplus/.*
+
+.*/node_modules/.*config-chain/.*
+.*/node_modules/.*bower-json/.*
+.*/node_modules/.*jsonlint/.*
+.*/node_modules/.*npmconf/.*
+
+[include]
+
+[libs]
+./interfaces
