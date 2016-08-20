@@ -1,17 +1,15 @@
 'use strict';
 
-var app = require('../..');
-var request = require('supertest');
-var auth = require("../../auth/local/test.integration");
-var superwith = require("../superwith.integration");
+import app from '../..';
+import request from 'supertest';
+import auth from "../../auth/local/test.integration";
+import * as superwith from "../superwith.integration";
+import scheduler from '../../schedule';
 
-var SectionEvent = require('./sectionevent.model');
-var User = require("../user/user.model");
+import SectionEvent from './sectionevent.model';
+import User from "../user/user.model";
 
-var seed = require('../../config/seed');
-var exampleSectionEvent = seed.exampleSectionEvent;
-var exampleStudent = seed.exampleStudent;
-var scheduler = require('../../schedule');
+import {exampleSectionEvent, exampleStudent} from '../../config/seed';
 
 var newSectionEvent;
 
@@ -19,16 +17,12 @@ describe("SectionEvent Notification Handling", function(){
     var sectionEvent;
     var student;
 
-    before(() => {
-        return SectionEvent.findByIdAsync(exampleSectionEvent._id).then(se => {
-            sectionEvent = se;
-        });
+    before(async () => {
+        sectionEvent = await SectionEvent.findByIdAsync(exampleSectionEvent._id);
     });
 
-    before(() => {
-        return User.findByIdAsync(exampleStudent._id).then(stdent => {
-          student = stdent;
-        });
+    before(async () => {
+        student = await User.findByIdAsync(exampleStudent._id);
     });
 
     var relatedUsers;
