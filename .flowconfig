@@ -12,4 +12,4 @@
 [include]
 
 [libs]
-./interfaces
+./flow-typed/npm

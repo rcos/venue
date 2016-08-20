@@ -1,8 +1,9 @@
+//@flow
 'use strict';
 
-var express = require('express');
-var controller = require('./course.controller');
-var auth = require('../../auth/auth.service');
+import express from 'express';
+import controller from './course.controller';
+import auth from '../../auth/auth.service';
 
 var router = express.Router();
 
