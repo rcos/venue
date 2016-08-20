@@ -8,7 +8,7 @@ import uuid from 'node-uuid';
 import Section from '../section/section.model';
 import Course from '../course/course.model';
 import Submission from '../submission/submission.model';
-import SectionCtrl from '../section/section.controller';
+import {getSectionsExtra} from '../section/section.controller';
 var scheduler = require('../../schedule');
 
 import SectionEvent from '../sectionevent/sectionevent.model';
@@ -289,7 +289,7 @@ UserSchema.methods = {
     else{
         var query = Section.find({ students : mongoose.Types.ObjectId(this._id)});
     }
-    query = SectionCtrl.getSectionsExtra(query,opts);
+    query = getSectionsExtra(query,opts);
 
     return query.lean().execAsync();
   },
