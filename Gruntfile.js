@@ -797,7 +797,7 @@ module.exports = function (grunt) {
         'injector',
         'postcss',
         'wiredep:test',
-        'karma'
+        // 'karma'
       ]);
     }
 
