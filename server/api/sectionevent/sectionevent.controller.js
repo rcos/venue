@@ -48,10 +48,7 @@ function handleEntityNotFound(res) {
 function saveUpdates(updates) {
   return function(entity) {
     var updated = _.merge(entity, updates);
-    return updated.saveAsync()
-      .spread(function(updated) {
-        return updated;
-      });
+    return updated.saveAsync();
   };
 }
 
@@ -285,10 +282,7 @@ exports.update = function(req, res) {
     .then(handleEntityNotFound(res))
     .then((entity) => {
         entity.submissionInstructions = req.body.submissionInstructions
-        return entity.saveAsync()
-          .spread(function(updated) {
-            return updated;
-          });
+        return entity.saveAsync();
       })
     .then(responseWithResult(res))
     .catch(handleError(res));

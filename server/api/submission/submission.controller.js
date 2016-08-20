@@ -9,20 +9,20 @@
 
 'use strict';
 
-var _ = require('lodash');
-var Submission = require('./submission.model');
-var SectionEvent = require('../sectionevent/sectionevent.model');
-var EventInfo = require('../eventinfo/eventinfo.model');
-var Section = require('../section/section.model');
-var multiparty = require('multiparty');
-var User = require('../user/user.model');
-var fs = require('fs');
-var mkdirp = require('mkdirp');
-var mongoose = require('bluebird').promisifyAll(require('mongoose'));
-var path = require('path');
-var config = require('../../config/environment');
-var imageUpload = require('../../components/imageUpload');
-var imageDownload = require('../../components/imageDownload');
+import _ from 'lodash';
+import Submission from './submission.model';
+import SectionEvent from '../sectionevent/sectionevent.model';
+import EventInfo from '../eventinfo/eventinfo.model';
+import Section from '../section/section.model';
+import multiparty from 'multiparty';
+import User from '../user/user.model';
+import fs from 'fs';
+import mkdirp from 'mkdirp';
+import mongoose from 'mongoose';
+import path from 'path';
+import config from '../../config/environment';
+import imageUpload from '../../components/imageUpload';
+import imageDownload from '../../components/imageDownload';
 
 import async from 'async';
 import glob from 'glob';
@@ -56,10 +56,7 @@ function handleEntityNotFound(res) {
 function saveUpdates(updates) {
   return function(entity) {
     var updated = _.merge(entity, updates);
-    return updated.saveAsync()
-      .spread(function(updated) {
-        return updated;
-      });
+    return updated.saveAsync();
   };
 }
 

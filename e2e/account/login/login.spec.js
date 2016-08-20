@@ -1,6 +1,7 @@
 'use strict';
 
 var config = browser.params;
+console.log(config.serverConfig.root);
 var UserModel = require(config.serverConfig.root + '/server/api/user/user.model');
 
 describe('Login View', function() {
