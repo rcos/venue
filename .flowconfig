@@ -13,3 +13,4 @@
 
 [libs]
 ./interfaces
+./flow-typed/npm

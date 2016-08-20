@@ -1,3 +1,4 @@
+//@flow
 /**
  * Using Rails-like standard naming convention for endpoints.
  * GET     /api/courses              ->  index
@@ -9,14 +10,14 @@
 
 'use strict';
 
-var _ = require('lodash');
-var Course = require('./course.model');
-var fs = require('fs');
-var mkdirp = require('mkdirp');
-var config = require('../../config/environment');
-var imageUpload = require('../../components/imageUpload');
-var imageDownload = require('../../components/imageDownload');
-var path = require('path');
+import _ from 'lodash';
+import Course from './course.model';
+import fs from 'fs';
+import mkdirp from 'mkdirp';
+import config from '../../config/environment';
+import imageUpload from '../../components/imageUpload';
+import imageDownload from '../../components/imageDownload';
+import path from 'path';
 
 import async from 'async';
 

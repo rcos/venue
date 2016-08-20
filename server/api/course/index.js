@@ -1,10 +1,11 @@
+//@flow
 'use strict';
 
-var express = require('express');
-var controller = require('./course.controller');
-var auth = require('../../auth/auth.service');
+import express from 'express';
+import * as controller from './course.controller';
+import * as auth from '../../auth/auth.service';
 
-var router = express.Router();
+var router = new express.Router();
 
 router.get('/', controller.index);
 router.get('/image/:name', controller.image);
