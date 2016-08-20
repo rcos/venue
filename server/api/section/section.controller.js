@@ -148,45 +148,37 @@ export function mySections(req, res, next) {
 };
 
 // Gets a single Section from the DB
-export function show(req, res, next) {
-  console.log("GOT HERE");
-  var query = Section.findById(req.params.id);
-  var withEnrollmentStatus = req.query.withEnrollmentStatus;
+export async function show(req, res, next) {
+  try{
+    var query = Section.findById(req.params.id);
+    var withEnrollmentStatus = req.query.withEnrollmentStatus;
 
-  query = getSectionsExtra(query,req.query);
+    query = getSectionsExtra(query, req.query);
 
-  query
-    .execAsync()
-    .then((section) => {
-      if (!section) {
-        return res.status(404).end();
-      }
-      var data = section.toJSON();
-      return Promise.all([section, data]);
-    })
-    .then(ifFlagManipulate(req.query.withSectionsEvent || req.query.withSectionEvent, (section,data,done)=>{
-      return section.getEventsAsync(req.query).then((events)=>{
-        data.events = events;
-        done(section, data);
+    let section = await query.execAsync();
+    if (!section) {
+      return res.status(404).end();
+    }
+    let data = section.toJSON();
+
+    if (req.query.withSectionsEvent || req.query.withSectionEvent){
+      data.events = await section.getEventsAsync(req.query);
+    }
+
+    if (withEnrollmentStatus){
+      let studentId = req.query.studentId;
+      data.isEnrolled = section.students.some((sectionStudent) => {
+          return String(sectionStudent) === studentId || String(sectionStudent._id) === studentId ;
       });
-    }))
-    .then((section,data) => {
-        // If requested, mark all sections student is enrolled in
-      if (withEnrollmentStatus){
-        var studentId = req.query.studentId;
+      data.isPending = section.pendingStudents.some((sectionStudent) => {
+          return String(sectionStudent) === studentId || String(sectionStudent._id) === studentId ;
+      });
+    }
 
-        data.isEnrolled = section.students.some((sectionStudent) => {
-            return String(sectionStudent) === studentId || String(sectionStudent._id) === studentId ;
-        });
-        data.isPending = section.pendingStudents.some((sectionStudent) => {
-            return String(sectionStudent) === studentId || String(sectionStudent._id) === studentId ;
-        });
-
-      }
-      return res.json(data);
-    })
-    .catch((err,dat) => console.log(err,dat))
-    .catch(err => next(err));
+    return res.json(data);
+  }catch(err){
+    handleError(res)(err);
+  }
 };
 
 // Creates a new Section in the DB
@@ -237,10 +229,7 @@ function saveSectionUpdates(req) {
     {
       section.instructors = req.body.instructors;
     }
-    return section.saveAsync()
-      .spread(function(updated) {
-        return updated;
-      });
+    return section.saveAsync();
   }
 }
 
