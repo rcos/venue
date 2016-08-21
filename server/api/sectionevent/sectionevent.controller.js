@@ -241,6 +241,16 @@ exports.show = function(req, res) {
       }
     })
     .then((entity) =>{
+      if (withDefault(req.query.withSectionInstructors, false)){
+        return User.populate(entity, {
+            path: 'section.instructors'
+        });
+      }
+      else{
+        return entity;
+      }
+    })
+    .then((entity) =>{
       if (withDefault(req.query.withEventInfoAuthor, false)){
         return User.populate(entity, {
             path: 'info.author'

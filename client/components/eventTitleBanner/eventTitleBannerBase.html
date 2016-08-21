@@ -1,0 +1,11 @@
+<div class="picture-banner" picture-banner imageurls="event.imageURLs"></div>
+<div class="row inside">
+    <h2 class="col-sm-12"> {{ event.title }}</h2>
+    <div class='section-event col-sm-10'>
+        <span ng-show="sectionEvent.section">{{sectionEvent.section.course.department}} {{sectionEvent.section.course.courseNumber}} | Section{{sectionEvent.section.sectionNumbers.length > 1 ? "s": ""}}:
+            <comma-list list="sectionEvent.section.sectionNumbers" ampersand="true"></comma-list>
+            <span>| Instructor{{sectionEvent.section.instructors.length > 1 ? "s" : ""}}</span>:
+            <comma-list list="sectionEvent.section.instructors" display="printNames(element)" ampersand="true"></comma-list>
+        </span>
+    </div>
+</div>

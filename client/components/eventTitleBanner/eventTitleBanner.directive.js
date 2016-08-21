@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('venueApp')
-  .directive('courseTitleBanner', function ($http) {
+  .directive('eventTitleBanner', function ($http) {
     return {
-      templateUrl: 'components/courseTitleBanner/courseTitleBanner.html',
+      templateUrl: 'components/eventTitleBanner/eventTitleBanner.html',
       restrict: 'EA',
       scope: {
-        course: '=',
-        section: '=',
+        event: '=',
+        sectionEvent: '=',
         link: '@'
       },
       link: function (scope, element, attrs) {
@@ -16,13 +16,13 @@ angular.module('venueApp')
       }
     };
   })
-  .directive('courseTitleBannerBasic', function ($http) {
+  .directive('eventTitleBannerBasic', function ($http) {
     return {
-      templateUrl: 'components/courseTitleBanner/courseTitleBannerBasic.html',
+      templateUrl: 'components/eventTitleBanner/eventTitleBannerBasic.html',
       restrict: 'EA',
       scope: {
-        course: '=',
-        section: '=',
+        event: '=',
+        sectionEvent: '=',
       },
       link: function (scope, element, attrs) {
       },
@@ -30,13 +30,13 @@ angular.module('venueApp')
       }
     };
   })
-  .directive('courseTitleBannerBase', function ($http) {
+  .directive('eventTitleBannerBase', function ($http) {
     return {
-      templateUrl: 'components/courseTitleBanner/courseTitleBannerBase.html',
+      templateUrl: 'components/eventTitleBanner/eventTitleBannerBase.html',
       restrict: 'EA',
       scope: {
-        course: '=',
-        section: '=',
+        event: '=',
+        sectionEvent: '=',
       },
       link: function (scope, element, attrs) {
       },
@@ -44,6 +44,7 @@ angular.module('venueApp')
         $scope.printNames = function(element){
           return element.firstName + " " + element.lastName;
         }
+
       }
     };
   });

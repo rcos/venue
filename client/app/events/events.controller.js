@@ -12,6 +12,7 @@ angular.module('venueApp')
         withEventInfo: true,
         withEventInfoAuthor: true,
         withSectionCourse: true,
+        withSectionInstructors: true,
         withAuthor: true,
         withSection: true
       },
