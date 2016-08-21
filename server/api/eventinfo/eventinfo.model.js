@@ -134,7 +134,6 @@ EventInfoSchema.methods = {
       var withCourses = opts.withCourses;
 
       var query = SectionEvent.find({info: this._id});
-      query.populate("section");
       if (withCourses){
         query.populate({
           path: 'section',
@@ -143,6 +142,9 @@ EventInfoSchema.methods = {
              model: 'Course'
            }
         })
+      }
+      else{
+        query.populate("section");
       }
       query.then((sectionEvents)=>{
         cb(sectionEvents);

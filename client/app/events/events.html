@@ -21,7 +21,7 @@
     </div>
   </div>
   <div class='container eventview' ng-hide='err'>
-    <event-title-banner-basic section-event="event" event="event.info"></event-title-banner-basic>
+    <event-title-banner section-event="event" event="event.info" link="/eventInfo/{{event.info._id}}"></event-title-banner>
 
     <div class='row row-md-height'>
       <div class='col-md-6 left-column col-md-height col-md-top'>
@@ -58,13 +58,16 @@
 
               <br/>
 
-              <div class='upload-button-container' ng-show='!user.isInstructor'>
+              <div class='upload-button-container' ng-show='!user.isInstructor && sectionStudent'>
                 <button class='upload-button btn btn-md' ng-click='goToEventUpload()'>Upload to Event</button>
               </div>
-              <div ng-show='user.isInstructor'>
+              <div class='upload-button-container' ng-show='!user.isInstructor && !sectionStudent'>
+                You are not enrolled in this event's section.
+              </div>
+
+              <div ng-show='user.isInstructor && sectionInstructor'>
                 <div ng-hide='confirm'>
                   <button class='btn btn-md btn-warning' ng-click='deleteEvent(event)'>Remove Assignment</button>
-                  <button class='btn btn-md' ng-click='goToEventEdit()'>Edit Event</button>
                   <button class='btn btn-md' ng-click='editAssignemnt()'>Edit Assignment</button>
                 </div>
                 <div ng-show='confirm' class="help-block">
@@ -75,6 +78,9 @@
                   <button class='btn btn-md btn-danger' ng-click='confirmDeleteEventAssignment(event)'>Remove Event Assignment</button>
                   <button class='btn btn-md btn-default' ng-click='cancelDeleteEventAssignment(event)'>cancel</button>
                 </div>
+              </div>
+              <div ng-show='user.isInstructor && !sectionInstructor'>
+                You are not an instructor for this section
               </div>
           </div>
       </div>
@@ -103,7 +109,7 @@
   </div>
 
   <div class='container'>
-    <div ng-show='user.isInstructor'>
+    <div ng-show='user.isInstructor && !err && sectionInstructor'>
       <submissionview event-id="eventId"></submissionview>
     </div>
   </div>
