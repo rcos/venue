@@ -38,7 +38,7 @@
       <div class="col-md-6 right-column col-md-height" ng-hide='isInstructor || isStudent'>
           <div class="inside-full-height">
               <h4>Your Sections assigned this Event</h4>
-              <p ng-hide="event.yourEvents.length">No events assigned yet</a></p>
+              <p ng-hide="event.yourEvents.length">No events assigned yet</p>
               <table class="table table-hover">
                   <tr ng-repeat="sectionEvent in event.yourEvents">
                       <td class="big-number text-right">{{sectionEvent.section.course.name}}
@@ -51,7 +51,7 @@
               </table>
               <br/>
               <h4>Other Sections assigned this Event</h4>
-              <p ng-hide="event.otherEvents.length">None yet</a></p>
+              <p ng-hide="event.otherEvents.length">None yet</p>
 
               <table class="table table-hover">
                   <tr ng-repeat="sectionEvent in event.otherEvents">
