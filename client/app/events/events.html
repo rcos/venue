@@ -20,62 +20,69 @@
       </div>
     </div>
   </div>
-  <div class='container' ng-hide='err'>
-    <div class='row'>
-      <div class='col-xs-12'>
-        <div class='title'>
-          {{event.info.title}}
+  <div class='container eventview' ng-hide='err'>
+    <event-title-banner section-event="event" event="event.info" link="/eventInfo/{{event.info._id}}"></event-title-banner>
+
+    <div class='row row-md-height'>
+      <div class='col-md-6 left-column col-md-height col-md-top'>
+        <div class='inside-full-height'>
+          <h4>Event Description</h4>
+          <div class='event-desc'>{{ event.info.description }} </div>
+          <br/>
+          <img class="img-responsive" http-src='{{event.info.imageURLs[0]}}'/>
         </div>
       </div>
-      <div class='col-xs-7'>
-        <div class='description'>
-          {{event.info.description}}
-        </div>
-        <div class='section'>
-          For {{event.section.course.name}} {{(event.section.sectionNumbers.length===1)?"section":"sections"}} <span ng-repeat="number in event.section.sectionNumbers">{{number}}<span ng-hide="$last">, </span></span>
-        </div>
-        <div class='submissionInstructions'>
-          Instructor Note: {{event.submissionInstructions}}
-        </div>
-        <div class='info'>
-          Event Information
-        </div>
-        <div class='description'>
-          <div class="subsection">{{(event.info.times.length===1)?"Time":"Times"}}:</div>
-          <div ng-repeat="time in event.info.times">{{time.start | date : "short"}} - {{time.end | date : "short"}}</div>
-        </div>
-        <div class='description'>
-          <div class="subsection">Location:</div>
-          <div>{{event.info.location.description}}</div>
-          <div>{{event.info.location.address}}</div>
-        </div>
-        <div class="submissionInstructions">
-          {{(event.info.author._id === event.author._id)?"Author":"Authors"}}: {{event.author.firstName}} {{event.author.lastName}}<span ng-hide="event.info.author._id === event.author._id"> and {{event.info.author.firstName}} {{event.info.author.lastName}}</span>
-        </div>
-        <br/>
-      </div>
-      <div class='col-xs-5'>
-        <img class="img-responsive" http-src='{{event.info.imageURLs[0]}}'/>
-      </div>
-      <div class='col-xs-12'>
-        <div class='upload-button-container' ng-show='!user.isInstructor'>
-          <button class='upload-button btn btn-md' ng-click='goToEventUpload()'>Upload to Event</button>
-        </div>
-        <div ng-show='user.isInstructor'>
-          <div ng-hide='confirm'>
-            <button class='btn btn-md btn-warning' ng-click='deleteEvent(event)'>Remove Assignment</button>
-            <button class='btn btn-md' ng-click='goToEventEdit()'>Edit Event</button>
-            <button class='btn btn-md' ng-click='editAssignemnt()'>Edit Assignment</button>
+      <div class="col-md-6 right-column col-md-height" ng-hide='isInstructor || isStudent'>
+          <div class="inside-full-height">
+              <h4>Submission Information</h4>
+
+              <div class='submissionInstructions'>
+                Instructor Note: {{event.submissionInstructions}}
+              </div>
+              <div class='section'>
+                For {{event.section.course.name}} {{(event.section.sectionNumbers.length===1)?"section":"sections"}} <span ng-repeat="number in event.section.sectionNumbers">{{number}}<span ng-hide="$last">, </span></span>
+              </div>
+
+              <div class='description'>
+                <div class="subsection">{{(event.info.times.length===1)?"Time":"Times"}}:</div>
+                <div ng-repeat="time in event.info.times">{{time.start | date : "short"}} - {{time.end | date : "short"}}</div>
+              </div>
+              <div class='description'>
+                <div class="subsection">Location:</div>
+                <div>{{event.info.location.description}}</div>
+                <div>{{event.info.location.address}}</div>
+              </div>
+              <div class="submissionInstructions">
+                {{(event.info.author._id === event.author._id)?"Author":"Authors"}}: {{event.author.firstName}} {{event.author.lastName}}<span ng-hide="event.info.author._id === event.author._id"> and {{event.info.author.firstName}} {{event.info.author.lastName}}</span>
+              </div>
+
+              <br/>
+
+              <div class='upload-button-container' ng-show='!user.isInstructor && sectionStudent'>
+                <button class='upload-button btn btn-md' ng-click='goToEventUpload()'>Upload to Event</button>
+              </div>
+              <div class='upload-button-container' ng-show='!user.isInstructor && !sectionStudent'>
+                You are not enrolled in this event's section.
+              </div>
+
+              <div ng-show='user.isInstructor && sectionInstructor'>
+                <div ng-hide='confirm'>
+                  <button class='btn btn-md btn-warning' ng-click='deleteEvent(event)'>Remove Assignment</button>
+                  <button class='btn btn-md' ng-click='editAssignemnt()'>Edit Assignment</button>
+                </div>
+                <div ng-show='confirm' class="help-block">
+                  <div>
+                    This will also delete all sections submissions, are you sure you'd like to remove this event?
+                  </div>
+                  <br/>
+                  <button class='btn btn-md btn-danger' ng-click='confirmDeleteEventAssignment(event)'>Remove Event Assignment</button>
+                  <button class='btn btn-md btn-default' ng-click='cancelDeleteEventAssignment(event)'>cancel</button>
+                </div>
+              </div>
+              <div ng-show='user.isInstructor && !sectionInstructor'>
+                You are not an instructor for this section
+              </div>
           </div>
-          <div ng-show='confirm' class="help-block">
-            <div>
-              This will also delete all sections submissions, are you sure you'd like to remove this event?
-            </div>
-            <br/>
-            <button class='btn btn-md btn-danger' ng-click='confirmDeleteEventAssignment(event)'>Remove Event Assignment</button>
-            <button class='btn btn-md btn-default' ng-click='cancelDeleteEventAssignment(event)'>cancel</button>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -102,7 +109,7 @@
   </div>
 
   <div class='container'>
-    <div ng-show='user.isInstructor'>
+    <div ng-show='user.isInstructor && !err && sectionInstructor'>
       <submissionview event-id="eventId"></submissionview>
     </div>
   </div>

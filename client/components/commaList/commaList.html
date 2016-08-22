@@ -1,0 +1,3 @@
+<span ng-repeat="elem in list track by $index">
+    <span ng-show="$last && !$first && ampersand">& </span>{{displayElem(elem)}}<span ng-hide="(ampersand && list.length < 3) || $last">, </span>
+</span>

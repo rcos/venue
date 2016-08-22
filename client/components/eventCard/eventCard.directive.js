@@ -18,6 +18,10 @@ angular.module('venueApp')
         $scope.goToSectionEvent = (event) => {
           $location.path("/events/" + event._id);
         };
+        $scope.goToEventInfo = (data) => {
+          $location.path("/eventInfo/" + data._id);
+        };
+
       }
     };
   });

@@ -6,17 +6,30 @@ angular.module('venueApp')
     Auth.getCurrentUser((user) => $scope.user = user);
     $scope.eventId = $routeParams.id;
 
+    $scope.sectionStudent = false;
+    $scope.sectionInstructor = false;
+
     $scope.updateEvent = function(){
       $scope.event = SectionEvent.get({
         id: $routeParams.id,
         withEventInfo: true,
         withEventInfoAuthor: true,
         withSectionCourse: true,
+        withSectionInstructors: true,
         withAuthor: true,
         withSection: true
       },
         sectionEvent => {
           $scope.event = sectionEvent;
+          if (sectionEvent.section.students.indexOf($scope.user._id) ==! -1)
+          {
+            $scope.sectionStudent = true;
+          }
+          if (sectionEvent.section.instructors.map((elem)=>elem._id).indexOf($scope.user._id) ==! -1)
+          {
+            $scope.sectionInstructor = true;
+          }
+
         },
         err => {
           $scope.err = err;
