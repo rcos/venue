@@ -1,10 +1,17 @@
 'use strict';
 
+window._ = require('lodash');
+
+import config from './config';
+import auth from '../components/auth/auth.module';
+import admin from '../app/admin/admin.module';
+import constants from '../app/app.constants';
+
 angular.module('venueApp', [
-  'config',
-  'venueApp.auth',
-  'venueApp.admin',
-  'venueApp.constants',
+  config,
+  auth,
+  admin,
+  constants,
   'ngCookies',
   'ngResource',
   'ngSanitize',

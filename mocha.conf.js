@@ -4,7 +4,6 @@
 require('babel-core/register');
 
 var chai = require('chai');
-chai.config.includeStack = true;
 
 // Load Chai assertions
 global.expect = chai.expect;

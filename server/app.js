@@ -42,7 +42,7 @@ mongoose.connection.on('error', function(err) {
 });
 
 // Populate databases with sample data
-function beginSeeding(){
+function beginSeeding() {
   if (config.seedDB) {
     seed.seed().then(() => {
       console.log("Seed was successful");
@@ -63,7 +63,7 @@ function beginSeeding(){
 }
 
 function startServer() {
-  server.listen(config.port, config.ip, function() {
+  app.angularFullstack = server.listen(config.port, config.ip, function() {
     console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
     app.emit('listening');
     app.isListening = true;

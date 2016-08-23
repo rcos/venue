@@ -7,9 +7,12 @@
     <title>Angular Full-Stack Generator</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+    <!-- TODO remove, this is required by angular maps -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js"></script>
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 </head>
-<body>
+<body ng-app="venueApp" class="venueApp">
+    <div ng-view=""></div>
     <!--[if lt IE 9]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -25,8 +28,5 @@
       ga('send', 'pageview');
     </script>
 
-    <navbar></navbar>
-    <div ng-view=""></div>
-    <footer></footer>
 <script type="text/javascript" src="/vendor.bundle.js"></script><script type="text/javascript" src="/polyfills.bundle.js"></script><script type="text/javascript" src="/app.bundle.js"></script></body>
 </html>

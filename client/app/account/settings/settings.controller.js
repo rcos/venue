@@ -27,5 +27,6 @@ class SettingsController {
   }
 }
 
-angular.module('venueApp')
-  .controller('SettingsController', SettingsController);
+export default angular.module('venueApp')
+  .controller('SettingsController', SettingsController)
+  .name;

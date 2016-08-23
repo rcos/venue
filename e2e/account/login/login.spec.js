@@ -1,8 +1,7 @@
 'use strict';
 
 var config = browser.params;
-console.log(config.serverConfig.root);
-var UserModel = require(config.serverConfig.root + '/server/api/user/user.model');
+var UserModel = require(config.serverConfig.root + '/server/api/user/user.model').default;
 
 describe('Login View', function() {
   var page;
@@ -21,15 +20,15 @@ describe('Login View', function() {
 
   before(function() {
     return UserModel
-      .removeAsync()
+      .remove()
       .then(function() {
-        return UserModel.createAsync(testUser);
+        return UserModel.create(testUser);
       })
       .then(loadPage);
   });
 
   after(function() {
-    return UserModel.removeAsync();
+    return UserModel.remove();
   });
 
   it('should include login form with correct inputs and submit button', function() {
@@ -53,12 +52,18 @@ describe('Login View', function() {
   describe('with local auth', function() {
 
     it('should login a user and redirecting to "/"', function() {
-      page.login(testUser);
+      return page.login(testUser).then(() => {
+        var navbar = require('../../components/navbar/navbar.po');
 
-      var navbar = require('../../components/navbar/navbar.po');
-
-      expect(browser.getCurrentUrl()).to.eventually.equal(config.baseUrl + '/');
-      expect(navbar.navbarAccountGreeting.getText()).to.eventually.equal('Hello ' + testUser.name);
+        return browser.wait(
+          () => element(by.css('.hero-unit')),
+          5000,
+          `Didn't find .hero-unit after 5s`
+        ).then(() => {
+          expect(browser.getCurrentUrl()).to.eventually.equal(config.baseUrl + '/');
+          expect(navbar.navbarAccountGreeting.getText()).to.eventually.equal('Hello ' + testUser.name);
+        });
+      });
     });
 
     describe('and invalid credentials', function() {

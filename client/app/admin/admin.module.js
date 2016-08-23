@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('venueApp.admin', [
+export default angular.module('venueApp.admin', [
   'venueApp.auth',
   'ngRoute'
-]);
+]).name;

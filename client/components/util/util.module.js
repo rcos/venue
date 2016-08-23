@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('venueApp.util', []);
+export default angular.module('venueApp.util', []).name;

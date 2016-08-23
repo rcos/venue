@@ -58,7 +58,7 @@ var config = {
   },
 
   onPrepare: function() {
-    require('babel-core/register');
+    require('babel-register');
     // Load Mocha and Chai + plugins
     require('./mocha.conf');
 

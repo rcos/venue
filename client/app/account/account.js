@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('venueApp')
+export default angular.module('venueApp')
   .config(function($routeProvider) {
     $routeProvider
       .when('/login', {

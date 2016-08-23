@@ -56,5 +56,5 @@ class LoginController {
 
 }
 
-angular.module('venueApp')
+export default angular.module('venueApp')
   .controller('LoginController', LoginController);

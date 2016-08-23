@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('venueApp')
+export default angular.module('venueApp')
   .controller('ForgotPasswordCtrl', function ($scope, $routeParams, User, $location) {
     $scope.goToLogin = function(){
       $location.path("/login");
