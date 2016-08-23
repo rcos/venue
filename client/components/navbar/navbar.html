@@ -29,7 +29,7 @@
             <a href="/login">Login</a>
           </li>
           <li ng-show="nav.isLoggedIn()">
-            <a href="/settings">You are logged in as {{ nav.user.firstName }}</a> 
+            <a href="/settings">You are logged in as {{ nav.user.firstName }}</a>
           </li>
           <li ng-show="nav.isLoggedIn()" ng-class="{active: nav.isActive('/settings')}">
             <a href="/settings"><span class="glyphicon glyphicon-cog"></span></a>
