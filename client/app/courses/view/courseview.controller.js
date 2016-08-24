@@ -50,7 +50,7 @@ angular.module('venueApp')
       }, course => {
         $scope.course = course;
         $scope.coursesLoaded = true;
-      }, err =>{
+      }, () =>{
         $location.path('/courses')
       });
     }

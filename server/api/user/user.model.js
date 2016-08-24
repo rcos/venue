@@ -283,11 +283,12 @@ UserSchema.methods = {
 
   getSectionsAsync(opts){
     var sections = [];
+    var query;
     if (this.isInstructor){
-        var query = Section.find({instructors: mongoose.Types.ObjectId(this._id) });
+        query = Section.find({instructors: mongoose.Types.ObjectId(this._id) });
     }
     else{
-        var query = Section.find({ students : mongoose.Types.ObjectId(this._id)});
+        query = Section.find({ students : mongoose.Types.ObjectId(this._id)});
     }
     query = getSectionsExtra(query,opts);
 

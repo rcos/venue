@@ -39,7 +39,7 @@ angular.module('venueApp')
               objectKey: '.k',
               arrayKey: '[i]'
           }).progress(function (evt) {
-              var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+              var progressPercentage = parseInt(100.0 * evt.loaded / evt.total, 10);
               $scope.progress = progressPercentage;
 
           }).success(function (imageSubmitted) {

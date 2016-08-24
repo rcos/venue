@@ -27,7 +27,7 @@ function casAuthenticate(User, config, schoolId, done) {
             isInstructor: false
         }).then((user) => {
             return done(null, user);
-        }).catch((err) => {
+        }).catch(() => {
             return done(null, false, {
                 message: "An error occurred creating the account"
             });

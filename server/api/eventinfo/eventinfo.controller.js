@@ -123,7 +123,7 @@ export function show(req, res) {
 export function create(req, res) {
   saveEventInfoImage(req.files, req.body, (imagePaths)=>{
     var evnt = req.body;
-    var updating = evnt.id != null; // TODO move to separate endpoint- this is here to avoid a major refactor
+    var updating = evnt.id !== null; // TODO move to separate endpoint- this is here to avoid a major refactor
     if (!updating) evnt.creationDate = new Date();
     if (!updating) evnt.author = req.user._id;
     evnt.imageURLs = imagePaths;
@@ -172,9 +172,9 @@ export function create(req, res) {
     }
     evnt.location.geobounds.coordinates = allShapes; // save the list of all shapes
 
-    for (var a = 0; a < evnt.location.geo.coordinates.length; a++){
+    for (var e = 0; e < evnt.location.geo.coordinates.length; e++){
       // Save the bounds as numbers
-      evnt.location.geo.coordinates[a] = Number(evnt.location.geo.coordinates[a]);
+      evnt.location.geo.coordinates[e] = Number(evnt.location.geo.coordinates[e]);
     }
     //Save the radius as a number
     evnt.location.radius = Number(evnt.location.radius);

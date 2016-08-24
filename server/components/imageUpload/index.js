@@ -33,9 +33,8 @@ exports.saveImage = function (file, uploadPath, cb) {
 
     fs.exists(file.path, (exists) => {
       if (!exists){
-        return "";
         cb("Invalid file");
-
+        return "";
       }
       var asyncTasks = [];
 

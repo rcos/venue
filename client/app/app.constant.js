@@ -1,9 +1,7 @@
-(function(angular, undefined) {
+(function(angular) {
 'use strict';
 
 angular.module('venueApp.constants', [])
+.constant('appConfig', {userRoles:['guest','user','admin']});
 
-.constant('appConfig', {userRoles:['guest','user','admin']})
-
-;
 })(angular);

@@ -54,7 +54,7 @@ function beginSeeding() {
     productionSeed.seed().then(()=>{
       console.log("Production seed successful");
       setImmediate(startServer);
-    }).catch(()=>{
+    }).catch((err)=>{
       console.log("Seed failure!", err);
     })
   }else{

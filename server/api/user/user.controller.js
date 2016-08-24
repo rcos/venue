@@ -107,8 +107,8 @@ export function verify(req, res, next) {
  */
 export function resendEmail(req, res, nest) {
   var emailAddress = req.body.email;
-  if(emailAddress != undefined){
-    User.findOne({ 'email' : emailAdrress })
+  if(emailAddress !== undefined){
+    User.findOne({ 'email' : emailAddress })
       .select('email firstName lastName isVerified')
       .execAsync()
       .then((user) => {
@@ -159,8 +159,8 @@ export function createFromCSVUpload(req, res, next){
   var csvFile = req.files.files[0];
   // Parse CSV File
   var fileLines = fs.readFileSync(csvFile.path).toString().split("\n");
-  for (var i = 0;i < fileLines.length; i++){
-    fileLines[i] = fileLines[i].split(",");
+  for (var a = 0; a < fileLines.length; a++){
+    fileLines[a] = fileLines[a].split(",");
   }
 
   // Make sure header is correct
@@ -226,7 +226,7 @@ export function createFromCSVUpload(req, res, next){
       newUser.role = 'user';
       newUser.save().then(() => {
         resolve(`Successfully created user ${firstName} ${lastName}, ${email}`);
-      }).catch((err) => {
+      }).catch(() => {
         resolve(`Error creating user ${firstName} ${lastName}, ${email}`);
       })
     });
@@ -376,7 +376,7 @@ export function resetPassword(req, res, next) {
     .select('_id email password provider salt verificationToken')
     .execAsync()
     .then(user => {
-      if (user != null && user.verificationToken == token) {
+      if (user !== null && user.verificationToken == token) {
         user.password = newPass;
         user.verificationToken = undefined;
         return user.saveAsync()

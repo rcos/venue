@@ -195,8 +195,9 @@ export function create(req, res) {
 function saveSectionUpdates(req) {
 
   return (section) => {
+    var pendingStudent;
     if(req.body.pendingStudent){
-      var pendingStudent = req.body.pendingStudent;
+      pendingStudent = req.body.pendingStudent;
       if(section.pendingStudents.remove(pendingStudent)){
         section.students.push(pendingStudent);
       }
@@ -205,7 +206,7 @@ function saveSectionUpdates(req) {
       }
     }
     if(req.body.removePendingStudent){
-      var pendingStudent = req.body.removePendingStudent;
+      pendingStudent = req.body.removePendingStudent;
       if(!section.pendingStudents.remove(pendingStudent)){
         throw "Not a valid pending student";
       }

@@ -19,7 +19,7 @@ angular.module('venueApp')
             .then(res => {
               $scope.success = res.success;
             })
-            .catch(err => {
+            .catch(() => {
               $scope.success = false;
             });
         }

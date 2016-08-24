@@ -3,7 +3,7 @@
 angular.module('venueApp')
   .controller('EventsCtrl', function ($scope, $location, $routeParams, SectionEvent, Auth) {
     $scope.assignment = {};
-    Auth.getCurrentUser((user) => $scope.user = user);
+    Auth.getCurrentUser((user) => {$scope.user = user});
     $scope.eventId = $routeParams.id;
 
     $scope.sectionStudent = false;

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('venueApp')
-  .controller('StudentSubmissionCtrl', ($scope, $routeParams, User, Auth, Submission) => {
+  .controller('StudentSubmissionCtrl', ($scope, $routeParams, $location, User, Auth, Submission) => {
 
     Submission.getAll({'onlyStudent':'me', 'withSection': true, 'withSectionCourse': true}, (submissions) => {
       $scope.submissions = submissions;

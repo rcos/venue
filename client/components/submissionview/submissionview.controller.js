@@ -45,7 +45,7 @@ angular.module('venueApp')
             return student;
           });
 
-          $scope.submissions.forEach(s => s.submitter.name = `${s.submitter.firstName} ${s.submitter.lastName}`);
+          $scope.submissions.forEach(s => {s.submitter.name = `${s.submitter.firstName} ${s.submitter.lastName}`});
 
           // Create empty submissions for students that did not submit for each section event
           $scope.allSectionEvents.forEach((se) => {
