@@ -53,6 +53,7 @@ module.exports = function makeWebpackConfig(options) {
               'angular-sanitize',
               'angular-simple-logger',
               'angular-socket-io',
+              'angular-ui-router',
               'angular-validation-match',
               // 'webpack-bootstrap',
               'bootstrap-social',

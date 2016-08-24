@@ -1,11 +1,12 @@
 'use strict';
 
-(function() {
-
 /**
  * The Util service is for thin, globally reusable, utility functions
  */
-function UtilService($window) {
+
+export function UtilService($window) {
+  'ngInject';
+
   var Util = {
     /**
      * Return a callback or noop function
@@ -14,7 +15,7 @@ function UtilService($window) {
      * @return {Function}
      */
     safeCb(cb) {
-      return (angular.isFunction(cb)) ? cb : angular.noop;
+      return angular.isFunction(cb) ? cb : angular.noop;
     },
 
     /**
@@ -26,6 +27,12 @@ function UtilService($window) {
     urlParse(url) {
       var a = document.createElement('a');
       a.href = url;
+
+      // Special treatment for IE, see http://stackoverflow.com/a/13405933 for details
+      if (a.host === '') {
+        a.href = a.href;
+      }
+
       return a;
     },
 
@@ -38,44 +45,23 @@ function UtilService($window) {
      */
     isSameOrigin(url, origins) {
       url = Util.urlParse(url);
-      origins = (origins && [].concat(origins)) || [];
+      origins = origins && [].concat(origins) || [];
       origins = origins.map(Util.urlParse);
       origins.push($window.location);
       origins = origins.filter(function(o) {
-        return url.hostname === o.hostname &&
-          url.port === o.port &&
-          url.protocol === o.protocol;
+        let hostnameCheck = url.hostname === o.hostname;
+        let protocolCheck = url.protocol === o.protocol;
+        // 2nd part of the special treatment for IE fix (see above):
+        // This part is when using well-known ports 80 or 443 with IE,
+        // when $window.location.port==='' instead of the real port number.
+        // Probably the same cause as this IE bug: https://goo.gl/J9hRta
+        let portCheck = url.port === o.port || o.port === '' && (url.port === '80' || url.port ===
+          '443');
+        return hostnameCheck && protocolCheck && portCheck;
       });
-      return (origins.length >= 1);
-    },
-
-    formatAMPM(date) {
-      var hours = date.getHours();
-      var minutes = date.getMinutes();
-      var ampm = hours >= 12 ? 'pm' : 'am';
-      hours = hours % 12;
-      hours = hours ? hours : 12; // the hour '0' should be '12'
-      minutes = minutes < 10 ? '0'+minutes : minutes;
-      var strTime = hours + ':' + minutes + ' ' + ampm;
-      return strTime + " " + date.toDateString();
-    },
-    /**
-     * Convert Date strings to Date Objects
-     */
-    convertDates(events) {
-      for(var i=0; i< events.length; i++){
-        for(var j=0; j< events[i].info.times.length; j++){
-          events[i].info.times[j].start = Util.formatAMPM(new Date(events[i].info.times[j].start));
-          events[i].info.times[j].end = Util.formatAMPM(new Date(events[i].info.times[j].end));
-        }
-      }
-    },
+      return origins.length >= 1;
+    }
   };
 
   return Util;
 }
-
-angular.module('venueApp.util')
-  .factory('Util', UtilService);
-
-})();

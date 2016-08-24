@@ -1,12 +1,7 @@
 'use strict';
 
-(function() {
-
-class MainController {
-
+export default class MainController {
+  constructor(){
+    console.log("Main Controller constructed");
+  }
 }
-
-angular.module('venueApp')
-  .controller('MainController', MainController);
-
-})();

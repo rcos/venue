@@ -1,3 +1,9 @@
 'use strict';
 
-export default angular.module('venueApp.util', []).name;
+import {
+  UtilService
+} from './util.service';
+
+export default angular.module('venueApp.util', [])
+  .factory('Util', UtilService)
+  .name;
