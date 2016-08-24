@@ -1,11 +1,8 @@
 'use strict';
 
-class SettingsController {
-  //start-non-standard
-  errors = {};
-  submitted = false;
-  //end-non-standard
+export default class SettingsController {
 
+  /*@ngInject*/
   constructor(Auth) {
     this.Auth = Auth;
   }
@@ -26,7 +23,3 @@ class SettingsController {
     }
   }
 }
-
-export default angular.module('venueApp')
-  .controller('SettingsController', SettingsController)
-  .name;

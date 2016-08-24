@@ -1,7 +1,9 @@
 'use strict';
 
-angular.module('venueApp')
-  .controller('ResetPasswordCtrl', function ($scope, $routeParams, User, $location) {
+export default class ResetPasswordCtrl {
+
+  /*@ngInject*/
+  constructor($scope, $routeParams, User, $location) {
 
     $scope.user = {};
     $scope.errors = {};
@@ -24,5 +26,5 @@ angular.module('venueApp')
             });
         }
     };
-
-  });
+  }
+}

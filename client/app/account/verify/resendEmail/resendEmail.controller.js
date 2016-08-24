@@ -1,7 +1,9 @@
 'use strict';
 
-angular.module('venueApp')
-  .controller('ResendEmailCtrl', function ($scope, $routeParams, User, $location) {
+export default class ResendEmailCtrl {
+
+  /*@ngInject*/
+  constructor($scope, $routeParams, User, $location) {
     $scope.goToLogin = function(){
       $location.path("/login");
     };
@@ -26,5 +28,5 @@ angular.module('venueApp')
           });
         }
     };
-
-  });
+  }
+}

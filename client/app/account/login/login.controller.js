@@ -1,14 +1,15 @@
 'use strict';
 
-class LoginController {
-  //start-non-standard
-  user = {};
-  errors = {};
-  submitted = false;
-  devMode = false;
-  //end-non-standard
+export default class LoginController {
 
+  /*@ngInject*/
   constructor(Auth, $location, ENV, CAS_ENABLED, LOCAL_LOGIN_ENABLED, DEBUG_LOGIN_ENABLED) {
+
+    this.user = {};
+    this.errors = {};
+    this.submitted = false;
+    this.devMode = false;
+
     this.Auth = Auth;
     this.getCurrentUser = Auth.getCurrentUser;
     this.$location = $location;
@@ -55,6 +56,3 @@ class LoginController {
   }
 
 }
-
-export default angular.module('venueApp')
-  .controller('LoginController', LoginController);

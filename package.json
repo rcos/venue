@@ -66,6 +66,7 @@
     "sprint-js": "~0.1.0"
   },
   "devDependencies": {
+    "angular-messages": "^1.5.8",
     "angular-mocks": "~1.5.5",
     "autoprefixer": "^6.0.0",
     "awesome-typescript-loader": "0.17.0",
