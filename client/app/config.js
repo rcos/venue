@@ -1,6 +1,4 @@
-import angular from 'angular';
-
-export default angular.module('config', [])
+angular.module('config', [])
 
 .constant('ENV', 'development')
 
@@ -10,5 +8,4 @@ export default angular.module('config', [])
 
 .constant('DEBUG_LOGIN_ENABLED', true)
 
-.name
 ;
