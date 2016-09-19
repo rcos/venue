@@ -1,5 +1,5 @@
 import passport from 'passport';
-import {OAuth2Strategy as GoogleStrategy} from 'passport-google-oauth';
+import {Strategy as GoogleStrategy} from 'passport-google-oauth20';
 
 export function setup(User, config) {
   passport.use(new GoogleStrategy({
@@ -8,13 +8,9 @@ export function setup(User, config) {
     callbackURL: config.google.callbackURL
   },
   function(accessToken, refreshToken, profile, done) {
-    User.findOne({
-      'google.id': profile.id
-    })
-    .select('_id email password provider salt')
-    .execAsync()
-    .then(user => {
-        if (user) {
+    User.findOne({'google.id': profile.id}).exec()
+      .then(user => {
+        if(user) {
           return done(null, user);
         }
 
@@ -26,8 +22,8 @@ export function setup(User, config) {
           provider: 'google',
           google: profile._json
         });
-        user.saveAsync()
-          .then(user => done(null, user))
+        user.save()
+          .then(savedUser => done(null, savedUser))
           .catch(err => done(err));
       })
       .catch(err => done(err));
