@@ -1,8 +1,8 @@
 'use strict';
+const angular = require('angular');
 
-(function() {
-
-  function CourseResource($resource) {
+/*@ngInject*/
+export function CourseResource($resource) {
     var Course = $resource('/api/courses/:id/:controller', {
       id: '@_id'
     }, {
@@ -21,9 +21,8 @@
       }
     });
     return Course;
-  }
+}
 
-  angular.module('venueApp')
-    .factory('Course', CourseResource);
-
-  })();
+export default angular.module('venueApp.Course', [])
+  .factory('Course', CourseResource)
+  .name;

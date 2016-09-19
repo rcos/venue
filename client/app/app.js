@@ -23,9 +23,12 @@ import {
   routeConfig
 } from './app.config';
 
+import _Course from './factories/Course/Course.service';
 import _Auth from '../components/auth/auth.module';
+
 import account from './account';
 import admin from './admin';
+import courses from './courses';
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import main from './main/main.component';
@@ -52,7 +55,8 @@ angular.module('venueApp', [
      ngCsv,
     //
      config,
-    _Auth, account, admin, navbar, footer, main, constants, socket, util
+    _Auth, _Course,
+    account, admin, courses, navbar, footer, main, constants, socket, util
   ])
   .config(routeConfig)
   .config(function(uiGmapGoogleMapApiProvider) {
@@ -78,20 +82,7 @@ angular.module('venueApp', [
         }
       });
     });
-  })
-  .run(($rootScope) => {
-    'ngInject';
-    $rootScope.$on('$routeChangeStart', function(event, next, current) {
-      // next is an object that is the route that we are starting to go to
-      // current is an object that is the route where we are currently
-      var currentPath = current && current.originalPath || "";
-      var nextPath = next.originalPath;
-
-      console.log('Starting to leave %s to go to %s', currentPath, nextPath);
-    });
-  })
-  ;
-
+  });
 angular.element(document)
   .ready(() => {
     angular.bootstrap(document, ['venueApp'], {

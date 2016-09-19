@@ -1,7 +1,8 @@
 'use strict';
+export default class CourseViewCtrl {
 
-angular.module('venueApp')
-  .controller('CourseViewCtrl', ($scope, $location, $http, $routeParams, Auth, User, Course, Section) => {
+  /*@ngInject*/
+  constructor($scope, $location, $http, $routeParams, Auth, User, Course, Section) {
     Auth.getCurrentUser((user) => {
       $scope.user = user;
       $scope.isStudent = (!user.isInstructor) && Auth.isLoggedIn();
@@ -55,4 +56,5 @@ angular.module('venueApp')
       });
     }
 
-  });
+  }
+}
