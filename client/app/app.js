@@ -42,15 +42,15 @@ angular.module('venueApp', [
     uiBootstrap,
     ngAnimate, ngMessages, ngValidationMatch,
     ngFileUpload, ngCsv,
-
+    //
     'geolocation',
     'dibari.angular-ellipsis',
     'ui.bootstrap.datetimepicker',
     'uiGmapgoogle-maps',
-
+    //
      ngFileUpload,
      ngCsv,
-
+    //
      config,
     _Auth, account, admin, navbar, footer, main, constants, socket, util
   ])
