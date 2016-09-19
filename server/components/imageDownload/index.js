@@ -30,14 +30,14 @@ exports.getImage = function (originalName, filepath, size, res) {
     stats = fs.lstatSync(imgPath);
     return res.sendFile(imgPath);
   }
-  catch (err) {
+  catch (e) {
     imgPath = path.join(filepath, originalName);
     try {
         // Query the entry
         stats = fs.lstatSync(imgPath);
         return res.sendFile(imgPath);
     }
-    catch (err) {
+    catch (error) {
       // File not found, send 404
       return res.json(404);
     }

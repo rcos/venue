@@ -2,6 +2,6 @@
 
 import LoginController from './login.controller';
 
-export default angular.module('fullstackAngularApp.login', [])
+export default angular.module('venueApp.login', [])
   .controller('LoginController', LoginController)
   .name;

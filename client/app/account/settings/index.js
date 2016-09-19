@@ -2,6 +2,6 @@
 
 import SettingsController from './settings.controller';
 
-export default angular.module('fullstackAngularApp.settings', [])
+export default angular.module('venueApp.settings', [])
   .controller('SettingsController', SettingsController)
   .name;

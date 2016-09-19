@@ -66,7 +66,7 @@ function UserResource($resource) {
   return User;
 }
 
-angular.module('venueApp.auth')
+angular.module('venueApp.oldauth')
   .factory('User', UserResource);
 
 })();

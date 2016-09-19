@@ -4,7 +4,7 @@ import routing from './main.routes';
 
 export class MainController {}
 
-export default angular.module('fullstackAngularApp.main', ['ngRoute'])
+export default angular.module('venueApp.main', ['ngRoute'])
   .config(routing)
   .component('main', {
     template: require('./main.html'),

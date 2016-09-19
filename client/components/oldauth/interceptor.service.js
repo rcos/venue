@@ -25,7 +25,7 @@ function authInterceptor($rootScope, $q, $cookies, $location, Util) {
   };
 }
 
-angular.module('venueApp.auth')
+angular.module('venueApp.oldauth')
   .factory('authInterceptor', authInterceptor);
 
 })();

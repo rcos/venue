@@ -9,11 +9,9 @@ import settings from './settings';
 import signup from './signup';
 import oauthButtons from '../../components/oauth-buttons';
 
-export default angular.module('fullstackAngularApp.account', [ngRoute, login, settings, signup,
-    oauthButtons
-  ])
+export default angular.module('fullstackAngularApp.account', [ngRoute, login, settings, signup, oauthButtons ])
   .config(routing)
-  .run(function($rootScope) {
+  .run(function($rootScope, $window) {
     'ngInject';
 
     $rootScope.$on('$routeChangeStart', function(event, next, current) {

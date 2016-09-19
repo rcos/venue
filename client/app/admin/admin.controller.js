@@ -2,9 +2,11 @@
 
 export default class AdminController {
   /*@ngInject*/
-  constructor($scope, User, Upload, $http, $route) {
+  constructor($scope, $http, $route, User, Upload) {
     $scope.users = User.query();
-
+    this.User = User;
+    this.$http = $http;
+    this.$route = $route;
     $scope.uploadUserCSV = function(file){
 
       if (!file){
@@ -35,8 +37,8 @@ export default class AdminController {
   }
 
   addInstr(user) {
-    User.promoteToInstructor({userId: user._id}, () => {
-      this.users = User.query();
+    this.User.promoteToInstructor({userId: user._id}, () => {
+      this.users = this.User.query();
       this.users.sort(( a , b) => {
         return a.lastName > b.lastName;
       })
@@ -47,8 +49,8 @@ export default class AdminController {
       if (confirm("This clear the database, are you sure?") &&
           confirm("You cannot revert this operation, are you really sure?")){
 
-          $http.post("/api/misc/reseed",{}, () => {
-              $route.reload();
+          this.$http.post("/api/misc/reseed",{}, () => {
+              this.$route.reload();
           });
 
       }

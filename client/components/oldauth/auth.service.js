@@ -210,7 +210,7 @@ function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
   return Auth;
 }
 
-angular.module('venueApp.auth')
+angular.module('venueApp.oldauth')
   .factory('Auth', AuthService);
 
 })();
