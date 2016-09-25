@@ -23,14 +23,20 @@ import {
   routeConfig
 } from './app.config';
 
-import _Course from './factories/Course/Course.service';
-import _Auth from '../components/auth/auth.module';
+import _CourseFactory from '../factories/Course/Course.service';
+import _SectionEventFactory from '../factories/SectionEvent/SectionEvent.service';
+import _EventInfoFactory from '../factories/EventInfo/EventInfo.service';
+import _SectionFactory from '../factories/Section/Section.service';
+import _SubmissionFactory from '../factories/Submission/Submission.service';
 
 import account from './account';
 import admin from './admin';
 import courses from './courses';
-import navbar from '../components/navbar/navbar.component';
+import events from './events';
+
+import _Auth from '../components/auth/auth.module';
 import footer from '../components/footer/footer.component';
+import navbar from '../components/navbar/navbar.component';
 import main from './main/main.component';
 import constants from './app.constants';
 import util from '../components/util/util.module';
@@ -54,10 +60,26 @@ angular.module('venueApp', [
      ngFileUpload,
      ngCsv,
     //
-     config,
-    _Auth, _Course,
-    account, admin, courses, navbar, footer, main, constants, socket, util
-  ])
+    _CourseFactory,
+    _SectionEventFactory,
+    _EventInfoFactory,
+    _SectionFactory,
+    _SubmissionFactory,
+
+    account,
+    admin,
+    courses,
+    events,
+
+    _Auth,
+    footer,
+    navbar,
+    main,
+    constants,
+    util,
+    socket,
+    config
+    ])
   .config(routeConfig)
   .config(function(uiGmapGoogleMapApiProvider) {
     'ngInject';

@@ -17,7 +17,6 @@ import expressConfig from './config/express';
 import routes from './routes';
 import schedule from './schedule';
 
-
 // Setup server
 var app = express();
 var server = http.createServer(app);

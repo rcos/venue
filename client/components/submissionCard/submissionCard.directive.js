@@ -1,6 +1,7 @@
 'use strict';
+const angular = require('angular');
 
-angular.module('venueApp')
+export default angular.module('venueApp', [])
   .directive('submissionCard', ($http,$compile, $location) => {
     return {
       templateUrl: 'components/submissionCard/submissionCard.html',
@@ -30,4 +31,5 @@ angular.module('venueApp')
       controller: function ($scope, $element) {
       }
     };
-  });
+  })
+  .name;

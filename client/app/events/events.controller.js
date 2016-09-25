@@ -1,7 +1,7 @@
 'use strict';
-
-angular.module('venueApp')
-  .controller('EventsCtrl', function ($scope, $location, $routeParams, SectionEvent, Auth) {
+export default class EventsCtrl {
+  /*@ngInject*/
+  constructor($scope, $location, $routeParams, SectionEvent, Auth) {
     $scope.assignment = {};
     Auth.getCurrentUser((user) => {$scope.user = user});
     $scope.eventId = $routeParams.id;
@@ -100,4 +100,5 @@ angular.module('venueApp')
       $location.path("/instructor/courses/"+event.section.course._id+"/sections/"+event.section._id);
     };
 
-  });
+  }
+}

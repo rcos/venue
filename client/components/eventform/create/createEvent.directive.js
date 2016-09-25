@@ -1,6 +1,8 @@
 'use strict';
+const angular = require('angular');
+import CreateEventFormCtrl from './createEvent.controller';
 
-angular.module('venueApp')
+export default angular.module('venueApp', [])
   .directive('createEvent', function () {
     return {
       templateUrl: 'components/eventform/create/createEvent.html',
@@ -15,4 +17,6 @@ angular.module('venueApp')
         }
       }
     };
-  });
+  })
+  .controller('CreateEventFormCtrl', CreateEventFormCtrl)
+  .name;

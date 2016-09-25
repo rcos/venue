@@ -1,6 +1,8 @@
 'use strict';
+const angular = require('angular');
+import EditEventFormCtrl from './editEvent.controller';
 
-angular.module('venueApp')
+export default angular.module('venueApp', [])
   .directive('editEvent', function () {
     return {
       templateUrl: 'components/eventform/edit/editEvent.html',
@@ -13,4 +15,5 @@ angular.module('venueApp')
       link: function (scope, element) {
       }
     };
-  });
+  })
+  .name;

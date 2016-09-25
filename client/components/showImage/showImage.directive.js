@@ -1,6 +1,7 @@
 'use strict';
+const angular = require('angular');
 
-angular.module('venueApp')
+export default angular.module('venueApp', [])
   .directive('httpSrc', ($http) => {
       var directive = {
         link: link,
@@ -22,4 +23,5 @@ angular.module('venueApp')
           }
         });
       }
-  });
+  })
+  .name;

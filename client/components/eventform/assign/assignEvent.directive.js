@@ -1,6 +1,8 @@
 'use strict';
+const angular = require('angular');
+import AssignEventFormCtrl from './assignEvent.controller';
 
-angular.module('venueApp')
+export default angular.module('venueApp', [])
   .directive('assignEvent', function () {
     return {
       templateUrl: 'components/eventform/assign/assignEvent.html',
@@ -13,4 +15,6 @@ angular.module('venueApp')
       link: function (scope, element) {
       }
     };
-  });
+  })
+  .controller('AssignEventFormCtrl', AssignEventFormCtrl)
+  .name;

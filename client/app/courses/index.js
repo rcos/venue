@@ -7,6 +7,6 @@ import search from './search';
 import sections from './sections';
 import view from './view';
 
-export default angular.module('venueApp.courses', ['venueApp.Course',ngRoute, edit, search, sections, view ])
+export default angular.module('venueApp.courses', ['venueApp.auth', 'venueApp.CourseFactory', ngRoute, edit, search, sections, view ])
   .config(routing)
   .name;

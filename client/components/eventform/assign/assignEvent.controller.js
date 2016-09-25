@@ -1,9 +1,9 @@
 // https://github.com/angular-ui/angular-google-maps/blob/master/example/assets/scripts/controllers/issue-624-drawing-manager.js
 'use strict';
 
-angular.module('venueApp')
-  .controller('AssignEventFormCtrl', function($scope, Auth, EventInfo, User, SectionEvent, Upload){
-
+export default class AssignEventFormCtrl {
+  /*@ngInject*/
+  constructor($scope, Auth, EventInfo, User, SectionEvent, Upload){
     $scope.event = {};
     $scope.eventInfo = $scope.eventContainer.info;
 
@@ -87,4 +87,5 @@ angular.module('venueApp')
 
         }
       };
-  });
+  }
+}

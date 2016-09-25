@@ -1,6 +1,7 @@
 'use strict';
+const angular = require('angular');
 
-angular.module('venueApp')
+export default angular.module('venueApp', [])
   .directive('submissionview', function () {
     return {
       templateUrl: 'components/submissionview/submissionview.html',
@@ -12,4 +13,5 @@ angular.module('venueApp')
       link: function (scope, element, attrs) {
       }
     };
-  });
+  })
+  .name;

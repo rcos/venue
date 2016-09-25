@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('venueApp')
+export default angular.module('venueApp', [])
   .factory('Modal', function ($rootScope, $modal) {
     /**
      * Opens a modal
@@ -70,4 +70,5 @@ angular.module('venueApp')
         }
       }
     };
-  });
+  })
+  .name;

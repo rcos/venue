@@ -1,6 +1,7 @@
 'use strict';
+const angular = require('angular');
 
-angular.module('venueApp')
+export default angular.module('venueApp', [])
   .directive('pictureBanner', function ($http) {
     return {
       restrict: 'A',
@@ -26,4 +27,5 @@ angular.module('venueApp')
         });
       }
     };
-  });
+  })
+  .name;

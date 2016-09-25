@@ -1,6 +1,8 @@
 'use strict';
+const angular = require('angular');
+import CourseFormCtrl from './courseform.controller';
 
-angular.module('venueApp')
+export default angular.module('venueApp', [])
   .directive('courseform', function () {
     return {
       templateUrl: 'components/courseform/courseform.html',
@@ -10,4 +12,6 @@ angular.module('venueApp')
         scope.updating = attrs.updating;
       }
     };
-  });
+  })
+  .controller('CourseFormCtrl', CourseFormCtrl)
+  .name;

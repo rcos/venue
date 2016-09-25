@@ -1,9 +1,8 @@
 // https://github.com/angular-ui/angular-google-maps/blob/master/example/assets/scripts/controllers/issue-624-drawing-manager.js
 'use strict';
-
-angular.module('venueApp')
-  .controller('CreateEventFormCtrl', function($scope, Auth, EventInfo, User, SectionEvent, Upload, uiGmapGoogleMapApi){
-
+export default class CreateEventFormCtrl {
+  /*@ngInject*/
+  constructor($scope, Auth, EventInfo, User, SectionEvent, Upload, uiGmapGoogleMapApi){
     $scope.today = new Date();
     $scope.today.setHours(0,0,0,0);
 
@@ -324,4 +323,5 @@ angular.module('venueApp')
       $scope.event[prop] = true;
     };
     $scope.init();
-});
+  }
+}

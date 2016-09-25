@@ -1,6 +1,7 @@
 'use strict';
+const angular = require('angular');
 
-angular.module('venueApp')
+export default angular.module('venueApp', [])
   .directive('courseTitleBanner', function ($http) {
     return {
       templateUrl: 'components/courseTitleBanner/courseTitleBanner.html',
@@ -46,4 +47,5 @@ angular.module('venueApp')
         }
       }
     };
-  });
+  })
+  .name;

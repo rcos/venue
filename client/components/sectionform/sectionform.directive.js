@@ -1,6 +1,7 @@
 'use strict';
+const angular = require('angular');
 
-angular.module('venueApp')
+export default angular.module('venueApp', [])
   .directive('sectionform', () => {
     return {
       templateUrl: 'components/sectionform/sectionform.html',
@@ -10,4 +11,5 @@ angular.module('venueApp')
         scope.updating = attrs.updating;
       }
     };
-  });
+  })
+  .name;

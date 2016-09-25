@@ -1,6 +1,7 @@
 'use strict';
+const angular = require('angular');
 
-angular.module('venueApp')
+export default angular.module('venueApp', [])
   .directive('eventCard', ($location) => {
     return {
       templateUrl: 'components/eventCard/eventCard.html',
@@ -24,4 +25,5 @@ angular.module('venueApp')
 
       }
     };
-  });
+  })
+  .name;
