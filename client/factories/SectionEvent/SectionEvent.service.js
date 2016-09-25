@@ -1,8 +1,8 @@
 'use strict';
+const angular = require('angular');
 
-(function() {
-
-  function SectionEventResource($resource) {
+/*@ngInject*/
+export function SectionEventResource($resource) {
     var SectionEvent = $resource('/api/sectionevents/:id/:controller', {
       id: '@_id'
     }, {
@@ -29,9 +29,8 @@
       }
     });
     return SectionEvent;
-  }
+}
 
-  angular.module('venueApp')
-    .factory('SectionEvent', SectionEventResource);
-
-  })();
+export default angular.module('venueApp.SectionEventFactory', [])
+  .factory('SectionEvent', SectionEventResource)
+  .name;

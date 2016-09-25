@@ -35,11 +35,11 @@ const paths = {
             `!${clientPath}/bower_components/**`
         ],
         bower: `${clientPath}/bower_components/**`,
-        styles: [`${clientPath}/{app,components}/**/*.less`],
+        styles: [`${clientPath}/{app,components,factories}/**/*.less`],
         mainStyle: `${clientPath}/app/app.less`,
-        views: `${clientPath}/{app,components}/**/*.html`,
+        views: `${clientPath}/{app,components,factories}/**/*.html`,
         mainView: `${clientPath}/index.html`,
-        test: [`${clientPath}/{app,components}/**/*.{spec,mock}.js`],
+        test: [`${clientPath}/{app,components,factories}/**/*.{spec,mock}.js`],
         e2e: ['e2e/**/*.spec.js']
     },
     server: {
@@ -207,6 +207,7 @@ gulp.task('inject:less', () => {
                     let newPath = filepath
                         .replace(`/${clientPath}/app/`, '')
                         .replace(`/${clientPath}/components/`, '../components/')
+                        .replace(`/${clientPath}/factories/`, '../factories/')
                         .replace(/_(.*).less/, (match, p1, offset, string) => p1)
                         .replace('.less', '');
                     return `@import '${newPath}';`;

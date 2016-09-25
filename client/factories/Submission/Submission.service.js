@@ -1,10 +1,9 @@
 'use strict';
+const angular = require('angular');
 
-
-(function() {
-
-  function SubmissionResource($resource) {
-    return $resource('/api/submissions/:id', {
+/*@ngInject*/
+export function SubmissionResource($resource) {
+    var Submission = $resource('/api/submissions/:id', {
       id: '@_id'
     }, {
       get: {
@@ -30,12 +29,11 @@
       },
       delete: {
         method: 'DELETE'
-      },
+      }
     });
-  }
+    return Submission;
+}
 
-
-  angular.module('venueApp')
-    .factory('Submission', SubmissionResource);
-
-  })();
+export default angular.module('venueApp.SubmissionFactory', [])
+  .factory('Submission', SubmissionResource)
+  .name;

@@ -1,7 +1,8 @@
 'use strict';
+const angular = require('angular');
 
-angular.module('venueApp')
-  .factory('Section', function ($resource) {
+/*@ngInject*/
+export function SectionResource($resource) {
     var Section = $resource('/api/sections/:id/:controller', {
       id: '@_id'
     }, {
@@ -27,4 +28,8 @@ angular.module('venueApp')
       }
     });
     return Section;
-  });
+}
+
+export default angular.module('venueApp.SectionFactory', [])
+  .factory('Section', SectionResource)
+  .name;

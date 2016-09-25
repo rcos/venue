@@ -1,8 +1,8 @@
 'use strict';
+const angular = require('angular');
 
-(function() {
-
-  function EventInfoResource($resource) {
+/*@ngInject*/
+export function EventInfoResource($resource) {
     var EventInfo = $resource('/api/eventinfos/:id/:controller', {
       id: '@_id'
     }, {
@@ -24,9 +24,8 @@
       }
     });
     return EventInfo;
-  }
+}
 
-  angular.module('venueApp')
-    .factory('EventInfo', EventInfoResource);
-
-  })();
+export default angular.module('venueApp.EventInfoFactory', [])
+  .factory('EventInfo', EventInfoResource)
+  .name;

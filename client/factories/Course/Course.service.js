@@ -23,6 +23,6 @@ export function CourseResource($resource) {
     return Course;
 }
 
-export default angular.module('venueApp.Course', [])
+export default angular.module('venueApp.CourseFactory', [])
   .factory('Course', CourseResource)
   .name;
