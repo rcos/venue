@@ -9,15 +9,16 @@ import 'angular-socket-io';
 const ngRoute = require('angular-route');
 
 import uiBootstrap from 'angular-ui-bootstrap';
+import ngCsv from 'ng-csv';
+
 import ngMessages from 'angular-messages';
 import ngValidationMatch from 'angular-validation-match';
-
 import ngFileUpload from 'ng-file-upload';
+
 import geolocation from 'angularjs-geolocation';
 import angularEllipsis from 'angular-ellipsis';
 import dateTimePicker from 'bootstrap-ui-datetime-picker';
 import googleMaps from 'angular-google-maps';
-import ngCsv from 'ng-csv';
 
 import {
   routeConfig

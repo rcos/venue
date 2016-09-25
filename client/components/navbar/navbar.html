@@ -15,26 +15,26 @@
           <li ng-repeat="item in nav.menu" ng-class="{active: nav.isActive(item.link)}">
               <a ng-href="{{item.link}}" ng-show="{{nav.isMenuAccessible(item)}}">{{item.title}}</a>
           </li>
-          <li ng-show="nav.isAdmin()" ng-class="{active: nav.isActive('/admin')}"><a href="/admin">Admin</a></li>
+          <li ng-show="nav.isAdmin" ng-class="{active: nav.isActive('/admin')}"><a href="/admin">Admin</a></li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
           <li>
             <a href="#" ng-click="nav.help()">Help</a>
           </li>
-          <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/signup')}">
+          <li ng-hide="nav.isLoggedIn" ng-class="{active: nav.isActive('/signup')}">
             <a href="/student/signup">Sign up</a>
           </li>
-          <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/login')}">
+          <li ng-hide="nav.isLoggedIn" ng-class="{active: nav.isActive('/login')}">
             <a href="/login">Login</a>
           </li>
-          <li ng-show="nav.isLoggedIn()">
+          <li ng-show="nav.isLoggedIn">
             <a href="/settings">You are logged in as {{ nav.user.firstName }}</a>
           </li>
-          <li ng-show="nav.isLoggedIn()" ng-class="{active: nav.isActive('/settings')}">
+          <li ng-show="nav.isLoggedIn" ng-class="{active: nav.isActive('/settings')}">
             <a href="/settings"><span class="glyphicon glyphicon-cog"></span></a>
           </li>
-          <li ng-show="nav.isLoggedIn()">
+          <li ng-show="nav.isLoggedIn">
             <a href="/logout">Logout</a>
           </li>
         </ul>

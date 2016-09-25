@@ -15,4 +15,5 @@ export default class UploadCtrl {
     $scope.goToUploadForEvent = (event) =>{
       $location.path("/student/upload/" + event.sectionEvents[0]._id);
     };
-  });
+  }
+}
