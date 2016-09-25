@@ -1,8 +1,8 @@
 'use strict';
+export default class InstructorSectionViewCtrl {
 
-angular.module('venueApp')
-  .controller('InstructorSectionViewCtrl', ($scope, $location, $routeParams, User, Auth, Course, Submission, Section) => {
-
+  /*@ngInject*/
+  constructor($scope, $location, $routeParams, Auth, Submission, Section) {
     // This updates material lite with dynamic elements that otherwise aren't
     // captured
     componentHandler.upgradeDom();
@@ -110,4 +110,5 @@ angular.module('venueApp')
     $scope.selectStudent = function(student){
       $scope.selectedStudent = student;
     };
-  });
+  }
+}

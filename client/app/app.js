@@ -33,11 +33,12 @@ import account from './account';
 import admin from './admin';
 import courses from './courses';
 import events from './events';
+import instructor from './instructor';
+import main from './main/main.component';
 
 import _Auth from '../components/auth/auth.module';
 import footer from '../components/footer/footer.component';
 import navbar from '../components/navbar/navbar.component';
-import main from './main/main.component';
 import constants from './app.constants';
 import util from '../components/util/util.module';
 import socket from '../components/socket/socket.service';
@@ -70,11 +71,11 @@ angular.module('venueApp', [
     admin,
     courses,
     events,
+    main,
 
     _Auth,
     footer,
     navbar,
-    main,
     constants,
     util,
     socket,

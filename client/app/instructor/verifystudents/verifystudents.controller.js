@@ -1,8 +1,8 @@
 'use strict';
+export default class VerifyStudentsCtrl {
 
-angular.module('venueApp')
-  .controller('VerifyStudentsCtrl', function ($scope, $location, Auth, User, Section) {
-
+  /*@ngInject*/
+  constructor($scope, $location, Auth, User, Section) {
     User.get({withSections:true, withSectionsCourse:true, withSectionsPendingStudents:true}, (user)=>{
       $scope.user = user;
       $scope.sections = user.sections;
@@ -13,4 +13,5 @@ angular.module('venueApp')
     };
 
 
-  });
+  }
+}
