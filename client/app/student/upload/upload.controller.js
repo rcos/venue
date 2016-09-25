@@ -1,8 +1,8 @@
 'use strict';
+export default class UploadCtrl {
 
-angular.module('venueApp')
-  .controller('UploadCtrl', function ($scope, $location, SectionEvent) {
-
+  /*@ngInject*/
+  constructor($scope, $location, SectionEvent) {
     $scope.events = [];
     $scope.eventId = "";
 

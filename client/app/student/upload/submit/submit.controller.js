@@ -1,8 +1,8 @@
 'use strict';
+export default class SubmitCtrl {
 
-angular.module('venueApp')
-  .controller('SubmitCtrl', function ($scope, $routeParams, $location, SectionEvent, User, Upload, geolocation) {
-
+  /*@ngInject*/
+  constructor($scope, $routeParams, $location, SectionEvent, User, Upload, geolocation) {
     $scope.events = [];
     $scope.eventId = "";
     $scope.imgWidth = window.innerWidth/5;

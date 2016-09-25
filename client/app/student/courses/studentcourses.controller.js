@@ -1,7 +1,8 @@
 'use strict';
+export default class StudentCoursesCtrl {
 
-angular.module('venueApp')
-  .controller('StudentCoursesCtrl', function ($scope, User, $location) {
+  /*@ngInject*/
+  constructor($scope, $location, User) {
     User.get({withCourses: true}, (user)=>{
       $scope.user = user;
       $scope.anyCourses = angular.equals(user.courses,{})?0:1
@@ -9,4 +10,5 @@ angular.module('venueApp')
     $scope.goToCourse = function(course){
       $location.path("/courses/" + course._id);
     };
-  });
+  }
+}

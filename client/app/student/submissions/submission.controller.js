@@ -1,7 +1,8 @@
 'use strict';
+export default class SubmissionCtrl {
 
-angular.module('venueApp')
-  .controller('StudentSubmissionCtrl', ($scope, $routeParams, $location, User, Auth, Submission) => {
+  /*@ngInject*/
+  constructor($scope, $routeParams, $location, User, Auth, Submission) {
 
     Submission.getAll({'onlyStudent':'me', 'withSection': true, 'withSectionCourse': true}, (submissions) => {
       $scope.submissions = submissions;
@@ -11,4 +12,5 @@ angular.module('venueApp')
       $location.path("/events/" + event._id);
     };
 
-  });
+  }
+}
