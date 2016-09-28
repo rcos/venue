@@ -1,7 +1,6 @@
 'use strict';
 // @flow
 
-
 class User {
   _id: string = '';
   name: string = '';
@@ -207,6 +206,58 @@ export function AuthService(Util, $location, $http, $cookies, $q, appConfig, Use
      */
     isAdminSync() {
       return Auth.hasRoleSync('admin');
+    },
+    /**
+     * Check if a user is an student
+     *   (synchronous|asynchronous)
+     *
+     * @param  {Function|*} callback - optional, function(is)
+     * @return {Bool|Promise}
+     */
+    isStudent() {
+      return Auth.getCurrentUser(undefined)
+        .then(user => {
+          var has = user.hasOwnProperty('isInstructor') ? (user.isInstructor === false) : false;
+          console.log("isStudent",user,has)
+          safeCb(callback)(has);
+          return has;
+        });
+    },
+
+    /**
+     * Check if a user is an student
+     *
+     * @return {Bool}
+     */
+    isStudentSync() {
+      return currentUser.hasOwnProperty('isInstructor') ? (currentUser.isInstructor === false) : false;
+    },
+
+    /**
+     * Check if a user is an student
+     *   (synchronous|asynchronous)
+     *
+     * @param  {Function|*} callback - optional, function(is)
+     * @return {Bool|Promise}
+     */
+    isInstructor() {
+      return Auth.getCurrentUser(undefined)
+        .then(user => {
+          var has = user.hasOwnProperty('isInstructor') ? (user.isInstructor === true) : false;
+          console.log("isInstructor",user,has)
+
+          safeCb(callback)(has);
+          return has;
+        });
+    },
+
+    /**
+     * Check if a user is an student
+     *
+     * @return {Bool}
+     */
+    isInstructorSync() {
+      return currentUser.hasOwnProperty('isInstructor') ? (currentUser.isInstructor === true) : false;
     },
 
     /**

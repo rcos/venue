@@ -12,23 +12,23 @@
       </div>
       <div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
         <ul class="nav navbar-nav">
-          <li ng-show="nav.isStudent" ng-class="{active: nav.isActive('/student/dashboard')}">
+          <li ng-show="nav.isStudent()" ng-class="{active: nav.isActive('/student/dashboard')}">
             <a href="/student/dashboard">Dashboard</a>
           </li>
-          <li ng-show="nav.isStudent" ng-class="{active: nav.isActive('/student/upload')}">
+          <li ng-show="nav.isStudent()" ng-class="{active: nav.isActive('/student/upload')}">
             <a href="/student/upload">Upload</a>
           </li>
-          <li ng-show="nav.isStudent" ng-class="{active: nav.isActive('/student/events')}">
+          <li ng-show="nav.isStudent()" ng-class="{active: nav.isActive('/student/events')}">
             <a href="/student/events">Events</a>
           </li>
 
-          <li ng-show="nav.isInstructor" ng-class="{active: nav.isActive('/instructor/dashboard')}">
+          <li ng-show="nav.isInstructor()" ng-class="{active: nav.isActive('/instructor/dashboard')}">
             <a href="/instructor/dashboard">Dashboard</a>
           </li>
-          <li ng-show="nav.isInstructor" ng-class="{active: nav.isActive('/instructor/newevent')}">
+          <li ng-show="nav.isInstructor()" ng-class="{active: nav.isActive('/instructor/newevent')}">
             <a href="/instructor/newevent">Create Event</a>
           </li>
-          <li ng-show="nav.isInstructor" ng-class="{active: nav.isActive('/instructor/events')}">
+          <li ng-show="nav.isInstructor()" ng-class="{active: nav.isActive('/instructor/events')}">
             <a href="/instructor/events">Events</a>
           </li>
 
@@ -36,26 +36,26 @@
             <a href="/courses">Search Courses</a>
           </li>
 
-          <li ng-show="nav.isAdmin" ng-class="{active: nav.isActive('/admin')}"><a href="/admin">Admin</a></li>
+          <li ng-show="nav.isAdmin()" ng-class="{active: nav.isActive('/admin')}"><a href="/admin">Admin</a></li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
           <li>
             <a href="#" ng-click="nav.help()">Help</a>
           </li>
-          <li ng-hide="nav.loggedin" ng-class="{active: nav.isActive('/signup')}">
+          <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/signup')}">
             <a href="/student/signup">Sign up</a>
           </li>
-          <li ng-hide="nav.loggedin" ng-class="{active: nav.isActive('/login')}">
+          <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/login')}">
             <a href="/login">Login</a>
           </li>
-          <li ng-show="nav.loggedin">
-            <a href="/settings">You are logged in as {{ nav.user.firstName }}</a>
+          <li ng-show="nav.isLoggedIn()">
+            <a href="/settings">You are logged in as {{ nav.getCurrentUser().firstName }}</a>
           </li>
-          <li ng-show="nav.loggedin" ng-class="{active: nav.isActive('/settings')}">
+          <li ng-show="nav.isLoggedIn()" ng-class="{active: nav.isActive('/settings')}">
             <a href="/settings"><span class="glyphicon glyphicon-cog"></span></a>
           </li>
-          <li ng-show="nav.loggedin">
+          <li ng-show="nav.isLoggedIn()">
             <a href="/logout">Logout</a>
           </li>
         </ul>
