@@ -35,6 +35,7 @@ import admin from './admin';
 import courses from './courses';
 import events from './events';
 import instructor from './instructor';
+import student from './student';
 import main from './main/main.component';
 
 import _Auth from '../components/auth/auth.module';
@@ -72,6 +73,7 @@ angular.module('venueApp', [
     admin,
     courses,
     events,
+    student,
     main,
 
     _Auth,

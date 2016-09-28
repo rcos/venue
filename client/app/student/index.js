@@ -3,7 +3,7 @@
 import angular from 'angular';
 const ngRoute = require('angular-route');
 
-import routing from './instructor.routes';
+import routing from './student.routes';
 
 import courses from './courses';
 import dashboard from './dashboard';

@@ -4,7 +4,7 @@ import routing from './submission.routes';
 
 import SubmissionCtrl from './submission.controller';
 
-export default angular.module('venueApp.submissions', ['venueApp.auth', 'venueApp.SubmissionEventFactory', ngRoute])
+export default angular.module('venueApp.submissions', ['venueApp.auth', 'venueApp.SubmissionFactory', ngRoute])
   .controller('SubmissionCtrl', SubmissionCtrl)
   .config(routing)
   .name;
