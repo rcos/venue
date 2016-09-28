@@ -4,9 +4,25 @@ export default class NavbarComponent {
   /*@ngInject*/
   constructor($location, Auth, $window) {
     this.$location = $location;
-    this.isLoggedIn = Auth.isLoggedIn();
-    this.isAdmin = Auth.isAdmin();
-    this.getCurrentUser = Auth.getCurrentUser;
+    this.loggedin = false;
+    this.isAdmin = false;
+    this.isStudent = false;
+    this.isInstructor = false;
+
+    Auth.isLoggedIn((result) => {
+      this.loggedin = result;
+      if (this.loggedin){
+        Auth.isAdmin((result) => {
+          this.isAdmin = result;
+        })
+        Auth.getCurrentUser((user) => {
+          this.isStudent = !user.isInstructor;
+          this.isInstructor = user.isInstructor;
+          this.user = user;
+        });
+      }
+    });
+
 
     this.menu = [
     {
@@ -40,13 +56,6 @@ export default class NavbarComponent {
     }];
 
     this.isCollapsed = true;
-
-    this.getCurrentUser((user) => {
-      this.isStudent = !user.isInstructor;
-      this.isInstructor = user.isInstructor;
-      this.user = user;
-      console.log("user",user)
-    });
 
     this.help = () => {
         if (this.user.firstName && this.isStudent){

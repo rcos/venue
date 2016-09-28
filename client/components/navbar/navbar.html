@@ -22,19 +22,19 @@
           <li>
             <a href="#" ng-click="nav.help()">Help</a>
           </li>
-          <li ng-hide="nav.isLoggedIn" ng-class="{active: nav.isActive('/signup')}">
+          <li ng-hide="nav.loggedin" ng-class="{active: nav.isActive('/signup')}">
             <a href="/student/signup">Sign up</a>
           </li>
-          <li ng-hide="nav.isLoggedIn" ng-class="{active: nav.isActive('/login')}">
+          <li ng-hide="nav.loggedin" ng-class="{active: nav.isActive('/login')}">
             <a href="/login">Login</a>
           </li>
-          <li ng-show="nav.isLoggedIn">
+          <li ng-show="nav.loggedin">
             <a href="/settings">You are logged in as {{ nav.user.firstName }}</a>
           </li>
-          <li ng-show="nav.isLoggedIn" ng-class="{active: nav.isActive('/settings')}">
+          <li ng-show="nav.loggedin" ng-class="{active: nav.isActive('/settings')}">
             <a href="/settings"><span class="glyphicon glyphicon-cog"></span></a>
           </li>
-          <li ng-show="nav.isLoggedIn">
+          <li ng-show="nav.loggedin">
             <a href="/logout">Logout</a>
           </li>
         </ul>
