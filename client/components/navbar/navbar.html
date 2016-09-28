@@ -12,9 +12,30 @@
       </div>
       <div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
         <ul class="nav navbar-nav">
-          <li ng-repeat="item in nav.menu" ng-class="{active: nav.isActive(item.link)}">
-              <a ng-href="{{item.link}}" ng-show="{{nav.isMenuAccessible(item)}}">{{item.title}}</a>
+          <li ng-show="nav.isStudent" ng-class="{active: nav.isActive('/student/dashboard')}">
+            <a href="/student/dashboard">Dashboard</a>
           </li>
+          <li ng-show="nav.isStudent" ng-class="{active: nav.isActive('/student/upload')}">
+            <a href="/student/upload">Upload</a>
+          </li>
+          <li ng-show="nav.isStudent" ng-class="{active: nav.isActive('/student/events')}">
+            <a href="/student/events">Events</a>
+          </li>
+
+          <li ng-show="nav.isInstructor" ng-class="{active: nav.isActive('/instructor/dashboard')}">
+            <a href="/instructor/dashboard">Dashboard</a>
+          </li>
+          <li ng-show="nav.isInstructor" ng-class="{active: nav.isActive('/instructor/newevent')}">
+            <a href="/instructor/newevent">Create Event</a>
+          </li>
+          <li ng-show="nav.isInstructor" ng-class="{active: nav.isActive('/instructor/events')}">
+            <a href="/instructor/events">Events</a>
+          </li>
+
+          <li ng-class="{active: nav.isActive('/courses')}">
+            <a href="/courses">Search Courses</a>
+          </li>
+
           <li ng-show="nav.isAdmin" ng-class="{active: nav.isActive('/admin')}"><a href="/admin">Admin</a></li>
         </ul>
 
