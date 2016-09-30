@@ -45,6 +45,7 @@ import constants from './app.constants';
 import util from '../components/util/util.module';
 import socket from '../components/socket/socket.service';
 import config from './config';
+import courseCard from '../components/courseCard/courseCard.directive';
 
 import './app.less';
 
@@ -73,6 +74,8 @@ angular.module('venueApp', [
     admin,
     courses,
     events,
+    courseCard,
+    instructor,
     student,
     main,
 
