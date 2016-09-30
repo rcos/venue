@@ -1,7 +1,7 @@
 'use strict';
 const angular = require('angular');
 
-export default angular.module('venueApp', [])
+export default angular.module('directives.sectionform', [])
   .directive('sectionform', () => {
     return {
       templateUrl: 'components/sectionform/sectionform.html',

@@ -2,7 +2,7 @@
 const angular = require('angular');
 import CreateEventFormCtrl from './createEvent.controller';
 
-export default angular.module('venueApp', [])
+export default angular.module('directives.eventformCreate', [])
   .directive('createEvent', function () {
     return {
       templateUrl: 'components/eventform/create/createEvent.html',

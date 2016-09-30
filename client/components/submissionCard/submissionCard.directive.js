@@ -1,7 +1,7 @@
 'use strict';
 const angular = require('angular');
 
-export default angular.module('venueApp', [])
+export default angular.module('directives.submisisonCard', [])
   .directive('submissionCard', ($http,$compile, $location) => {
     return {
       templateUrl: 'components/submissionCard/submissionCard.html',

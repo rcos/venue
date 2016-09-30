@@ -2,7 +2,7 @@
 const angular = require('angular');
 import EditEventFormCtrl from './editEvent.controller';
 
-export default angular.module('venueApp', [])
+export default angular.module('directives.eventformEdit', [])
   .directive('editEvent', function () {
     return {
       templateUrl: 'components/eventform/edit/editEvent.html',

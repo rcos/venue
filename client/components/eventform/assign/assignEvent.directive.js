@@ -2,7 +2,7 @@
 const angular = require('angular');
 import AssignEventFormCtrl from './assignEvent.controller';
 
-export default angular.module('venueApp', [])
+export default angular.module('directives.eventformAssign', [])
   .directive('assignEvent', function () {
     return {
       templateUrl: 'components/eventform/assign/assignEvent.html',

@@ -2,7 +2,7 @@
 const angular = require('angular');
 import CourseFormCtrl from './courseform.controller';
 
-export default angular.module('venueApp', [])
+export default angular.module('directives.courseform', [])
   .directive('courseform', function () {
     return {
       templateUrl: 'components/courseform/courseform.html',

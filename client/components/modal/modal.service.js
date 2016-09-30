@@ -1,6 +1,6 @@
 'use strict';
 
-export default angular.module('venueApp', [])
+export default angular.module('directives.modal', [])
   .factory('Modal', function ($rootScope, $modal) {
     /**
      * Opens a modal

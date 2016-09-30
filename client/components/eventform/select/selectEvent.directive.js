@@ -2,7 +2,7 @@
 const angular = require('angular');
 import SelectEventFormCtrl from './selectEvent.controller';
 
-export default angular.module('venueApp', [])
+export default angular.module('directives.eventformSelect', [])
   .directive('selectEvent', function () {
     return {
       templateUrl: 'components/eventform/select/selectEvent.html',

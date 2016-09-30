@@ -1,7 +1,7 @@
 'use strict';
 const angular = require('angular');
 
-export default angular.module('venueApp', [])
+export default angular.module('directives.courseTitleBanner', [])
   .directive('courseTitleBanner', function ($http) {
     return {
       templateUrl: 'components/courseTitleBanner/courseTitleBanner.html',
