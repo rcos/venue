@@ -214,7 +214,7 @@ export function AuthService(Util, $location, $http, $cookies, $q, appConfig, Use
      * @param  {Function|*} callback - optional, function(is)
      * @return {Bool|Promise}
      */
-    isStudent() {
+    isStudent(callback: Function = () => {}) {
       return Auth.getCurrentUser(undefined)
         .then(user => {
           var has = user.hasOwnProperty('isInstructor') ? (user.isInstructor === false) : false;
@@ -240,7 +240,7 @@ export function AuthService(Util, $location, $http, $cookies, $q, appConfig, Use
      * @param  {Function|*} callback - optional, function(is)
      * @return {Bool|Promise}
      */
-    isInstructor() {
+    isInstructor(callback: Function = () => {}) {
       return Auth.getCurrentUser(undefined)
         .then(user => {
           var has = user.hasOwnProperty('isInstructor') ? (user.isInstructor === true) : false;
