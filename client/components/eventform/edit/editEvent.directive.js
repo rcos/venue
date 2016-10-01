@@ -1,9 +1,6 @@
 'use strict';
-const angular = require('angular');
-import EditEventFormCtrl from './editEvent.controller';
 
-export default angular.module('directives.eventformEdit', [])
-  .directive('editEvent', function () {
+export function editEvent() {
     return {
       templateUrl: 'components/eventform/edit/editEvent.html',
       controller: 'EditEventFormCtrl',
@@ -15,5 +12,4 @@ export default angular.module('directives.eventformEdit', [])
       link: function (scope, element) {
       }
     };
-  })
-  .name;
+  };

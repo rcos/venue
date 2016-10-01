@@ -1,8 +1,10 @@
 'use strict';
 const angular = require('angular');
+import showImage from '../showImage/showImage.directive';
 
-export default angular.module('directives.eventCard', [])
-  .directive('eventCard', ($location) => {
+export default angular.module('directives.eventCard', [showImage])
+  .directive('eventCard', function($location){
+    "ngInject";
     return {
       templateUrl: 'components/eventCard/eventCard.html',
       restrict: 'EA',

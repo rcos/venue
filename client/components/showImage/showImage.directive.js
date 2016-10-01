@@ -1,8 +1,8 @@
 'use strict';
 const angular = require('angular');
 
-export default angular.module('directives.showImage', [])
-  .directive('httpSrc', ($http) => {
+export default angular.module('directives.httpSrc', [])
+  .directive('httpSrc', function($http){
       var directive = {
         link: link,
         restrict: 'A'

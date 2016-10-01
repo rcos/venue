@@ -1,9 +1,6 @@
 'use strict';
-const angular = require('angular');
-import AssignEventFormCtrl from './assignEvent.controller';
 
-export default angular.module('directives.eventformAssign', [])
-  .directive('assignEvent', function () {
+export function assignEvent() {
     return {
       templateUrl: 'components/eventform/assign/assignEvent.html',
       controller: 'AssignEventFormCtrl',
@@ -15,6 +12,4 @@ export default angular.module('directives.eventformAssign', [])
       link: function (scope, element) {
       }
     };
-  })
-  .controller('AssignEventFormCtrl', AssignEventFormCtrl)
-  .name;
+  };

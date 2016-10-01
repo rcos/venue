@@ -1,8 +1,7 @@
 // https://github.com/angular-ui/angular-google-maps/blob/master/example/assets/scripts/controllers/issue-624-drawing-manager.js
 'use strict';
-export default class CreateEventFormCtrl {
-  /*@ngInject*/
-  constructor($scope, Auth, EventInfo, User, SectionEvent, Upload, uiGmapGoogleMapApi){
+export function CreateEventFormCtrl($scope, Auth, EventInfo, User, SectionEvent, Upload, uiGmapGoogleMapApi){
+    "ngInject";
     $scope.today = new Date();
     $scope.today.setHours(0,0,0,0);
 
@@ -323,5 +322,4 @@ export default class CreateEventFormCtrl {
       $scope.event[prop] = true;
     };
     $scope.init();
-  }
-}
+  };

@@ -1,9 +1,7 @@
 // https://github.com/angular-ui/angular-google-maps/blob/master/example/assets/scripts/controllers/issue-624-drawing-manager.js
 'use strict';
-
-export default class AssignEventFormCtrl {
-  /*@ngInject*/
-  constructor($scope, Auth, EventInfo, User, SectionEvent, Upload){
+export function AssignEventFormCtrl($scope, Auth, EventInfo, User, SectionEvent, Upload){
+    "ngInject";
     $scope.event = {};
     $scope.eventInfo = $scope.eventContainer.info;
 
@@ -88,4 +86,3 @@ export default class AssignEventFormCtrl {
         }
       };
   }
-}

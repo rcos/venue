@@ -1,8 +1,13 @@
 'use strict';
 const angular = require('angular');
-import CourseFormCtrl from './courseform.controller';
+import showImage from '../showImage/showImage.directive';
 
-export default angular.module('directives.courseform', [])
+import {
+  CourseFormCtrl
+} from './courseform.controller';
+
+export default angular.module('directives.courseform', [showImage])
+  .controller('CourseFormCtrl', CourseFormCtrl)
   .directive('courseform', function () {
     return {
       templateUrl: 'components/courseform/courseform.html',
@@ -13,5 +18,4 @@ export default angular.module('directives.courseform', [])
       }
     };
   })
-  .controller('CourseFormCtrl', CourseFormCtrl)
   .name;

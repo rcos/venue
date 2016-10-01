@@ -1,9 +1,6 @@
 'use strict';
-const angular = require('angular');
-import SelectEventFormCtrl from './selectEvent.controller';
 
-export default angular.module('directives.eventformSelect', [])
-  .directive('selectEvent', function () {
+export function selectEvent() {
     return {
       templateUrl: 'components/eventform/select/selectEvent.html',
       controller: 'SelectEventFormCtrl',
@@ -15,6 +12,4 @@ export default angular.module('directives.eventformSelect', [])
       link: function (scope, element) {
       }
     };
-  })
-  .controller('SelectEventFormCtrl', SelectEventFormCtrl)
-  .name;
+  };

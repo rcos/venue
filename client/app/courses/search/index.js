@@ -2,6 +2,6 @@
 
 import CourseSearchCtrl from './coursesearch.controller';
 
-export default angular.module('venueApp.coursesearch', ['venueApp.CourseFactory'])
+export default angular.module('venueApp.coursesearch', ['venueApp.CourseFactory', 'directives.courseCard'])
   .controller('CourseSearchCtrl', CourseSearchCtrl)
   .name;

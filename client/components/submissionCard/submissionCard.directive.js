@@ -1,8 +1,10 @@
 'use strict';
 const angular = require('angular');
+import showImage from '../showImage/showImage.directive';
 
-export default angular.module('directives.submisisonCard', [])
-  .directive('submissionCard', ($http,$compile, $location) => {
+export default angular.module('directives.submissionCard', [showImage])
+  .directive('submissionCard', function($http,$compile, $location){
+    "ngInject";
     return {
       templateUrl: 'components/submissionCard/submissionCard.html',
       restrict: 'EA',

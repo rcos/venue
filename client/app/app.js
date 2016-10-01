@@ -46,21 +46,20 @@ import util from '../components/util/util.module';
 import socket from '../components/socket/socket.service';
 import config from './config';
 
+import sidebar from '../components/sidebar/sidebar.directive';
+import showImage from '../components/showImage/showImage.directive';
+import modal from '../components/modal/modal.service';
+
 import courseCard from '../components/courseCard/courseCard.directive';
 import submissionview from '../components/submissionview/submissionview.directive';
 import submissionCard from '../components/submissionCard/submissionCard.directive';
-import sidebar from '../components/sidebar/sidebar.directive';
-import showImage from '../components/showImage/showImage.directive';
 import sectionform from '../components/sectionform/sectionform.directive';
-import modal from '../components/modal/modal.service';
 import eventCard from '../components/eventCard/eventCard.directive';
 import courseTitleBanner from '../components/courseTitleBanner/courseTitleBanner.directive';
 import courseform from '../components/courseform/courseform.directive';
 import courseBanner from '../components/courseBanner/courseBanner.directive';
-import eventformAssign from '../components/eventform/assign/assignEvent.directive';
-import eventformCreate from '../components/eventform/create/createEvent.directive';
-import eventformEdit from '../components/eventform/edit/editEvent.directive';
-import eventformSelect from '../components/eventform/select/selectEvent.directive';
+import eventForm from '../components/eventform/eventform.module'
+
 
 import './app.less';
 
@@ -89,7 +88,6 @@ angular.module('venueApp', [
     admin,
     courses,
     events,
-    courseCard,
     instructor,
     student,
     main,
@@ -102,22 +100,9 @@ angular.module('venueApp', [
     socket,
     config,
 
-    courseCard,
-    submissionview,
-    submissionCard,
-    sidebar,
     showImage,
-    sectionform,
-    modal,
-    eventCard,
-    courseTitleBanner,
-    courseform,
-    courseBanner,
-    eventformAssign,
-    eventformCreate,
-    eventformEdit,
-    eventformSelect
-    ])
+    modal
+  ])
   .config(routeConfig)
   .config(function(uiGmapGoogleMapApiProvider) {
     'ngInject';

@@ -1,7 +1,8 @@
 'use strict';
 const angular = require('angular');
+import showImage from '../showImage/showImage.directive';
 
-export default angular.module('directives.pictureBanner', [])
+export default angular.module('directives.pictureBanner', [showImage])
   .directive('pictureBanner', function ($http) {
     return {
       restrict: 'A',

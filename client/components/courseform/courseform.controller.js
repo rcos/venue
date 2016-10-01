@@ -1,7 +1,6 @@
 'use strict';
-export default class CourseFormCtrl {
-  /*@ngInject*/
-  constructor($scope, Course, Upload){
+export function CourseFormCtrl ($scope, Course, Upload){
+    "ngInject";
     $scope.courseCreated = false;
     $scope.submitForm = (form)=>{
         $scope.submitted = true;
@@ -38,5 +37,4 @@ export default class CourseFormCtrl {
               });
         }
     };
-  }
-}
+  };

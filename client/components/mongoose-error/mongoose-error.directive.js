@@ -3,7 +3,7 @@
 /**
  * Removes server error when user updates input
  */
-export default angular.module('venueApp', [])
+export default angular.module('venueApp')
   .directive('mongooseError', function() {
     return {
       restrict: 'A',

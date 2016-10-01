@@ -4,7 +4,7 @@ import routing from './newevent.routes';
 
 import NewEventCtrl from './newevent.controller';
 
-export default angular.module('venueApp.newevent', [ngRoute])
+export default angular.module('venueApp.newevent', [ngRoute, 'directives.eventform', 'directives.sidebar'])
   .controller('NewEventCtrl', NewEventCtrl)
   .config(routing)
   .name;
