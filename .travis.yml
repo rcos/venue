@@ -9,3 +9,11 @@ before_script:
   - npm install -g gulp-cli
   - bower install
 services: mongodb
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
+env:
+  CXX=g++-4.8
