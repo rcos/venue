@@ -31,10 +31,8 @@ const paths = {
         images: `${clientPath}/assets/images/**/*`,
         revManifest: `${clientPath}/assets/rev-manifest.json`,
         scripts: [
-            `${clientPath}/**/!(*.spec|*.mock).js`,
-            `!${clientPath}/bower_components/**`
+            `${clientPath}/**/!(*.spec|*.mock).js`
         ],
-        bower: `${clientPath}/bower_components/**`,
         styles: [`${clientPath}/{app,components,factories}/**/*.less`],
         mainStyle: `${clientPath}/app/app.less`,
         views: `${clientPath}/{app,components,factories}/**/*.html`,
