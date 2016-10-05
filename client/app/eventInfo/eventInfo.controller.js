@@ -1,9 +1,9 @@
 'use strict';
-
-angular.module('venueApp')
-  .controller('EventInfoCtrl', function ($scope, $location, $routeParams, EventInfo, Auth) {
+export default class EventInfoCtrl {
+  /*@ngInject*/
+  constructor($scope, $location, $routeParams, EventInfo, Auth) {
     $scope.assignment = {};
-    Auth.getCurrentUser((user) => $scope.user = user);
+    Auth.getCurrentUser((user) => {$scope.user = user});
     $scope.eventId = $routeParams.id;
 
     $scope.event = EventInfo.get({
@@ -15,12 +15,12 @@ angular.module('venueApp')
       event => {
         $scope.event = event;
         if ($scope.user.isInstructor){
-          $scope.event.yourEvents = $scope.event.sectionEvents.filter((sectionEvent)=> sectionEvent.section.instructors.indexOf($scope.user._id) ==! -1);
+          $scope.event.yourEvents = $scope.event.sectionEvents.filter((sectionEvent)=> sectionEvent.section.instructors.indexOf($scope.user._id) !== -1);
 
           $scope.event.otherEvents = $scope.event.sectionEvents.filter((sectionEvent)=> sectionEvent.section.instructors.indexOf($scope.user._id) == -1);
         }
         else{
-          $scope.event.yourEvents = $scope.event.sectionEvents.filter((sectionEvent)=> sectionEvent.section.students.indexOf($scope.user._id) ==! -1);
+          $scope.event.yourEvents = $scope.event.sectionEvents.filter((sectionEvent)=> sectionEvent.section.students.indexOf($scope.user._id) !== -1);
 
           $scope.event.otherEvents = $scope.event.sectionEvents.filter((sectionEvent)=> sectionEvent.section.students.indexOf($scope.user._id) == -1);
 
@@ -46,4 +46,5 @@ angular.module('venueApp')
       $location.path("/instructor/newevent");
     };
 
-  });
+  }
+};

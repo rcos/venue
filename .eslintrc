@@ -183,7 +183,7 @@
         "newline-after-var": 0,                                     //require or disallow an empty newline after variable declarations
         "newline-before-return": 0,                                 //require newline before return statement
         "newline-per-chained-call": [
-            "error",
+            "warn",
             {"ignoreChainWithDepth": 2}
         ],                                                          //enforce newline after each call when chaining the calls
         "no-array-constructor": 2,                                  //disallow use of the Array constructor

@@ -33,6 +33,7 @@ import _SubmissionFactory from '../factories/Submission/Submission.service';
 import account from './account';
 import admin from './admin';
 import courses from './courses';
+import eventinfo from './eventinfo';
 import events from './events';
 import instructor from './instructor';
 import student from './student';
@@ -57,7 +58,7 @@ import sectionform from '../components/sectionform/sectionform.directive';
 import eventCard from '../components/eventCard/eventCard.directive';
 import courseTitleBanner from '../components/courseTitleBanner/courseTitleBanner.directive';
 import courseform from '../components/courseform/courseform.directive';
-import courseBanner from '../components/courseBanner/courseBanner.directive';
+import pictureBanner from '../components/pictureBanner/pictureBanner.directive';
 import eventForm from '../components/eventform/eventform.module'
 
 
@@ -87,6 +88,7 @@ angular.module('venueApp', [
     account,
     admin,
     courses,
+    eventinfo,
     events,
     instructor,
     student,

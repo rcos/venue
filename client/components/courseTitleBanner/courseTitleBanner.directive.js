@@ -1,9 +1,9 @@
 'use strict';
 const angular = require('angular');
 import showImage from '../showImage/showImage.directive';
-import courseBanner from '../courseBanner/courseBanner.directive';
+import pictureBanner from '../pictureBanner/pictureBanner.directive';
 
-export default angular.module('directives.courseTitleBanner', [showImage, courseBanner])
+export default angular.module('directives.courseTitleBanner', [showImage, pictureBanner])
   .directive('courseTitleBanner', function ($http) {
     "ngInject";
     return {

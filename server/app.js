@@ -46,14 +46,16 @@ function beginSeeding() {
     seed.seed().then(() => {
       console.log("Seed was successful");
       setImmediate(startServer);
-    }).catch((err) => {
+    })
+    .catch((err) => {
       console.log("Seed failure!", err);
     });
   }else if (config.env === "production") {
     productionSeed.seed().then(()=>{
       console.log("Production seed successful");
       setImmediate(startServer);
-    }).catch((err)=>{
+    })
+    .catch((err)=>{
       console.log("Seed failure!", err);
     })
   }else{

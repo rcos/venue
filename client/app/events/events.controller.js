@@ -21,11 +21,11 @@ export default class EventsCtrl {
       },
         sectionEvent => {
           $scope.event = sectionEvent;
-          if (sectionEvent.section.students.indexOf($scope.user._id) ==! -1)
+          if (sectionEvent.section.students.indexOf($scope.user._id) !== -1)
           {
             $scope.sectionStudent = true;
           }
-          if (sectionEvent.section.instructors.map((elem)=>elem._id).indexOf($scope.user._id) ==! -1)
+          if (sectionEvent.section.instructors.map((elem)=>elem._id).indexOf($scope.user._id) !== -1)
           {
             $scope.sectionInstructor = true;
           }

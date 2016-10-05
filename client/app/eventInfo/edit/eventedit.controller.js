@@ -1,8 +1,9 @@
 'use strict';
+export default class EditEventsCtrl {
 
-angular.module('venueApp')
-  .controller('EditEventsCtrl', function ($scope, $location, $routeParams, EventInfo, Auth) {
-    Auth.getCurrentUser((user) => $scope.user = user);
+  /*@ngInject*/
+  constructor($scope, $location, $routeParams, EventInfo, Auth) {
+    Auth.getCurrentUser((user) => {$scope.user = user});
 
     $scope.event = {info:{}};
     $scope.assignment = {};
@@ -26,4 +27,5 @@ angular.module('venueApp')
     }
     $scope.updateEvent();
 
-  });
+  }
+}
