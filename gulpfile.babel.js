@@ -140,6 +140,7 @@ let transpileServer = lazypipe()
 let mocha = lazypipe()
     .pipe(plugins.mocha, {
         reporter: 'spec',
+        bail: true,
         timeout: 5000,
         require: [
             './mocha.conf'

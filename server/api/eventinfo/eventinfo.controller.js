@@ -15,7 +15,7 @@ import SectionEvent from '../sectionevent/sectionevent.model';
 import fs from 'fs';
 import mkdirp from 'mkdirp';
 import config from '../../config/environment';
-import imageUpload from '../../components/imageUpload';
+import {saveImage} from '../../components/imageUpload';
 import imageDownload from '../../components/imageDownload';
 import path from 'path';
 
@@ -71,12 +71,12 @@ function removeEntity(res) {
 function saveEventInfoImage(files, fields, cb){
   var imagePaths = [],
       asyncTasks = [];
-  if (!files || !files.files){return imagePaths;}
+  if (!files){return imagePaths;}
 
-  files.files.forEach(function(file) {
+  files.forEach(function(file) {
     var path = config.imageUploadPath  + 'eventInfoImages' + '/';
     asyncTasks.push( (callback) => {
-      var imagePath = imageUpload.saveImage(file, path, function(err) {
+      var imagePath = saveImage(file, path, function(err) {
         callback(err)
       });
       imagePaths.push("/api/eventinfos/image/" + imagePath);
