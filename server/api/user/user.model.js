@@ -379,12 +379,12 @@ UserSchema.methods = {
 
   // WARNING: This should only be called in testing
   clearNotifications() {
-    return scheduler.cancel({'data.user._id': this._id});
+    return scheduler.cancel({'data.user._id': this._id.toString()});
   },
 
   // WARNING: This should only be called in testing
   getNotifications() {
-    return scheduler.jobs({'data.user._id': this._id});
+    return scheduler.jobs({'data.user._id': this._id.toString()});
   },
 
   updateNotifications(events) {
@@ -393,7 +393,7 @@ UserSchema.methods = {
     }
     // Remove Events for specified user and SectionEvent
     return Promise.all(events.map(event => {
-      return scheduler.cancel({'data.user._id': this._id, 'data.eventId': event._id});
+      return scheduler.cancel({'data.user._id': this._id.toString(), 'data.eventId': event._id.toString()});
     })).then(()=>{
       // For each event/event time/email preference make a new notification.
       return Promise.all(events.map(event => {
