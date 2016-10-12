@@ -15,7 +15,7 @@ module.exports = {
 
   // Images Folder
   imageUploadPath: path.resolve('./data') + '/',
-  tmpUploadPath: path.resolve('./data') + '/tmp/'
+  tmpUploadPath: path.resolve('./data') + '/tmp/',
 
   // Just log outgoing emails
   emailService: process.env.EMAIL_SERVICE || "MOCK",
