@@ -127,16 +127,16 @@ export function create(req, res) {
     if (!updating) evnt.creationDate = new Date();
     if (!updating) evnt.author = req.user._id;
     evnt.imageURLs = imagePaths;
-
+    console.log("evnt",evnt);
     if (!evnt.location){
-      throw "There must be a location";
+      throw new Error("There must be a location");
     }
     if (!evnt.location.geobounds || !evnt.location.geobounds.coordinates || !evnt.location.geobounds.coordinates.length){
-      throw "There must be at least one geobound polygon";
+      throw new Error("There must be at least one geobound polygon");
     }
 
     if(!evnt.location.geo || !evnt.location.geo.coordinates){
-      throw "There must be a geo coordinate";
+      throw new Error("There must be a geo coordinate");
     }
 
     // We need to parse it like this because there is no garnuntee of valid geojson
