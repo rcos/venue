@@ -9,7 +9,6 @@ import config from '../../config/environment';
 
 var router = new express.Router();
 
-console.log("TEMP UPLOAD PATH", config.tmpUploadPath);
 let upload = multer({ 'dest': config.tmpUploadPath });
 
 router.get('/', controller.index);

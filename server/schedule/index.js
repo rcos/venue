@@ -34,6 +34,17 @@ function configurePeriodicJobs(){
 }
 
 /**
+ * The main purpose of this method is to remove nested mongoose objects.
+ * TODO improve the performance of this method
+ * @param  {object} ob Javascript object with nested mongodb objects
+ * @return {object}    Javascript object containing only strings, numbers,
+ *                                arrays and nested objects
+ */
+function removeNestedObjects(ob){
+  return JSON.parse(JSON.stringify(ob));
+}
+
+/**
  * Starts agenda listener and initializes job handlers.
  * @param  {app config} config
  */
@@ -71,9 +82,10 @@ exports.now = (task, params, cb) => agenda.now(task, params, cb)
  * @return {Job} Agenda job object
  */
 exports.schedule = (when, task, params) => {
-    return new Promise((resolve, reject) => {
-        agenda.schedule(when, task, params, () => resolve());
-    });
+  params = removeNestedObjects(params);
+  return new Promise((resolve, reject) => {
+    agenda.schedule(when, task, params, () => resolve());
+  });
 };
 
 /**
@@ -82,19 +94,20 @@ exports.schedule = (when, task, params) => {
  * @param  {Function} cb  called with parameters (err, numRemoved)
  */
 exports.cancel = (query) => {
+  query = removeNestedObjects(query);
    return new Promise((resolve, reject) => {
-    agenda.cancel(query, (err, numRemoved)=> err ?
+     agenda.cancel(query, (err, numRemoved)=> err ?
       reject(err) : resolve(numRemoved)
-    );
+     );
   });
 }
 
 /**
  * Searches using a  full mongodb-native find query.
  * @param  {Object} query i.e. "eventInfoId: 'a1200412933532'"
- * @param  {Function} cb  called with parameters (err, jobs)
  */
-exports.jobs = (query, cb) => {
+exports.jobs = (query) => {
+  query = removeNestedObjects(query);
   return new Promise((resolve, reject) =>
     agenda.jobs(query, (err, jobs) => err ? reject(err) : resolve(jobs))
   );
