@@ -59,6 +59,7 @@
     "mongoose": "^4.1.2",
     "mongoose-geojson-schema": "^2.1.2",
     "morgan": "~1.7.0",
+    "multer": "^1.2.0",
     "multiparty": "^4.1.2",
     "ng-annotate": "^1.2.1",
     "ng-csv": "^0.3.6",

@@ -15,7 +15,7 @@ import Course from './course.model';
 import fs from 'fs';
 import mkdirp from 'mkdirp';
 import config from '../../config/environment';
-import imageUpload from '../../components/imageUpload';
+import { saveImage } from '../../components/imageUpload';
 import imageDownload from '../../components/imageDownload';
 import path from 'path';
 
@@ -67,24 +67,24 @@ function removeEntity(res) {
   };
 }
 
-function saveCourseImage(files: {files: Array<string>}, fields, cb){
+function saveCourseImage(files: Array<any>, fields, cb){
   var imagePaths = [],
       asyncTasks = [];
-  if (!files){
-    return imagePaths;
-  }
-  files.files.forEach(function(file) {
-    var path = config.imageUploadPath  + 'courses' + '/';
-    asyncTasks.push( (callback) => {
-      var imagePath = imageUpload.saveImage(file, path, function(err) {
-        callback(err)
-      });
-      imagePaths.push("/api/courses/image/" + imagePath);
+  if (!files) return imagePaths;
+
+  files.forEach(file => {
+    let path = config.imageUploadPath  + 'courses' + '/';
+    asyncTasks.push(callback => {
+        var imagePath = saveImage(file, path, function(err) {
+          callback(err)
+        });
+        imagePaths.push("/api/courses/image/" + imagePath);
       });
     });
 
   async.parallel(asyncTasks, (error, results) => {
     // TODO: Handle Error
+    if (error) console.log("ERROR:", error);
     cb(imagePaths);
   });
 }
@@ -125,7 +125,7 @@ export function show(req: $Request, res: $Response) {
 
 // Creates a new Course in the DB
 export function create(req: $ExtRequest, res: $Response) {
-  let files:{files: Array<string>} = req.files;
+  let files:Array<any> = req.files;
   saveCourseImage(files, req.body, (imagePaths: Array<string>)=>{
     var course:any = req.body,
       date = new Date();
