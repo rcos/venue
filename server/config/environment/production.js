@@ -26,6 +26,6 @@ module.exports = {
 
   // Images Folder
   imageUploadPath: process.env.IN_DOCKER ? '/root/data/' : path.resolve('./dist/data') + '/',
-  tmpUploadPath: process.env.IN_DOCKER ? '/root/data/tmp' : path.resolve('./dist/data/tmp') + '/'
+  tmpUploadPath: process.env.IN_DOCKER ? '/root/data/tmp/' : path.resolve('./dist/data/tmp') + '/'
 
 };

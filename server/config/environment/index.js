@@ -49,6 +49,7 @@ var all = {
 
   // Images Folder
   imageUploadPath: './data/',
+  tmpUploadPath: './data/tmp',
 
   facebook: {
     clientID:     process.env.FACEBOOK_ID || 'id',

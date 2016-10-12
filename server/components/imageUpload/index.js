@@ -1,22 +1,24 @@
+// @flow
 var path = require('path');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var sharp = require('sharp');
 import async from 'async';
 
-// Save image to disk here
-// accepted formats are JPEG, PNG, WebP, GIF, SVG, TIFF
-// Save to jpeg
-
-exports.saveImage = function (file, uploadPath, cb) {
-  var extension = path.extname(file.originalFilename);
+/**
+ * Save image to disk (or move to place on disk).
+ */
+export function saveImage(file: {originalname: string, path: string},
+                          uploadPath: string,
+                          cb: Function): string {
+  var extension = path.extname(file.originalname);
   var ext = extension.substring(1).toLowerCase();
 
   if (ext !== 'jpeg' && ext !== 'jpg' && ext !== 'png' && ext !== 'tiff' && ext !== 'gif' && ext !== 'webp'  && ext !== 'svg' ){
     cb("Invalid extension");
     return "";
   }
-  var name = file.originalFilename.substring(0,file.originalFilename.length-extension.length);
+  var name = file.originalname.substring(0,file.originalname.length-extension.length);
 
   name = name+ '-' + Date.now();
 
