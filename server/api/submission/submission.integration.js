@@ -41,6 +41,8 @@ describe('Submission API:', function() {
 
   describe('POST /api/submissions', function() {
 
+    let newSubmission;
+
     beforeEach(function(done) {
       auth.student.request(app)
       .post('/api/submissions')

@@ -21,7 +21,7 @@ import mkdirp from 'mkdirp';
 import mongoose from 'mongoose';
 import path from 'path';
 import config from '../../config/environment';
-import imageUpload from '../../components/imageUpload';
+import { saveImage } from '../../components/imageUpload';
 import imageDownload from '../../components/imageDownload';
 
 import async from 'async';
@@ -72,25 +72,19 @@ function removeEntity(res) {
 }
 
 function saveSubmissionImage(files, fields, cb){
-  var imagePaths = [],
-      asyncTasks = [];
+  var imagePaths = [];
   if (!files){
     return imagePaths;
   }
 
-  files.files.forEach(function(file) {
-    var path = config.imageUploadPath + 'eventImages/' + fields.userId + '/' + fields.eventId + '/';
-    asyncTasks.push( (callback) => {
-      var imagePath = imageUpload.saveImage(file, path, function(err) {
-        callback(err)
-      });
-      imagePaths.push("/api/submissions/image/" + fields.userId + "/" + fields.eventId + "/" + imagePath);
+  Promise.all(files.map(file => {
+    return new Promise((resolve, reject) => {
+      let path = config.imageUploadPath + 'eventImages/' + fields.userId + '/' + fields.eventId + '/';
+      let imagePath = saveImage(file, path, () => {
+        resolve("/api/submissions/image/" + fields.userId + "/" + fields.eventId + "/" + imagePath);
       });
     });
-  async.parallel(asyncTasks, (error, results) => {
-    // TODO: Handle Error
-    cb(imagePaths);
-  });
+  })).then(images => cb(images));
 }
 
 function withDefault(queryString, defaultValue){
@@ -277,7 +271,6 @@ exports.create = function(req, res) {
     }
 
   saveSubmissionImage(req.files, req.body, (imagePaths)=>{
-
     if (!req.body.authors){
       req.body.authors = [req.body.userId]
     }
