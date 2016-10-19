@@ -385,7 +385,8 @@ gulp.task('serve:dist', cb => {
 });
 
 gulp.task('test', cb => {
-    return runSequence('test:server', 'test:client', cb);
+    // return runSequence('test:server', 'test:client', cb);
+    return runSequence('test:server', cb);
 });
 
 gulp.task('test:server', cb => {
