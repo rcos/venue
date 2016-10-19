@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 6.2.2
+  - 6.8.0
 matrix:
   fast_finish: true
   allow_failures:
