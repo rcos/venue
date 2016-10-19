@@ -716,7 +716,7 @@ module.exports.seed = function(){
       resolve()
     })
     .catch((err) => {
-      reject("Error seeding the database!", err);
+      reject(`Error seeding the database!, ${err}`);
     });
   });
 
