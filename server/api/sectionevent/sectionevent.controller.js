@@ -1,3 +1,4 @@
+//@flow
 /**
  * Using Rails-like standard naming convention for endpoints.
  * GET     /api/sectionevents              ->  index
@@ -19,15 +20,15 @@ import User from '../user/user.model';
 import Course from '../course/course.model';
 import SectionCtrl from '../section/section.controller';
 
-function handleError(res, statusCode) {
-  statusCode = statusCode || 500;
+import type {$Response, $Request} from 'express';
+
+function handleError(res, statusCode = 500) {
   return function(err) {
     res.status(statusCode).send(err);
   };
 }
 
-function responseWithResult(res, statusCode) {
-  statusCode = statusCode || 200;
+function responseWithResult(res, statusCode = 200) {
   return function(entity) {
     if (entity) {
       res.status(statusCode).json(entity);
@@ -74,15 +75,15 @@ function notifySectionCreation(sectionEvent){
       .execAsync()
       .then(section => {
         section.students.forEach(student => {
-          scheduler.now("create sectionEvent", {user:student.toObject(), sectionId: section._id, eventInfo: eventInfo.toObject()});
-        })
+          scheduler.now("create sectionEvent", {user:student.toObject(), sectionId: section._id.toString(), eventInfo: eventInfo.toObject()});
+        });
         return sectionEvent.updateUserNotifications();
       }).then(()=> {return sectionEvent});
     }
 }
 
 // Gets a list of SectionEvents
-exports.index = function(req, res) {
+exports.index = function(req: $Request, res: $Response) {
   var onlyNumber = withDefault(req.query.onlyNumber, false);
   var withEventInfo = withDefault(req.query.withEventInfo, !onlyNumber && true);
   var withAuthor = withDefault(req.query.withAuthor, !onlyNumber && true);
@@ -212,7 +213,7 @@ exports.index = function(req, res) {
   }
 };
 // Gets a single SectionEvent from the DB
-exports.show = function(req, res) {
+exports.show = function(req: $Request, res: $Response) {
   var query = SectionEvent.findById(req.params.id);
 
   if (withDefault(req.query.withEventInfo, false)){
@@ -262,7 +263,7 @@ exports.show = function(req, res) {
 };
 
 // Creates a new SectionEvent in the DB
-exports.create = function(req, res) {
+exports.create = function(req: $Request, res: $Response) {
   SectionEvent.createAsync(req.body)
     .then( sectionEvent => {
       return EventInfo.findByIdAsync(sectionEvent.info)
@@ -273,7 +274,7 @@ exports.create = function(req, res) {
 };
 
 // Updates an existing SectionEvent in the DB
-exports.update = function(req, res) {
+exports.update = function(req: $Request, res: $Response) {
   if (req.body._id) {
     delete req.body._id;
   }
@@ -289,7 +290,7 @@ exports.update = function(req, res) {
 };
 
 // Deletes a SectionEvent from the DB
-exports.destroy = function(req, res) {
+exports.destroy = function(req: $Request, res: $Response) {
   SectionEvent.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(fullRemove(res))

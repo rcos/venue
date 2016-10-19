@@ -402,7 +402,7 @@ UserSchema.methods = {
             var notifyTime = new Date(time.start.getTime() - minutesAhead*60000);
             return scheduler.schedule(notifyTime, "sectionEvent reminder", {
               user:this.toObject(),
-              eventId: event._id,
+              eventId: event._id.toString(),
               eventInfo:event.info.toObject()
             });
           }));

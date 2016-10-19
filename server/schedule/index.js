@@ -1,3 +1,4 @@
+//@flow
 /**
  * Scheduling module. This module allows for scheduling of tasks on the site
  * in a persistent way (i.e. surviving server restarts).
@@ -40,7 +41,7 @@ function configurePeriodicJobs(){
  * @return {object}    Javascript object containing only strings, numbers,
  *                                arrays and nested objects
  */
-function removeNestedObjects(ob){
+function removeNestedObjects(ob: Object): Object{
   return JSON.parse(JSON.stringify(ob));
 }
 
@@ -48,7 +49,7 @@ function removeNestedObjects(ob){
  * Starts agenda listener and initializes job handlers.
  * @param  {app config} config
  */
-exports.start = (config) => {
+exports.start = (config: {mongo: {uri: String}}) => {
   agenda = exports.agenda = new Agenda({
     db: {
       address: config.mongo.uri,
@@ -71,7 +72,13 @@ exports.start = (config) => {
  * @param  {Function} cb     called after job added to queue
  * @return {Job} Agenda job object
  */
-exports.now = (task, params, cb) => agenda.now(task, params, cb)
+exports.now = (task: String, params: Object) => {
+  return new Promise(resolve => {
+    agenda.now(task, params, () => {
+      resolve();
+    });
+  });
+};
 
 /**
  * Schedule a job to be performed at a designated time
@@ -81,7 +88,7 @@ exports.now = (task, params, cb) => agenda.now(task, params, cb)
  * @param  {Function} cb     called after job added to queue
  * @return {Job} Agenda job object
  */
-exports.schedule = (when, task, params) => {
+exports.schedule = (when: Date, task: String, params: Object) => {
   params = removeNestedObjects(params);
   return new Promise((resolve, reject) => {
     agenda.schedule(when, task, params, () => resolve());
@@ -91,9 +98,8 @@ exports.schedule = (when, task, params) => {
 /**
  * Cancels a scheduled a job matching the query
  * @param  {Object} query i.e. "eventInfoId: 'a1200412933532'"
- * @param  {Function} cb  called with parameters (err, numRemoved)
  */
-exports.cancel = (query) => {
+exports.cancel = (query: Object) => {
   query = removeNestedObjects(query);
    return new Promise((resolve, reject) => {
      agenda.cancel(query, (err, numRemoved)=> err ?
@@ -106,7 +112,7 @@ exports.cancel = (query) => {
  * Searches using a  full mongodb-native find query.
  * @param  {Object} query i.e. "eventInfoId: 'a1200412933532'"
  */
-exports.jobs = (query) => {
+exports.jobs = (query: Object) => {
   query = removeNestedObjects(query);
   return new Promise((resolve, reject) =>
     agenda.jobs(query, (err, jobs) => err ? reject(err) : resolve(jobs))
