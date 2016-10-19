@@ -123,11 +123,10 @@ export function show(req, res) {
 export function create(req, res) {
   saveEventInfoImage(req.files, req.body, (imagePaths)=>{
     var evnt = req.body;
-    var updating = evnt.id !== null; // TODO move to separate endpoint- this is here to avoid a major refactor
+    var updating = evnt.id !== undefined; // TODO move to separate endpoint- this is here to avoid a major refactor
     if (!updating) evnt.creationDate = new Date();
     if (!updating) evnt.author = req.user._id;
     evnt.imageURLs = imagePaths;
-    console.log("evnt",evnt);
     if (!evnt.location){
       throw new Error("There must be a location");
     }
