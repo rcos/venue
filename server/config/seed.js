@@ -711,7 +711,10 @@ module.exports.seed = function(){
       console.log('finished populating section events');
     }).then(module.exports.createSubmissions).then(()=>{
       console.log("finished populating submissions");
-    }).then( () => resolve() )
+    }).then( () => {
+      resolved = true;
+      resolve()
+    })
     .catch((err) => {
       reject("Error seeding the database!", err);
     });

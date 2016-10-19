@@ -23,14 +23,17 @@ var app = require("../");
 
 before(function (done){
   this.timeout(15000);
-  if (app.isListening) return done();
+  console.log("WAITING FOR SERVER TO START");
+  if (app.isListening) { console.log("APP WAS LISTENING"); return done(); }
   app.on('listening', () => {
+    console.log("SERVER STARTING");
     done();
   });
 });
 
 before(function (done){
   this.timeout(15000);
+  console.log("STARTING SEED");
   seed().then(() => done());
 });
 
