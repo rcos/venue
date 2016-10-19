@@ -304,7 +304,6 @@ exports.create = function(req, res) {
         if (!event){
           throw "No event assignment found"
         }
-        console.log("looking for current event info");
           EventInfo.findOne({"_id":event.info._id})
           .where('location.geobounds').intersects().geometry({
             type: "Point",
