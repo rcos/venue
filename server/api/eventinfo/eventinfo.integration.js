@@ -122,6 +122,8 @@ describe('EventInfo API:', function() {
         .field("location[geobounds][coordinates][0][0][2][1]", "42.72229931484221")
         .field("location[geobounds][coordinates][0][0][3][0]", "-73.68066787719727")
         .field("location[geobounds][coordinates][0][0][3][1]", "42.73415262890506")
+        .field("location[geobounds][coordinates][0][0][4][0]", "-73.68066787719727")
+        .field("location[geobounds][coordinates][0][0][4][1]", "42.734152628905065")
         .attach('files[0]', './client/assets/images/empac.jpg')
         .expect(201)
         .expect('Content-Type', /json/)
