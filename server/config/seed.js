@@ -327,30 +327,29 @@ export function allEvents(){
         geobounds : {
           // These coordinates represent a location surrounding RPI
           // and brunswick, they are used in validation testing
-            type: "MultiPolygon",
-            coordinates:
+          "coordinates": [
             [
-              [ //poly1
-                [ //ring1
-                  [ -73.6786079406738, 42.7404566603398 ],
-                  [ -73.699893951416, 42.7268391495544 ],
-                  [ -73.6693382263184, 42.7038843572483 ],
-                  [ -73.64290237426761, 42.7217948682557 ],
-                  [ -73.6786079406738, 42.7404566603398 ]
-                ]
+              [
+                [-73.6786079406738,42.7404566603398],
+                [-73.699893951416, 42.7268391495544],
+                [-73.6693382263184,42.7038843572483],
+                [-73.6429023742676,42.7217948682557],
+                [-73.6786079406738,42.7404566603398]
               ]
-              // ,
-              // [ //poly2
-              //   [ //ring1
-              //     [ -73.5735511779785, 42.7414652458955 ],
-              //     [ -73.57458114624021, 42.728604551111 ],
-              //     [ -73.5481452941895, 42.7303699024239 ],
-              //     [ -73.5484886169434, 42.7429780934664 ],
-              //     [ -73.5735511779785, 42.7414652458955 ]
-              //   ]
-              // ]
+            ],
+            [
+              [
+                [-73.5735511779785,42.7414652458955  ],
+                [-73.5745811462402,42.728604551111   ],
+                [-73.5481452941895,42.7303699024239  ],
+                [-73.5484886169434,42.7429780934664  ],
+                [-73.5735511779785,42.7414652458955  ]
+              ]
             ]
-          }
+          ],
+          "type": "MultiPolygon"
+        }
+
       },
       times: [{
           start: new Date("January 20, 2016 18:00:00"),
@@ -712,12 +711,9 @@ module.exports.seed = function(){
       console.log('finished populating section events');
     }).then(module.exports.createSubmissions).then(()=>{
       console.log("finished populating submissions");
-    }).then( () => {
-      resolved = true;
-      resolve()
-    })
+    }).then( () => resolve() )
     .catch((err) => {
-      reject(`Error seeding the database!, ${err}`);
+      reject("Error seeding the database!", err);
     });
   });
 
