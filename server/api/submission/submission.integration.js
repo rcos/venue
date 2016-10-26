@@ -264,6 +264,7 @@ describe('Submission API:', function() {
         });
 
         it('should be a valid location', () => {
+          console.log('newSubmission',newSubmission)
           expect(newSubmission.locationMatch).to.be.true;
         });
       });
