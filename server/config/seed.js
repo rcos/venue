@@ -703,8 +703,8 @@ module.exports.seed = function(){
       console.log('finished populating users');
     }).then(module.exports.createCourses).then(() => {
       console.log('finished populating courses');
-    }).then(module.exports.createEvents).then(() => {
-      console.log('finished populating events');
+    // }).then(module.exports.createEvents).then(() => {
+    //   console.log('finished populating events');
     }).then(module.exports.createSections).then(()=>{
       console.log('finished populating sections');
     }).then(module.exports.createSectionEvents).then(()=>{
