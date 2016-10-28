@@ -4,7 +4,7 @@ set -e
 . ~/.nvm/nvm.sh
 rm -rf /root/mobile-api
 cd /root/venue
-grunt serve:headless &
+gulp serve &
 sleep 10
 git clone https://github.com/seveibar/venue-api-fetch.git /root/mobile-api
 cd /root/mobile-api
