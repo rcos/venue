@@ -1,18 +1,11 @@
-language: node_js
-node_js:
-  - 6.8.0
-matrix:
-  fast_finish: true
-  allow_failures:
-    - node_js: 6.8.0
-before_script:
-  - npm install -g gulp-cli
-services: mongodb
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - g++-4.8
-env:
-  CXX=g++-4.8
+sudo: required
+services:
+  - docker
+
+install:
+  - scripts/venuepackage --clean
+  - scripts/venuestart
+
+script:
+  - docker ps | grep -q rcos/venue
+  - scripts/venuetest
