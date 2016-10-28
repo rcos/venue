@@ -400,12 +400,18 @@ gulp.task('test:server', cb => {
 
 gulp.task('mocha:unit', () => {
     return gulp.src(paths.server.test.unit)
-        .pipe(mocha());
+        .pipe(mocha())
 });
 
 gulp.task('mocha:integration', () => {
     return gulp.src(paths.server.test.integration)
-        .pipe(mocha());
+        .pipe(mocha())
+        .once('error', function () {
+            process.exit(1);
+        })
+        .once('end', function () {
+            process.exit();
+        });
 });
 
 gulp.task('test:server:coverage', cb => {
