@@ -3,4 +3,4 @@ set -e
 . /root/.bashrc
 . ~/.nvm/nvm.sh
 cd /root/venue
-grunt test
+gulp test
