@@ -40,9 +40,8 @@ RUN /root/venue/scripts/docker/configure-path
 
 RUN . /root/.bashrc && \
     cd venue && \
-    npm install -g grunt-cli bower && \
-    npm install && \
-    bower install --allow-root
+    npm install -g gulp-cli && \
+    npm install
 
 RUN apt-get clean
 
