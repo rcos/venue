@@ -484,6 +484,7 @@ gulp.task('build', cb => {
             'copy:assets',
             'copy:fonts:dist',
             'copy:server',
+            'copy:templates',
             'webpack:dist'
         ],
         'revReplaceWebpack',
@@ -563,6 +564,11 @@ gulp.task('copy:server', () => {
         'package.json'
     ], {cwdbase: true})
         .pipe(gulp.dest(paths.dist));
+});
+
+gulp.task('copy:templates', () => {
+    return gulp.src([`${serverPath}/**/*.html`])
+        .pipe(gulp.dest(`${paths.dist}/${serverPath}`));
 });
 
 /********************
