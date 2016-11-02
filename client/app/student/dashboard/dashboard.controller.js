@@ -1,8 +1,8 @@
 'use strict';
+export default class StudentDashboardCtrl {
 
-angular.module('venueApp')
-  .controller('StudentDashboardCtrl', ($scope, $location, $routeParams, User, Auth) => {
-
+  /*@ngInject*/
+  constructor($scope, $location, $routeParams, User, Auth) {
     $scope.user = {};
     $scope.courses = [];
     $scope.events = [];
@@ -26,4 +26,5 @@ angular.module('venueApp')
     $scope.goToCourse = (course) => {
       $location.path("/courses/" + course._id);
     };
-  });
+  }
+}

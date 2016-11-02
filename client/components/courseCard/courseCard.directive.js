@@ -1,6 +1,9 @@
 'use strict';
+const angular = require('angular');
+import showImage from '../showImage/showImage.directive';
+import pictureBanner from '../pictureBanner/pictureBanner.directive';
 
-angular.module('venueApp')
+export default angular.module('directives.courseCard', [showImage, pictureBanner])
   .directive('courseCard', function ($http) {
     return {
       templateUrl: 'components/courseCard/courseCard.html',
@@ -16,4 +19,5 @@ angular.module('venueApp')
       controller: function ($scope, $element) {
       }
     };
-  });
+  })
+  .name;

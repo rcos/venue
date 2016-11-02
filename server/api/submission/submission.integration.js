@@ -12,7 +12,7 @@ var exampleSectionEvent = seed.exampleSectionEvent;
 var exampleStudent = seed.exampleStudent;
 var exampleInstructor = seed.exampleInstructor;
 var exampleSubmission = seed.exampleSubmission;
-var testassets = require('./testassets');
+import {validLocations, badLocations} from './testassets';
 
 describe('Submission API:', function() {
 
@@ -241,11 +241,11 @@ describe('Submission API:', function() {
 
     describe("passing validation", () => {
 
-      testassets.validLocations.forEach((validLocation) => {
+      validLocations.forEach((validLocation) => {
         let newSubmission;
 
         before((done)=>{
-          return auth.student.request(app)
+          auth.student.request(app)
           .post('/api/submissions')
           .type('form')
           .field('userId', exampleStudent._id.toString())
@@ -255,15 +255,16 @@ describe('Submission API:', function() {
           .field('content', 'Valid submission location')
           .attach('files[0]', './client/assets/images/empac.jpg')
           .end(function(err, res) {
-            if (err) {
-              return done(err);
-            }
+            if (err) return done(err);
             newSubmission = res.body;
-            done();
+            // FIXME: Remove this timeout after file attachment library bug
+            // is fixed
+            setTimeout(()=>done(), 100);
           });
         });
 
         it('should be a valid location', () => {
+          console.log('newSubmission',newSubmission)
           expect(newSubmission.locationMatch).to.be.true;
         });
       });
@@ -272,11 +273,11 @@ describe('Submission API:', function() {
 
     describe("failing validation", () => {
 
-      testassets.badLocations.forEach((badLocation) => {
+      badLocations.forEach((badLocation) => {
         let newSubmission;
 
         before((done)=>{
-          return auth.student.request(app)
+          auth.student.request(app)
           .post('/api/submissions')
           .type('form')
           .field('userId', exampleStudent._id.toString())
@@ -286,11 +287,9 @@ describe('Submission API:', function() {
           .field('content', 'Valid submission location')
           .attach('files[0]', './client/assets/images/empac.jpg')
           .end(function(err, res) {
-            if (err) {
-              return done(err);
-            }
+            if (err) done(err);
             newSubmission = res.body;
-            done();
+            setTimeout(()=>done(), 100);
           });
         });
 

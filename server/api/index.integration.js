@@ -2,17 +2,20 @@ var seed = require('../config/seed').seed;
 var auth = require("../auth/local/test.integration");
 var app = require("../");
 
-before((done) => {
+before(function (done){
+  this.timeout(25000);
   if (app.isListening) return done();
   app.on('listening', () => {
     done();
   });
 });
 
-before((done) => {
-    seed().then(() => done());
+before(function (done){
+  this.timeout(25000);
+  seed().then(() => done());
 });
 
-before((done)=>{
-    auth.init().then(() => done());
+before(function (done){
+  this.timeout(25000);
+  auth.init().then(() => done());
 });

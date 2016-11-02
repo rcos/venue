@@ -1,6 +1,13 @@
 'use strict';
+const angular = require('angular');
+import showImage from '../showImage/showImage.directive';
 
-angular.module('venueApp')
+import {
+  CourseFormCtrl
+} from './courseform.controller';
+
+export default angular.module('directives.courseform', [showImage])
+  .controller('CourseFormCtrl', CourseFormCtrl)
   .directive('courseform', function () {
     return {
       templateUrl: 'components/courseform/courseform.html',
@@ -10,4 +17,5 @@ angular.module('venueApp')
         scope.updating = attrs.updating;
       }
     };
-  });
+  })
+  .name;

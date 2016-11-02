@@ -1,23 +1,6 @@
 'use strict';
-
-angular.module('venueApp')
-  .filter('visibleSubmission', function(){
-    return (subs, selectedSections, submissionFilter, searchName) => {
-      if (!subs) return [];
-      return subs.filter((sub) => {
-        if (!sub) return false;
-        if (selectedSections.filter((sec) => sec._id == sub.sectionEvent.section._id).length == 0) return false;
-        if (sub.didNotSubmit && submissionFilter == "submitted") return false;
-        if (!sub.valid && submissionFilter == "validated") return false;
-        var submitterName = (sub.submitter.firstName + " " + sub.submitter.lastName).toLowerCase();
-        if (searchName && searchName != "" && submitterName.indexOf(searchName) == -1) return false;
-
-        return true;
-      });
-    };
-  })
-  .controller('SubmissionViewCtrl', function($scope, $filter, Auth, Submission, Section, SectionEvent){
-
+export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, SectionEvent){
+    "ngInject";
     $scope.viewMode = 'small';
     $scope.submissionFilter = 'submitted';
 
@@ -45,7 +28,7 @@ angular.module('venueApp')
             return student;
           });
 
-          $scope.submissions.forEach(s => s.submitter.name = `${s.submitter.firstName} ${s.submitter.lastName}`);
+          $scope.submissions.forEach(s => {s.submitter.name = `${s.submitter.firstName} ${s.submitter.lastName}`});
 
           // Create empty submissions for students that did not submit for each section event
           $scope.allSectionEvents.forEach((se) => {
@@ -119,4 +102,4 @@ angular.module('venueApp')
       };
 
     });
-  });
+  };

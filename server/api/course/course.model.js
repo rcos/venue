@@ -34,7 +34,7 @@ CourseSchema.methods = {
    * @param cb: Function callback
    **/
   getSections(opts, cb){
-    if (!cb) cb,opts = opts, {};
+    if (!cb) cb = function(){};
     var withInstructors = opts.withInstructors;
     var withEnrollmentStatus = opts.withEnrollmentStatus;
     var studentId = opts.studentId; // for withEnrollmentStatus

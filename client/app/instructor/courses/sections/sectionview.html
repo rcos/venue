@@ -1,0 +1,161 @@
+
+
+<div class='container instructor'>
+  <div class="instructorSectionview">
+    <course-title-banner section="section" course="course" link="/courses/{{course._id}}"></course-title-banner>
+
+    <div class='row row-height' ng-hide='isInstructor || isStudent'>
+      <div class="col-sm-12">
+        <h4><a href="/login">Log in</a> to learn more</h4>
+      </div>
+    </div>
+
+    <div class='row'>
+      <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect col-sm-12">
+        <div class="mdl-tabs__tab-ba row">
+          <a href="#info-panel" class="mdl-tabs__tab is-active col-sm-2">Information</a>
+          <a href="#student-panel" class="mdl-tabs__tab col-sm-2">Students</a>
+          <a href="#event-panel" class="mdl-tabs__tab col-sm-2">Events</a>
+          <a href="#submissions-panel" class="mdl-tabs__tab col-sm-2">Submissions</a>
+        </div>
+
+        <div class='mdl-tabs__panel is-active' id='info-panel'>
+          <table class="course-section text-center table table-hover section-information">
+            <tr>
+              <td class="text-right section-info">Instructor<span ng-show="section.instructors.length > 1">s</span></td>
+              <td class="text-left section-info">
+                <span ng-repeat="instructor in section.instructors">
+                  <span ng-show="$last && !$first">& </span>{{instructor.firstName}} {{instructor.lastName}}<span ng-hide="$last">, </span>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-right">Section Number<span ng-show="section.sectionNumbers.length > 1">s</span></td>
+              <td class="text-left">
+                <span ng-repeat="number in section.sectionNumbers track by $index" ng-show="number > -1">
+                  <span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last || section.sectionNumbers.length < 3">, </span>
+                </span>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="text-right section-info">Students</td>
+              <td class="text-left section-info">{{section.students.length}}</td>
+            </tr>
+            <tr>
+              <td class="text-right section-info">Pending Students</td>
+              <td class="text-left section-info">{{section.pendingStudents.length}}</td>
+            </tr>
+            <tr>
+              <td class="text-right section-info">Events</td>
+              <td class="text-left section-info">{{section.events.length}}</td>
+            </tr>
+            <tr>
+              <td class="text-right section-info">Enrollment Policy</td>
+              <td class="text-left section-info">{{(section.enrollmentPolicy === "approvalRequired")?"approval":section.enrollmentPolicy}}</td>
+            </tr>
+          </table>
+          <button href="#" class="btn btn-default edit-section col-sm-2" ng-click='editSection()'>Edit</button>
+        </div>
+
+        <div class="mdl-tabs__panel" id="student-panel">
+          <div class="" ng-show="section.pendingStudents.length > 0">
+            <h4>Pending Students</h4>
+            <table class="pending-students text-center table table-hover">
+              <tr ng-repeat="student in section.pendingStudents">
+                <td class="text-left align-middle">{{student.firstName}} {{student.lastName}}</td>
+                <td class="text-center">
+                  <button ng-click='verifyPendingStudent(student)' class='verify mdl-button mdl-js-button mdl-button--raised mdl-button--colored'> Verify </button>
+                </td>
+                <td class="text-center">
+                  <button ng-click='ignorePendingStudent(student)' class='ignore mdl-button mdl-js-button mdl-button--raised'> Ignore </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="" ng-show="section.students.length > 0">
+            <h4>Enrolled Students</h4>
+            <table class="students text-center table table-hover">
+              <tr ng-repeat="student in section.students">
+                <td class="text-left align-middle">{{student.firstName}} {{student.lastName}}</td>
+                <td class="text-center">
+                  <button ng-click='removeStudent(student)' class='ignore mdl-button mdl-js-button mdl-button--raised '> Remove </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="mdl-tabs__panel" id="event-panel">
+          <div ng-hide="section.events.length">
+            <h4> No events yet. Assign one <a href="/instructor/newevent">here</a> </h4>
+          </div>
+          <div class="card-container" ng-show="section.events.length">
+            <div class="col-md-6" ng-repeat='event in section.events' >
+              <event-card ng-click='goToEvent(event)' data="event"  short="true" preview="true" >  </event-card>
+            </div>
+          </div>
+        </div>
+
+        <div class="mdl-tabs__panel" id="submissions-panel">
+          <div class="events row">
+            <div class="col-sm-12">
+              <h4> View Submissions for Event Assignments </h4>
+              <div ng-hide="section.events.length">
+                <h5> No events yet. Assign one <a href="/instructor/newevent">here</a> </h5>
+              </div>
+
+              <div class="card-container" ng-show="section.events.length">
+                <div class="col-md-3" ng-repeat='event in section.events' >
+                  <event-card selected="selectedEventId == event._id" ng-click='selectEvent(event)' data="event"  short="true" preview="true" >  </event-card>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW STUDENTS/SUBMISSIONS FOR EVENT -->
+          <div ng-show='currentEventSelection' class='row row-height'>
+            <div class='col-sm-4 left-column col-sm-height col-sm-top'>
+              <div class="row h4-spacing">
+                <div class='col-md-12 col-sm-12'>
+                  <h4 class="no-spacing">Student Submissions</h4>
+                  <table class="student-table mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                    <thead>
+                      <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Students</th>
+                        <th>Submitted</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="student in section.students" class='hover-click' ng-click='selectStudent(student)'>
+                        <td class="mdl-data-table__cell--non-numeric" >{{student.firstName}} {{student.lastName}}</td>
+                        <td><i class="material-icons md-18">{{student.submission != null ? 'done' : ''}}</i></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-8 right-column col-sm-height col-sm-top">
+              <div class="col-sm-12">
+                <h4>Submission Preview</h4>
+                <submission-card expanded="true" ng-show='selectedStudent' data="selectedStudent.submission"> </submission-card>
+                <div ng-hide='selectedStudent' class='big-gray-placeholder'> select a student to see their submission </div>
+              </div>
+            </div>
+          </div>
+          <!-- PLACEHOLDER - SELECT EVENT -->
+          <div ng-hide='currentEventSelection' ng-show="section.events.length" class='row row-height'>
+            <div class='col-xs-12'>
+              <div class='big-gray-placeholder'> select an event to see student submissions </div>
+            </div>
+          </div>
+          <!-- END VIEW STUDENTS/SUBMISSIONS FOR EVENT -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+</div>
+

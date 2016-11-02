@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('venueApp')
-  .directive('assignEvent', function () {
+export function assignEvent() {
     return {
       templateUrl: 'components/eventform/assign/assignEvent.html',
       controller: 'AssignEventFormCtrl',
@@ -13,4 +12,4 @@ angular.module('venueApp')
       link: function (scope, element) {
       }
     };
-  });
+  };

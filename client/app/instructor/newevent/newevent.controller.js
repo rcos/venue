@@ -1,7 +1,8 @@
 'use strict';
+export default class NewEventCtrl {
 
-angular.module('venueApp')
-  .controller('NewEventCtrl', function ($scope) {
+  /*@ngInject*/
+  constructor($scope) {
     $scope.event = {info:{}};
     $scope.stage = {
       select: true,
@@ -31,4 +32,5 @@ angular.module('venueApp')
       $scope.stage.assign = false;
       $scope.stage.done = true;
     }
-  });
+  }
+}

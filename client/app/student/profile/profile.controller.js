@@ -1,6 +1,8 @@
 'use strict';
+export default class ProfileCtrl {
 
-angular.module('venueApp')
-  .controller('ProfileCtrl', function ($scope) {
+  /*@ngInject*/
+  constructor($scope) {
     $scope.message = 'Hello';
-  });
+  }
+}

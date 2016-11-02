@@ -1,9 +1,9 @@
 'use strict';
-
-angular.module('venueApp')
-  .controller('EventsCtrl', function ($scope, $location, $routeParams, SectionEvent, Auth) {
+export default class EventsCtrl {
+  /*@ngInject*/
+  constructor($scope, $location, $routeParams, SectionEvent, Auth) {
     $scope.assignment = {};
-    Auth.getCurrentUser((user) => $scope.user = user);
+    Auth.getCurrentUser((user) => {$scope.user = user});
     $scope.eventId = $routeParams.id;
 
     $scope.sectionStudent = false;
@@ -21,11 +21,11 @@ angular.module('venueApp')
       },
         sectionEvent => {
           $scope.event = sectionEvent;
-          if (sectionEvent.section.students.indexOf($scope.user._id) ==! -1)
+          if (sectionEvent.section.students.indexOf($scope.user._id) !== -1)
           {
             $scope.sectionStudent = true;
           }
-          if (sectionEvent.section.instructors.map((elem)=>elem._id).indexOf($scope.user._id) ==! -1)
+          if (sectionEvent.section.instructors.map((elem)=>elem._id).indexOf($scope.user._id) !== -1)
           {
             $scope.sectionInstructor = true;
           }
@@ -100,4 +100,5 @@ angular.module('venueApp')
       $location.path("/instructor/courses/"+event.section.course._id+"/sections/"+event.section._id);
     };
 
-  });
+  }
+}

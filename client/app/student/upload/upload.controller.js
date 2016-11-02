@@ -1,8 +1,8 @@
 'use strict';
+export default class UploadCtrl {
 
-angular.module('venueApp')
-  .controller('UploadCtrl', function ($scope, $location, SectionEvent) {
-
+  /*@ngInject*/
+  constructor($scope, $location, SectionEvent) {
     $scope.events = [];
     $scope.eventId = "";
 
@@ -15,4 +15,5 @@ angular.module('venueApp')
     $scope.goToUploadForEvent = (event) =>{
       $location.path("/student/upload/" + event.sectionEvents[0]._id);
     };
-  });
+  }
+}

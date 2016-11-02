@@ -130,7 +130,7 @@ EventInfoSchema.methods = {
      * @param cb: Function callback
      **/
     getSectionEventsAsync(opts, cb){
-      if (!cb) cb,opts = opts, {};
+      if (!cb) cb = function(){};
       var withCourses = opts.withCourses;
 
       var query = SectionEvent.find({info: this._id});

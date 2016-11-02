@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('venueApp')
-  .directive('selectEvent', function () {
+export function selectEvent() {
     return {
       templateUrl: 'components/eventform/select/selectEvent.html',
       controller: 'SelectEventFormCtrl',
@@ -13,4 +12,4 @@ angular.module('venueApp')
       link: function (scope, element) {
       }
     };
-  });
+  };

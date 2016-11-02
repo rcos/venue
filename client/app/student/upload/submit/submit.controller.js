@@ -1,8 +1,8 @@
 'use strict';
+export default class SubmitCtrl {
 
-angular.module('venueApp')
-  .controller('SubmitCtrl', function ($scope, $routeParams, $location, SectionEvent, User, Upload, geolocation) {
-
+  /*@ngInject*/
+  constructor($scope, $routeParams, $location, SectionEvent, User, Upload, geolocation) {
     $scope.events = [];
     $scope.eventId = "";
     $scope.imgWidth = window.innerWidth/5;
@@ -39,7 +39,7 @@ angular.module('venueApp')
               objectKey: '.k',
               arrayKey: '[i]'
           }).progress(function (evt) {
-              var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+              var progressPercentage = parseInt(100.0 * evt.loaded / evt.total, 10);
               $scope.progress = progressPercentage;
 
           }).success(function (imageSubmitted) {
@@ -48,4 +48,5 @@ angular.module('venueApp')
       }
     };
 
-  });
+  }
+}

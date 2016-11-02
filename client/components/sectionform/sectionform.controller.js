@@ -1,5 +1,6 @@
-angular.module('venueApp')
-  .controller('SectionFormController', ($scope, $location, $routeParams, Auth, Course, Section) => {
+'use strict';
+export function SectionFormController($scope, $location, $routeParams, Auth, Course, Section){
+    "ngInject";
 
     Auth.getCurrentUser((user) => {
       $scope.user = user;
@@ -80,4 +81,4 @@ angular.module('venueApp')
       }
     };
 
-  });
+  };

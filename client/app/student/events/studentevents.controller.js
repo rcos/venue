@@ -1,7 +1,8 @@
 'use strict';
+export default class StudentEventsCtrl {
 
-angular.module('venueApp')
-  .controller('StudentEventsCtrl', function ($scope, $location, User, SectionEvent) {
+  /*@ngInject*/
+  constructor($scope, $location, User, SectionEvent) {
     SectionEvent.getAll({onlyUserSections:'me',withEventInfo:true,withSection:true},(events)=>{
       $scope.events = events;
       $scope.eventsArray = Object.keys(events)
@@ -12,5 +13,5 @@ angular.module('venueApp')
     $scope.goToEvent = (event) => {
       $location.path("/events/" + event._id);
     };
-
-  });
+  }
+}

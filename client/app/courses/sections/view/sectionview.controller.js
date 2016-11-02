@@ -1,7 +1,8 @@
 'use strict';
+export default class SectionViewCtrl {
 
-angular.module('venueApp')
-  .controller('SectionViewCtrl', ($scope, $location, $routeParams, User, Auth, Course, Submission, Section) => {
+  /*@ngInject*/
+  constructor($scope, $location, $routeParams, User, Auth, Course, Submission, Section) {
     var loadSection = function(){
       Section.get({
         id: $routeParams.sectionId,
@@ -45,4 +46,5 @@ angular.module('venueApp')
     $scope.viewCourse = function(){
       $location.path('/courses/'+$routeParams.id);
     };
-  });
+  }
+}

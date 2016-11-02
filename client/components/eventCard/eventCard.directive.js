@@ -1,7 +1,10 @@
 'use strict';
+const angular = require('angular');
+import showImage from '../showImage/showImage.directive';
 
-angular.module('venueApp')
-  .directive('eventCard', ($location) => {
+export default angular.module('directives.eventCard', [showImage])
+  .directive('eventCard', function($location){
+    "ngInject";
     return {
       templateUrl: 'components/eventCard/eventCard.html',
       restrict: 'EA',
@@ -24,4 +27,5 @@ angular.module('venueApp')
 
       }
     };
-  });
+  })
+  .name;

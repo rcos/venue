@@ -1,6 +1,8 @@
 'use strict';
+const angular = require('angular');
+import showImage from '../showImage/showImage.directive';
 
-angular.module('venueApp')
+export default angular.module('directives.pictureBanner', [showImage])
   .directive('pictureBanner', function ($http) {
     return {
       restrict: 'A',
@@ -26,4 +28,5 @@ angular.module('venueApp')
         });
       }
     };
-  });
+  })
+  .name;

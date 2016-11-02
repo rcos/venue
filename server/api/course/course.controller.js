@@ -1,3 +1,4 @@
+//@flow
 /**
  * Using Rails-like standard naming convention for endpoints.
  * GET     /api/courses              ->  index
@@ -9,26 +10,28 @@
 
 'use strict';
 
-var _ = require('lodash');
-var Course = require('./course.model');
-var fs = require('fs');
-var mkdirp = require('mkdirp');
-var config = require('../../config/environment');
-var imageUpload = require('../../components/imageUpload');
-var imageDownload = require('../../components/imageDownload');
-var path = require('path');
+import _ from 'lodash';
+import Course from './course.model';
+import fs from 'fs';
+import mkdirp from 'mkdirp';
+import config from '../../config/environment';
+import { saveImage } from '../../components/imageUpload';
+import imageDownload from '../../components/imageDownload';
+import path from 'path';
 
 import async from 'async';
 
-function handleError(res, statusCode) {
-  statusCode = statusCode || 500;
+import type {$Response, $Request} from 'express';
+
+type $ExtRequest = $Request & {files:{files: Array<string>}};
+
+function handleError(res: $Response, statusCode: number = 500) {
   return function(err) {
     res.status(statusCode).send(err);
   };
 }
 
-function responseWithResult(res, statusCode) {
-  statusCode = statusCode || 200;
+function responseWithResult(res: $Response, statusCode:number = 200) {
   return function(entity) {
     if (entity) {
       res.status(statusCode).json(entity);
@@ -36,7 +39,7 @@ function responseWithResult(res, statusCode) {
   };
 }
 
-function handleEntityNotFound(res) {
+function handleEntityNotFound(res: $Response) {
   return function(entity) {
     if (!entity) {
       res.status(404).json({});
@@ -49,10 +52,7 @@ function handleEntityNotFound(res) {
 function saveUpdates(updates) {
   return function(entity) {
     var updated = _.merge(entity, updates);
-    return updated.saveAsync()
-      .spread(function(updated) {
-        return updated;
-      });
+    return updated.saveAsync();
   };
 }
 
@@ -67,37 +67,37 @@ function removeEntity(res) {
   };
 }
 
-function saveCourseImage(files, fields, cb){
+function saveCourseImage(files: Array<any>, fields, cb){
   var imagePaths = [],
       asyncTasks = [];
-  if (!files){
-    return imagePaths;
-  }
-  files.files.forEach(function(file) {
-    var path = config.imageUploadPath  + 'courses' + '/';
-    asyncTasks.push( (callback) => {
-      var imagePath = imageUpload.saveImage(file, path, function(err) {
-        callback(err)
-      });
-      imagePaths.push("/api/courses/image/" + imagePath);
+  if (!files) return imagePaths;
+
+  files.forEach(file => {
+    let path = config.imageUploadPath  + 'courses' + '/';
+    asyncTasks.push(callback => {
+        var imagePath = saveImage(file, path, function(err) {
+          callback(err)
+        });
+        imagePaths.push("/api/courses/image/" + imagePath);
       });
     });
 
   async.parallel(asyncTasks, (error, results) => {
     // TODO: Handle Error
+    if (error) console.log("ERROR:", error);
     cb(imagePaths);
   });
 }
 
 // Gets a list of Courses
-exports.index = function(req, res) {
+export function index(req: $Request, res: $Response) {
   Course.findAsync()
     .then(responseWithResult(res))
     .catch(handleError(res));
-};
+}
 
 // Gets a single Course from the DB
-exports.show = function(req, res) {
+export function show(req: $Request, res: $Response) {
   var dbquery = Course.findById(req.params.id);
   dbquery.execAsync()
     .then(handleEntityNotFound(res))
@@ -124,17 +124,18 @@ exports.show = function(req, res) {
 };
 
 // Creates a new Course in the DB
-exports.create = function(req, res) {
-  saveCourseImage(req.files, req.body, (imagePaths)=>{
-    var course = req.body,
+export function create(req: $ExtRequest, res: $Response) {
+  let files:Array<any> = req.files;
+  saveCourseImage(files, req.body, (imagePaths: Array<string>)=>{
+    var course:any = req.body,
       date = new Date();
     course.imageURLs = imagePaths;
     course.active = true;
     if(date.getMonth() < 5){
-      course.semester = "Spring" + (date.getYear() - 100).toString();
+      course.semester = "Spring" + (date.getFullYear() - 100).toString();
     }
     else{
-      course.semester = "Fall" + (date.getYear() - 100).toString();
+      course.semester = "Fall" + (date.getFullYear() - 100).toString();
     }
     Course.createAsync(course)
     .then(responseWithResult(res, 201))
@@ -143,7 +144,7 @@ exports.create = function(req, res) {
 };
 
 // Updates an existing Course in the DB
-exports.update = function(req, res) {
+export function update(req: $Request, res: $Response) {
   if (req.body._id) {
     delete req.body._id;
   }
@@ -151,18 +152,21 @@ exports.update = function(req, res) {
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(responseWithResult(res))
+    .catch((err,dat)=>{
+      console.log(err, dat);
+    })
     .catch(handleError(res));
 };
 
 // Deletes a Course from the DB
-exports.destroy = function(req, res) {
+export function destroy(req: $Request, res: $Response) {
   Course.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
 };
 
-exports.image = function(req, res){
+export function image(req: $Request, res: $Response){
   // Prevents requesting arbitary files from the server
   if (req.params.name.indexOf('/') !== -1){
     return res.json(404);
@@ -179,7 +183,8 @@ exports.image = function(req, res){
     req.query.size,
     res);
 };
-exports.imageSize = function(req, res){
+
+export function imageSize(req: $Request, res: $Response){
   req.query.size = req.params.size;
   return exports.image(req, res);
 };

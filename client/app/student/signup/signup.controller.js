@@ -1,7 +1,8 @@
 'use strict';
+export default class StudentSignupCtrl {
 
-angular.module('venueApp')
-  .controller('StudentSignupCtrl', (Auth, $scope, $location)=>{
+  /*@ngInject*/
+  constructor($scope, $location, Auth) {
       $scope.user = {};
       $scope.errors = {};
 
@@ -30,4 +31,5 @@ angular.module('venueApp')
             });
           }
       };
-  });
+  }
+}

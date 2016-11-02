@@ -11,18 +11,23 @@ import config from './config/environment';
 import http from 'http';
 import * as seed from './config/seed';
 import * as productionSeed from './config/productionseed';
+import socketioModule from 'socket.io';
+import socketioConfig from './config/socketio';
+import expressConfig from './config/express';
+import routes from './routes';
+import schedule from './schedule';
 
 // Setup server
 var app = express();
 var server = http.createServer(app);
-var socketio = require('socket.io')(server, {
+var socketio = socketioModule(server, {
   serveClient: config.env !== 'production',
   path: '/socket.io-client'
 });
-require('./config/socketio')(socketio);
-require('./config/express')(app);
-require('./routes')(app);
-require('./schedule').start(config);
+socketioConfig(socketio);
+expressConfig(app);
+routes(app);
+schedule.start(config);
 
 
 // Connect to MongoDB
@@ -36,19 +41,21 @@ mongoose.connection.on('error', function(err) {
 });
 
 // Populate databases with sample data
-function beginSeeding(){
+function beginSeeding() {
   if (config.seedDB) {
     seed.seed().then(() => {
       console.log("Seed was successful");
       setImmediate(startServer);
-    }).catch((err) => {
+    })
+    .catch((err) => {
       console.log("Seed failure!", err);
     });
   }else if (config.env === "production") {
     productionSeed.seed().then(()=>{
       console.log("Production seed successful");
       setImmediate(startServer);
-    }).catch(()=>{
+    })
+    .catch((err)=>{
       console.log("Seed failure!", err);
     })
   }else{
@@ -57,7 +64,7 @@ function beginSeeding(){
 }
 
 function startServer() {
-  server.listen(config.port, config.ip, function() {
+  app.angularFullstack = server.listen(config.port, config.ip, function() {
     console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
     app.emit('listening');
     app.isListening = true;

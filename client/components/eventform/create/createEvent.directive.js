@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('venueApp')
-  .directive('createEvent', function () {
+export function createEvent() {
     return {
       templateUrl: 'components/eventform/create/createEvent.html',
       controller: 'CreateEventFormCtrl',
@@ -15,4 +14,4 @@ angular.module('venueApp')
         }
       }
     };
-  });
+  }

@@ -1,6 +1,6 @@
-angular.module('venueApp')
-  .controller('SidebarController', ($scope, $location, Auth) => {
-
+'use strict';
+export function SidebarController($scope, $location, Auth) {
+    "ngInject";
     $scope.page = $location.path();
 
     Auth.getCurrentUser((user) => {
@@ -11,4 +11,4 @@ angular.module('venueApp')
       return pageview == $scope.page;
     }
 
-  });
+  };

@@ -1,7 +1,7 @@
 'use strict';
 
 var config = browser.params;
-var UserModel = require(config.serverConfig.root + '/server/api/user/user.model');
+var UserModel = require(config.serverConfig.root + '/server/api/user/user.model').default;
 
 describe('Signup View', function() {
   var page;
@@ -25,7 +25,7 @@ describe('Signup View', function() {
   });
 
   after(function() {
-    return UserModel.removeAsync();
+    return UserModel.remove();
   });
 
   it('should include signup form with correct inputs and submit button', function() {
@@ -53,7 +53,7 @@ describe('Signup View', function() {
   describe('with local auth', function() {
 
     before(function() {
-      return UserModel.removeAsync();
+      return UserModel.remove();
     })
 
     it('should signup a new user, log them in, and redirecting to "/"', function() {

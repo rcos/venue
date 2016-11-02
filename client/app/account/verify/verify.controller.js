@@ -1,7 +1,9 @@
 'use strict';
 
-angular.module('venueApp')
-  .controller('VerifyAccountCtrl', function ($scope, $routeParams, User, $location) {
+export default class VerifyAccountCtrl {
+
+  /*@ngInject*/
+  constructor($scope, $routeParams, User, $location) {
     User.verify({controller: $routeParams.id}, (res)=>{
       $scope.isVerified = res.isVerified;
     });
@@ -11,4 +13,5 @@ angular.module('venueApp')
     $scope.resendEmail = function(){
       $location.path("/verify/resendEmail");
     };
-  });
+  }
+}

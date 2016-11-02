@@ -4,8 +4,8 @@ set -e
 . ~/.nvm/nvm.sh
 rm -rf /root/mobile-api
 cd /root/venue
-grunt serve:headless &
-sleep 10
+gulp serve &
+sleep 30
 git clone https://github.com/seveibar/venue-api-fetch.git /root/mobile-api
 cd /root/mobile-api
 npm install

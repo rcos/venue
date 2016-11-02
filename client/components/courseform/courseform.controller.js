@@ -1,7 +1,6 @@
 'use strict';
-
-angular.module('venueApp')
-  .controller('CourseFormCtrl', function($scope, Course, Upload){
+export function CourseFormCtrl ($scope, Course, Upload){
+    "ngInject";
     $scope.courseCreated = false;
     $scope.submitForm = (form)=>{
         $scope.submitted = true;
@@ -38,4 +37,4 @@ angular.module('venueApp')
               });
         }
     };
-  });
+  };

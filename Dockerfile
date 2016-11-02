@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 # Create app directory
 WORKDIR /root
 
-ENV NODE_VERSION 5
+ENV NODE_VERSION 6
 
 # Install dependencies
 RUN apt-get update
@@ -40,9 +40,8 @@ RUN /root/venue/scripts/docker/configure-path
 
 RUN . /root/.bashrc && \
     cd venue && \
-    npm install -g grunt-cli bower && \
-    npm install && \
-    bower install --allow-root
+    npm install -g gulp-cli && \
+    npm install
 
 RUN apt-get clean
 

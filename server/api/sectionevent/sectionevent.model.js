@@ -35,24 +35,26 @@ SectionEventSchema.methods = {
         return this.getRelatedUsers().then(users => {
           return Promise.all(users.map(user => user.updateNotifications(fullEvent)));
         });
-    }).catch(err => {
-      console.log(err);
-    })
+    });
   },
 
   getFullEvent(){
-      return this.populate({path:"info", model:'EventInfo'})
-          .populate({
-              path: 'section',
-              populate: {
-                  path: 'course',
-                  model: 'Course'
-              }
-          })
-          .execPopulate().then((event) => {
-              if(event.info === null) throw new Error("EventInfo null");
-              return Promise.resolve(event);
-          });
+      return this.populate({
+        path: "info",
+        model: "EventInfo",
+        populate: {
+          path: "section",
+          model: "Section",
+          populate: {
+            path: 'course',
+            model: 'Course'
+          }
+        }
+      })
+        .execPopulate().then((event) => {
+            if(event.info === null) throw new Error("EventInfo null");
+            return Promise.resolve(event);
+        });
   },
 
   fullRemove(){

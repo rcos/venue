@@ -1,7 +1,11 @@
 'use strict';
+const angular = require('angular');
+import showImage from '../showImage/showImage.directive';
+import pictureBanner from '../pictureBanner/pictureBanner.directive';
 
-angular.module('venueApp')
+export default angular.module('directives.courseTitleBanner', [showImage, pictureBanner])
   .directive('courseTitleBanner', function ($http) {
+    "ngInject";
     return {
       templateUrl: 'components/courseTitleBanner/courseTitleBanner.html',
       restrict: 'EA',
@@ -46,4 +50,5 @@ angular.module('venueApp')
         }
       }
     };
-  });
+  })
+  .name;

@@ -1,15 +1,13 @@
 'use strict';
 
-var app = require('../..');
-var request = require('supertest');
-var auth = require("../../auth/local/test.integration");
-var superwith = require("../superwith.integration");
-var Section = require("./section.model");
-var User = require("../user/user.model");
+import app from '../..';
+import request from 'supertest';
+import auth from "../../auth/local/test.integration";
+import * as superwith from "../superwith.integration";
+import Section from "./section.model";
+import User from "../user/user.model";
 
-var seed = require('../../config/seed');
-var exampleSection = seed.exampleSection;
-var exampleStudent = seed.exampleStudent;
+import {seed, exampleSection, exampleStudent} from '../../config/seed';
 
 var newSection;
 
@@ -53,9 +51,9 @@ describe("Notification Tests", () => {
 
       before(() => student.clearNotifications());
 
-      before((done) => {
+      before(() => {
         section.students.push(exampleStudent._id);
-        return section.saveAsync().then(() => done());
+        return section.saveAsync();
       });
 
       it('should have given the student notifications', () => {
@@ -73,7 +71,7 @@ describe('Section API:', function() {
   describe('GET /api/sections', function() {
     var sections;
 
-    beforeEach(function(done) {
+    before(function(done) {
       request(app)
         .get('/api/sections')
         .expect(200)
@@ -96,7 +94,7 @@ describe('Section API:', function() {
   describe('GET /api/sections?onlyUser=:id', function() {
     var sections;
 
-    beforeEach(function(done) {
+    before(function(done) {
       auth.instructor.request(app)
         .get(`/api/sections?onlyUser=${exampleStudent._id}`)
         .expect(200)
@@ -113,7 +111,7 @@ describe('Section API:', function() {
     it('should respond with JSON array', function() {
       expect(sections).to.be.instanceOf(Array);
       for (var section of sections){
-          expect(section.students).to.include(exampleStudent._id.toString());
+        expect(section.students).to.include(exampleStudent._id.toString());
       }
     });
   });
@@ -204,6 +202,7 @@ describe('Section API:', function() {
           if (err) {
             return done(err);
           }
+          console.log(res.body);
           section = res.body;
           done();
         });
@@ -214,6 +213,7 @@ describe('Section API:', function() {
     });
 
     it('should respond with the requested section', function() {
+      console.log("sec", section);
       assert.deepEqual(section.sectionNumbers, [1,2,3]);
     });
   });

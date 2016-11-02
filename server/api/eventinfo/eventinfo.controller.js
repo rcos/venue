@@ -9,15 +9,15 @@
 
 'use strict';
 
-var _ = require('lodash');
-var EventInfo = require('./eventinfo.model');
-var SectionEvent = require('../sectionevent/sectionevent.model');
-var fs = require('fs');
-var mkdirp = require('mkdirp');
-var config = require('../../config/environment');
-var imageUpload = require('../../components/imageUpload');
-var imageDownload = require('../../components/imageDownload');
-var path = require('path');
+import _ from 'lodash';
+import EventInfo from './eventinfo.model';
+import SectionEvent from '../sectionevent/sectionevent.model';
+import fs from 'fs';
+import mkdirp from 'mkdirp';
+import config from '../../config/environment';
+import {saveImage} from '../../components/imageUpload';
+import imageDownload from '../../components/imageDownload';
+import path from 'path';
 
 import async from 'async';
 
@@ -51,7 +51,7 @@ function saveUpdates(updates) {
   return function(entity) {
     var updated = _.merge(entity, updates);
     return updated.saveAsync()
-      .spread(function(updated) {
+      .then(function(updated) {
         return updated;
       });
   };
@@ -71,12 +71,12 @@ function removeEntity(res) {
 function saveEventInfoImage(files, fields, cb){
   var imagePaths = [],
       asyncTasks = [];
-  if (!files || !files.files){return imagePaths;}
+  if (!files){return imagePaths;}
 
-  files.files.forEach(function(file) {
+  files.forEach(function(file) {
     var path = config.imageUploadPath  + 'eventInfoImages' + '/';
     asyncTasks.push( (callback) => {
-      var imagePath = imageUpload.saveImage(file, path, function(err) {
+      var imagePath = saveImage(file, path, function(err) {
         callback(err)
       });
       imagePaths.push("/api/eventinfos/image/" + imagePath);
@@ -90,14 +90,14 @@ function saveEventInfoImage(files, fields, cb){
 }
 
 // Gets a list of EventInfos
-exports.index = function(req, res) {
+export function index(req, res) {
   EventInfo.findAsync()
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
 // Gets a single EventInfo from the DB
-exports.show = function(req, res) {
+export function show(req, res) {
   var query = EventInfo.findByIdAsync(req.params.id)
 
   query
@@ -120,23 +120,22 @@ exports.show = function(req, res) {
 };
 
 // Creates a new EventInfo in the DB
-exports.create = function(req, res) {
+export function create(req, res) {
   saveEventInfoImage(req.files, req.body, (imagePaths)=>{
     var evnt = req.body;
-    var updating = evnt.id != null; // TODO move to separate endpoint- this is here to avoid a major refactor
+    var updating = evnt.id !== undefined; // TODO move to separate endpoint- this is here to avoid a major refactor
     if (!updating) evnt.creationDate = new Date();
     if (!updating) evnt.author = req.user._id;
     evnt.imageURLs = imagePaths;
-
     if (!evnt.location){
-      throw "There must be a location";
+      throw new Error("There must be a location");
     }
     if (!evnt.location.geobounds || !evnt.location.geobounds.coordinates || !evnt.location.geobounds.coordinates.length){
-      throw "There must be at least one geobound polygon";
+      throw new Error("There must be at least one geobound polygon");
     }
 
     if(!evnt.location.geo || !evnt.location.geo.coordinates){
-      throw "There must be a geo coordinate";
+      throw new Error("There must be a geo coordinate");
     }
 
     // We need to parse it like this because there is no garnuntee of valid geojson
@@ -172,9 +171,9 @@ exports.create = function(req, res) {
     }
     evnt.location.geobounds.coordinates = allShapes; // save the list of all shapes
 
-    for (var a = 0; a < evnt.location.geo.coordinates.length; a++){
+    for (var e = 0; e < evnt.location.geo.coordinates.length; e++){
       // Save the bounds as numbers
-      evnt.location.geo.coordinates[a] = Number(evnt.location.geo.coordinates[a]);
+      evnt.location.geo.coordinates[e] = Number(evnt.location.geo.coordinates[e]);
     }
     //Save the radius as a number
     evnt.location.radius = Number(evnt.location.radius);
@@ -196,7 +195,7 @@ exports.create = function(req, res) {
 };
 
 
-exports.image = function(req, res){
+export function image(req, res){
   // Prevents requesting arbitary files from the server
   if (req.params.name.indexOf('/') !== -1){
     return res.json(404);
@@ -213,13 +212,13 @@ exports.image = function(req, res){
     res);
 };
 
-exports.imageSize = function(req, res){
+export function imageSize(req, res){
   req.query.size = req.params.size;
-  return exports.image(req, res);
+  return image(req,res);
 };
 
 // Updates an existing EventInfo in the DB
-exports.update = function(req, res) {
+export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
@@ -231,7 +230,7 @@ exports.update = function(req, res) {
 };
 
 // Deletes a EventInfo from the DB
-exports.destroy = function(req, res) {
+export function destroy(req, res) {
   EventInfo.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))

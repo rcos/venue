@@ -1,7 +1,8 @@
 'use strict';
+export default class CourseSearchCtrl {
 
-angular.module('venueApp')
-  .controller('CourseSearchCtrl', ($scope, Course, $location) => {
+  /*@ngInject*/
+  constructor($scope, Course, $location) {
     Course.getAll(function(courses){
         $scope.courses = courses.map(course => {
           course.deptAndNum = course.department + " " + course.courseNumber;
@@ -11,4 +12,5 @@ angular.module('venueApp')
     $scope.openCourse = course => {
       $location.path("/courses/" + course._id);
     };
-  });
+  }
+}

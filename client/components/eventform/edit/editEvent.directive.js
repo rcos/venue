@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('venueApp')
-  .directive('editEvent', function () {
+export function editEvent() {
     return {
       templateUrl: 'components/eventform/edit/editEvent.html',
       controller: 'EditEventFormCtrl',
@@ -13,4 +12,4 @@ angular.module('venueApp')
       link: function (scope, element) {
       }
     };
-  });
+  };

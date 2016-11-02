@@ -10,7 +10,6 @@
 'use strict';
 
 var _ = require('lodash');
-var async = require("async");
 var Auth = require('../../auth/auth.service');
 import Section from './section.model';
 import User from '../user/user.model';
@@ -70,7 +69,7 @@ function saveUpdates(updates) {
   return function(entity) {
     var updated = _.merge(entity, updates);
     return updated.saveAsync()
-      .spread(function(updated) {
+      .then(function(updated) {
         return updated;
       });
   };
@@ -109,90 +108,81 @@ function checkSectionReq(req) {
 // Filter by user (id) ?onlyUser=:id
 // Filter by current user ?onlyCurrentUser=true
 
-exports.index = function(req, res, next)  {
+export async function index(req, res, next) {
     var query = Section.find();
-    query = exports.getSectionsExtra(query,req.query);
-
-    query
-        .execAsync()
-        .then(responseWithResult(res))
-        .catch(handleError(res));
+    query = getSectionsExtra(query, req.query);
+    try{
+      let result = await query.execAsync();
+      await responseWithResult(res)(result);
+    }catch(err){
+      await handleError(res)(err);
+    }
 };
 
 // Gets a list of Sections for a user
-exports.userSections = function(req, res, next) {
-  var userId = req.params.id;
-  User.findById(userId)
-  .execAsync()
-  .then((user) => {
-    if (!user) {
-      return res.status(404).end();
-    }
-    var profile = user.toJSON();
-    return Promise.all([user, profile]);
-  })
-  .then(([user,profile])=>{
-    return user.getSectionsAsync(req.query).then((sections) => {
-      profile.sections = sections;
-      return Promise.all([user, profile]);
-    });
-  })
-  .then(([user,profile]) => {
+export async function userSections(req, res, next) {
+  console.log("CALLED THING");
+  try{
+    let userId = req.params.id;
+    let user = await User.findById(userId).execAsync();
+    if (!user) return res.status(404).end();
+
+    let profile = user.toJSON();
+
+    profile.sections = await user.getSectionsAsync(req.query);
+
     return res.json(profile.sections);
-  })
-  .catch(err => next(err));
+
+  }catch(err){
+    console.log("ERROR HANDLED ERRORS",err);
+    handleError(res)(err);
+  }
 };
 
 
 // Gets a list of Sections for the user
-exports.mySections = function(req, res, next) {
+export function mySections(req, res, next) {
   var userId = req.user._id;
   req.params.id = userId;
-  exports.userSections(req, res, next);
+  userSections(req, res, next);
 };
 
 // Gets a single Section from the DB
-exports.show = function(req, res, next) {
-  var query = Section.findById(req.params.id);
-  var withEnrollmentStatus = req.query.withEnrollmentStatus;
+export async function show(req, res, next) {
+  try{
+    var query = Section.findById(req.params.id);
+    var withEnrollmentStatus = req.query.withEnrollmentStatus;
 
-  query = exports.getSectionsExtra(query,req.query);
+    query = getSectionsExtra(query, req.query);
 
-  query
-    .execAsync()
-    .then((section) => {
-      if (!section) {
-        return res.status(404).end();
-      }
-      var data = section.toJSON();
-      return Promise.all([section, data]);
-    })
-    .spread(ifFlagManipulate(req.query.withSectionsEvent || req.query.withSectionEvent, (section,data,done)=>{
-      return section.getEventsAsync(req.query).then((events)=>{
-        data.events = events;
-        done(section, data);
+    let section = await query.execAsync();
+    if (!section) {
+      return res.status(404).end();
+    }
+    let data = section.toJSON();
+
+    if (req.query.withSectionsEvent || req.query.withSectionEvent){
+      data.events = await section.getEventsAsync(req.query);
+    }
+
+    if (withEnrollmentStatus){
+      let studentId = req.query.studentId;
+      data.isEnrolled = section.students.some((sectionStudent) => {
+          return String(sectionStudent) === studentId || String(sectionStudent._id) === studentId ;
       });
-    }))
-    .spread((section,data) => {
-        // If requested, mark all sections student is enrolled in
-      if (withEnrollmentStatus){
-        var studentId = req.query.studentId;
+      data.isPending = section.pendingStudents.some((sectionStudent) => {
+          return String(sectionStudent) === studentId || String(sectionStudent._id) === studentId ;
+      });
+    }
 
-        data.isEnrolled = section.students.some((sectionStudent) => {
-            return String(sectionStudent) === studentId || String(sectionStudent._id) === studentId ;
-        });
-        data.isPending = section.pendingStudents.some((sectionStudent) => {
-            return String(sectionStudent) === studentId || String(sectionStudent._id) === studentId ;
-        });
-
-      }
-      return res.json(data);
-    })
-    .catch(err => next(err));
+    return res.json(data);
+  }catch(err){
+    handleError(res)(err);
+  }
 };
 
 // Creates a new Section in the DB
-exports.create = function(req, res) {
+export function create(req, res) {
   try{checkSectionReq(req);}
   catch(err) { return handleError(res)(err);}
   Section.createAsync(req.body)
@@ -205,8 +195,9 @@ exports.create = function(req, res) {
 function saveSectionUpdates(req) {
 
   return (section) => {
+    var pendingStudent;
     if(req.body.pendingStudent){
-      var pendingStudent = req.body.pendingStudent;
+      pendingStudent = req.body.pendingStudent;
       if(section.pendingStudents.remove(pendingStudent)){
         section.students.push(pendingStudent);
       }
@@ -215,7 +206,7 @@ function saveSectionUpdates(req) {
       }
     }
     if(req.body.removePendingStudent){
-      var pendingStudent = req.body.removePendingStudent;
+      pendingStudent = req.body.removePendingStudent;
       if(!section.pendingStudents.remove(pendingStudent)){
         throw "Not a valid pending student";
       }
@@ -239,15 +230,12 @@ function saveSectionUpdates(req) {
     {
       section.instructors = req.body.instructors;
     }
-    return section.saveAsync()
-      .spread(function(updated) {
-        return updated;
-      });
+    return section.saveAsync();
   }
 }
 
 
-exports.update = function(req, res) {
+export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
@@ -259,14 +247,14 @@ exports.update = function(req, res) {
 };
 
 // Deletes a Section from the DB
-exports.destroy = function(req, res) {
+export function destroy(req, res) {
   Section.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
 };
 
-exports.getSectionsExtra = function (query, opts){
+export function getSectionsExtra(query, opts){
   opts = opts || {};
 
   //FIXME too many endpoints see #113

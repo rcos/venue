@@ -1,37 +1,39 @@
 'use strict';
 
-(function() {
+import * as _ from 'lodash';
 
-angular.module('venueApp.auth')
-  .run(function($rootScope, $location, Auth) {    
-    // Redirect to login if route requires auth and the user is not logged in, or doesn't have required role
-    $rootScope.$on('$routeChangeStart', function(event, next) {    
-      if(!next.authenticate) {
-        return;
-      }
+export function routerDecorator($rootScope, $location, Auth) {
+  'ngInject';
+  // Redirect to login if route requires auth and the user is not logged in, or doesn't have required role
 
-      if(typeof next.authenticate === 'string') {
-        Auth.hasRole(next.authenticate, _.noop).then(has => {
-          if(has) {
+  $rootScope.$on('$routeChangeStart', function(event, next) {
+    if (!next.authenticate) {
+      return;
+    }
+
+    if (typeof next.authenticate === 'string') {
+      Auth.hasRole(next.authenticate)
+        .then(has => {
+          if (has) {
             return;
           }
 
           event.preventDefault();
-          return Auth.isLoggedIn(_.noop).then(is => {
-            $location.path(is ? '/' : '/login');
-          });
+          return Auth.isLoggedIn()
+            .then(is => {
+              $location.path(is ? '/' : '/login');
+            });
         });
-      } else {
-        Auth.isLoggedIn(_.noop).then(is => {
-          if(is) {
+    } else {
+      Auth.isLoggedIn()
+        .then(is => {
+          if (is) {
             return;
           }
 
           event.preventDefault();
-          $location.path('/');
+          $location.path('/login');
         });
-      }
-    });
+    }
   });
-
-})();
+};

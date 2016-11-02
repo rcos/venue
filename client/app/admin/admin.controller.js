@@ -1,9 +1,12 @@
 'use strict';
 
-angular.module('venueApp')
-  .controller('AdminController', function ($scope, User, Upload, $http, $route) {
+export default class AdminController {
+  /*@ngInject*/
+  constructor($scope, $http, $route, User, Upload) {
     $scope.users = User.query();
-
+    this.User = User;
+    this.$http = $http;
+    this.$route = $route;
     $scope.uploadUserCSV = function(file){
 
       if (!file){
@@ -25,31 +28,31 @@ angular.module('venueApp')
           return a.lastName > b.lastName;
         })
       }));
-    };
+    }
+  }
 
-    $scope.delete = function(user) {
-      user.$remove();
-      $scope.users.splice(this.users.indexOf(user), 1);
-    };
+  delete(user) {
+    user.$remove();
+    this.users.splice(this.users.indexOf(user), 1);
+  }
 
-    $scope.addInstr = function(user) {
-      User.promoteToInstructor({userId: user._id}, () => {
-          $scope.users = User.query();
-          $scope.users.sort(( a , b) => {
-            return a.lastName > b.lastName;
-          })
-        })
-    };
+  addInstr(user) {
+    this.User.promoteToInstructor({userId: user._id}, () => {
+      this.users = this.User.query();
+      this.users.sort(( a , b) => {
+        return a.lastName > b.lastName;
+      })
+    })
+  }
 
-    $scope.reseed = () => {
-        if (confirm("This clear the database, are you sure?") &&
-            confirm("You cannot revert this operation, are you really sure?")){
+  reseed() {
+      if (confirm("This clear the database, are you sure?") &&
+          confirm("You cannot revert this operation, are you really sure?")){
 
-            $http.post("/api/misc/reseed",{}, () => {
-                $route.reload();
-            });
+          this.$http.post("/api/misc/reseed",{}, () => {
+              this.$route.reload();
+          });
 
-        }
-    };
-
-  });
+      }
+  }
+}

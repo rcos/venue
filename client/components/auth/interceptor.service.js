@@ -1,8 +1,8 @@
 'use strict';
 
-(function() {
+export function authInterceptor($rootScope, $q, $cookies, $location, Util) {
+  'ngInject';
 
-function authInterceptor($rootScope, $q, $cookies, $location, Util) {
   return {
     // Add authorization token to headers
     request(config) {
@@ -17,6 +17,7 @@ function authInterceptor($rootScope, $q, $cookies, $location, Util) {
     responseError(response) {
       if (response.status === 401) {
         $location.path('/login');
+
         // remove any stale tokens
         $cookies.remove('token');
       }
@@ -24,8 +25,3 @@ function authInterceptor($rootScope, $q, $cookies, $location, Util) {
     }
   };
 }
-
-angular.module('venueApp.auth')
-  .factory('authInterceptor', authInterceptor);
-
-})();

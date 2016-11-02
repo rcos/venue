@@ -1,9 +1,11 @@
 'use strict';
+export default class CourseEditCtrl {
 
-angular.module('venueApp')
-  .controller('CourseEditCtrl', function ($scope, Course, $http, $routeParams) {
+  /*@ngInject*/
+  constructor($scope, Course, $http, $routeParams) {
     Course.get({id: $routeParams.id}, (course) => {
       $scope.course = course;
       $scope.coursesLoaded  = true;
     });
-  });
+  }
+}

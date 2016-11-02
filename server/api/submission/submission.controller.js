@@ -9,20 +9,20 @@
 
 'use strict';
 
-var _ = require('lodash');
-var Submission = require('./submission.model');
-var SectionEvent = require('../sectionevent/sectionevent.model');
-var EventInfo = require('../eventinfo/eventinfo.model');
-var Section = require('../section/section.model');
-var multiparty = require('multiparty');
-var User = require('../user/user.model');
-var fs = require('fs');
-var mkdirp = require('mkdirp');
-var mongoose = require('bluebird').promisifyAll(require('mongoose'));
-var path = require('path');
-var config = require('../../config/environment');
-var imageUpload = require('../../components/imageUpload');
-var imageDownload = require('../../components/imageDownload');
+import _ from 'lodash';
+import Submission from './submission.model';
+import SectionEvent from '../sectionevent/sectionevent.model';
+import EventInfo from '../eventinfo/eventinfo.model';
+import Section from '../section/section.model';
+import multiparty from 'multiparty';
+import User from '../user/user.model';
+import fs from 'fs';
+import mkdirp from 'mkdirp';
+import mongoose from 'mongoose';
+import path from 'path';
+import config from '../../config/environment';
+import { saveImage } from '../../components/imageUpload';
+import imageDownload from '../../components/imageDownload';
 
 import async from 'async';
 import glob from 'glob';
@@ -56,10 +56,7 @@ function handleEntityNotFound(res) {
 function saveUpdates(updates) {
   return function(entity) {
     var updated = _.merge(entity, updates);
-    return updated.saveAsync()
-      .spread(function(updated) {
-        return updated;
-      });
+    return updated.saveAsync();
   };
 }
 
@@ -75,25 +72,19 @@ function removeEntity(res) {
 }
 
 function saveSubmissionImage(files, fields, cb){
-  var imagePaths = [],
-      asyncTasks = [];
+  var imagePaths = [];
   if (!files){
     return imagePaths;
   }
 
-  files.files.forEach(function(file) {
-    var path = config.imageUploadPath + 'eventImages/' + fields.userId + '/' + fields.eventId + '/';
-    asyncTasks.push( (callback) => {
-      var imagePath = imageUpload.saveImage(file, path, function(err) {
-        callback(err)
-      });
-      imagePaths.push("/api/submissions/image/" + fields.userId + "/" + fields.eventId + "/" + imagePath);
+  Promise.all(files.map(file => {
+    return new Promise((resolve, reject) => {
+      let path = config.imageUploadPath + 'eventImages/' + fields.userId + '/' + fields.eventId + '/';
+      let imagePath = saveImage(file, path, () => {
+        resolve("/api/submissions/image/" + fields.userId + "/" + fields.eventId + "/" + imagePath);
       });
     });
-  async.parallel(asyncTasks, (error, results) => {
-    // TODO: Handle Error
-    cb(imagePaths);
-  });
+  })).then(images => cb(images));
 }
 
 function withDefault(queryString, defaultValue){
@@ -266,6 +257,7 @@ exports.imageSize = function(req, res){
 
 // Gets a single Submission from the DB
 exports.show = function(req, res) {
+  console.log("req params id", req.params.id);
   Submission.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
@@ -280,11 +272,11 @@ exports.create = function(req, res) {
     }
 
   saveSubmissionImage(req.files, req.body, (imagePaths)=>{
-
     if (!req.body.authors){
       req.body.authors = [req.body.userId]
     }
     if (!req.body.coordinates){
+      console.log("No coordinates supplied")
       var submit = {
         images : imagePaths,
         submitter : req.body.userId,
@@ -313,7 +305,6 @@ exports.create = function(req, res) {
         if (!event){
           throw "No event assignment found"
         }
-        console.log("looking for current event info");
           EventInfo.findOne({"_id":event.info._id})
           .where('location.geobounds').intersects().geometry({
             type: "Point",
@@ -321,6 +312,8 @@ exports.create = function(req, res) {
           })
           .execAsync()
           .then((eventinfo)=>{
+            console.log("Event location matched",eventinfo);
+
             var submit = {
               images : imagePaths,
               submitter : req.body.userId,

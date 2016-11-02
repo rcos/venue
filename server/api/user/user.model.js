@@ -8,7 +8,7 @@ import uuid from 'node-uuid';
 import Section from '../section/section.model';
 import Course from '../course/course.model';
 import Submission from '../submission/submission.model';
-import SectionCtrl from '../section/section.controller';
+import {getSectionsExtra} from '../section/section.controller';
 var scheduler = require('../../schedule');
 
 import SectionEvent from '../sectionevent/sectionevent.model';
@@ -283,13 +283,14 @@ UserSchema.methods = {
 
   getSectionsAsync(opts){
     var sections = [];
+    var query;
     if (this.isInstructor){
-        var query = Section.find({instructors: mongoose.Types.ObjectId(this._id) });
+        query = Section.find({instructors: mongoose.Types.ObjectId(this._id) });
     }
     else{
-        var query = Section.find({ students : mongoose.Types.ObjectId(this._id)});
+        query = Section.find({ students : mongoose.Types.ObjectId(this._id)});
     }
-    query = SectionCtrl.getSectionsExtra(query,opts);
+    query = getSectionsExtra(query,opts);
 
     return query.lean().execAsync();
   },
@@ -378,12 +379,12 @@ UserSchema.methods = {
 
   // WARNING: This should only be called in testing
   clearNotifications() {
-    return scheduler.cancel({'data.user._id': this._id});
+    return scheduler.cancel({'data.user._id': this._id.toString()});
   },
 
   // WARNING: This should only be called in testing
   getNotifications() {
-    return scheduler.jobs({'data.user._id': this._id});
+    return scheduler.jobs({'data.user._id': this._id.toString()});
   },
 
   updateNotifications(events) {
@@ -392,7 +393,7 @@ UserSchema.methods = {
     }
     // Remove Events for specified user and SectionEvent
     return Promise.all(events.map(event => {
-      return scheduler.cancel({'data.user._id': this._id, 'data.eventId': event._id});
+      return scheduler.cancel({'data.user._id': this._id.toString(), 'data.eventId': event._id.toString()});
     })).then(()=>{
       // For each event/event time/email preference make a new notification.
       return Promise.all(events.map(event => {
@@ -401,7 +402,7 @@ UserSchema.methods = {
             var notifyTime = new Date(time.start.getTime() - minutesAhead*60000);
             return scheduler.schedule(notifyTime, "sectionEvent reminder", {
               user:this.toObject(),
-              eventId: event._id,
+              eventId: event._id.toString(),
               eventInfo:event.info.toObject()
             });
           }));

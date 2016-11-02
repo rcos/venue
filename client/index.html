@@ -1,34 +1,20 @@
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-  <head>
+<html lang="en">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <base href="/">
     <title>Venue</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+    <!-- TODO remove, this is required by angular maps -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js"></script>
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(client) app/vendor.css -->
-      <!-- bower:css -->
-      <link rel="stylesheet" href="bower_components/material-design-lite/material.min.css" />
-      <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css({.tmp,client}) app/app.css -->
-      <link rel="stylesheet" href="app/app.css">
-      <!-- injector:css -->
-      <!-- endinjector -->
-    <!-- endbuild -->
-  </head>
-  <body ng-app="venueApp" class="venueApp">
-    <!--[if lt IE 7]>
+</head>
+<body>
+    <!--[if lt IE 9]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
-    <!-- Add your site or application content here -->
-    <div ng-view=""></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>
@@ -40,150 +26,14 @@
       ga('create', 'UA-XXXXX-X');
       ga('send', 'pageview');
     </script>
-
     <!-- TODO REMOVE CDNS -->
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.teal-indigo.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
     rel="stylesheet">
 
-    <!--[if lt IE 9]>
-    <script src="bower_components/es5-shim/es5-shim.js"></script>
-    <script src="bower_components/json3/lib/json3.min.js"></script>
-    <![endif]-->
-    <!-- build:js({client,node_modules}) app/vendor.js -->
-      <!-- bower:js -->
-      <script src="bower_components/jquery/dist/jquery.js"></script>
-      <script src="bower_components/angular/angular.js"></script>
-      <script src="bower_components/angular-resource/angular-resource.js"></script>
-      <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-      <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-      <script src="bower_components/angular-route/angular-route.js"></script>
-      <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-      <script src="bower_components/lodash/lodash.js"></script>
-      <script src="bower_components/angular-socket-io/socket.js"></script>
-      <script src="bower_components/angular-validation-match/dist/angular-validation-match.min.js"></script>
-      <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
-      <script src="bower_components/angularjs-geolocation/src/geolocation.js"></script>
-      <script src="bower_components/angular-ellipsis/src/angular-ellipsis.js"></script>
-      <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.min.js"></script>
-      <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.js"></script>
-      <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
-      <script src="bower_components/material-design-lite/material.min.js"></script>
-      <script src="bower_components/ng-file-upload-shim/ng-file-upload-shim.js"></script>
-      <script src="bower_components/ng-csv/build/ng-csv.min.js"></script>
-      <!-- endbower -->
-      <script src="socket.io-client/socket.io.js"></script>
-    <!-- endbuild -->
-    <!-- build:js(.tmp) app/app.js -->
-      <script src="app/app.js"></script>
-      <!-- injector:js -->
-      <script src="app/admin/admin.module.js"></script>
-      <script src="components/auth/auth.module.js"></script>
-      <script src="components/util/util.module.js"></script>
-      <script src="app/student/courses/studentcourses.js"></script>
-      <script src="app/account/verify/resendEmail/resendEmail.controller.js"></script>
-      <script src="app/account/verify/resetPassword/resetPassword.controller.js"></script>
-      <script src="app/account/verify/verify.controller.js"></script>
-      <script src="app/admin/admin.controller.js"></script>
-      <script src="app/account/account.js"></script>
-      <script src="app/admin/admin.router.js"></script>
-      <script src="app/app.constant.js"></script>
-      <script src="app/config.js"></script>
-      <script src="app/courses/courses.js"></script>
-      <script src="app/courses/edit/courseedit.controller.js"></script>
-      <script src="app/courses/edit/courseedit.js"></script>
-      <script src="app/courses/search/coursesearch.controller.js"></script>
-      <script src="app/courses/sections/create/newsection.controller.js"></script>
-      <script src="app/courses/sections/edit/sectionedit.controller.js"></script>
-      <script src="app/courses/sections/section.js"></script>
-      <script src="app/courses/sections/view/sectionview.controller.js"></script>
-      <script src="app/courses/view/courseview.controller.js"></script>
-      <script src="app/eventInfo/edit/eventedit.controller.js"></script>
-      <script src="app/eventInfo/eventInfo.controller.js"></script>
-      <script src="app/eventInfo/eventInfo.js"></script>
-      <script src="app/events/events.controller.js"></script>
-      <script src="app/events/events.js"></script>
-      <script src="app/factories/Course/Course.service.js"></script>
-      <script src="app/factories/EventInfo/EventInfo.service.js"></script>
-      <script src="app/factories/Section/Section.service.js"></script>
-      <script src="app/factories/SectionEvent/SectionEvent.service.js"></script>
-      <script src="app/factories/Submission/Submission.service.js"></script>
-      <script src="app/instructor/courses/instructorcourses.controller.js"></script>
-      <script src="app/instructor/courses/instructorcourses.js"></script>
-      <script src="app/instructor/courses/sections/section.js"></script>
-      <script src="app/instructor/courses/sections/view/sectionview.controller.js"></script>
-      <script src="app/instructor/dashboard/dashboard.controller.js"></script>
-      <script src="app/instructor/dashboard/dashboard.js"></script>
-      <script src="app/instructor/events/events.controller.js"></script>
-      <script src="app/instructor/events/events.js"></script>
-      <script src="app/instructor/newcourse/newcourse.controller.js"></script>
-      <script src="app/instructor/newcourse/newcourse.js"></script>
-      <script src="app/instructor/newevent/newevent.controller.js"></script>
-      <script src="app/instructor/newevent/newevent.js"></script>
-      <script src="app/instructor/signup/signup.controller.js"></script>
-      <script src="app/instructor/signup/signup.js"></script>
-      <script src="app/instructor/studentsubmissions/studentsubmissions.controller.js"></script>
-      <script src="app/instructor/studentsubmissions/studentsubmissions.js"></script>
-      <script src="app/instructor/verifystudents/verifystudents.controller.js"></script>
-      <script src="app/instructor/verifystudents/verifystudents.js"></script>
-      <script src="app/main/main.controller.js"></script>
-      <script src="app/main/main.js"></script>
-      <script src="app/student/courses/studentcourses.controller.js"></script>
-      <script src="app/account/login/login.controller.js"></script>
-      <script src="app/student/dashboard/dashboard.controller.js"></script>
-      <script src="app/student/dashboard/dashboard.js"></script>
-      <script src="app/student/events/studentevents.controller.js"></script>
-      <script src="app/student/events/studentevents.js"></script>
-      <script src="app/student/profile/profile.controller.js"></script>
-      <script src="app/student/profile/profile.js"></script>
-      <script src="app/student/signup/signup.controller.js"></script>
-      <script src="app/student/signup/signup.js"></script>
-      <script src="app/student/submissions/submission.controller.js"></script>
-      <script src="app/student/submissions/submission.js"></script>
-      <script src="app/student/upload/submit/submit.controller.js"></script>
-      <script src="app/student/upload/upload.controller.js"></script>
-      <script src="app/student/upload/upload.js"></script>
-      <script src="app/account/settings/settings.controller.js"></script>
-      <script src="components/auth/auth.service.js"></script>
-      <script src="components/auth/interceptor.service.js"></script>
-      <script src="components/auth/router.decorator.js"></script>
-      <script src="components/auth/user.service.js"></script>
-      <script src="components/commaList/commaList.directive.js"></script>
-      <script src="components/courseCard/courseCard.directive.js"></script>
-      <script src="components/courseTitleBanner/courseTitleBanner.directive.js"></script>
-      <script src="components/courseform/courseform.controller.js"></script>
-      <script src="components/courseform/courseform.directive.js"></script>
-      <script src="components/eventCard/eventCard.directive.js"></script>
-      <script src="components/eventTitleBanner/eventTitleBanner.directive.js"></script>
-      <script src="components/eventform/assign/assignEvent.controller.js"></script>
-      <script src="components/eventform/assign/assignEvent.directive.js"></script>
-      <script src="components/eventform/create/createEvent.controller.js"></script>
-      <script src="components/eventform/create/createEvent.directive.js"></script>
-      <script src="components/eventform/edit/editEvent.controller.js"></script>
-      <script src="components/eventform/edit/editEvent.directive.js"></script>
-      <script src="components/eventform/select/selectEvent.controller.js"></script>
-      <script src="components/eventform/select/selectEvent.directive.js"></script>
-      <script src="components/footer/footer.directive.js"></script>
-      <script src="components/modal/modal.service.js"></script>
-      <script src="components/mongoose-error/mongoose-error.directive.js"></script>
-      <script src="components/navbar/navbar.controller.js"></script>
-      <script src="components/navbar/navbar.directive.js"></script>
-      <script src="components/oauth-buttons/oauth-buttons.controller.js"></script>
-      <script src="components/oauth-buttons/oauth-buttons.directive.js"></script>
-      <script src="components/pictureBanner/pictureBanner.directive.js"></script>
-      <script src="components/sectionform/sectionform.controller.js"></script>
-      <script src="components/sectionform/sectionform.directive.js"></script>
-      <script src="components/showImage/showImage.directive.js"></script>
-      <script src="components/sidebar/sidebar.controller.js"></script>
-      <script src="components/sidebar/sidebar.directive.js"></script>
-      <script src="components/socket/socket.service.js"></script>
-      <script src="components/submissionCard/submissionCard.directive.js"></script>
-      <script src="components/submissionview/submissionview.controller.js"></script>
-      <script src="components/submissionview/submissionview.directive.js"></script>
-      <script src="app/account/verify/forgotPassword/forgotPassword.controller.js"></script>
-      <script src="components/util/util.service.js"></script>
-      <!-- endinjector -->
-    <!-- endbuild -->
+    <navbar></navbar>
+    <div ng-view=""></div>
+    <footer></footer>
+<script type="text/javascript" src="/vendor.bundle.js"></script><script type="text/javascript" src="/polyfills.bundle.js"></script><script type="text/javascript" src="/app.bundle.js"></script></body>
 
-  </body>
 </html>

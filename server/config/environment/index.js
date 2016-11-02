@@ -18,6 +18,9 @@ var all = {
   // Root path of server
   root: path.normalize(__dirname + '/../../..'),
 
+  // Browser-sync port
+  browserSyncPort: process.env.BROWSER_SYNC_PORT || 3000,
+
   // Server port
   port: process.env.PORT || 9000,
 
@@ -46,6 +49,7 @@ var all = {
 
   // Images Folder
   imageUploadPath: './data/',
+  tmpUploadPath: './data/tmp',
 
   facebook: {
     clientID:     process.env.FACEBOOK_ID || 'id',
