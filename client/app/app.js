@@ -109,7 +109,8 @@ angular.module('venueApp', [
   .config(function(uiGmapGoogleMapApiProvider) {
     'ngInject';
     uiGmapGoogleMapApiProvider.configure({
-        v: '3.22', //defaults to latest 3.X anyhow
+        key: 'AIzaSyBmmcjxzb-gpQ_1v49txDitZFHLW6RUlB4',
+        v: '3.24', //defaults to latest 3.X anyhow
         libraries: 'geometry,visualization,places,marker,drawing'
     });
   })
