@@ -26,9 +26,9 @@ function ifFlagManipulate(flag, func){
         func(mongooseObject, responseObject, (newMongooseObject, newResponseObject)=>{
           if (!newResponseObject){
             var err = newMongooseObject;
-            reject(err);
+            return reject(err);
           }else{
-            resolve([newMongooseObject, newResponseObject]);
+            return resolve([newMongooseObject, newResponseObject]);
           }
         });
       });
@@ -42,7 +42,7 @@ function ifFlagManipulate(flag, func){
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
-    res.status(statusCode).send(err);
+    return res.status(statusCode).send(err);
   };
 }
 
@@ -50,7 +50,7 @@ function responseWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
     if (entity) {
-      res.status(statusCode).json(entity);
+      return res.status(statusCode).json(entity);
     }
   };
 }
@@ -80,7 +80,7 @@ function removeEntity(res) {
     if (entity) {
       return entity.removeAsync()
         .then(function() {
-          res.status(204).end();
+          return res.status(204).end();
         });
     }
   };
@@ -96,7 +96,7 @@ function checkSectionReq(req) {
       if(sectionNumbers[i] < 0){
         throw "Section number must be greater than zero";
       }
-      if (sectionNumbers[i + 1] == sectionNumbers[i]) {
+      if (sectionNumbers[i + 1] === sectionNumbers[i]) {
         throw "Section number must be greater than zero";
       }
     }
@@ -117,10 +117,10 @@ export async function index(req, res, next) {
     }catch(err){
       await handleError(res)(err);
     }
-};
+}
 
 // Gets a list of Sections for a user
-export async function userSections(req, res, next) {
+export async  function userSections(req, res, next) {
   console.log("CALLED THING");
   try{
     let userId = req.params.id;
@@ -135,9 +135,9 @@ export async function userSections(req, res, next) {
 
   }catch(err){
     console.log("ERROR HANDLED ERRORS",err);
-    handleError(res)(err);
+    return handleError(res)(err);
   }
-};
+}
 
 
 // Gets a list of Sections for the user
@@ -145,7 +145,7 @@ export function mySections(req, res, next) {
   var userId = req.user._id;
   req.params.id = userId;
   userSections(req, res, next);
-};
+}
 
 // Gets a single Section from the DB
 export async function show(req, res, next) {
@@ -177,9 +177,9 @@ export async function show(req, res, next) {
 
     return res.json(data);
   }catch(err){
-    handleError(res)(err);
+    return handleError(res)(err);
   }
-};
+}
 
 // Creates a new Section in the DB
 export function create(req, res) {
@@ -188,12 +188,11 @@ export function create(req, res) {
   Section.createAsync(req.body)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
-};
+}
 
 // Updates an existing Section in the DB
 
 function saveSectionUpdates(req) {
-
   return (section) => {
     var pendingStudent;
     if(req.body.pendingStudent){
@@ -239,20 +238,20 @@ export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Section.findByIdAsync(req.params.id)
+  return Section.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(saveSectionUpdates(req))
     .then(responseWithResult(res))
     .catch(handleError(res));
-};
+}
 
 // Deletes a Section from the DB
 export function destroy(req, res) {
-  Section.findByIdAsync(req.params.id)
+  return Section.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
-};
+}
 
 export function getSectionsExtra(query, opts){
   opts = opts || {};

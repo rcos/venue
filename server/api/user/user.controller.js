@@ -13,21 +13,21 @@ var fs = require('fs');
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
   return function(err) {
-    res.status(statusCode).json(err);
+    return res.status(statusCode).json(err);
   }
 }
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
-    res.status(statusCode).send(err);
+    return res.status(statusCode).send(err);
   };
 }
 
 function respondWith(res, statusCode) {
   statusCode = statusCode || 200;
   return function() {
-    res.status(statusCode).end();
+    return res.status(statusCode).end();
   };
 }
 
@@ -54,9 +54,9 @@ function createForgotPasswordVerificationToken(req, user, cb){
  * restriction: 'admin'
  */
 export function index(req, res) {
-  User.findAsync({})
+  return User.findAsync({})
     .then(users => {
-      res.status(200).json(users);
+      return res.status(200).json(users);
     })
     .catch(handleError(res));
 }
@@ -70,19 +70,19 @@ export function create(req, res, next) {
   newUser.role = 'user';
   newUser.isVerified = false;
   newUser.preferences = {emailNotifyAheadMinutes : [30]};
-  newUser.saveAsync()
+  return newUser.saveAsync()
     .spread(function(user) {
       var token = jwt.sign({ _id: user._id }, config.secrets.session, {
         expiresIn: 60 * 60 * 5
       });
       createSignupVerificationToken(req, user, (message) => email.signup(message));
-      res.json({ token });
+      return res.json({ token });
     })
     .catch(validationError(res));
 }
 
 export function getExampleCSVUpload(req, res, next){
-  res.sendFile(path.join(__dirname,"./example_csv_upload.csv"));
+  return res.sendFile(path.join(__dirname,"./example_csv_upload.csv"));
 }
 
 /**
@@ -90,14 +90,14 @@ export function getExampleCSVUpload(req, res, next){
  */
 export function verify(req, res, next) {
   var token = req.params.token;
-  User.findOneAsync({ 'verificationToken' : token })
+  return User.findOneAsync({ 'verificationToken' : token })
     .then((user) => {
       if(!user){return res.json({isVerified:false});}
       user.isVerified = true;
       user.verificationToken = undefined;
       return user.saveAsync()
         .then(() => {
-          res.json({isVerified:true});
+          return res.json({isVerified:true});
         });
     })
 }
@@ -108,7 +108,7 @@ export function verify(req, res, next) {
 export function resendEmail(req, res, nest) {
   var emailAddress = req.body.email;
   if(emailAddress !== undefined){
-    User.findOne({ 'email' : emailAddress })
+    return User.findOne({ 'email' : emailAddress })
       .select('email firstName lastName isVerified')
       .execAsync()
       .then((user) => {
@@ -133,7 +133,7 @@ export function resendEmail(req, res, nest) {
 export function resetPasswordEmail(req, res, nest) {
   var emailAddress = req.body.email;
   if(emailAddress !== undefined){
-    User.findOne({ 'email' : emailAddress })
+    return User.findOne({ 'email' : emailAddress })
       .select('email firstName lastName isVerified')
       .execAsync()
       .then((user) => {
@@ -172,48 +172,48 @@ export function createFromCSVUpload(req, res, next){
   var isInstructorIndex = -1;
   for (var i = 0;i < header.length;i++){
     header[i] = header[i].toLowerCase().trim();
-    if (header[i] == "first name"){
+    if (header[i] === "first name"){
       firstNameIndex = i;
-    }else if (header[i] == "last name"){
+    }else if (header[i] === "last name"){
       lastNameIndex = i;
-    }else if (header[i] == "email"){
+    }else if (header[i] === "email"){
       emailIndex = i;
-    }else if (header[i] == "password"){
+    }else if (header[i] === "password"){
       passwordIndex = i;
-    }else if (header[i] == "is instructor"){
+    }else if (header[i] === "is instructor"){
       isInstructorIndex = i;
     }
   }
-  if (firstNameIndex == -1){
-    res.status(500).send({"message": "Missing \"First Name\" in header."});
-  }else if (lastNameIndex == -1){
-    res.status(500).send({"message": "Missing \"Last Name\" in header."});
-  }else if (emailIndex == -1){
-    res.status(500).send({"message": "Missing \"Email\" in header."});
-  }else if (passwordIndex == -1){
-    res.status(500).send({"message": "Missing \"Password\" in header."});
-  }else if (isInstructorIndex == -1){
-    res.status(500).send({"message": "Missing \"Is Instructor\" in header."});
+  if (firstNameIndex === -1){
+    return res.status(500).send({"message": "Missing \"First Name\" in header."});
+  }else if (lastNameIndex === -1){
+    return res.status(500).send({"message": "Missing \"Last Name\" in header."});
+  }else if (emailIndex === -1){
+    return res.status(500).send({"message": "Missing \"Email\" in header."});
+  }else if (passwordIndex === -1){
+    return res.status(500).send({"message": "Missing \"Password\" in header."});
+  }else if (isInstructorIndex === -1){
+    return res.status(500).send({"message": "Missing \"Is Instructor\" in header."});
   }
 
   // Add each user to the server
-  Promise.all(fileLines.slice(1).map((line) => {
+  return Promise.all(fileLines.slice(1).map((line) => {
     return new Promise((resolve, reject) => {
       var firstName = line[firstNameIndex];
       var lastName = line[lastNameIndex];
       var email = line[emailIndex];
       var password = line[passwordIndex];
 
-      if (firstName == "" || lastName == "" || email == "" || password == ""){
+      if (firstName === "" || lastName === "" || email === "" || password === ""){
         resolve("");
         return;
       }
 
       var isInstructorLine = (line[isInstructorIndex] || "").toLowerCase().trim();
       var isInstructor = (
-          isInstructorLine == "true" ||
-          isInstructorLine == "yes" ||
-          isInstructorLine == "x");
+          isInstructorLine === "true" ||
+          isInstructorLine === "yes" ||
+          isInstructorLine === "x");
 
       var newUser = new User({
         firstName: firstName,
@@ -231,9 +231,10 @@ export function createFromCSVUpload(req, res, next){
       })
     });
   })).then(messages => {
-    res.json(messages);
+    return res.json(messages);
   }).catch((err) => {
     console.log("An error occurred doing CSV upload", err);
+    return handleError(err)
   });
 
 }
@@ -250,9 +251,9 @@ function ifFlagManipulate(flag, func){
         func(mongooseObject, responseObject, (newMongooseObject, newResponseObject)=>{
           if (!newResponseObject){
             var err = newMongooseObject;
-            reject(err);
+            return reject(err);
           }else{
-            resolve([newMongooseObject, newResponseObject]);
+            return resolve([newMongooseObject, newResponseObject]);
           }
         });
       });
@@ -267,7 +268,7 @@ function ifFlagManipulate(flag, func){
  */
 export function show(req, res, next) {
   var userId = req.params.id;
-  User.findById(userId)
+  return User.findById(userId)
   .execAsync()
   .then((user) => {
     if (!user) {
@@ -279,37 +280,37 @@ export function show(req, res, next) {
   .spread(ifFlagManipulate(req.query.withSections, (user,profile,done)=>{
     return user.getSectionsAsync(req.query).then((sections) => {
       profile.sections = sections;
-      done(user, profile);
+      return done(user, profile);
     });
   }))
   .spread(ifFlagManipulate(req.query.withEvents, (user,profile,done)=>{
     return user.getEventsAsync(req.query).then((events)=>{
       profile.events = events;
-      done(user, profile);
+      return done(user, profile);
     });
   }))
   .spread(ifFlagManipulate(req.query.withSectionEvents, (user,profile,done)=>{
     return user.getSectionEventsAsync(req.query).then((sectionevents)=>{
       profile.sectionEvents = sectionevents.map(se => se.toObject());
-      done(user, profile);
+      return done(user, profile);
     });
   }))
 
   .spread(ifFlagManipulate(req.query.withCourses, (user,profile,done)=>{
     return user.getCoursesAsync(req.query).then((courses)=>{
       profile.courses = courses;
-      done(user, profile);
+      return done(user, profile);
     });
   }))
   .spread(ifFlagManipulate((req.query.withSectionEvents && req.query.withSubmissionFlag), (user,profile,done)=>{
     return user.getSubmissionsAsync(req.query).then((submissions)=>{
       submissions.forEach(submission => {
         profile.sectionEvents = profile.sectionEvents.map( se => {
-          se.submitted = se.submitted || submission.sectionEvent == se._id;
+          se.submitted = se.submitted || submission.sectionEvent === se._id;
           return se;
         });
       });
-      done(user, profile);
+      return done(user, profile);
     });
   }))
   .spread((user,profile) => {
@@ -323,18 +324,18 @@ export function show(req, res, next) {
  * restriction: 'admin'
  */
 export function destroy(req, res) {
-  User.findById(req.params.id)
+  return User.findById(req.params.id)
     .then((user)=>{
       if (req.params.realDestroy){
-        user.remove().then(() => {
-          res.status(200).end();
+        return user.remove().then(() => {
+          return res.status(200).end();
         }).catch(handleError(res));
       }else{
         user.lastName = "";
         user.firstName = "[deleted user]";
         user.password = "DELETED";
-        user.save().then(function(usr) {
-          res.status(200).end();
+        return user.save().then(function(usr) {
+          return res.status(200).end();
         }).catch(handleError(res));
       }
     }).catch(handleError(res));
@@ -348,7 +349,7 @@ export function changePassword(req, res, next) {
   var oldPass = String(req.body.oldPassword);
   var newPass = String(req.body.newPassword);
 
-  User.findById(userId)
+  return User.findById(userId)
     .select('_id email password provider salt')
     .execAsync()
     .then(user => {
@@ -356,7 +357,7 @@ export function changePassword(req, res, next) {
         user.password = newPass;
         return user.saveAsync()
           .then(() => {
-            res.status(204).end();
+            return res.status(204).end();
           })
           .catch(validationError(res));
       } else {
@@ -372,16 +373,16 @@ export function changePassword(req, res, next) {
 export function resetPassword(req, res, next) {
   var newPass = String(req.body.newPassword);
   var token = String(req.body.token);
-  User.findOne({ 'verificationToken' : token })
+  return User.findOne({ 'verificationToken' : token })
     .select('_id email password provider salt verificationToken')
     .execAsync()
     .then(user => {
-      if (user !== null && user.verificationToken == token) {
+      if (user !== null && user.verificationToken === token) {
         user.password = newPass;
         user.verificationToken = undefined;
         return user.saveAsync()
           .then(() => {
-            res.json({success:true});
+            return res.json({success:true});
           })
           .catch(validationError(res));
       } else {
@@ -397,17 +398,20 @@ export function resetPassword(req, res, next) {
 export function enrollInSection(req, res, next) {
   var userId = req.user._id;
   var sectionId = req.body.sectionid;
-  Section.findByIdAsync(sectionId)
+  return Section.findByIdAsync(sectionId)
     .then( section => {
-      if (section.enrollmentPolicy == "approvalRequired"){
-        if (section.pendingStudents.indexOf(userId) == -1){
+      if (section.enrollmentPolicy === "approvalRequired"){
+        if (section.pendingStudents.indexOf(userId) === -1){
           section.pendingStudents.push(userId);
         }
       }else{
         section.students.push(userId);
       }
-      section.save();
-      res.json(section);
+      section.saveAsync()
+      .then(()=> {
+        return res.json(section);
+      })
+      .catch(handleError(res));
     })
     .catch(err => next(err));
 }
@@ -418,10 +422,10 @@ export function enrollInSection(req, res, next) {
 export function unenrollInSection(req, res, next) {
   var userId = req.user._id;
   var sectionId = req.body.sectionid;
-  Section.findOneAndUpdateAsync({"_id": sectionId} , {
+  return Section.findOneAndUpdateAsync({"_id": sectionId} , {
       $pull : {students: userId}
     }).then( section => {
-      res.json(section);
+      return res.json(section);
     })
     .catch(err => next(err));
 }
@@ -432,7 +436,7 @@ export function unenrollInSection(req, res, next) {
 export function me(req, res, next) {
   var userId = req.user._id;
   req.params.id = userId;
-  show(req, res, next);
+  return show(req, res, next);
 }
 /**
  * Get user's sections
@@ -440,12 +444,12 @@ export function me(req, res, next) {
 export function sections(req, res, next) {
   var userId = req.params.id;
 
-  User.findOneAsync({ _id: userId })
+  return User.findOneAsync({ _id: userId })
     .then(user => {
       if (!user) {
         return res.status(401).end();
       }
-      user.getSectionsAsync().then((sections)=>{
+      return user.getSectionsAsync().then((sections)=>{
         return res.json(sections)
       })
       .catch(err => next(err));
@@ -460,12 +464,12 @@ export function sections(req, res, next) {
 export function events(req, res, next) {
   var userId = req.params.id;
 
-  User.findOneAsync({ _id: userId })
+  return User.findOneAsync({ _id: userId })
     .then(user => {
       if (!user) {
         return res.status(401).end();
       }
-      user.getEventsAsync().then((events)=>{
+      return user.getEventsAsync().then((events)=>{
         return res.json(events)
       })
       .catch(err => next(err));
@@ -478,11 +482,11 @@ export function events(req, res, next) {
  * Authentication callback
  */
 export function authCallback(req, res, next) {
-  res.redirect('/');
+  return res.redirect('/');
 }
 
 export function promoteToInstructor(req, res, next) {
-  User.findOneAsync({ _id: req.body.userId })
+  return User.findOneAsync({ _id: req.body.userId })
     .then(user => {
       if (!user) {
         return res.status(401).end();
@@ -491,7 +495,7 @@ export function promoteToInstructor(req, res, next) {
         user.isInstructor = true;
         return user.saveAsync()
           .then(() => {
-            res.status(204).end();
+            return res.status(204).end();
           })
           .catch(handleError(res));
       }

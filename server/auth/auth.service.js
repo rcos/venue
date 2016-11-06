@@ -33,7 +33,7 @@ export function isAuthenticated() {
             return res.status(401).end();
           }
           req.user = user;
-          next();
+          return next();
         })
         .catch(err => next(err));
     });
@@ -52,9 +52,9 @@ export function hasRole(roleRequired) {
     .use(function meetsRequirements(req, res, next) {
       if (config.userRoles.indexOf(req.user.role) >=
           config.userRoles.indexOf(roleRequired)) {
-        next();
+        return next();
       } else {
-        res.status(403).send('Forbidden');
+        return res.status(403).send('Forbidden');
       }
     });
 }
@@ -67,9 +67,9 @@ export function isInstructor(){
         .use(isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
             if (req.user.isInstructor){
-                next();
+                return next();
             }else{
-                res.status(403).send('Forbidden');
+                return res.status(403).send('Forbidden');
             }
         });
 }
@@ -82,9 +82,9 @@ export function isStudent(){
         .use(isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
             if (!req.user.isInstructor){
-                next();
+                return next();
             }else{
-                res.status(403).send('Forbidden');
+                return res.status(403).send('Forbidden');
             }
         });
 }
@@ -107,5 +107,5 @@ export function setTokenCookie(req, res) {
   }
   var token = signToken(req.user._id, req.user.role);
   res.cookie('token', token);
-  res.redirect('/');
+  return res.redirect('/');
 }

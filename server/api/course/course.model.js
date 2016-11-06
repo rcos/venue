@@ -58,7 +58,7 @@ CourseSchema.methods = {
           return section;
         });
       }
-      cb(sections);
+      return cb(sections);
     });
   }
 };

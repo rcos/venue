@@ -24,7 +24,7 @@ import async from 'async';
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
-    res.status(statusCode).send(err);
+    return res.status(statusCode).send(err);
   };
 }
 
@@ -32,7 +32,7 @@ function responseWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
     if (entity) {
-      res.status(statusCode).json(entity);
+      return res.status(statusCode).json(entity);
     }
   };
 }
@@ -62,7 +62,7 @@ function removeEntity(res) {
     if (entity) {
       return entity.removeAsync()
         .then(function() {
-          res.status(204).end();
+          return res.status(204).end();
         });
     }
   };
@@ -83,7 +83,7 @@ function saveEventInfoImage(files, fields, cb){
       });
     });
 
-  async.parallel(asyncTasks, (error, results) => {
+  return async.parallel(asyncTasks, (error, results) => {
     // TODO: Handle Error
     cb(imagePaths);
   });
@@ -91,16 +91,16 @@ function saveEventInfoImage(files, fields, cb){
 
 // Gets a list of EventInfos
 export function index(req, res) {
-  EventInfo.findAsync()
+  return EventInfo.findAsync()
     .then(responseWithResult(res))
     .catch(handleError(res));
-};
+}
 
 // Gets a single EventInfo from the DB
 export function show(req, res) {
   var query = EventInfo.findByIdAsync(req.params.id)
 
-  query
+  return query
     .then(handleEntityNotFound(res))
     .then((eventInfo) =>{
       if (req.query.withSectionEvents){
@@ -109,11 +109,11 @@ export function show(req, res) {
         },(sectionEvents)=>{
           eventInfo = eventInfo.toObject();
           eventInfo.sectionEvents = sectionEvents;
-          responseWithResult(res)(eventInfo);
+          return responseWithResult(res)(eventInfo);
         });
       }
       else{
-        responseWithResult(res)(eventInfo);
+        return responseWithResult(res)(eventInfo);
       }
     })
     .catch(handleError(res));
@@ -121,7 +121,7 @@ export function show(req, res) {
 
 // Creates a new EventInfo in the DB
 export function create(req, res) {
-  saveEventInfoImage(req.files, req.body, (imagePaths)=>{
+  return saveEventInfoImage(req.files, req.body, (imagePaths)=>{
     var evnt = req.body;
     var updating = evnt.id !== undefined; // TODO move to separate endpoint- this is here to avoid a major refactor
     if (!updating) evnt.creationDate = new Date();
@@ -180,19 +180,19 @@ export function create(req, res) {
 
     if (updating){
       // Update the event
-      EventInfo.findByIdAsync(evnt.id)
+      return EventInfo.findByIdAsync(evnt.id)
         .then(handleEntityNotFound(res))
         .then(saveUpdates(evnt))
         .then(responseWithResult(res))
         .catch(handleError(res));
     }else{
       // Create the eventInfo
-      EventInfo.createAsync(evnt)
+      return EventInfo.createAsync(evnt)
       .then(responseWithResult(res, 201))
       .catch(handleError(res));
     }
   });
-};
+}
 
 
 export function image(req, res){
@@ -222,7 +222,7 @@ export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  EventInfo.findByIdAsync(req.params.id)
+  return EventInfo.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(responseWithResult(res))
@@ -231,7 +231,7 @@ export function update(req, res) {
 
 // Deletes a EventInfo from the DB
 export function destroy(req, res) {
-  EventInfo.findByIdAsync(req.params.id)
+  return EventInfo.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));

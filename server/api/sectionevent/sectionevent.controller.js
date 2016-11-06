@@ -24,14 +24,14 @@ import type {$Response, $Request} from 'express';
 
 function handleError(res, statusCode = 500) {
   return function(err) {
-    res.status(statusCode).send(err);
+    return res.status(statusCode).send(err);
   };
 }
 
 function responseWithResult(res, statusCode = 200) {
   return function(entity) {
     if (entity) {
-      res.status(statusCode).json(entity);
+      return res.status(statusCode).json(entity);
     }
   };
 }
@@ -58,7 +58,7 @@ function fullRemove(res){
   return (entity)=>{
     return entity.fullRemove()
       .then(()=> {
-        res.status(204).end();
+        return res.status(204).end();
       });
     }
 }
@@ -131,7 +131,7 @@ exports.index = function(req: $Request, res: $Response) {
 
     query.sort({time: -1});
 
-    query.execAsync()
+    return query.execAsync()
       .then((sectionEventsArray)=>{
         sectionEventsArray = sectionEventsArray.map((sectionEvent)=> sectionEvent.toObject());
         var events = {};
@@ -158,7 +158,7 @@ exports.index = function(req: $Request, res: $Response) {
   if (req.query.onlyUserSections){
     var user = req.query.onlyUserSections.toLowerCase()=== "me" ? req.user._id : req.query.onlyUserSections;
 
-    Section.findAsync({ $or: [{ instructors: user}, { students: user} ]})
+    return Section.findAsync({ $or: [{ instructors: user}, { students: user} ]})
       .then((sections) => {
         var sectionIds = sections.map((sec) => sec._id);
 
@@ -167,7 +167,7 @@ exports.index = function(req: $Request, res: $Response) {
         if (req.query.onlyEvent) search.info = req.query.onlyEvent;
 
         if (onlyNumber){
-            SectionEvent.count(search)
+            return SectionEvent.count(search)
             .execAsync()
             .then((entity)=>{
               return {"number": entity};
@@ -176,7 +176,7 @@ exports.index = function(req: $Request, res: $Response) {
             .catch(handleError(res));
         }
         else{
-          respond(SectionEvent.find(search));
+          return respond(SectionEvent.find(search));
         }
       });
   }else if (req.query.onlyAuthor || req.query.onlySection || req.query.onlyEvent){
@@ -188,7 +188,7 @@ exports.index = function(req: $Request, res: $Response) {
     if (req.query.onlySection) search.section = req.query.onlySection;
     if (req.query.onlyEvent) search.info = req.query.onlyEvent;
     if (onlyNumber){
-        SectionEvent.count(search)
+        return SectionEvent.count(search)
         .execAsync()
         .then((entity)=>{
           return {"number": entity};
@@ -200,7 +200,7 @@ exports.index = function(req: $Request, res: $Response) {
       respond(SectionEvent.find(search));
     }
   }else if (onlyNumber){
-    SectionEvent.count()
+    return SectionEvent.count()
     .execAsync()
     .then((entity)=>{
       return {"number": entity};
@@ -209,7 +209,7 @@ exports.index = function(req: $Request, res: $Response) {
     .catch(handleError(res));
 
   }else{
-    respond(SectionEvent.find());
+    return respond(SectionEvent.find());
   }
 };
 // Gets a single SectionEvent from the DB
@@ -226,7 +226,7 @@ exports.show = function(req: $Request, res: $Response) {
     query = query.populate('author');
   }
 
-  query.lean().execAsync()
+  return query.lean().execAsync()
     .then(handleEntityNotFound(res))
     .then((entity) =>{
       if (withDefault(req.query.withSectionCourse, false)){
@@ -264,7 +264,7 @@ exports.show = function(req: $Request, res: $Response) {
 
 // Creates a new SectionEvent in the DB
 exports.create = function(req: $Request, res: $Response) {
-  SectionEvent.createAsync(req.body)
+  return SectionEvent.createAsync(req.body)
     .then( sectionEvent => {
       return EventInfo.findByIdAsync(sectionEvent.info)
         .then(notifySectionCreation(sectionEvent))
@@ -279,7 +279,7 @@ exports.update = function(req: $Request, res: $Response) {
     delete req.body._id;
   }
 
-  SectionEvent.findByIdAsync(req.params.id)
+  return SectionEvent.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then((entity) => {
         entity.submissionInstructions = req.body.submissionInstructions
@@ -291,7 +291,7 @@ exports.update = function(req: $Request, res: $Response) {
 
 // Deletes a SectionEvent from the DB
 exports.destroy = function(req: $Request, res: $Response) {
-  SectionEvent.findByIdAsync(req.params.id)
+  return SectionEvent.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(fullRemove(res))
     .catch(handleError(res));

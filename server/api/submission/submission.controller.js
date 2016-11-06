@@ -30,7 +30,7 @@ import glob from 'glob';
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
-    res.status(statusCode).send(err);
+    return res.status(statusCode).send(err);
   };
 }
 
@@ -38,7 +38,7 @@ function responseWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
     if (entity) {
-      res.status(statusCode).json(entity);
+      return res.status(statusCode).json(entity);
     }
   };
 }
@@ -65,7 +65,7 @@ function removeEntity(res) {
     if (entity) {
       return entity.removeAsync()
         .then(function() {
-          res.status(204).end();
+          return res.status(204).end();
         });
     }
   };
@@ -141,7 +141,7 @@ exports.index = function(req, res) {
             model: 'EventInfo'
           }
         });
-      };
+      }
     }
 
     query.sort({time: -1});
@@ -152,8 +152,8 @@ exports.index = function(req, res) {
   }
 
   if (req.query.onlyInstructor){
-    var instructorId = req.query.onlyInstructor.toLowerCase() == "me" ? req.user._id : req.query.onlyInstructor;
-    Section.findAsync({instructors: instructorId})
+    var instructorId = req.query.onlyInstructor.toLowerCase() === "me" ? req.user._id : req.query.onlyInstructor;
+    return Section.findAsync({instructors: instructorId})
       .then((instructorSections) => {
         var instructorSectionIds = instructorSections.map((sec) => sec._id);
         return SectionEvent.findAsync({section: {$in: instructorSectionIds}});
@@ -161,7 +161,7 @@ exports.index = function(req, res) {
       .then((sectionEvents) => {
         var sectionEventIds = sectionEvents.map((evnt) => evnt._id);
         if (onlyNumber){
-            Submission.count({sectionEvent: {$in: sectionEventIds}})
+            return Submission.count({sectionEvent: {$in: sectionEventIds}})
             .execAsync()
             .then((entity)=>{
               return {"number": entity};
@@ -170,16 +170,16 @@ exports.index = function(req, res) {
             .catch(handleError(res));
         }
         else{
-          respond(Submission.find({sectionEvent: {$in: sectionEventIds}}))
+          return respond(Submission.find({sectionEvent: {$in: sectionEventIds}}))
         }
       });
 
   }else if (req.query.onlySection){
-    SectionEvent.findAsync({section: req.query.onlySection})
+    return SectionEvent.findAsync({section: req.query.onlySection})
       .then((sectionEvents) => {
         var sectionEventIds = sectionEvents.map((evnt) => evnt._id);
         if (onlyNumber){
-            Submission.count({sectionEvent: {$in: sectionEventIds}})
+            return Submission.count({sectionEvent: {$in: sectionEventIds}})
             .execAsync()
             .then((entity)=>{
               return {"number": entity};
@@ -188,15 +188,15 @@ exports.index = function(req, res) {
             .catch(handleError(res));
         }
         else{
-          respond(Submission.find({sectionEvent: {$in: sectionEventIds}}))
+          return respond(Submission.find({sectionEvent: {$in: sectionEventIds}}))
         }
       });
   }else if (req.query.onlyStudent){
-    var studentId = req.query.onlyStudent == 'me' ? req.user._id : req.query.onlyStudent;
+    var studentId = req.query.onlyStudent === 'me' ? req.user._id : req.query.onlyStudent;
     var search = { $or: [{ submitter: studentId}, { authors: {$in: [studentId]} } ]};
     if (req.query.onlySectionEvent) search.sectionEvent = req.query.onlySectionEvent;
     if (onlyNumber){
-        Submission.count(search)
+        return Submission.count(search)
         .then((entity)=>{
           return {"number": entity};
         })
@@ -204,11 +204,11 @@ exports.index = function(req, res) {
         .catch(handleError(res));
     }
     else{
-      respond(Submission.find(search));
+      return respond(Submission.find(search));
     }
   }else if (req.query.onlySectionEvent){
     if (onlyNumber){
-        Submission.count({sectionEvent: req.query.onlySectionEvent})
+        return Submission.count({sectionEvent: req.query.onlySectionEvent})
         .then((entity)=>{
           return {"number": entity};
         })
@@ -216,10 +216,10 @@ exports.index = function(req, res) {
         .catch(handleError(res));
     }
     else{
-      respond(Submission.find({sectionEvent: req.query.onlySectionEvent}));
+      return respond(Submission.find({sectionEvent: req.query.onlySectionEvent}));
     }
   }else if (req.query.onlyNumber){
-    Submission.count()
+    return Submission.count()
     .then((entity)=>{
       return {"number": entity};
     })
@@ -227,7 +227,7 @@ exports.index = function(req, res) {
     .catch(handleError(res));
 
   }else{
-    respond(Submission.find());
+    return respond(Submission.find());
   }
 };
 
@@ -258,7 +258,7 @@ exports.imageSize = function(req, res){
 // Gets a single Submission from the DB
 exports.show = function(req, res) {
   console.log("req params id", req.params.id);
-  Submission.findByIdAsync(req.params.id)
+  return Submission.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));
@@ -271,7 +271,7 @@ exports.create = function(req, res) {
       req.body.userId = req.user._id;
     }
 
-  saveSubmissionImage(req.files, req.body, (imagePaths)=>{
+  return saveSubmissionImage(req.files, req.body, (imagePaths)=>{
     if (!req.body.authors){
       req.body.authors = [req.body.userId]
     }
@@ -288,7 +288,7 @@ exports.create = function(req, res) {
         content: req.body.content
       };
 
-      Submission.create(submit, (err, submission) => {
+      return Submission.create(submit, (err, submission) => {
         if (err) return handleError(res);
         return res.json(submission);
       });
@@ -298,14 +298,14 @@ exports.create = function(req, res) {
       req.body.coordinates[0] = Number(req.body.coordinates[0]);
       req.body.coordinates[1] = Number(req.body.coordinates[1]);
 
-      SectionEvent.findOne({"_id":req.body.eventId})
+      return SectionEvent.findOne({"_id":req.body.eventId})
       .populate("info")
       .execAsync()
       .then((event)=>{
         if (!event){
           throw "No event assignment found"
         }
-          EventInfo.findOne({"_id":event.info._id})
+          return EventInfo.findOne({"_id":event.info._id})
           .where('location.geobounds').intersects().geometry({
             type: "Point",
             coordinates : req.body.coordinates
@@ -331,7 +331,7 @@ exports.create = function(req, res) {
               content: req.body.content
             };
 
-            Submission.create(submit, (err, submission) => {
+            return Submission.create(submit, (err, submission) => {
               if (err) return handleError(res);
               return res.json(submission);
             });
@@ -346,7 +346,7 @@ exports.update = function(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Submission.findByIdAsync(req.params.id)
+  return Submission.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(responseWithResult(res))
@@ -355,7 +355,7 @@ exports.update = function(req, res) {
 
 // Deletes a Submission from the DB
 exports.destroy = function(req, res) {
-  Submission.findByIdAsync(req.params.id)
+  return Submission.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));

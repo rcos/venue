@@ -27,14 +27,14 @@ type $ExtRequest = $Request & {files:{files: Array<string>}};
 
 function handleError(res: $Response, statusCode: number = 500) {
   return function(err) {
-    res.status(statusCode).send(err);
+    return res.status(statusCode).send(err);
   };
 }
 
 function responseWithResult(res: $Response, statusCode:number = 200) {
   return function(entity) {
     if (entity) {
-      res.status(statusCode).json(entity);
+      return res.status(statusCode).json(entity);
     }
   };
 }
@@ -61,7 +61,7 @@ function removeEntity(res) {
     if (entity) {
       return entity.removeAsync()
         .then(function() {
-          res.status(204).end();
+          return res.status(204).end();
         });
     }
   };
@@ -99,7 +99,7 @@ export function index(req: $Request, res: $Response) {
 // Gets a single Course from the DB
 export function show(req: $Request, res: $Response) {
   var dbquery = Course.findById(req.params.id);
-  dbquery.execAsync()
+  return dbquery.execAsync()
     .then(handleEntityNotFound(res))
     .then((course) => {
       // Return the query with the sections if requested
@@ -107,17 +107,17 @@ export function show(req: $Request, res: $Response) {
         return null;
       }
       if (req.query.withSections){
-        course.getSections({
+        return course.getSections({
           withInstructors: req.query.withSectionInstructors,
           withEnrollmentStatus: req.query.withSectionEnrollmentStatus,
           studentId: req.query.studentid
         }, (sections) => {
           course = course.toObject();
           course.sections = sections;
-          responseWithResult(res)(course);
+          return responseWithResult(res)(course);
         })
       }else{
-        responseWithResult(res)(course);
+        return responseWithResult(res)(course);
       }
     })
     .catch(handleError(res));
@@ -126,7 +126,7 @@ export function show(req: $Request, res: $Response) {
 // Creates a new Course in the DB
 export function create(req: $ExtRequest, res: $Response) {
   let files:Array<any> = req.files;
-  saveCourseImage(files, req.body, (imagePaths: Array<string>)=>{
+  return saveCourseImage(files, req.body, (imagePaths: Array<string>)=>{
     var course:any = req.body,
       date = new Date();
     course.imageURLs = imagePaths;
@@ -137,7 +137,7 @@ export function create(req: $ExtRequest, res: $Response) {
     else{
       course.semester = "Fall" + (date.getFullYear() - 100).toString();
     }
-    Course.createAsync(course)
+    return Course.createAsync(course)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
   });
@@ -148,19 +148,16 @@ export function update(req: $Request, res: $Response) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Course.findByIdAsync(req.params.id)
+  return Course.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(responseWithResult(res))
-    .catch((err,dat)=>{
-      console.log(err, dat);
-    })
     .catch(handleError(res));
 };
 
 // Deletes a Course from the DB
 export function destroy(req: $Request, res: $Response) {
-  Course.findByIdAsync(req.params.id)
+  return Course.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
