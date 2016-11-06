@@ -11,7 +11,7 @@
     "angular-cookies": "~1.5.5",
     "angular-ellipsis": "^1.0.1",
     "angular-file-upload-shim": "^1.6.4",
-    "angular-google-maps": "^2.3.4",
+    "angular-google-maps": "^2.4.0",
     "angular-resource": "~1.5.5",
     "angular-route": "~1.5.5",
     "angular-sanitize": "~1.5.5",
