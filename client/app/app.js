@@ -77,10 +77,7 @@ angular.module('venueApp', [
     'dibari.angular-ellipsis',
     'ui.bootstrap.datetimepicker',
     'uiGmapgoogle-maps',
-    //
-     ngFileUpload,
-     ngCsv,
-    //
+
     _CourseFactory,
     _SectionEventFactory,
     _EventInfoFactory,
