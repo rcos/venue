@@ -29,7 +29,7 @@
           <br/>
           <img class="img-responsive" http-src='{{event.imageURLs[0]}}'/>
           <br/>
-          <button class='btn btn-md' ng-show='user.isInstructor' ng-click='goToEventEdit()'>Edit Event</button>
+          <a href="#" class="btn btn-md btn-default" ng-show='user.isInstructor' ng-href="{{ editEvent() }}" role="button">Edit Event</a>
 
         </div>
       </div>
@@ -39,11 +39,11 @@
               <p ng-hide="event.yourEvents.length">No events assigned yet</p>
               <table class="table table-hover">
                   <tr ng-repeat="sectionEvent in event.yourEvents">
-                      <td class="big-number text-right">{{sectionEvent.section.course.name}}
+                      <td class="text-right">{{sectionEvent.section.course.name}}
                         section{{sectionEvent.section.sectionNumbers.length > 1 ? "s": ""}}
                         <comma-list list="sectionEvent.section.sectionNumbers" ampersand="true"></comma-list></td>
                       <td class="small-text">
-                          <button class="btn" ng-click='goToSectionEvent(sectionEvent)'>View</button>
+                          <a href="#" class="btn btn-md btn-default" ng-href="{{ viewSectionEvent(sectionEvent) }}" role="button">View</a>
                       </td>
                   </tr>
               </table>
@@ -53,15 +53,15 @@
 
               <table class="table table-hover">
                   <tr ng-repeat="sectionEvent in event.otherEvents">
-                      <td class="big-number text-right">{{sectionEvent.section.course.name}}
+                      <td class="text-right">{{sectionEvent.section.course.name}}
                         section{{sectionEvent.section.sectionNumbers.length > 1 ? "s": ""}}
                         <comma-list list="sectionEvent.section.sectionNumbers" ampersand="true"></comma-list></td>
                       <td class="small-text">
-                          <button class="btn" ng-click='goToSectionEvent(sectionEvent)'>View</button>
+                          <a href="#" class="btn btn-md btn-default" ng-href="{{ viewSectionEvent(sectionEvent) }}" role="button">View</a>
                       </td>
                   </tr>
               </table>
-              <button class="btn" ng-show='user.isInstructor' ng-click='goToNewEvent()'>New event assignment</button>
+              <a href="#" ng-show='user.isInstructor' class="btn btn-md btn-default" ng-href="{{ viewNewEvent() }}" role="button">New event assignment</a>
           </div>
       </div>
     </div>

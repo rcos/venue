@@ -30,20 +30,20 @@ export default class EventInfoCtrl {
         $scope.err = err;
       });
 
-    $scope.goToEventEdit = function(){
-      $location.path("/eventInfo/edit/" + $scope.eventId);
+    $scope.editEvent = function(){
+      return "/eventInfo/edit/" + $scope.eventId;
     };
 
-    $scope.goToSection = (sectionEvent) => {
-      $location.path("/instructor/courses/"+sectionEvent.section.course._id+"/sections/"+sectionEvent.section._id);
+    $scope.viewSection = (sectionEvent) => {
+      return "/instructor/courses/"+sectionEvent.section.course._id+"/sections/"+sectionEvent.section._id;
     };
 
-    $scope.goToSectionEvent = (sectionEvent) => {
-      $location.path("/events/"+sectionEvent._id);
+    $scope.viewSectionEvent = (sectionEvent) => {
+      return "/events/"+sectionEvent._id
     };
 
-    $scope.goToNewEvent = () => {
-      $location.path("/instructor/newevent");
+    $scope.viewNewEvent = (sectionEvent) => {
+      return "/instructor/newevent";
     };
 
   }

@@ -5,7 +5,7 @@ import routing from './eventinfo.routes';
 import edit from './edit';
 import EventInfoCtrl from './eventinfo.controller';
 
-export default angular.module('venueApp.eventinfo', ['venueApp.auth', 'venueApp.EventInfoFactory', ngRoute, edit, 'directives.httpSrc'])
+export default angular.module('venueApp.eventinfo', ['venueApp.auth', 'venueApp.EventInfoFactory', ngRoute, edit, 'directives.httpSrc', 'directives.commaList', 'directives.eventTitleBanner'])
   .config(routing)
   .controller('EventInfoCtrl', EventInfoCtrl)
   .name;

@@ -55,7 +55,7 @@
               <td class="text-left section-info">{{(section.enrollmentPolicy === "approvalRequired")?"approval":section.enrollmentPolicy}}</td>
             </tr>
           </table>
-          <button href="#" class="btn btn-default edit-section col-sm-2" ng-click='editSection()'>Edit</button>
+          <a href="#" class="btn btn-default edit-section col-sm-2" ng-href="{{ viewEditSection() }}" role="button">Edit</a>
         </div>
 
         <div class="mdl-tabs__panel" id="student-panel">
@@ -158,4 +158,3 @@
       </div>
     </div>
 </div>
-

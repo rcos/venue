@@ -1,5 +1,3 @@
-
-
 <div class='container courses-page'>
     <div class="courseview">
         <course-title-banner-basic course="course"></course-title-banner-basic>
@@ -31,7 +29,7 @@
                         <h4 class="no-spacing">Course Control</h4>
                     </div>
                     <div class='col-md-5 col-md-6'>
-                        <button class="btn btn-default full-width" ng-click='editCourse()'>Edit Course</button>
+                        <a href="#" class="btn btn-default full-width" ng-href="{{ editCourse() }}" role="button">Edit Course</a>
                     </div>
                 </div>
                 <hr/>
@@ -40,7 +38,7 @@
                         <h4 class="no-spacing">Sections</h4>
                     </div>
                     <div class='col-md-5 col-md-6'>
-                        <button class="btn btn-default full-width" ng-click='createSection()'>Create Section</button>
+                        <a href="#" class="btn btn-default full-width" ng-href="{{ createSection() }}" role="button">Create Section</a>
                     </div>
                 </div>
 
@@ -66,7 +64,7 @@
                             <span class='studentCount'>{{section.pendingStudents.length}}</span>
                         </td>
                         <td>
-                            <button class="btn" ng-click='viewSection(section)'>View</button>
+                            <a href="#" class="btn btn-default" ng-href="{{ viewSection(section) }}" role="button">View</a>
                         </td>
                     </tr>
                 </table>
@@ -95,7 +93,7 @@
                         </td>
                         <td class="text-center">{{(section.enrollmentPolicy === "approvalRequired")?"approval":section.enrollmentPolicy}}</td>
                         <td>
-                            <button class="btn" ng-click='viewSection(section)'>View</button>
+                            <a href="#" class="btn btn-default" ng-href="{{ viewSection(section) }}" role="button">View</a>
                         </td>
                         <td>
                             <button ng-click='enroll(section)' ng-show='!section.isEnrolled && !section.isPending' class='enroll btn btn-primary'> Enroll </button>
@@ -108,4 +106,3 @@
         </div>
     </div>
 </div>
-

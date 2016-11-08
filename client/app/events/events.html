@@ -57,7 +57,7 @@
               <br/>
 
               <div class='upload-button-container' ng-show='!user.isInstructor && sectionStudent'>
-                <button class='upload-button btn btn-md' ng-click='goToEventUpload()'>Upload to Event</button>
+                <a href="#" class="upload-button btn btn-md btn-default" ng-href="{{ viewEventUpload() }}" role="button">Upload to Event</a>
               </div>
               <div class='upload-button-container' ng-show='!user.isInstructor && !sectionStudent'>
                 You are not enrolled in this event's section.
@@ -67,6 +67,7 @@
                 <div ng-hide='confirm'>
                   <button class='btn btn-md btn-warning' ng-click='deleteEvent(event)'>Remove Assignment</button>
                   <button class='btn btn-md' ng-click='editAssignemnt()'>Edit Assignment</button>
+
                 </div>
                 <div ng-show='confirm' class="help-block">
                   <div>

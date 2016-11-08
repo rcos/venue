@@ -51,6 +51,8 @@ import sidebar from '../components/sidebar/sidebar.directive';
 import showImage from '../components/showImage/showImage.directive';
 import modal from '../components/modal/modal.service';
 
+import commaList from '../components/commaList/commaList.directive';
+import eventTitleBanner from '../components/eventTitleBanner/eventTitleBanner.directive';
 import courseCard from '../components/courseCard/courseCard.directive';
 import submissionview from '../components/submissionview/submissionview.directive';
 import submissionCard from '../components/submissionCard/submissionCard.directive';

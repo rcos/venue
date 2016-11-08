@@ -1,6 +1,7 @@
 'use strict';
+const angular = require('angular');
 
-angular.module('venueApp')
+export default angular.module('directives.commaList', [])
   .directive('commaList', function ($http) {
     return {
       templateUrl: 'components/commaList/commaList.html',
@@ -25,4 +26,5 @@ angular.module('venueApp')
         }
       }
     };
-  });
+  })
+  .name;

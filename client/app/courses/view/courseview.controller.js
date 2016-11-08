@@ -21,24 +21,24 @@ export default class CourseViewCtrl {
       })
     };
     $scope.editCourse = function(){
-      $location.path($location.path() + "/edit");
+      return "/courses/"+ $routeParams.id + "/edit";
     };
-
+    
     $scope.editSection = function(section){
-      $location.path($location.path() + "/sections/" + section._id + "/edit");
+      return "/courses/"+ $routeParams.id + "/sections/" + section._id + "/edit"
     };
     $scope.viewSection = function(section){
       if($scope.isInstructor){
-        $location.path("/instructor" + $location.path()+ "/sections/" + section._id);
+        return "/instructor/courses/"+ $routeParams.id + "/sections/" + section._id
       }
       else{
-        $location.path($location.path()+ "/sections/" + section._id);
+        return "/courses/"+ $routeParams.id + "/sections/" + section._id
       }
 
     };
 
     $scope.createSection = function(){
-      $location.path($location.path() +"/sections/create");
+      return "/courses/"+ $routeParams.id + "/sections/create"
     };
 
     function loadCourses(){
