@@ -14,6 +14,20 @@
         {{se.section.course.department}} {{se.section.course.courseNumber}} Section <span ng-repeat="n in se.section.sectionNumbers"> {{ n }} </span>
       </button>
     </span>
+    <br/>
+    <!-- Event Filter -->
+    <span class="btn-group">
+      <button
+        ng-repeat="event in allEvents"
+        ng-click="toggleEvent(event)"
+        class='btn btn-md filter-btn btn-primary' ng-class='{active: event.selected}'>
+        <i ng-show='event.selected' class="fa fa-check" aria-hidden="true"></i>
+        <i ng-show='!event.selected' class="fa fa-square-o" aria-hidden="true"></i>
+        &nbsp;
+        {{event.title}}
+      </button>
+    </span>
+    <br/>
 
     <!-- Student Filter -->
     <span class="btn-group">

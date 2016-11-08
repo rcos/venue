@@ -1,4 +1,3 @@
-
 <div class='container instructor'>
   <div class='row'>
     <div class='col-sm-2'>
@@ -8,9 +7,20 @@
       <h1 class="page-header">Student Submissions</h1>
       <h3 ng-hide="submissions.length">No student submissions yet</h3>
       <h4 ng-hide="submissions.length">Create an <a href="/instructor/newevent">event</a> to get started</h4>
-      <submission-card class="col-md-6" ng-repeat='submission in submissions' data="submission" click="goToEvent(submission.sectionEvent)" short="false" />
+      <div ng-show="submissions.length">
+        <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+          <div class="mdl-tabs__tab-ba row">
+            <a href="#card-view" class="mdl-tabs__tab is-active col-sm-2">Images</a>
+            <a href="#grid-view" class="mdl-tabs__tab col-sm-2">Grid</a>
+          </div>
+          <div class='mdl-tabs__panel is-active' id='card-view'>
+            <submission-card class="col-md-6" ng-repeat='submission in submissions' data="submission" click="goToEvent(submission.sectionEvent)" short="false" />
+          </div>
+          <div class='mdl-tabs__panel' id='grid-view'>
+            <br/>
+            <submissionview></submissionview>
+          </div>
+      </div>
     </div>
   </div>
 </div>
-
-

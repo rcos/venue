@@ -1,5 +1,4 @@
 'use strict';
-
 export default function routes($routeProvider) {
   'ngInject';
 
@@ -9,4 +8,5 @@ export default function routes($routeProvider) {
       controller: 'InstructorCoursesCtrl',
       authenticate: 'instructor'
     });
+
 }
