@@ -2,8 +2,9 @@
 const angular = require('angular');
 import showImage from '../showImage/showImage.directive';
 import pictureBanner from '../pictureBanner/pictureBanner.directive';
+import commaList from '../commaList/commaList.directive';
 
-export default angular.module('directives.courseTitleBanner', [showImage, pictureBanner])
+export default angular.module('directives.courseTitleBanner', [showImage, pictureBanner,commaList])
   .directive('courseTitleBanner', function ($http) {
     "ngInject";
     return {

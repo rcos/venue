@@ -1,6 +1,7 @@
 'use strict';
+import commaList from '../commaList/commaList.directive';
 
-angular.module('venueApp')
+export default angular.module('directives.eventTitleBanner', [commaList])
   .directive('eventTitleBanner', function ($http) {
     return {
       templateUrl: 'components/eventTitleBanner/eventTitleBanner.html',

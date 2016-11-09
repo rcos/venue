@@ -9,7 +9,7 @@ export default class VerifyStudentsCtrl {
     });
 
     $scope.viewSection = function(section){
-      $location.path("/instructor/courses/"+section.course._id + "/sections/" + section._id);
+      return "/instructor/courses/"+section.course._id + "/sections/" + section._id;
     };
 
 

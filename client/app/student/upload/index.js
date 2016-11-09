@@ -3,8 +3,9 @@ const ngRoute = require('angular-route');
 import routing from './upload.routes';
 
 import UploadCtrl from './upload.controller';
+import submit from './submit';
 
-export default angular.module('venueApp.uploadSubmission', ['venueApp.auth', 'venueApp.SectionEventFactory', ngRoute, 'directives.sidebar', 'directives.eventCard'])
+export default angular.module('venueApp.uploadSubmission', ['venueApp.auth', 'venueApp.SectionEventFactory', ngRoute, submit, 'directives.sidebar', 'directives.eventCard'])
   .controller('UploadCtrl', UploadCtrl)
   .config(routing)
   .name;

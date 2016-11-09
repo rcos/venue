@@ -95,16 +95,8 @@ export default class InstructorSectionViewCtrl {
       $scope.loadSectionEventSubmissions(event);
     };
 
-    $scope.editCourse = function(){
-      $location.path('/courses/'+$routeParams.id+'/edit');
-    };
-
-    $scope.viewCourse = function(){
-      $location.path('/courses/'+$routeParams.id);
-    };
-
-    $scope.editSection = function(){
-      $location.path('/courses/' + $routeParams.id + '/sections/' + $routeParams.sectionId + '/edit');
+    $scope.viewEditSection = function(){
+      return '/courses/' + $routeParams.id + '/sections/' + $routeParams.sectionId + '/edit'
     };
 
     $scope.selectStudent = function(student){

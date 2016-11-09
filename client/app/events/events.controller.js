@@ -43,12 +43,8 @@ export default class EventsCtrl {
 
     $scope.updateEvent();
 
-    $scope.goToEventUpload = function(){
-      $location.path("/student/upload/" + $scope.eventId);
-    };
-
-    $scope.goToEventEdit = function(){
-      $location.path("/events/edit/" + $scope.eventId);
+    $scope.viewEventUpload = function(){
+      return "/student/upload/" + $scope.eventId;
     };
 
     $scope.deleteEvent = function(event){
@@ -95,10 +91,5 @@ export default class EventsCtrl {
           });
         }
       };
-
-    $scope.goToSection = (event) => {
-      $location.path("/instructor/courses/"+event.section.course._id+"/sections/"+event.section._id);
-    };
-
   }
 }
