@@ -3,14 +3,14 @@
 <div class="container admin-page">
   <h4> User Control </h4>
   <form>
-    <div class="btn btn-default btn-lg" ngf-select="uploadUserCSV($file)">Upload users with CSV</div>
+    <div class="btn btn-default btn-lg" ngf-select="admin.uploadUserCSV($file)">Upload users with CSV</div>
   </form>
   <a href="/api/users/examplecsv.csv" target="_self" download> Download Example CSV </a>
-  <div ng-bind-html="csvResults" ng-show='csvResults'>
+  <div ng-bind-html="admin.csvResults" ng-show='admin.csvResults'>
   </div>
 
   <div style='margin-top:20px;'>
-      <button class='btn btn-danger' ng-click="reseed()"> Delete Database and Seed </button>
+      <button class='btn btn-danger' ng-click="admin.reseed()"> Delete Database and Seed </button>
   </div>
 
   <h4> Users </h4>
@@ -32,15 +32,15 @@
   </div>
 
   <ul class="list-group user-list">
-    <li class="list-group-item" ng-repeat="user in filteredUsers = (users | filter:searchText | orderBy:'lastName')">
+    <li class="list-group-item" ng-repeat="user in filteredUsers = (admin.users | filter:searchText | orderBy:'lastName')">
 	    <div class="user-info">
-	        <strong>{{user.firstName}} {{user.lastName}}</strong>
+	        <strong>{{ user.firstName }} {{ user.lastName }}</strong>
           <span> {{ user.isInstructor ? "Instructor" : "Student" }} </span>
           <span> {{ user.role == "admin" ? "Admin" : "" }} </span>
 	    </div>
       <div class="options">
-        <button type="button" class="btn btn-default add-instr" ng-click="addInstr(user)" ng-show="!user.isInstructor">Add as Instructor </button>
-        <a ng-click="remove(user)" class="trash"><span class="fa fa-trash fa-2x"></span></a>
+        <button type="button" class="btn btn-default add-instr" ng-click="admin.addInstr(user)" ng-show="!user.isInstructor">Add as Instructor </button>
+        <a ng-click="admin.delete(user)" class="trash"><span class="fa fa-trash fa-2x"></span></a>
       </div>
     </li>
   </ul>
