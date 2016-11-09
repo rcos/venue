@@ -267,7 +267,7 @@ function ifFlagManipulate(flag, func){
  */
 export function show(req, res, next) {
   var userId = req.params.id;
-  User.findById(userId)
+  return User.findById(userId)
   .execAsync()
   .then((user) => {
     if (!user) {
@@ -279,26 +279,26 @@ export function show(req, res, next) {
   .spread(ifFlagManipulate(req.query.withSections, (user,profile,done)=>{
     return user.getSectionsAsync(req.query).then((sections) => {
       profile.sections = sections;
-      done(user, profile);
+      return done(user, profile);
     });
   }))
   .spread(ifFlagManipulate(req.query.withEvents, (user,profile,done)=>{
     return user.getEventsAsync(req.query).then((events)=>{
       profile.events = events;
-      done(user, profile);
+      return done(user, profile);
     });
   }))
   .spread(ifFlagManipulate(req.query.withSectionEvents, (user,profile,done)=>{
     return user.getSectionEventsAsync(req.query).then((sectionevents)=>{
       profile.sectionEvents = sectionevents.map(se => se.toObject());
-      done(user, profile);
+      return done(user, profile);
     });
   }))
 
   .spread(ifFlagManipulate(req.query.withCourses, (user,profile,done)=>{
     return user.getCoursesAsync(req.query).then((courses)=>{
       profile.courses = courses;
-      done(user, profile);
+      return done(user, profile);
     });
   }))
   .spread(ifFlagManipulate((req.query.withSectionEvents && req.query.withSubmissionFlag), (user,profile,done)=>{
@@ -309,7 +309,7 @@ export function show(req, res, next) {
           return se;
         });
       });
-      done(user, profile);
+      return done(user, profile);
     });
   }))
   .spread((user,profile) => {
@@ -432,7 +432,7 @@ export function unenrollInSection(req, res, next) {
 export function me(req, res, next) {
   var userId = req.user._id;
   req.params.id = userId;
-  show(req, res, next);
+  return show(req, res, next);
 }
 /**
  * Get user's sections
