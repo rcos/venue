@@ -14,50 +14,50 @@ export function routerDecorator($rootScope, $location, Auth) {
     if (typeof next.authenticate === 'string') {
       if (next.authenticate === 'student'){
         return Auth.isStudent()
-          .then(has => {
-            if (has) {
+          .then(isStudent => {
+            if (isStudent) {
               return;
             }
 
             event.preventDefault();
             return Auth.isLoggedIn()
-              .then(is => {
-                $location.path(is ? '/' : '/login');
+              .then(isLoggedIn => {
+                $location.path(isLoggedIn ? '/' : '/login');
               });
           });
       }
       else if (next.authenticate === 'instructor'){
         return Auth.isInstructor()
-          .then(has => {
-            if (has) {
+          .then(isInstructor => {
+            if (isInstructor) {
               return;
             }
 
             event.preventDefault();
             return Auth.isLoggedIn()
-              .then(is => {
-                $location.path(is ? '/' : '/login');
+              .then(isLoggedIn => {
+                $location.path(isLoggedIn ? '/' : '/login');
               });
           });
       }
       else{
         return Auth.hasRole(next.authenticate)
-          .then(has => {
-            if (has) {
+          .then(hasRole => {
+            if (hasRole) {
               return;
             }
 
             event.preventDefault();
             return Auth.isLoggedIn()
-              .then(is => {
-                $location.path(is ? '/' : '/login');
+              .then(isLoggedIn => {
+                $location.path(isLoggedIn ? '/' : '/login');
               });
           });
       }
     } else {
       return Auth.isLoggedIn()
-        .then(is => {
-          if (is) {
+        .then(isLoggedIn => {
+          if (isLoggedIn) {
             return;
           }
 
