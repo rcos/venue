@@ -25,6 +25,7 @@ import {
 } from './app.config';
 
 import _CourseFactory from '../factories/Course/Course.service';
+import _SettingsFactory from '../factories/Settings/Settings.service';
 import _SectionEventFactory from '../factories/SectionEvent/SectionEvent.service';
 import _EventInfoFactory from '../factories/EventInfo/EventInfo.service';
 import _SectionFactory from '../factories/Section/Section.service';

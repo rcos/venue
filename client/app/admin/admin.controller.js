@@ -2,12 +2,47 @@
 
 export default class AdminController {
   /*@ngInject*/
-  constructor($http, $route, User, Upload) {
+  constructor($http, $route, User, Upload, Settings) {
     this.users = User.query();
     this.User = User;
     this.$http = $http;
+    this.Upload = Upload;
     this.$route = $route;
     this.sortorder = 'lastName';
+
+    // Settings.current({},(response) => {
+    //   console.log("response",response)
+    //   this.settings = response;
+    // },(error) => {
+    //   this.settings = {login:{}};
+    // });
+
+    $http.get('/api/settings/current')
+    .success(function(response) {
+      console.log('Current::',response);
+    }).error(function() {
+      console.log('Unable to get current');
+    });
+
+    //
+    // $http.put('/api/settings/login', {
+    //   cas: true
+    // }).success(function() {
+    //   console.log('Updated cas.');
+    // }).error(function() {
+    //   console.log('Unable to set cas');
+    // });
+
+  }
+
+  updateLogin(){
+    this.$http.put('/api/settings/login', {
+      cas: true
+    }).success(function() {
+      console.log('Updated cas.');
+    }).error(function() {
+      console.log('Unable to set cas');
+    });
   }
 
   uploadUserCSV(file){
@@ -16,7 +51,7 @@ export default class AdminController {
       return;
     }
 
-    Upload.upload({
+    this.Upload.upload({
         url: '/api/users/csv',
         data: {
           files: [file]

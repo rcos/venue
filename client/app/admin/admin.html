@@ -12,7 +12,18 @@
   <div style='margin-top:20px;'>
       <button class='btn btn-danger' ng-click="admin.reseed()"> Delete Database and Seed </button>
   </div>
-
+  <h4> Login Types </h4>
+  <table class="table table-hover text-center table-striped table-bordered">
+    <tr ng-repeat='type in admin.settings.login'>
+      <td>
+        {{type}}
+      </td>
+      <td>
+        {{admin.settings.login[type]?"enabled","disabled"}}
+      </td>
+    </tr>
+  </table>
+  
   <h4> Users </h4>
   <div class='row'>
     <div class='col-xs-12 search-bar-container'>
