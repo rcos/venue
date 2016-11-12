@@ -7,6 +7,7 @@ export default class AdminController {
     this.User = User;
     this.$http = $http;
     this.$route = $route;
+    this.sortorder = 'lastName';
   }
 
   uploadUserCSV(file){
@@ -37,12 +38,15 @@ export default class AdminController {
     this.users.splice(this.users.indexOf(user), 1);
   }
 
-  addInstr(user) {
-    this.User.promoteToInstructor({userId: user._id}, () => {
+  updateInstr(user, value) {
+    this.User.updateInstructorStatus({userId: user._id, status:value}, () => {
       this.users = this.User.query();
-      this.users.sort(( a , b) => {
-        return a.lastName > b.lastName;
-      })
+    })
+  }
+
+  updateAdmin(user, value) {
+    this.User.updateAdminStatus({userId: user._id, status:value}, () => {
+      this.users = this.User.query();
     })
   }
 

@@ -481,14 +481,14 @@ export function authCallback(req, res, next) {
   res.redirect('/');
 }
 
-export function promoteToInstructor(req, res, next) {
+export function updateInstructorStatus(req, res, next) {
   User.findOneAsync({ _id: req.body.userId })
     .then(user => {
       if (!user) {
         return res.status(401).end();
       }
-      if(!user.isInstructor) {
-        user.isInstructor = true;
+      if(user.isInstructor !== req.body.status) {
+        user.isInstructor = req.body.status;
         return user.saveAsync()
           .then(() => {
             res.status(204).end();
@@ -496,7 +496,28 @@ export function promoteToInstructor(req, res, next) {
           .catch(handleError(res));
       }
       else {
-        return res.status(403).end();
+        return res.status(304).end();
+      }
+    })
+    .catch(err => next(err));
+}
+
+export function updateAdminStatus(req, res, next) {
+  User.findOneAsync({ _id: req.body.userId })
+    .then(user => {
+      if (!user) {
+        return res.status(401).end();
+      }
+      if((user.role === 'admin') !== req.body.status) {
+        user.role = req.body.status ? 'admin' : 'user';
+        return user.saveAsync()
+          .then(() => {
+            res.status(204).end();
+          })
+          .catch(handleError(res));
+      }
+      else {
+        return res.status(304).end();
       }
     })
     .catch(err => next(err));

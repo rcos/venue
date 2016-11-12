@@ -14,34 +14,55 @@
   </div>
 
   <h4> Users </h4>
-  <div class='container'>
-    <div class='row'>
-      <div class='col-xs-12 search-bar-container'>
-        <div class="search-bar">
-          <div class="input-group">
-             <input type="text" ng-model='searchText' class="form-control" placeholder="Search users">
-             <span class="input-group-btn">
-               <button class="btn btn-default" type="button">
-                 <span class='glyphicon glyphicon-search'></span>
-               </button>
-             </span>
-           </div>
+  <div class='row'>
+    <div class='col-xs-12 search-bar-container'>
+      <div class="search-bar">
+        <div class="input-group">
+           <input type="text" ng-model='searchText' class="form-control" placeholder="Search users">
+           <span class="input-group-btn">
+             <button class="btn btn-default" type="button">
+               <span class='glyphicon glyphicon-search'></span>
+             </button>
+           </span>
          </div>
-      </div>
+       </div>
     </div>
   </div>
 
-  <ul class="list-group user-list">
-    <li class="list-group-item" ng-repeat="user in filteredUsers = (admin.users | filter:searchText | orderBy:'lastName')">
-	    <div class="user-info">
-	        <strong>{{ user.firstName }} {{ user.lastName }}</strong>
-          <span> {{ user.isInstructor ? "Instructor" : "Student" }} </span>
-          <span> {{ user.role == "admin" ? "Admin" : "" }} </span>
-	    </div>
-      <div class="options">
-        <button type="button" class="btn btn-default add-instr" ng-click="admin.addInstr(user)" ng-show="!user.isInstructor">Add as Instructor </button>
+  <table class="table table-hover text-center table-striped table-bordered">
+    <thead>
+      <tr>
+        <td sort-arrow sortby='firstName' text='First' sortorder='sortorder'></td>
+        <td sort-arrow sortby='lastName' text='Last' sortorder='sortorder'></td>
+        <td sort-arrow sortby='role' text='Role' sortorder='sortorder'></td>
+        <td sort-arrow sortby='isInstructor' text='Instructor' sortorder='sortorder'></td>
+        <td sort-arrow sortby='role' text='Admin' sortorder='sortorder'></td>
+        <td> Delete </td>
+      </tr>
+  </thead>
+
+    <tr class="" ng-repeat="user in filteredUsers = (admin.users | filter:searchText | orderBy:sortorder)">
+	    <td class="user-info">
+	        <strong>{{user.firstName}}</strong>
+	    </td>
+	    <td class="user-info">
+	        <strong>{{user.lastName}}</strong>
+	    </td>
+	    <td class="user-info">
+          {{ user.role == "admin" ? "Admin " : "" }}
+          {{ user.isInstructor ? "Instructor" : "Student" }}
+	    </td>
+	    <td class="user-info">
+          <a ng-hide="user.isInstructor" ng-click="admin.updateInstr(user, true)" class="add"><span class="fa fa-plus fa-2x"></span></a>
+          <a ng-show="user.isInstructor" ng-click="admin.updateInstr(user, false)" class="remove"><span class="fa fa-times fa-2x"></span></a>
+	    </td>
+	    <td class="user-info">
+          <a ng-hide="user.role == 'admin'" ng-click="admin.updateAdmin(user, true)" class="add"><span class="fa fa-plus fa-2x"></span></a>
+          <a ng-show="user.role == 'admin'" ng-click="admin.updateAdmin(user, false)" class="remove"><span class="fa fa-times fa-2x"></span></a>
+	    </td>
+      <td class="options">
         <a ng-click="admin.delete(user)" class="trash"><span class="fa fa-trash fa-2x"></span></a>
-      </div>
-    </li>
-  </ul>
+      </td>
+    </tr>
+  </table>
 </div>

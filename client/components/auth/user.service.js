@@ -9,13 +9,62 @@ export function UserResource($resource) {
     changePassword: {
       method: 'PUT',
       params: {
-        controller: 'password'
+        controller:'password'
       }
     },
     get: {
       method: 'GET',
       params: {
-        id: 'me'
+        id:'me'
+      }
+    },
+    getAll: {
+      method: 'GET',
+      params: {
+        id: '',
+        controller: ''
+      }
+    },
+    verify: {
+      method: 'GET',
+      params: {
+        id: 'verify'
+      }
+    },
+    resendEmail: {
+      method: 'POST',
+      params: {
+        id: 'resendEmail'
+      }
+    },
+    resetPassword: {
+      method: 'POST',
+      params: {
+        id: 'resetPassword'
+      }
+    },
+    updateInstructorStatus: {
+      method: 'PUT',
+      params: {
+        controller: 'updateInstructorStatus'
+      }
+    },
+    updateAdminStatus: {
+      method: 'PUT',
+      params: {
+        controller: 'updateAdminStatus'
+      }
+    },
+    enroll: {
+      method: 'PUT',
+      params: {
+        controller: 'enroll'
+      }
+    },
+    unenroll: {
+      method: 'PUT',
+      params: {
+        controller: 'unenroll'
       }
     }
   });
