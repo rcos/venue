@@ -3,7 +3,7 @@ import {generate as randomString} from 'randomstring';
 import {Strategy as CASStrategy} from 'passport-cas';
 
 function casAuthenticate(User, config, schoolId, done) {
-    User.findOne({
+    return User.findOne({
         email: schoolId + config.schoolEmailSuffix
     })
     .select('_id email provider salt')
@@ -14,7 +14,7 @@ function casAuthenticate(User, config, schoolId, done) {
         }
 
         // No user? Create a new one
-        User.createAsync({
+        return User.createAsync({
             provider: 'cas',
             firstName: schoolId,
             lastName: '',
@@ -37,7 +37,7 @@ function casAuthenticate(User, config, schoolId, done) {
 }
 
 export function setup(User, config) {
-    passport.use(new CASStrategy({
+    return passport.use(new CASStrategy({
         version: config.cas.version,
         ssoBaseURL: config.cas.serverURL,
         serverBaseURL: config.serverURL + '/auth/cas'

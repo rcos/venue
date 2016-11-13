@@ -2,13 +2,13 @@ import passport from 'passport';
 import {Strategy as GoogleStrategy} from 'passport-google-oauth20';
 
 export function setup(User, config) {
-  passport.use(new GoogleStrategy({
+  return passport.use(new GoogleStrategy({
     clientID: config.google.clientID,
     clientSecret: config.google.clientSecret,
     callbackURL: config.google.callbackURL
   },
   function(accessToken, refreshToken, profile, done) {
-    User.findOne({'google.id': profile.id}).exec()
+    return User.findOne({'google.id': profile.id}).exec()
       .then(user => {
         if(user) {
           return done(null, user);

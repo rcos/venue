@@ -85,6 +85,7 @@ UserSchema
     })
     .set(function(isStudent){
         this.isInstructor = !isStudent;
+        return;
     });
 
 // Non-sensitive info we'll be putting in the token
@@ -156,21 +157,21 @@ UserSchema
     }
 
     if (!validatePresenceOf(this.password) && authTypes.indexOf(this.provider) === -1) {
-      next(new Error('Invalid password'));
+      return next(new Error('Invalid password'));
     }
 
     // Make salt with a callback
-    this.makeSalt((saltErr, salt) => {
+    return this.makeSalt((saltErr, salt) => {
       if (saltErr) {
-        next(saltErr);
+        return next(saltErr);
       }
       this.salt = salt;
       this.encryptPassword(this.password, (encryptErr, hashedPassword) => {
         if (encryptErr) {
-          next(encryptErr);
+          return next(encryptErr);
         }
         this.password = hashedPassword;
-        next();
+        return next();
       });
     });
   });
@@ -202,15 +203,15 @@ UserSchema.methods = {
       return this.password === this.encryptPassword(password);
     }
 
-    this.encryptPassword(password, (err, pwdGen) => {
+    return this.encryptPassword(password, (err, pwdGen) => {
       if (err) {
         return callback(err);
       }
 
       if (this.password === pwdGen) {
-        callback(null, true);
+        return callback(null, true);
       } else {
-        callback(null, false);
+        return callback(null, false);
       }
     });
   },
@@ -336,7 +337,7 @@ UserSchema.methods = {
       .populate('info');
 
       if (opts.withEventSections){
-        query.populate({
+        return query.populate({
            path: 'section',
            populate: {
              path: 'course',
@@ -374,7 +375,7 @@ UserSchema.methods = {
 
   setVerificationToken() {
     this.verificationToken = uuid.v4();
-    this.save();
+    return this.save();
   },
 
   // WARNING: This should only be called in testing

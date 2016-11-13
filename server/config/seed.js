@@ -644,7 +644,7 @@ module.exports.clearDB = function(){
   return new Promise((resolve, reject) => {
     mongoose.connection.db.dropDatabase((err, res) => {
       if (err) return reject(err);
-      resolve();
+      return resolve();
     });
   });
 };
@@ -694,30 +694,37 @@ module.exports.seed = function(){
 
     setTimeout(() => {
       if (!resolved){
-        reject("Seeding timed out");
+        return reject("Seeding timed out");
       }
+      else return;
     },20000)
 
     return module.exports.clearDB()
     .then(module.exports.createUsers).then(() => {
       console.log('finished populating users');
-    }).then(module.exports.createCourses).then(() => {
-      console.log('finished populating courses');
-    }).then(module.exports.createEvents).then(() => {
-      console.log('finished populating events');
-    }).then(module.exports.createSections).then(()=>{
-      console.log('finished populating sections');
-    }).then(module.exports.createSectionEvents).then(()=>{
-      console.log('finished populating section events');
-    }).then(module.exports.createSubmissions).then(()=>{
-      console.log("finished populating submissions");
+      return;
+    // }).then(module.exports.createCourses).then(() => {
+    //   console.log('finished populating courses');
+    //   return;
+    // }).then(module.exports.createEvents).then(() => {
+    //   console.log('finished populating events');
+    //   return;
+    // }).then(module.exports.createSections).then(()=>{
+    //   console.log('finished populating sections');
+    //   return;
+    // }).then(module.exports.createSectionEvents).then(()=>{
+    //   console.log('finished populating section events');
+    //   return;
+    // }).then(module.exports.createSubmissions).then(()=>{
+    //   console.log("finished populating submissions");
+    //   return;
     }).then( () => {
       resolved = true;
-      resolve()
+      return resolve()
     })
     .catch((err) => {
-      reject(`Error seeding the database!, ${err}`);
+      return reject(`Error seeding the database!, ${err}`);
     });
-  });
+  })
 
 }

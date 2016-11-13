@@ -91,7 +91,7 @@ function saveCourseImage(files: Array<any>, fields, cb){
 
 // Gets a list of Courses
 export function index(req: $Request, res: $Response) {
-  Course.findAsync()
+  return Course.findAsync()
     .then(responseWithResult(res))
     .catch(handleError(res));
 }

@@ -23,11 +23,11 @@ export function isAuthenticated() {
       if (req.query && req.query.hasOwnProperty('access_token')) {
         req.headers.authorization = 'Bearer ' + req.query.access_token;
       }
-      validateJwt(req, res, next);
+      return validateJwt(req, res, next);
     })
     // Attach user to request
     .use(function(req, res, next) {
-      User.findByIdAsync(req.user._id)
+      return User.findByIdAsync(req.user._id)
         .then(user => {
           if (!user) {
             return res.status(401).end();

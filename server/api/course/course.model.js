@@ -41,7 +41,7 @@ CourseSchema.methods = {
 
     var query = Section.find({course: this._id});
     if (withInstructors) query.populate("instructors");
-    query.then((sections)=>{
+    return query.then((sections)=>{
       // If requested, mark all sections student is enrolled in
       if (withEnrollmentStatus){
         sections = sections.map((section)=>{

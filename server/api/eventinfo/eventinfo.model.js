@@ -99,7 +99,7 @@ EventInfoSchema
 EventInfoSchema
   .pre('save', function(next) {
     // Handle new/update times
-    SectionEvent.findAsync({info: this._id}).then(sectionEvents => {
+    return SectionEvent.findAsync({info: this._id}).then(sectionEvents => {
       return Promise.all(sectionEvents.map(se => se.updateUserNotifications()));
     }).then(()=> next());
   });
@@ -116,7 +116,7 @@ EventInfoSchema.methods = {
          return SectionEvent.findAsync({info:this._id})
          .then(sectionEvents =>{
              return Promise.all(sectionEvents.map(se => se.getRelatedUsers()))
-                           .then(userLists=>
+                           .then((userLists) =>
                                userLists.reduce((a,b) => {
                                    return a.concat(b);
                                }, [])
@@ -146,8 +146,8 @@ EventInfoSchema.methods = {
       else{
         query.populate("section");
       }
-      query.then((sectionEvents)=>{
-        cb(sectionEvents);
+      return query.then((sectionEvents)=>{
+        return cb(sectionEvents);
       });
     }
 };

@@ -37,7 +37,7 @@ function createSignupVerificationToken(req, user, cb){
       email: user.email,
       name: user.firstName,
       verifyURL: req.protocol + "://" + req.get('host') + "/verify/" + user.verificationToken};
-  cb(message);
+  return cb(message);
 }
 
 function createForgotPasswordVerificationToken(req, user, cb){
@@ -46,7 +46,7 @@ function createForgotPasswordVerificationToken(req, user, cb){
       email: user.email,
       name: user.firstName,
       verifyURL: req.protocol + "://" + req.get('host') + "/verify/resetPassword/" + user.verificationToken};
-  cb(message);
+  return cb(message);
 }
 
 /**
@@ -225,9 +225,9 @@ export function createFromCSVUpload(req, res, next){
       newUser.provider = 'local';
       newUser.role = 'user';
       newUser.save().then(() => {
-        resolve(`Successfully created user ${firstName} ${lastName}, ${email}`);
+        return resolve(`Successfully created user ${firstName} ${lastName}, ${email}`);
       }).catch(() => {
-        resolve(`Error creating user ${firstName} ${lastName}, ${email}`);
+        return resolve(`Error creating user ${firstName} ${lastName}, ${email}`);
       })
     });
   })).then(messages => {
@@ -248,7 +248,7 @@ function ifFlagManipulate(flag, func){
   return (mongooseObject, responseObject) => {
     if (flag){
       return new Promise((resolve, reject) => {
-        func(mongooseObject, responseObject, (newMongooseObject, newResponseObject)=>{
+        return func(mongooseObject, responseObject, (newMongooseObject, newResponseObject)=>{
           if (!newResponseObject){
             var err = newMongooseObject;
             return reject(err);
@@ -407,7 +407,7 @@ export function enrollInSection(req, res, next) {
       }else{
         section.students.push(userId);
       }
-      section.saveAsync()
+      return section.saveAsync()
       .then(()=> {
         return res.json(section);
       })

@@ -2,7 +2,7 @@ import passport from 'passport';
 import {Strategy as FacebookStrategy} from 'passport-facebook';
 
 export function setup(User, config) {
-  passport.use(new FacebookStrategy({
+  return passport.use(new FacebookStrategy({
     clientID: config.facebook.clientID,
     clientSecret: config.facebook.clientSecret,
     callbackURL: config.facebook.callbackURL,
@@ -29,7 +29,7 @@ export function setup(User, config) {
           provider: 'facebook',
           facebook: profile._json
         });
-        user.saveAsync()
+        return user.saveAsync()
           .then(user => done(null, user))
           .catch(err => done(err));
       })

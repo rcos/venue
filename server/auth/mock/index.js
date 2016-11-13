@@ -6,5 +6,5 @@
 var User = require("../../api/user");
 
 function deleteUsers(){
-    User.remove({});
+    return User.remove({});
 }

@@ -2,7 +2,7 @@ import passport from 'passport';
 import {Strategy as LocalStrategy} from 'passport-local';
 
 function localAuthenticate(User, email, password, done) {
-  User.findOne({
+  return User.findOne({
     email: email.toLowerCase()
   })
     .select('_id email password provider salt')
@@ -13,7 +13,7 @@ function localAuthenticate(User, email, password, done) {
           message: 'This email is not registered.'
         });
       }
-      user.authenticate(password, function(authError, authenticated) {
+      return user.authenticate(password, function(authError, authenticated) {
         if (authError) {
           return done(authError);
         }
@@ -28,7 +28,7 @@ function localAuthenticate(User, email, password, done) {
 }
 
 export function setup(User, config) {
-  passport.use(new LocalStrategy({
+  return passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password' // this is the virtual field on the model
   }, function(email, password, done) {

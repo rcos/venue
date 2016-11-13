@@ -13,7 +13,7 @@ function requestCASLogin(req, res, next) {
     var studentOnly = req.body.studentOnly;
     var instructorOnly = req.body.instructorOnly;
 
-    passport.authenticate('cas', function(err, user, info) {
+    return passport.authenticate('cas', function(err, user, info) {
         var error = err || info;
         if (error) {
             return res.status(401).json(error);
@@ -23,7 +23,7 @@ function requestCASLogin(req, res, next) {
         }
         var profile = user.profile;
 
-        User.findById(profile._id).then((user) => {
+        return User.findById(profile._id).then((user) => {
             if (studentOnly === true && user.isInstructor){
                 return res.status(401).json({"message": "Error: cannot log in, user is not a student"});
             }else if (instructorOnly === true && !user.isInstructor){

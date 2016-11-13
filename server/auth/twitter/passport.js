@@ -2,13 +2,13 @@ import passport from 'passport';
 import {Strategy as TwitterStrategy} from 'passport-twitter';
 
 export function setup(User, config) {
-  passport.use(new TwitterStrategy({
+  return passport.use(new TwitterStrategy({
     consumerKey: config.twitter.clientID,
     consumerSecret: config.twitter.clientSecret,
     callbackURL: config.twitter.callbackURL
   },
   function(token, tokenSecret, profile, done) {
-    User.findOneAsync({
+    return User.findOneAsync({
       'twitter.id_str': profile.id
     })
       .select('_id email password provider salt')
@@ -25,7 +25,7 @@ export function setup(User, config) {
           provider: 'twitter',
           twitter: profile._json
         });
-        user.saveAsync()
+        return user.saveAsync()
           .then(user => done(null, user))
           .catch(err => done(err));
       })

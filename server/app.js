@@ -45,18 +45,20 @@ function beginSeeding() {
   if (config.seedDB) {
     seed.seed().then(() => {
       console.log("Seed was successful");
-      setImmediate(startServer);
+      return setImmediate(startServer);
     })
     .catch((err) => {
       console.log("Seed failure!", err);
+      return;
     });
   }else if (config.env === "production") {
     productionSeed.seed().then(()=>{
       console.log("Production seed successful");
-      setImmediate(startServer);
+      return setImmediate(startServer);
     })
     .catch((err)=>{
       console.log("Seed failure!", err);
+      return;
     })
   }else{
     setImmediate(startServer);

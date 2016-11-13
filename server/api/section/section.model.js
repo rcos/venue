@@ -25,10 +25,10 @@ SectionSchema
         this.getRelatedUsers(),
         this.getSectionEventsAsync()
     ]).then(([users, events]) => {
-        Promise.all(users.map(user => {
+        return Promise.all(users.map(user => {
             return user.updateNotifications(events);
         })).then(()=>{
-          next();
+          return next();
         });
     });
   });
@@ -53,7 +53,7 @@ SectionSchema.methods = {
       var query = Event.find({section : this._id})
       .populate('info');
 
-      query.populate({
+      return query.populate({
          path: 'section',
          populate: {
            path: 'course',

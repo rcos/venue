@@ -104,7 +104,7 @@ export function show(req, res) {
     .then(handleEntityNotFound(res))
     .then((eventInfo) =>{
       if (req.query.withSectionEvents){
-        eventInfo.getSectionEventsAsync({
+        return eventInfo.getSectionEventsAsync({
           withCourses: req.query.withCourses
         },(sectionEvents)=>{
           eventInfo = eventInfo.toObject();
@@ -210,12 +210,12 @@ export function image(req, res){
     config.imageUploadPath + 'eventInfoImages/',
     req.query.size,
     res);
-};
+}
 
 export function imageSize(req, res){
   req.query.size = req.params.size;
   return image(req,res);
-};
+}
 
 // Updates an existing EventInfo in the DB
 export function update(req, res) {
