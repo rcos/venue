@@ -72,7 +72,6 @@ export function index(req, res) {
 
 // Gets a single Setting from the DB
 export function getCurrent(req, res) {
-  console.log("Testing123")
   return Setting.findOne({active:true}).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
@@ -116,7 +115,9 @@ export function changeLoginTypes(req, res) {
   for (var field in req.body){
     loginChanges['login.'+field] = req.body[field]
   }
-  console.log(loginChanges);
+  if (!loginChanges){
+    return res.status(500).json("You must include the login types to change");
+  }
   return Setting.update({active:true},{$set:loginChanges}).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
@@ -127,6 +128,9 @@ export function changeLoginTypes(req, res) {
 export function changeSemesterName(req, res) {
   if(req.body._id) {
     delete req.body._id;
+  }
+  if(!req.body.semester){
+    return res.status(500).json("You must include the new semester name as {semester:'name'}");
   }
   return Setting.update({active:true},{$set:{'semester':req.body.semester}}).exec()
     .then(handleEntityNotFound(res))
@@ -140,14 +144,25 @@ export function changeCurrentSemester(req, res) {
   if(req.body._id) {
     delete req.body._id;
   }
-  return Setting.update({"_id":req.body.id}, {$set:{'active':true}})
+  if(!req.body.id){
+    return res.status(500).json("You must include the new current semester as {id:'_id'}");
+  }
+  return Setting.find({active:true})
     .exec()
-    .then(handleEntityNotFound(res))
-    .then((entity) => {
-      return Setting.update({active:true},{$set:{'active':false}}).exec()
+    .then((oldCurrent) => {
+      return Setting.update({"_id":req.body.id}, {$set:{'active':true}})
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then((result) => {
+          if (oldCurrent){
+            return Setting.update({'_id':oldCurrent._id},{$set:{'active':false}}).exec();
+          }
+          return result;
+        })
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+
     })
-    .then(respondWithResult(res))
-    .catch(handleError(res));
 }
 
 // Deletes a Setting from the DB
