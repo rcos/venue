@@ -171,7 +171,7 @@ export function destroy(req, res) {
     .then(handleEntityNotFound(res))
     .then((entity) => {
       if (entity.active === true){
-        return res.status(500).json({error:"Can't remove current semester."});
+        throw new Error("Can't remove current semester.");
       }
     })
     .then(removeEntity(res))
