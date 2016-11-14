@@ -147,22 +147,27 @@ export function changeCurrentSemester(req, res) {
   if(!req.body.id){
     return res.status(500).json("You must include the new current semester as {id:'_id'}");
   }
-  return Setting.find({active:true})
+  var oldCurrent
+  return Setting.findOne({active:true})
     .exec()
-    .then((oldCurrent) => {
-      return Setting.update({"_id":req.body.id}, {$set:{'active':true}})
-        .exec()
-        .then(handleEntityNotFound(res))
-        .then((result) => {
-          if (oldCurrent){
-            return Setting.update({'_id':oldCurrent._id},{$set:{'active':false}}).exec();
-          }
-          return result;
-        })
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-
+    .then((entity) => {
+      oldCurrent = entity;
+      return entity;
     })
+    .then(() => {
+      return Setting.update({"_id":req.body.id}, {$set:{'active':true}}).exec()
+    })
+    .then(handleEntityNotFound(res))
+    .then((entity) => {
+      if (oldCurrent){
+        return Setting.update({'_id':oldCurrent._id},{$set:{'active':false}})
+          .exec()
+          .then(respondWithResult(res))
+      }
+      res.status(200).json(entity);
+      return null;
+    })
+    .catch(handleError(res));
 }
 
 // Deletes a Setting from the DB
@@ -170,9 +175,11 @@ export function destroy(req, res) {
   return Setting.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then((entity) => {
-      if (entity.active === true){
-        throw new Error("Can't remove current semester.");
+      if (entity && entity.active === true){
+        res.status(403).json("Can't remove current semester.");
+        return null;
       }
+      return entity
     })
     .then(removeEntity(res))
     .catch(handleError(res));

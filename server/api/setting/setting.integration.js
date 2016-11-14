@@ -260,17 +260,37 @@ describe('Setting API:', function() {
           let updatedSetting = res.body;
           expect(updatedSetting.semester).to.equal(newSetting.semester);
           expect(updatedSetting._id).to.equal(newSetting._id);
+          expect(updatedSetting.active).to.be.true;
 
           done();
         });
     });
+
+    it('should have set the previous settings to inactive', function(done) {
+      request(app)
+        .get(`/api/settings/${secondSetting._id}`)
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          if(err) {
+            return done(err);
+          }
+          let updatedSetting = res.body;
+          expect(updatedSetting.semester).to.equal(secondSetting.semester);
+          expect(updatedSetting._id).to.equal(secondSetting._id);
+          expect(updatedSetting.active).to.be.false;
+
+          done();
+        });
+    });
+
   });
 
   describe('DELETE /api/settings/:id', function() {
-    it('should respond with 500 on when deleting current semester', function(done) {
+    it('should respond with 403 on when deleting current semester', function(done) {
       auth.admin.request(app)
         .delete(`/api/settings/${newSetting._id}`)
-        .expect(500)
+        .expect(403)
         .end(err => {
           if(err) {
             return done(err);
