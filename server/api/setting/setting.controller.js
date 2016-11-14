@@ -93,12 +93,13 @@ export function create(req, res) {
      {$set: {active: false}}).exec((err,setting) =>{
        var newSettings = {
          semester: req.body.semester,
-         login: {
-           cas: req.body.login.cas,
-           local: req.body.login.local
-         },
+         login: {},
          active: true
-}
+       }
+       if (req.body.login){
+         newSettings.login.cas = req.body.login.cas;
+         newSettings.login.local = req.body.login.local;
+       }
        return Setting.create(newSettings)
          .then(respondWithResult(res, 201))
          .catch(handleError(res));
@@ -111,7 +112,6 @@ export function changeLoginTypes(req, res) {
   if(req.body._id) {
     delete req.body._id;
   }
-  var update = false;
   var loginChanges = {}
   for (var field in req.body){
     loginChanges['login.'+field] = req.body[field]
@@ -123,10 +123,42 @@ export function changeLoginTypes(req, res) {
     .catch(handleError(res));
 }
 
+// Updates an existing Setting in the DB
+export function changeSemesterName(req, res) {
+  if(req.body._id) {
+    delete req.body._id;
+  }
+  return Setting.update({active:true},{$set:{'semester':req.body.semester}}).exec()
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+
+// Updates an existing Setting in the DB
+export function changeCurrentSemester(req, res) {
+  if(req.body._id) {
+    delete req.body._id;
+  }
+  return Setting.update({"_id":req.body.id}, {$set:{'active':true}})
+    .exec()
+    .then(handleEntityNotFound(res))
+    .then((entity) => {
+      return Setting.update({active:true},{$set:{'active':false}}).exec()
+    })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Deletes a Setting from the DB
 export function destroy(req, res) {
   return Setting.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
+    .then((entity) => {
+      if (entity.active === true){
+        return res.status(500).json({error:"Can't remove current semester."});
+      }
+    })
     .then(removeEntity(res))
     .catch(handleError(res));
 }
