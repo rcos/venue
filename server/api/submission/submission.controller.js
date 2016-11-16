@@ -257,7 +257,6 @@ exports.imageSize = function(req, res){
 
 // Gets a single Submission from the DB
 exports.show = function(req, res) {
-  console.log("req params id", req.params.id);
   Submission.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))

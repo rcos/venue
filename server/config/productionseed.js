@@ -4,6 +4,7 @@ import Course from '../api/course/course.model';
 import Event from '../api/eventinfo/eventinfo.model';
 import SectionEvent from '../api/sectionevent/sectionevent.model';
 import Section from '../api/section/section.model';
+import Settings from '../api/setting/setting.model';
 import Submission from '../api/submission/submission.model';
 import fs from 'fs';
 import config from './environment';
@@ -28,6 +29,22 @@ module.exports.createAdmin = ()=>{
       isVerified: true,
       isInstructor: true,
       _id: mongoose.Types.ObjectId('000000000000000000000000')
+    });
+  })
+};
+
+module.exports.createSetting = ()=>{
+  return Settings.findAsync({"active": true}).then((setting) => {
+    if (setting.length === 0) throw 'No Settings!';
+    return Promise.resolve(null)
+  }).catch(() => {
+    console.log("Setting does not exist, creating");
+    // Admin does not exist, create one
+    return Settings.createAsync({
+       semester: "Current",
+       login: {cas:true, local:true, developer:false},
+       active: true,
+       _id: mongoose.Types.ObjectId('111111111111111111111111')
     });
   })
 };

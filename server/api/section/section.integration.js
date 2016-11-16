@@ -202,7 +202,6 @@ describe('Section API:', function() {
           if (err) {
             return done(err);
           }
-          console.log(res.body);
           section = res.body;
           done();
         });
@@ -213,7 +212,6 @@ describe('Section API:', function() {
     });
 
     it('should respond with the requested section', function() {
-      console.log("sec", section);
       assert.deepEqual(section.sectionNumbers, [1,2,3]);
     });
   });

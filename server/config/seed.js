@@ -10,6 +10,7 @@ import Event from '../api/eventinfo/eventinfo.model';
 import SectionEvent from '../api/sectionevent/sectionevent.model';
 import Section from '../api/section/section.model';
 import Submission from '../api/submission/submission.model';
+import Settings from '../api/setting/setting.model';
 var _ = require('lodash');
 
 var mongoose = require('mongoose');
@@ -640,6 +641,21 @@ export function allSubmissions(){
   }
 }
 
+
+export function allSettings(){
+  return {
+    settings1:{
+      _id : mongoose.Types.ObjectId("777777777777777777777771"),
+      semester: "Current",
+      login: {
+        cas: true,
+        local: true
+      },
+      active: Boolean
+    }
+  }
+}
+
 module.exports.clearDB = function(){
   return new Promise((resolve, reject) => {
     mongoose.connection.db.dropDatabase((err, res) => {
@@ -680,6 +696,12 @@ module.exports.createSubmissions = function(){
   return Submission.createAsync(_.values(allSubmissions()));
 };
 
+// Create Submissions
+module.exports.createSettings = function(){
+  return Settings.createAsync(_.values(allSettings()));
+};
+
+
 module.exports.exampleInstructor = allUsers().bob;
 module.exports.exampleStudent = allUsers().foo;
 module.exports.exampleSubmission = allSubmissions().submission1;
@@ -687,6 +709,7 @@ module.exports.exampleSectionEvent = allSectionEvents().netArt12Concerts;
 module.exports.exampleSection = allSections().netArt12;
 module.exports.exampleEvent = allEvents().concerts;
 module.exports.exampleCourse = allCourses().netArt;
+module.exports.exampleSettings = allSettings().settings1;
 
 module.exports.seed = function(){
   var resolved = false;
@@ -711,6 +734,8 @@ module.exports.seed = function(){
       console.log('finished populating section events');
     }).then(module.exports.createSubmissions).then(()=>{
       console.log("finished populating submissions");
+    }).then(module.exports.createSettings).then(()=>{
+      console.log("finished populating settings");
     }).then( () => {
       resolved = true;
       resolve()

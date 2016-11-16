@@ -9,7 +9,6 @@ export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, S
     $scope.allEvents = {};
 
     var updateSectionEvents = function(){
-      console.log("$scope.eventId",$scope.eventId)
       if ($scope.eventId){
         SectionEvent.get({id: $scope.eventId, withEventInfo:true},(sectionEvent) => {
           $scope.mainSectionEvent = sectionEvent;
@@ -136,7 +135,6 @@ export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, S
       }else{
         $scope.selectedEvents.splice($scope.selectedEvents.indexOf(event), 1);
       }
-         console.log("$scope.selectedEvents",$scope.selectedEvents)
     };
 
     $scope.setViewMode = (viewMode) => {

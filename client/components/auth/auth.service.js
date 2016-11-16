@@ -243,7 +243,6 @@ export function AuthService(Util, $location, $http, $cookies, $q, appConfig, Use
       return Auth.getCurrentUser(undefined)
         .then(user => {
           var has = user.hasOwnProperty('isInstructor') ? (user.isInstructor === true) : false;
-
           safeCb(callback)(has);
           return has;
         });

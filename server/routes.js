@@ -12,6 +12,7 @@ import eventinfoRouter from  './api/eventinfo';
 import sectionRouter from  './api/section';
 import sectioneventRouter from './api/sectionevent';
 import submissionRouter from './api/submission';
+import settingsRouter from './api/setting';
 import userRouter from './api/user';
 import miscRouter from './api/misc';
 import authRouter from './auth';
@@ -23,6 +24,7 @@ export default function(app) {
   app.use('/api/sections',        sectionRouter);
   app.use('/api/sectionevents',   sectioneventRouter);
   app.use('/api/submissions',     submissionRouter);
+  app.use('/api/settings',        settingsRouter);
   app.use('/api/users',           userRouter);
   app.use('/api/misc',            miscRouter);
   app.use('/auth',                authRouter);

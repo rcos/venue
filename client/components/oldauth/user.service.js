@@ -43,10 +43,10 @@ function UserResource($resource) {
         id: 'resetPassword'
       }
     },
-    promoteToInstructor: {
+    updateInstructorStatus: {
       method: 'PUT',
       params: {
-        controller: 'promoteToInstructor'
+        controller: 'updateInstructorStatus'
       }
     },
     enroll: {

@@ -4,11 +4,11 @@
   <div class="row">
     <div class="col-sm-12">
       <h1>Login</h1>
-      <p ng-show="vm.devMode && vm.DEBUG_LOGIN_ENABLED">Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@test.com</code> / <code>test</code></p>
-      <p ng-show="vm.devMode && vm.DEBUG_LOGIN_ENABLED">Admin account is <code>admin@admin.com</code> / <code>admin</code></p>
+      <p ng-show="vm.devMode && vm.DEBUG_LOGIN_ENABLED && vm.settings.login.developer">Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@test.com</code> / <code>test</code></p>
+      <p ng-show="vm.devMode && vm.DEBUG_LOGIN_ENABLED && vm.settings.login.developer">Admin account is <code>admin@admin.com</code> / <code>admin</code></p>
     </div>
     <div class="col-sm-12">
-      <div ng-show="vm.devMode && vm.DEBUG_LOGIN_ENABLED">
+      <div ng-show="vm.devMode && vm.DEBUG_LOGIN_ENABLED && vm.settings.login.developer">
         <a href="#" ng-click="vm._devLoginAs('blank')"> Login as Blank (empty instructor)</a> <br/>
         <a href="#" ng-click="vm._devLoginAs('bob')"> Login as Bob (instructor) </a> <br/>
         <a href="#" ng-click="vm._devLoginAs('travis')"> Login as Travis (instructor)</a> <br/>
@@ -19,14 +19,14 @@
         <a href="#" ng-click="vm._devLoginAs('admin')"> Login as Admin (admin)</a> <br/>
         <br/>
       </div>
-      <div style='margin-bottom:10px;' ng-show="vm.CAS_ENABLED">
+      <div style='margin-bottom:10px;' ng-show="vm.CAS_ENABLED && vm.settings.login.cas">
           <a href="/auth/cas" target="_self">
               <button class="btn btn-primary btn-lg">
                   <i class="fa fa-check-square-o"></i> Login with CAS
               </button>
           </a>
       </div>
-      <form ng-show="vm.LOCAL_LOGIN_ENABLED" class="form" name="form" ng-submit="vm.login(form)" novalidate>
+      <form ng-show="vm.LOCAL_LOGIN_ENABLED && vm.settings.login.local" class="form" name="form" ng-submit="vm.login(form)" novalidate>
 
         <div class="form-group">
           <label>Email</label>
@@ -65,4 +65,3 @@
     </div>
   </div>
 </div>
-

@@ -86,7 +86,7 @@ describe('User API:', function() {
         ]);
     });
 
-    describe('PUT /api/users/promoteToInstructor', function() {
+    describe('PUT /api/users/updateInstructorStatus', function() {
         var users;
         var studentId;
 
@@ -107,9 +107,10 @@ describe('User API:', function() {
 
         it("should change student to instructor", (done) => {
           auth.admin.request(app)
-          .put('/api/users/promoteToInstructor')
+          .put('/api/users/updateInstructorStatus')
           .send({
-            userId: studentId
+            userId: studentId,
+            status: true
           })
           .expect(204)
           .expect('Content-Type', /json/)
@@ -122,7 +123,87 @@ describe('User API:', function() {
           });
 
         });
+
+        it("should change instructor to student", (done) => {
+          auth.admin.request(app)
+          .put('/api/users/updateInstructorStatus')
+          .send({
+            userId: studentId,
+            status: false
+          })
+          .expect(204)
+          .expect('Content-Type', /json/)
+          .end((err, res) => {
+              User.findByIdAsync(studentId)
+                .then(user => {
+                  expect(user.isInstructor).to.be.false;
+                  done();
+                })
+          });
+
+        });
+
       });
+
+    describe('PUT /api/users/updateAdminStatus', function() {
+
+    var users;
+    var instructorId;
+
+    before(() => {
+      return User.createAsync({
+          provider: 'cas',
+          firstName: "testinstructor",
+          lastName: '',
+          role: 'user',
+          email: "testinstructor@university.edu",
+          password: "asdasdasdasd",
+          isVerified: true,
+          isInstructor: true
+      }).then((user) => {
+        instructorId = user._id;
+      })
+    })
+
+    it("should change instructor to admin", (done) => {
+      auth.admin.request(app)
+      .put('/api/users/updateAdminStatus')
+      .send({
+        userId: instructorId,
+        status: true
+      })
+      .expect(204)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+          User.findByIdAsync(instructorId)
+            .then(user => {
+              expect(user.role).to.equal('admin');
+              done();
+            })
+      });
+
+    });
+
+    it("should change admin to instructor", (done) => {
+      auth.admin.request(app)
+      .put('/api/users/updateAdminStatus')
+      .send({
+        userId: instructorId,
+        status: false
+      })
+      .expect(204)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+          User.findByIdAsync(instructorId)
+            .then(user => {
+              expect(user.role).to.equal('user');
+              done();
+            })
+      });
+
+    });
+
+  });
 
 });
 
