@@ -19,7 +19,6 @@ import authRouter from './auth';
 
 export default function(app) {
   // Insert routes below
-  app.use('/api/settings', require('./api/setting'));
   app.use('/api/courses',         courseRouter);
   app.use('/api/eventinfos',      eventinfoRouter);
   app.use('/api/sections',        sectionRouter);
