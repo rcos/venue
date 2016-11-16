@@ -2,46 +2,34 @@
 
 export default class AdminController {
   /*@ngInject*/
-  constructor($http, $route, User, Upload, Settings) {
+  constructor($http, $route, User, Upload, Settings, ENV, CAS_ENABLED, LOCAL_LOGIN_ENABLED, DEBUG_LOGIN_ENABLED) {
     this.users = User.query();
     this.User = User;
     this.$http = $http;
     this.Upload = Upload;
     this.$route = $route;
     this.sortorder = 'lastName';
+    this.settings = {};
 
-    // Settings.current({},(response) => {
-    //   console.log("response",response)
-    //   this.settings = response;
-    // },(error) => {
-    //   this.settings = {login:{}};
-    // });
+    this.devMode = ENV == "development";
+    this.CAS_ENABLED = CAS_ENABLED;
+    this.LOCAL_LOGIN_ENABLED = LOCAL_LOGIN_ENABLED;
+    this.DEBUG_LOGIN_ENABLED = DEBUG_LOGIN_ENABLED;
 
-    $http.get('/api/settings/current')
-    .success(function(response) {
-      console.log('Current::',response);
-    }).error(function() {
-      console.log('Unable to get current');
+    Settings.current({},(response) => {
+      this.settings = response;
+    },(error) => {
+      this.settings = {};
     });
-
-    //
-    // $http.put('/api/settings/login', {
-    //   cas: true
-    // }).success(function() {
-    //   console.log('Updated cas.');
-    // }).error(function() {
-    //   console.log('Unable to set cas');
-    // });
-
   }
 
-  updateLogin(){
-    this.$http.put('/api/settings/login', {
-      cas: true
-    }).success(function() {
-      console.log('Updated cas.');
-    }).error(function() {
-      console.log('Unable to set cas');
+  toggleLogin(type){
+    var update = {};
+    update[type] = !this.settings.login[type]
+    this.$http.put('/api/settings/login', update)
+    .success(() => {
+      this.settings.login[type] = !this.settings.login[type]
+    }).error(() => {
     });
   }
 

@@ -15,11 +15,25 @@ export function SettingsResource($resource) {
           controller: 'current'
         }
       },
-      login: {
-        method: 'PUT'
+      setLogin: {
+        method: 'PUT',
+        params: {
+          controller: 'login'
+        }
+
       },
-      update: {
-        method: 'PUT'
+      setSemester: {
+        method: 'PUT',
+        params: {
+          controller: 'semester'
+        }
+      },
+      setCurrent: {
+        method: 'PUT',
+        params: {
+          controller: 'current'
+        }
+
       },
       delete: {
         method: 'DELETE'

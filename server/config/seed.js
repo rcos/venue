@@ -10,6 +10,7 @@ import Event from '../api/eventinfo/eventinfo.model';
 import SectionEvent from '../api/sectionevent/sectionevent.model';
 import Section from '../api/section/section.model';
 import Submission from '../api/submission/submission.model';
+import Settings from '../api/setting/setting.model';
 var _ = require('lodash');
 
 var mongoose = require('mongoose');
@@ -645,7 +646,7 @@ export function allSettings(){
   return {
     settings1:{
       _id : mongoose.Types.ObjectId("777777777777777777777771"),
-      semester: "Fall 2016",
+      semester: "Current",
       login: {
         cas: true,
         local: true
@@ -697,7 +698,7 @@ module.exports.createSubmissions = function(){
 
 // Create Submissions
 module.exports.createSettings = function(){
-  return Submission.createAsync(_.values(allSettings()));
+  return Settings.createAsync(_.values(allSettings()));
 };
 
 

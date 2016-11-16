@@ -88,8 +88,9 @@ export function show(req, res) {
 
 // Creates a new Setting in the DB
 export function create(req, res) {
-  return Setting.update({active:true},
-     {$set: {active: false}}).exec((err,setting) =>{
+  return Setting.update({active:true},{$set: {active: false}})
+    .exec()
+    .then(() =>{
        var newSettings = {
          semester: req.body.semester,
          login: {},
@@ -98,11 +99,13 @@ export function create(req, res) {
        if (req.body.login){
          newSettings.login.cas = req.body.login.cas;
          newSettings.login.local = req.body.login.local;
+         newSettings.login.developer = req.body.login.developer;
        }
        return Setting.create(newSettings)
          .then(respondWithResult(res, 201))
-         .catch(handleError(res));
      })
+    .catch(handleError(res))
+
 
 }
 

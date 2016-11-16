@@ -1,79 +1,104 @@
-
-
 <div class="container admin-page">
-  <h4> User Control </h4>
-  <form>
-    <div class="btn btn-default btn-lg" ngf-select="admin.uploadUserCSV($file)">Upload users with CSV</div>
-  </form>
-  <a href="/api/users/examplecsv.csv" target="_self" download> Download Example CSV </a>
-  <div ng-bind-html="admin.csvResults" ng-show='admin.csvResults'>
-  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <h2> Admin Settings </h2>
+    </div>
+    <div class="col-sm-12">
+      <h4> Login Types </h4>
+      <table class="table table-hover text-center">
+        <tr ng-show="admin.LOCAL_LOGIN_ENABLED">
+          <td>
+            Local
+          </td>
+          <td>
+            <button class="btn btn-default btn-md" ng-click="admin.toggleLogin(type)" ng-class="{'btn-primary': admin.settings.login.local, 'btn-danger': !admin.settings.login.local}">{{admin.settings.login.local?"enabled":"disabled"}}</button>
+          </td>
+        </tr>
+        <tr ng-show="admin.CAS_ENABLED">
+          <td>
+            CAS
+          </td>
+          <td>
+            <button class="btn btn-default btn-md" ng-click="admin.toggleLogin(type)" ng-class="{'btn-primary': admin.settings.login.cas, 'btn-danger': !admin.settings.login.cas}">{{admin.settings.login.cas?"enabled":"disabled"}}</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Debug
+          </td>
+          <td>
+            <button class="btn btn-default btn-md" ng-click="admin.toggleLogin(type)" ng-class="{'btn-primary': admin.settings.login.developer, 'btn-danger': !admin.settings.login.developer}">{{admin.settings.login.developer?"enabled":"disabled"}}</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-sm-12">
+      <h4> User Control </h4>
+      <form>
+          <button class="btn btn-default btn-md" ngf-select="admin.uploadUserCSV($file)">Upload users with CSV</button>
+          <a class="btn btn-link btn-md" href="/api/users/examplecsv.csv" target="_self" download> Example CSV </a>
+      </form>
+      <div ng-bind-html="admin.csvResults" ng-show='admin.csvResults'>
+      </div>
 
-  <div style='margin-top:20px;'>
-      <button class='btn btn-danger' ng-click="admin.reseed()"> Delete Database and Seed </button>
-  </div>
-  <h4> Login Types </h4>
-  <table class="table table-hover text-center table-striped table-bordered">
-    <tr ng-repeat='type in admin.settings.login'>
-      <td>
-        {{type}}
-      </td>
-      <td>
-        {{admin.settings.login[type]?"enabled","disabled"}}
-      </td>
-    </tr>
-  </table>
-  
-  <h4> Users </h4>
-  <div class='row'>
-    <div class='col-xs-12 search-bar-container'>
-      <div class="search-bar">
-        <div class="input-group">
-           <input type="text" ng-model='searchText' class="form-control" placeholder="Search users">
-           <span class="input-group-btn">
-             <button class="btn btn-default" type="button">
-               <span class='glyphicon glyphicon-search'></span>
-             </button>
-           </span>
-         </div>
-       </div>
+      <div style='margin-top:20px;'>
+          <button class='btn btn-danger' ng-click="admin.reseed()"> Delete Database and re-seed </button>
+      </div>
+    </div>
+    <div class="col-sm-12">
+
+      <h4> Users </h4>
+      <div class='row'>
+        <div class='col-xs-12 search-bar-container'>
+          <div class="search-bar">
+            <div class="input-group">
+               <input type="text" ng-model='searchText' class="form-control" placeholder="Search users">
+               <span class="input-group-btn">
+                 <button class="btn btn-default" type="button">
+                   <span class='glyphicon glyphicon-search'></span>
+                 </button>
+               </span>
+             </div>
+           </div>
+        </div>
+      </div>
+
+      <table class="table table-hover text-center table-striped table-bordered">
+        <thead>
+          <tr>
+            <td sort-arrow sortby='firstName' text='First' sortorder='sortorder'></td>
+            <td sort-arrow sortby='lastName' text='Last' sortorder='sortorder'></td>
+            <td sort-arrow sortby='role' text='Role' sortorder='sortorder'></td>
+            <td sort-arrow sortby='isInstructor' text='Instructor' sortorder='sortorder'></td>
+            <td sort-arrow sortby='role' text='Admin' sortorder='sortorder'></td>
+            <td> Delete </td>
+          </tr>
+      </thead>
+
+        <tr class="" ng-repeat="user in filteredUsers = (admin.users | filter:searchText | orderBy:sortorder)">
+    	    <td class="user-info">
+    	        <strong>{{user.firstName}}</strong>
+    	    </td>
+    	    <td class="user-info">
+    	        <strong>{{user.lastName}}</strong>
+    	    </td>
+    	    <td class="user-info">
+              {{ user.role == "admin" ? "Admin " : "" }}
+              {{ user.isInstructor ? "Instructor" : "Student" }}
+    	    </td>
+    	    <td class="user-info">
+              <a ng-hide="user.isInstructor" ng-click="admin.updateInstr(user, true)" class="add"><span class="fa fa-plus fa-2x"></span></a>
+              <a ng-show="user.isInstructor" ng-click="admin.updateInstr(user, false)" class="remove"><span class="fa fa-times fa-2x"></span></a>
+    	    </td>
+    	    <td class="user-info">
+              <a ng-hide="user.role == 'admin'" ng-click="admin.updateAdmin(user, true)" class="add"><span class="fa fa-plus fa-2x"></span></a>
+              <a ng-show="user.role == 'admin'" ng-click="admin.updateAdmin(user, false)" class="remove"><span class="fa fa-times fa-2x"></span></a>
+    	    </td>
+          <td class="options">
+            <a ng-click="admin.delete(user)" class="trash"><span class="fa fa-trash fa-2x"></span></a>
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
-
-  <table class="table table-hover text-center table-striped table-bordered">
-    <thead>
-      <tr>
-        <td sort-arrow sortby='firstName' text='First' sortorder='sortorder'></td>
-        <td sort-arrow sortby='lastName' text='Last' sortorder='sortorder'></td>
-        <td sort-arrow sortby='role' text='Role' sortorder='sortorder'></td>
-        <td sort-arrow sortby='isInstructor' text='Instructor' sortorder='sortorder'></td>
-        <td sort-arrow sortby='role' text='Admin' sortorder='sortorder'></td>
-        <td> Delete </td>
-      </tr>
-  </thead>
-
-    <tr class="" ng-repeat="user in filteredUsers = (admin.users | filter:searchText | orderBy:sortorder)">
-	    <td class="user-info">
-	        <strong>{{user.firstName}}</strong>
-	    </td>
-	    <td class="user-info">
-	        <strong>{{user.lastName}}</strong>
-	    </td>
-	    <td class="user-info">
-          {{ user.role == "admin" ? "Admin " : "" }}
-          {{ user.isInstructor ? "Instructor" : "Student" }}
-	    </td>
-	    <td class="user-info">
-          <a ng-hide="user.isInstructor" ng-click="admin.updateInstr(user, true)" class="add"><span class="fa fa-plus fa-2x"></span></a>
-          <a ng-show="user.isInstructor" ng-click="admin.updateInstr(user, false)" class="remove"><span class="fa fa-times fa-2x"></span></a>
-	    </td>
-	    <td class="user-info">
-          <a ng-hide="user.role == 'admin'" ng-click="admin.updateAdmin(user, true)" class="add"><span class="fa fa-plus fa-2x"></span></a>
-          <a ng-show="user.role == 'admin'" ng-click="admin.updateAdmin(user, false)" class="remove"><span class="fa fa-times fa-2x"></span></a>
-	    </td>
-      <td class="options">
-        <a ng-click="admin.delete(user)" class="trash"><span class="fa fa-trash fa-2x"></span></a>
-      </td>
-    </tr>
-  </table>
 </div>

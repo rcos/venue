@@ -3,7 +3,7 @@
 export default class LoginController {
 
   /*@ngInject*/
-  constructor(Auth, $location, ENV, CAS_ENABLED, LOCAL_LOGIN_ENABLED, DEBUG_LOGIN_ENABLED) {
+  constructor(Auth, $location, Settings, ENV, CAS_ENABLED, LOCAL_LOGIN_ENABLED, DEBUG_LOGIN_ENABLED) {
 
     this.user = {};
     this.errors = {};
@@ -17,6 +17,14 @@ export default class LoginController {
     this.CAS_ENABLED = CAS_ENABLED;
     this.LOCAL_LOGIN_ENABLED = LOCAL_LOGIN_ENABLED;
     this.DEBUG_LOGIN_ENABLED = DEBUG_LOGIN_ENABLED;
+
+    this.settings = {}
+    Settings.current({},(response) => {
+      this.settings = response;
+    },(error) => {
+      this.settings = {};
+    });
+
   }
 
   login(form) {
