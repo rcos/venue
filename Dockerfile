@@ -45,5 +45,5 @@ RUN . /root/.bashrc && \
 
 RUN apt-get clean
 
-EXPOSE 9000 80 443 27017
+EXPOSE 80 443 27017 3000
 CMD ["/root/venue/scripts/docker/init-docker"]

@@ -11,5 +11,5 @@ if [ "$PRODUCTION_RUN" == "yes" ]; then
     gulp serve:dist | tee /root/venueprod.log
 else
     echo "SERVING HEADLESS" | tee /root/venue.log
-    grunt --no-color serve:headless | tee /root/venue.log
+    gulp serve | tee /root/venue.log
 fi
