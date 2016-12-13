@@ -25,11 +25,13 @@ export default class AdminController {
 
   toggleLogin(type){
     var update = {};
+    console.log("toggleLogin",type)
     update[type] = !this.settings.login[type]
     this.$http.put('/api/settings/login', update)
     .success(() => {
       this.settings.login[type] = !this.settings.login[type]
-    }).error(() => {
+    }).error((error) => {
+      console.log(error)
     });
   }
 
