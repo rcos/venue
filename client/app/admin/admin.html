@@ -11,7 +11,7 @@
             Local
           </td>
           <td>
-            <button class="btn btn-default btn-md" ng-click="admin.toggleLogin(type)" ng-class="{'btn-primary': admin.settings.login.local, 'btn-danger': !admin.settings.login.local}">{{admin.settings.login.local?"enabled":"disabled"}}</button>
+            <button class="btn btn-default btn-md" ng-click="admin.toggleLogin('local')" ng-class="{'btn-primary': admin.settings.login.local, 'btn-danger': !admin.settings.login.local}">{{admin.settings.login.local?"enabled":"disabled"}}</button>
           </td>
         </tr>
         <tr ng-show="admin.CAS_ENABLED">
@@ -19,7 +19,7 @@
             CAS
           </td>
           <td>
-            <button class="btn btn-default btn-md" ng-click="admin.toggleLogin(type)" ng-class="{'btn-primary': admin.settings.login.cas, 'btn-danger': !admin.settings.login.cas}">{{admin.settings.login.cas?"enabled":"disabled"}}</button>
+            <button class="btn btn-default btn-md" ng-click="admin.toggleLogin('cas')" ng-class="{'btn-primary': admin.settings.login.cas, 'btn-danger': !admin.settings.login.cas}">{{admin.settings.login.cas?"enabled":"disabled"}}</button>
           </td>
         </tr>
         <tr>
@@ -27,7 +27,7 @@
             Debug
           </td>
           <td>
-            <button class="btn btn-default btn-md" ng-click="admin.toggleLogin(type)" ng-class="{'btn-primary': admin.settings.login.developer, 'btn-danger': !admin.settings.login.developer}">{{admin.settings.login.developer?"enabled":"disabled"}}</button>
+            <button class="btn btn-default btn-md" ng-click="admin.toggleLogin('developer')" ng-class="{'btn-primary': admin.settings.login.developer, 'btn-danger': !admin.settings.login.developer}">{{admin.settings.login.developer?"enabled":"disabled"}}</button>
           </td>
         </tr>
       </table>
