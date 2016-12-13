@@ -14,9 +14,9 @@ router.get('/', auth.isAuthenticated(), controller.index);
 router.get('/image/:userId/:eventId/:name', controller.image);
 router.get('/image/:userId/:eventId/:size/:name', controller.imageSize);
 router.get('/:id', auth.isAuthenticated(), controller.show);
-router.post('/', auth.isAuthenticated(), upload.array('files[0]'), controller.create);
-router.put('/:id', auth.isAuthenticated(), upload.array('files[0]'), controller.update);
-router.patch('/:id', auth.isAuthenticated(), upload.array('files[0]'), controller.update);
+router.post('/', auth.isStudent(), upload.array('files[0]'), controller.create);
+router.put('/:id', auth.isStudent(), upload.array('files[0]'), controller.update);
+router.patch('/:id', auth.isStudent(), upload.array('files[0]'), controller.update);
 router.delete('/:id', auth.isAuthenticated(), controller.destroy);
 
 export default router;
