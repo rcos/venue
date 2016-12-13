@@ -1,12 +1,10 @@
 <div class="container instructor-events">
   <div class="row">
-      <div class="col-sm-2">
-        <sidebar></sidebar>
-      </div>
-      <div class="col-sm-10 instructor-search-events">
+      <div class="col-sm-12 instructor-search-events">
         <h1 class="page-header">Your Events</h1>
         <h3 ng-hide="eventsArray.length">No events assigned yet</h3>
         <h4 ng-hide="eventsArray.length">Create an <a href="/instructor/newevent">event</a> to get started</h4>
+        <h4 ng-show="eventsArray.length">Create an <a href="/instructor/newevent">new event</a></h4>
 
         <div class='row' ng-show="eventsArray.length">
           <div class='col-xs-12 search-bar-container'>

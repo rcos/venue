@@ -48,7 +48,6 @@ import util from '../components/util/util.module';
 import socket from '../components/socket/socket.service';
 import config from './config';
 
-import sidebar from '../components/sidebar/sidebar.directive';
 import showImage from '../components/showImage/showImage.directive';
 import modal from '../components/modal/modal.service';
 

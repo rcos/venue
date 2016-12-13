@@ -1,29 +1,22 @@
 
     <div class="container student">
       <div class="row">
-        <div class="col-sm-2">
-          <sidebar></sidebar>
-        </div>
-        <div class="col-sm-10 dashboard">
+        <div class="col-sm-12 dashboard">
           <h1 class="page-header">Dashboard</h1>
           <div class="row">
-            <div class="col-sm-6 courses">
-              <h3> Enrolled Courses </h3>
-              <h4 ng-hide="anyCourses"><a href="/courses">Enroll</a> in a course to get started</h4>
-              <div class="card-container">
-                <course-card ng-repeat='course in user.courses' click='goToCourse(course)' data="course"  short="true" sections='course.sections'>  </course-card>
-              </div>
-            </div>
-            <div class="col-sm-6 events">
-              <h3> Assigned Events </h3>
+            <div class="col-md-6 events">
+              <h3> Upcoming Events </h3>
               <h4 ng-hide="anyEvents">You haven't been assigned any events yet</h4>
 
               <div class="card-container">
                 <event-card ng-repeat='event in user.events' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
               </div>
             </div>
+
+            <div class="col-md-6 submissions">
+              <h3> Recent Submissions </h3>
+            </div>
           </div>
         </div>
       </div>
     </div>
-

@@ -19,25 +19,24 @@ export default function routes($routeProvider) {
       }
     })
     .when('/settings', {
-      templateUrl: './settings/settings.html',
+      template: require('./settings/settings.html'),
       controller: 'SettingsController',
-      controllerAs: 'vm',
-      authenticate: true
+      controllerAs: 'vm'
     })
     .when('/verify/resendEmail', {
-      templateUrl: './verify/resendEmail/resendEmail.html',
+      template: require('./verify/resendEmail/resendEmail.html'),
       controller: 'ResendEmailCtrl'
     })
     .when('/verify/forgotPassword', {
-      templateUrl: './verify/forgotPassword/forgotPassword.html',
+      template: require('./verify/forgotPassword/forgotPassword.html'),
       controller: 'ForgotPasswordCtrl'
     })
     .when('/verify/resetPassword/:id', {
-      templateUrl: './verify/resetPassword/resetPassword.html',
+      template: require('./verify/resetPassword/resetPassword.html'),
       controller: 'ResetPasswordCtrl'
     })
     .when('/verify/:id', {
-      templateUrl: './verify/verify.html',
+      template: require('./verify/verify.html'),
       controller: 'VerifyAccountCtrl'
     })
     // .when('/signup', {

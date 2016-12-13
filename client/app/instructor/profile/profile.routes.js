@@ -4,8 +4,8 @@ export default function routes($routeProvider) {
   'ngInject';
 
   $routeProvider
-    .when('/student/:id/profile', {
+    .when('/instructor/:id/profile', {
       template: require('./profile.html'),
-      controller: 'StudentProfileCtrl'
+      controller: 'InstructorProfileCtrl'
     });
 }

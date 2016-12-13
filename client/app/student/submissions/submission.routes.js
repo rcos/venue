@@ -6,7 +6,7 @@ export default function routes($routeProvider) {
   $routeProvider
     .when('/student/submissions', {
       templateUrl: 'app/student/submissions/submission.html',
-      controller: 'StudentSubmissionCtrl',
+      controller: 'SubmissionCtrl',
       authenticate: 'student'
     });
 }
