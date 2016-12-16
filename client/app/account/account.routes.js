@@ -18,12 +18,6 @@ export default function routes($routeProvider) {
         $location.path(referrer);
       }
     })
-    .when('/settings', {
-      templateUrl: './settings/settings.html',
-      controller: 'SettingsController',
-      controllerAs: 'vm',
-      authenticate: true
-    })
     .when('/verify/resendEmail', {
       templateUrl: './verify/resendEmail/resendEmail.html',
       controller: 'ResendEmailCtrl'

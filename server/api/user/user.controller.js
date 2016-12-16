@@ -522,3 +522,21 @@ export function updateAdminStatus(req, res, next) {
     })
     .catch(err => next(err));
 }
+
+export function updateEmailPreferences(req, res, next) {
+
+  var userId = req.user._id;
+  User.findByIdAsync(userId)
+    .then(user => {
+      if (!user) {
+        return res.status(401).end();
+      }
+      user.preferences = req.body
+      return user.saveAsync()
+        .then(() => {
+          res.status(204).end();
+        })
+        .catch(handleError(res));
+    })
+    .catch(err => next(err));
+}
