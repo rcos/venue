@@ -5,19 +5,15 @@
       <h3 ng-hide="submissions.length">No student submissions yet</h3>
       <h4 ng-hide="submissions.length">Create an <a href="/instructor/newevent">event</a> to get started</h4>
       <div ng-show="submissions.length">
-        <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
-          <div class="mdl-tabs__tab-ba row">
-            <a href="#card-view" class="mdl-tabs__tab is-active col-sm-2">Images</a>
-            <a href="#grid-view" class="mdl-tabs__tab col-sm-2">Grid</a>
-          </div>
-          <div class='mdl-tabs__panel is-active' id='card-view'>
+        <uib-tabset active="active">
+          <uib-tab index="0" heading="Images">
             <submission-card class="col-md-6" ng-repeat='submission in submissions' data="submission" click="goToEvent(submission.sectionEvent)" short="false" />
-          </div>
-          <div class='mdl-tabs__panel' id='grid-view'>
+          </uib-tab>
+          <uib-tab index="1" heading="Grid">
             <br/>
             <submissionview></submissionview>
-          </div>
-      </div>
+          </uib-tab>
+      </uib-tabset>
     </div>
   </div>
 </div>

@@ -2,10 +2,12 @@
 @import '~bootstrap-social/bootstrap-social.less';
 @import '~font-awesome/less/font-awesome.less';
 
+@colorPurple: #911BC4;
+@colorBlue: #1DAEEB;
+@colorRed: #FC5D60;
 /**
  * App-wide Styles
  */
-
 .browserupgrade {
   margin: 0.2em 0;
   background: #ccc;
@@ -121,7 +123,7 @@ body.venueApp{
   line-height: 1.42857143;
 }
 .venueApp a{
-  color: #26A69A;
+  color: @colorPurple;
 }
 
 .card-name(){
@@ -210,10 +212,32 @@ body.venueApp{
 
   .class-card-container{
     text-align:center;
-    background-color: #eee;
   }
 }
 
+.uib-tab{
+  .nav-link{
+    text-transform: uppercase;
+  }
+}
+
+.left-column{
+  border-right:1px solid #ccc;
+}
+.bottom-row{
+  border-top:1px solid #ccc;
+  margin-top: 15px;
+}
+.top-row{
+  border-bottom:1px solid #ccc;
+  margin-bottom: 15px;
+}
+.full-width{
+  width: 100%;
+}
+.no-spacing{
+  margin: 0;
+}
 
 
 /* columns of same height styles */
@@ -333,6 +357,10 @@ body.venueApp{
 }
 
 @background-color: #fafafa;
+@text-color-primary: rgba(0,0,0, 0.87);
+@text-link-color: rgb(0,0,0);
+@preferred_font: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+@performance_font: 'Helvetica', 'Arial', sans-serif;
 
 @gray-darker:            lighten(#000, 13.5%); // #222
 @gray-dark:              lighten(#000, 20%);   // #333
@@ -340,14 +368,15 @@ body.venueApp{
 @gray-light:             lighten(#000, 60%);   // #999
 @gray-lighter:           lighten(#000, 93.5%); // #eee
 
-@brand-primary:         #428bca;
-@brand-success:         #5cb85c;
+@brand-primary:         @colorPurple;
+@brand-success:         @colorBlue;
 @brand-info:            #5bc0de;
 @brand-warning:         #f0ad4e;
-@brand-danger:          #d9534f;
+@brand-danger:          @colorRed;
 
 
 // injector
+@import 'mdl.less';
 @import 'account/verify/verify.less';
 @import 'admin/admin.less';
 @import 'courses/courses.less';

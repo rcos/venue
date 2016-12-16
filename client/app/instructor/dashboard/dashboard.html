@@ -2,9 +2,9 @@
     <div class="container instructor">
       <div class="row">
         <div class="col-sm-12 dashboard">
-          <h1 class="page-header">Dashboard</h1>
+          <h1 class="page-header">Instructor Dashboard</h1>
           <div class="row">
-            <div class="col-sm-12" ng-show="anyPending">
+            <div class="col-sm-12 top-rowst" ng-show="anyPending">
               <h3>Sections with Pending Students</h3>
               <h4 ng-hide="sections.length">You don't have any sections yet</h4>
               <table class="course-section text-center table table-hover" ng-show="sections.length">
@@ -30,9 +30,10 @@
                     <a href="#" class="btn btn-default" ng-href="{{ viewSection(section) }}" role="button">View</a>
                   </td>
                 </tr>
-              </table>            </div>
+              </table>
+            </div>
 
-            <div class="col-sm-6 events">
+            <div class="col-sm-6 events left-column">
               <h3> Upcoming Events </h3>
               <h4 ng-hide="anyEvents">Assign a <a href="/instructor/newevent">event</a></h4>
               <h5 ng-show="anyEvents"><a href="/instructor/newevent">New event</a></h5>
