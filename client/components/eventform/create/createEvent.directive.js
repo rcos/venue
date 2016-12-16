@@ -2,7 +2,7 @@
 
 export function createEvent() {
     return {
-      templateUrl: 'components/eventform/create/createEvent.html',
+      template: require('./createEvent.html'),
       controller: 'CreateEventFormCtrl',
       restrict: 'E',
       scope: {

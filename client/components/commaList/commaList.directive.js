@@ -4,7 +4,7 @@ const angular = require('angular');
 export default angular.module('directives.commaList', [])
   .directive('commaList', function ($http) {
     return {
-      templateUrl: 'components/commaList/commaList.html',
+      template: require('./commaList.html'),
       restrict: 'EA',
       scope: {
         list: '=',

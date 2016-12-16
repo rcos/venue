@@ -6,7 +6,7 @@ import pictureBanner from '../pictureBanner/pictureBanner.directive';
 export default angular.module('directives.courseCard', [showImage, pictureBanner])
   .directive('courseCard', function ($http) {
     return {
-      templateUrl: 'components/courseCard/courseCard.html',
+      template: require('./courseCard.html'),
       restrict: 'EA',
       scope: {
         data: '=',

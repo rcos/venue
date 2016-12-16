@@ -2,7 +2,7 @@
 
 export function assignEvent() {
     return {
-      templateUrl: 'components/eventform/assign/assignEvent.html',
+      template: require('./assignEvent.html'),
       controller: 'AssignEventFormCtrl',
       restrict: 'E',
       scope: {

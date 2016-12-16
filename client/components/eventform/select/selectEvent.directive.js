@@ -2,7 +2,7 @@
 
 export function selectEvent() {
     return {
-      templateUrl: 'components/eventform/select/selectEvent.html',
+      template: require('./selectEvent.html'),
       controller: 'SelectEventFormCtrl',
       restrict: 'E',
       scope: {

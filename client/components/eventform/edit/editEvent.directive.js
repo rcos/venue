@@ -2,7 +2,7 @@
 
 export function editEvent() {
     return {
-      templateUrl: 'components/eventform/edit/editEvent.html',
+      template: require('./editEvent.html'),
       controller: 'EditEventFormCtrl',
       restrict: 'E',
       scope: {

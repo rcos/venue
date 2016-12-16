@@ -5,7 +5,7 @@ export default angular.module('directives.sortArrow', [])
   .directive('sortArrow', function($location){
     "ngInject";
     return {
-      templateUrl: 'components/sortArrow/sortArrow.html',
+      template: require('./sortArrow.html'),
       scope: {
         sortorder: '=',
         sortby: '@',

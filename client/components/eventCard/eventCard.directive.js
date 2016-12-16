@@ -6,7 +6,7 @@ export default angular.module('directives.eventCard', [showImage])
   .directive('eventCard', function($location){
     "ngInject";
     return {
-      templateUrl: 'components/eventCard/eventCard.html',
+      template: require('./eventCard.html'),
       restrict: 'EA',
       scope: {
         selected: '=',

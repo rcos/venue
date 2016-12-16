@@ -5,11 +5,11 @@ export default function routes($routeProvider) {
 
   $routeProvider
     .when('/eventInfo/edit/:id', {
-      templateUrl: 'app/eventInfo/edit/eventedit.html',
+      template: require('./edit/eventedit.html'),
       controller: 'EditEventsCtrl'
     })
     .when('/eventInfo/:id', {
-      templateUrl: 'app/eventInfo/eventInfo.html',
+      template: require('./eventInfo.html'),
       controller: 'EventInfoCtrl'
     });
 }

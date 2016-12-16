@@ -5,7 +5,7 @@ export default function routes($routeProvider) {
 
   $routeProvider
     .when('/student/signup', {
-      templateUrl: 'app/student/signup/signup.html',
+      template: require('./signup.html'),
       controller: 'StudentSignupCtrl'
     });
 }

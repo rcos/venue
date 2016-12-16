@@ -23,7 +23,7 @@ export default class EditEventsCtrl {
     };
 
     $scope.doneEdit = function(){
-      $location.path("/eventinfo/" + $scope.eventId);
+      $location.path("/eventInfo/" + $scope.eventId);
     }
     $scope.updateEvent();
 
