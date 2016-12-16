@@ -5,9 +5,42 @@
 @colorPurple: #911BC4;
 @colorBlue: #1DAEEB;
 @colorRed: #FC5D60;
+@colorDarkBackground: #333;
+@colorLightBackground: #fafafa;
+
+@background-color: @colorLightBackground;
+@text-color-primary: rgba(0,0,0, 0.87);
+@text-link-color: desaturate(@colorPurple, 20%);
+@preferred_font: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+@performance_font: 'Helvetica', 'Arial', sans-serif;
+
+@gray-darker:            lighten(#000, 13.5%); // #222
+@gray-dark:              lighten(#000, 20%);   // #333
+@gray:                   lighten(#000, 33.5%); // #555
+@gray-light:             lighten(#000, 60%);   // #999
+@gray-lighter:           lighten(#000, 93.5%); // #eee
+
+@brand-primary:         @colorPurple;
+@brand-success:         @colorBlue;
+@brand-info:            #5bc0de;
+@brand-warning:         #f0ad4e;
+@brand-danger:          @colorRed;
+
 /**
  * App-wide Styles
  */
+
+
+ // body.venueApp{
+ //   line-height: 1.42857143;
+ // }
+ .venueApp a{
+   color: @text-link-color;
+   &.btn-danger, &.btn-success, &.btn-warning, &.btn-primary{
+     color: white;
+   }
+ }
+
 .browserupgrade {
   margin: 0.2em 0;
   background: #ccc;
@@ -48,28 +81,10 @@
     background: black;
     width: 0;
 }
-.sidebar{
-  margin-top: 88px;
-  padding-right: 20px;
-  text-align: right;
-  & > div > ul > li{
-    margin-top: 0;
-    margin-bottom: 0;
-    & > a{
-      color: @gray-dark;
-    }
-    &:hover{
-      border-right: 1px solid @gray;
-    }
-    &.active{
-      border-right: 2px solid @gray-dark;
-      & > a{
-        font-weight: bold;
-      }
-
-    }
-  }
+.btn-right{
+  float: right;
 }
+
 .course-title-banner, .event-title-banner{
     height:200px;
     width:100%;
@@ -117,15 +132,6 @@
     background-size: cover;
   }
 }
-
-
-body.venueApp{
-  line-height: 1.42857143;
-}
-.venueApp a{
-  color: @colorPurple;
-}
-
 .card-name(){
   color: #fff;
   text-align: left;
@@ -355,24 +361,6 @@ body.venueApp{
     vertical-align: bottom;
   }
 }
-
-@background-color: #fafafa;
-@text-color-primary: rgba(0,0,0, 0.87);
-@text-link-color: rgb(0,0,0);
-@preferred_font: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-@performance_font: 'Helvetica', 'Arial', sans-serif;
-
-@gray-darker:            lighten(#000, 13.5%); // #222
-@gray-dark:              lighten(#000, 20%);   // #333
-@gray:                   lighten(#000, 33.5%); // #555
-@gray-light:             lighten(#000, 60%);   // #999
-@gray-lighter:           lighten(#000, 93.5%); // #eee
-
-@brand-primary:         @colorPurple;
-@brand-success:         @colorBlue;
-@brand-info:            #5bc0de;
-@brand-warning:         #f0ad4e;
-@brand-danger:          @colorRed;
 
 
 // injector

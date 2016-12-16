@@ -1,13 +1,11 @@
-
-
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
       <h1>Login</h1>
-      <p ng-show="vm.devMode && vm.DEBUG_LOGIN_ENABLED && vm.settings.login.developer">Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@test.com</code> / <code>test</code></p>
-      <p ng-show="vm.devMode && vm.DEBUG_LOGIN_ENABLED && vm.settings.login.developer">Admin account is <code>admin@admin.com</code> / <code>admin</code></p>
     </div>
-    <div class="col-sm-12">
+    <div class="col-sm-12" ng-show="vm.devMode && vm.DEBUG_LOGIN_ENABLED && vm.settings.login.developer">
+      <p>Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@test.com</code> / <code>test</code></p>
+      <p>Admin account is <code>admin@admin.com</code> / <code>admin</code></p>
       <div ng-show="vm.devMode && vm.DEBUG_LOGIN_ENABLED && vm.settings.login.developer">
         <a href="#" ng-click="vm._devLoginAs('blank')"> Login as Blank (empty instructor)</a> <br/>
         <a href="#" ng-click="vm._devLoginAs('bob')"> Login as Bob (instructor) </a> <br/>
@@ -19,6 +17,9 @@
         <a href="#" ng-click="vm._devLoginAs('admin')"> Login as Admin (admin)</a> <br/>
         <br/>
       </div>
+    </div>
+    <div class="col-sm-12">
+      <hr/>
       <div style='margin-bottom:10px;' ng-show="vm.CAS_ENABLED && vm.settings.login.cas">
           <a href="/auth/cas" target="_self">
               <button class="btn btn-primary btn-lg">
@@ -26,6 +27,9 @@
               </button>
           </a>
       </div>
+    </div>
+    <div class="col-sm-12">
+      <hr/>
       <form ng-show="vm.LOCAL_LOGIN_ENABLED && vm.settings.login.local" class="form" name="form" ng-submit="vm.login(form)" novalidate>
 
         <div class="form-group">
@@ -38,7 +42,6 @@
           <label>Password</label>
 
           <input type="password" name="password" class="form-control" ng-model="vm.user.password" required>
-          <a href="#" ng-click="vm.goToForgotPassword()"> Forgot Password</a> <br/>
         </div>
 
         <div class="form-group has-error">
@@ -53,9 +56,12 @@
         </div>
 
         <div>
-          <button class="btn btn-inverse btn-lg btn-login" type="submit">
-            Login
+          <button class="btn btn-success btn-lg btn-login" type="submit">
+            Login with email
           </button>
+          <a href="/verify/forgotPassword" class="btn btn-lg btn-danger" role="button">
+            Forgot Password
+          </a>
         </div>
         <hr>
         <div>
