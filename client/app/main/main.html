@@ -13,7 +13,7 @@
               can contain images or GPS data that verifies a student attended an event.
             </p>
           </div>
-          <div class="links row">
+          <div class="links row" ng-hide="loggedIn">
             <div class='col-sm-4'>
               <a href="/courses">Courses</a>
             </div>
@@ -22,6 +22,28 @@
             </div>
             <div class='col-sm-4'>
               <a href="/login">Login</a>
+            </div>
+          </div>
+          <div class="links row" ng-show="isStudent">
+            <div class='col-sm-4'>
+              <a href="/student/dashboard">Dashboard</a>
+            </div>
+            <div class='col-sm-4'>
+              <a href="/student/courses">Courses</a>
+            </div>
+            <div class='col-sm-4'>
+              <a href="/student/events">Events</a>
+            </div>
+          </div>
+          <div class="links row" ng-show="isInstructor">
+            <div class='col-sm-4'>
+              <a href="/instructor/dashboard">Dashboard</a>
+            </div>
+            <div class='col-sm-4'>
+              <a href="/instructor/courses">Courses</a>
+            </div>
+            <div class='col-sm-4'>
+              <a href="/instructor/events">Events</a>
             </div>
           </div>
         </div>

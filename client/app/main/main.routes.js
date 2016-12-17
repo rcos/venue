@@ -4,6 +4,7 @@ export default function routes($routeProvider) {
   'ngInject';
 
   $routeProvider.when('/', {
-    template: '<main></main>'
+    template: require('./main.html'),
+    controller: 'MainController',
   });
 };

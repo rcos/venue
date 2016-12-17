@@ -38,7 +38,7 @@ import eventinfo from './eventinfo';
 import events from './events';
 import instructor from './instructor';
 import student from './student';
-import main from './main/main.component';
+import main from './main';
 
 import _Auth from '../components/auth/auth.module';
 import footer from '../components/footer/footer.component';
