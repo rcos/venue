@@ -97,7 +97,7 @@
 
               <div class="card-container" ng-show="section.events.length">
                 <div class="col-md-3" ng-repeat='event in section.events' >
-                  <event-card selected="selectedEventId == event._id" ng-click='selectEvent(event)' data="event"  short="true" preview="true" >  </event-card>
+                  <event-card link-enabled="false" selected="selectedEventId == event._id" ng-click='selectEvent(event)' data="event"  short="true" preview="true" >  </event-card>
                 </div>
               </div>
             </div>
