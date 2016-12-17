@@ -17,7 +17,7 @@ module.exports.createAdmin = ()=>{
     if (admin.length === 0) throw 'No Admin!';
     return Promise.resolve(null)
   }).catch(() => {
-    console.log("Admin does not exist, creating");
+    console.log("Admin does not exist, creating default");
     // Admin does not exist, create one
     return User.createAsync({
       provider: 'local',
@@ -84,6 +84,7 @@ export function prepareDataDirectory(){
 }
 
 module.exports.seed = function(){
-  return module.exports.createAdmin().then(
-    prepareDataDirectory);
+  return module.exports.createAdmin()
+  .then(module.exports.createSetting)
+  .then(prepareDataDirectory);
 };
