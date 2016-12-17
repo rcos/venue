@@ -9,7 +9,7 @@ export default function routes($routeProvider) {
       controller: 'EditEventsCtrl'
     })
     .when('/eventInfo/:id', {
-      template: require('./eventInfo.html'),
+      template: require('./eventinfo.html'),
       controller: 'EventInfoCtrl'
     });
 }

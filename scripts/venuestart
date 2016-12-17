@@ -6,7 +6,7 @@
 # See venuestart-dev for some example environment variables
 
 if [ -z "$CERTS_DIRECTORY" ]; then
-    echo "Please set \$CERTS_DIRECTORY (if empty, self-signed certs will be generated)"
+    echo "Please set \$CERTS_DIRECTORY (if empty directory, self-signed certs will be generated)"
     exit 1
 fi
 

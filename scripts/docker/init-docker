@@ -10,5 +10,5 @@ chmod +x /root/data
 /root/venue/scripts/docker/configure-nginx
 /usr/sbin/nginx
 cd /root/venue
-# grunt serve:dist
+# gulp serve:dist
 tail -f /dev/null
