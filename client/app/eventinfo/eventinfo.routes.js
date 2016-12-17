@@ -9,7 +9,7 @@ export default function routes($routeProvider) {
       controller: 'EditEventsCtrl'
     })
     .when('/eventInfo/:id', {
-      templateUrl: 'app/eventInfo/eventInfo.html',
+      templateUrl: 'app/eventinfo/eventinfo.html',
       controller: 'EventInfoCtrl'
     });
 }
