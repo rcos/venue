@@ -65,13 +65,18 @@ export function index(req, res) {
  * Creates a new user
  */
 export function create(req, res, next) {
-  var newUser = new User(req.body);
-  newUser.provider = 'local';
-  newUser.role = 'user';
-  newUser.isVerified = false;
-  newUser.preferences = {emailNotifyAheadMinutes : [30]};
-  newUser.saveAsync()
-    .spread(function(user) {
+  var newUser = {
+      provider: 'local',
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password,
+      isVerified: false,
+      isInstructor: false,
+      preferences: {emailNotifyAheadMinutes: [30]},
+  }
+  User.createAsync(newUser)
+    .then(function(user) {
       var token = jwt.sign({ _id: user._id }, config.secrets.session, {
         expiresIn: 60 * 60 * 5
       });
