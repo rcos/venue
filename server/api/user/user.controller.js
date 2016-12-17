@@ -80,6 +80,7 @@ export function create(req, res, next) {
       var token = jwt.sign({ _id: user._id }, config.secrets.session, {
         expiresIn: 60 * 60 * 5
       });
+
       createSignupVerificationToken(req, user, (message) => email.signup(message));
       res.json({ token });
     })
