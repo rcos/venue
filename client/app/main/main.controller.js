@@ -10,8 +10,8 @@ export default class MainController {
       $scope.user = user;
       $scope.loggedIn = Auth.isLoggedInSync();
       if ($scope.loggedIn){
-        $scope.isStudent = user.isStudentSync();
-        $scope.isInstructor = user.isInstructorSync();
+        $scope.isStudent = Auth.isStudentSync();
+        $scope.isInstructor = Auth.isInstructorSync();
       }
     });
   }
