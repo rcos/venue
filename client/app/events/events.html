@@ -1,5 +1,5 @@
-<div class='event-page'>
-  <div class='container' ng-show='err'>
+<div class='event-page container'>
+  <div class='row' ng-show='err'>
     <div class='col-xs-12'>
       <div ng-show='err.status == 404'>
         <div class='error-deadend'> we couldn't find that event </div>
@@ -18,8 +18,8 @@
       </div>
     </div>
   </div>
-  <div class='container eventview' ng-hide='err'>
-    <event-title-banner section-event="event" event="event.info" link="/eventinfo/{{event.info._id}}"></event-title-banner>
+  <div class='row eventview' ng-hide='err'>
+    <event-title-banner section-event="event" event="event.info" link="/eventInfo/{{event.info._id}}"></event-title-banner>
 
     <div class='row row-md-height'>
       <div class='col-md-6 left-column col-md-height col-md-top'>
@@ -86,7 +86,7 @@
     </div>
   </div>
 
-  <div class='container' ng-show='assignmentEdit'>
+  <div class='row' ng-show='assignmentEdit'>
       <br/>
       <form class="eventAssignment" name="eventAssignmentForm" ng-submit="updateEventAssignment(eventAssignmentForm)" novalidate>
 
@@ -107,12 +107,10 @@
       </form>
   </div>
 
-  <div class='container'>
+  <div class='row bottom-row'>
     <div ng-show='user.isInstructor && !err && sectionInstructor'>
-      <h3> Submissions </h3>
+      <h4> Submissions </h4>
       <submissionview event-id="eventId"></submissionview>
     </div>
   </div>
-
-
 </div>

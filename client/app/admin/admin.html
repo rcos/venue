@@ -87,11 +87,11 @@
               {{ user.isInstructor ? "Instructor" : "Student" }}
     	    </td>
     	    <td class="user-info">
-              <a ng-hide="user.isInstructor" ng-click="admin.updateInstr(user, true)" class="add"><span class="fa fa-plus fa-2x"></span></a>
+              <a ng-show="!user.isInstructor" ng-click="admin.updateInstr(user, true)" class="add"><span class="fa fa-plus fa-2x"></span></a>
               <a ng-show="user.isInstructor" ng-click="admin.updateInstr(user, false)" class="remove"><span class="fa fa-times fa-2x"></span></a>
     	    </td>
     	    <td class="user-info">
-              <a ng-hide="user.role == 'admin'" ng-click="admin.updateAdmin(user, true)" class="add"><span class="fa fa-plus fa-2x"></span></a>
+              <a ng-show="user.role !== 'admin'" ng-click="admin.updateAdmin(user, true)" class="add"><span class="fa fa-plus fa-2x"></span></a>
               <a ng-show="user.role == 'admin'" ng-click="admin.updateAdmin(user, false)" class="remove"><span class="fa fa-times fa-2x"></span></a>
     	    </td>
           <td class="options">

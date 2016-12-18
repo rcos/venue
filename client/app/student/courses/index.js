@@ -4,7 +4,7 @@ import routing from './studentcourses.routes';
 
 import StudentCoursesCtrl from './studentcourses.controller';
 
-export default angular.module('venueApp.studentcourses', ['venueApp.auth', ngRoute, 'directives.sidebar', 'directives.courseCard'])
+export default angular.module('venueApp.studentcourses', ['venueApp.auth', ngRoute,  'directives.courseCard'])
   .controller('StudentCoursesCtrl', StudentCoursesCtrl)
   .config(routing)
   .name;

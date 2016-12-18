@@ -6,23 +6,27 @@ export default angular.module('directives.eventCard', [showImage])
   .directive('eventCard', function($location){
     "ngInject";
     return {
-      templateUrl: 'components/eventCard/eventCard.html',
+      template: require('./eventCard.html'),
       restrict: 'EA',
       scope: {
         selected: '=',
         data: '=',
         short: '=',
         sections: '=',
-        preview: '='
+        preview: '=',
+        linkEnabled: '='
       },
       link: function (scope, element, attrs) {
       },
       controller: function ($scope, $element) {
         $scope.goToSectionEvent = (event) => {
-          $location.path("/events/" + event._id);
+          return "/events/" + event._id;
         };
         $scope.goToEventInfo = (data) => {
-          $location.path("/eventInfo/" + data._id);
+          if ($scope.linkEnabled === false){
+            return "#";
+          }
+          return "/eventInfo/" + data._id;
         };
 
       }

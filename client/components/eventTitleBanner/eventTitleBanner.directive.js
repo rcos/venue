@@ -1,10 +1,11 @@
 'use strict';
 import commaList from '../commaList/commaList.directive';
+import pictureBanner from '../pictureBanner/pictureBanner.directive';
 
-export default angular.module('directives.eventTitleBanner', [commaList])
+export default angular.module('directives.eventTitleBanner', [commaList,pictureBanner])
   .directive('eventTitleBanner', function ($http) {
     return {
-      templateUrl: 'components/eventTitleBanner/eventTitleBanner.html',
+      template: require('./eventTitleBanner.html'),
       restrict: 'EA',
       scope: {
         event: '=',
@@ -19,7 +20,7 @@ export default angular.module('directives.eventTitleBanner', [commaList])
   })
   .directive('eventTitleBannerBasic', function ($http) {
     return {
-      templateUrl: 'components/eventTitleBanner/eventTitleBannerBasic.html',
+      template: require('./eventTitleBannerBasic.html'),
       restrict: 'EA',
       scope: {
         event: '=',
@@ -33,7 +34,7 @@ export default angular.module('directives.eventTitleBanner', [commaList])
   })
   .directive('eventTitleBannerBase', function ($http) {
     return {
-      templateUrl: 'components/eventTitleBanner/eventTitleBannerBase.html',
+      template: require('./eventTitleBannerBase.html'),
       restrict: 'EA',
       scope: {
         event: '=',

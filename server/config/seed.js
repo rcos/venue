@@ -61,6 +61,17 @@ export function allUsers(){return {
       _id: mongoose.Types.ObjectId('000000000000000000000003'),
       preferences: {emailNotifyAheadMinutes: [30]},
     },
+    blank: {
+      provider: 'local',
+      firstName: 'Blank',
+      lastName: 'Instructor',
+      email: 'blank@blank.com',
+      password: 'blank',
+      isVerified: true,
+      isInstructor: true,
+      _id: mongoose.Types.ObjectId('000000000000000000000004'),
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
     foo: {
       provider: 'local',
       firstName: 'Foo',
@@ -69,7 +80,7 @@ export function allUsers(){return {
       password: 'foo',
       isVerified: true,
       isInstructor: false,
-      _id: mongoose.Types.ObjectId('000000000000000000000004'),
+      _id: mongoose.Types.ObjectId('000000000000000000000005'),
       preferences: {emailNotifyAheadMinutes: [30]},
     },
     kelly: {
@@ -80,7 +91,7 @@ export function allUsers(){return {
       password: 'kelly',
       isVerified: true,
       isInstructor: false,
-      _id: mongoose.Types.ObjectId('000000000000000000000005'),
+      _id: mongoose.Types.ObjectId('000000000000000000000006'),
       preferences: {emailNotifyAheadMinutes: [30]},
     },
     jane: {
@@ -91,7 +102,7 @@ export function allUsers(){return {
       password: 'jane',
       isVerified: true,
       isInstructor: false,
-      _id: mongoose.Types.ObjectId('000000000000000000000006'),
+      _id: mongoose.Types.ObjectId('000000000000000000000007'),
       preferences: {emailNotifyAheadMinutes: [30]},
     },
     curt:{
@@ -649,9 +660,10 @@ export function allSettings(){
       semester: "Current",
       login: {
         cas: true,
-        local: true
+        local: true,
+        developer: true
       },
-      active: Boolean
+      active: true
     }
   }
 }

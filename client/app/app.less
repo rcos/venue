@@ -2,9 +2,44 @@
 @import '~bootstrap-social/bootstrap-social.less';
 @import '~font-awesome/less/font-awesome.less';
 
+@colorPurple: #911BC4;
+@colorBlue: #1DAEEB;
+@colorRed: #FC5D60;
+@colorDarkBackground: #333;
+@colorLightBackground: #fafafa;
+
+@background-color: @colorLightBackground;
+@text-color-primary: rgba(0,0,0, 0.87);
+@text-link-color: desaturate(@colorPurple, 20%);
+@preferred_font: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+@performance_font: 'Helvetica', 'Arial', sans-serif;
+
+@gray-darker:            lighten(#000, 13.5%); // #222
+@gray-dark:              lighten(#000, 20%);   // #333
+@gray:                   lighten(#000, 33.5%); // #555
+@gray-light:             lighten(#000, 60%);   // #999
+@gray-lighter:           lighten(#000, 93.5%); // #eee
+
+@brand-primary:         @colorPurple;
+@brand-success:         @colorBlue;
+@brand-info:            #5bc0de;
+@brand-warning:         #f0ad4e;
+@brand-danger:          @colorRed;
+
 /**
  * App-wide Styles
  */
+
+
+ // body.venueApp{
+ //   line-height: 1.42857143;
+ // }
+ .venueApp a{
+   color: @text-link-color;
+   &.btn-danger, &.btn-success, &.btn-warning, &.btn-primary{
+     color: white;
+   }
+ }
 
 .browserupgrade {
   margin: 0.2em 0;
@@ -46,28 +81,10 @@
     background: black;
     width: 0;
 }
-.sidebar{
-  margin-top: 88px;
-  padding-right: 20px;
-  text-align: right;
-  & > div > ul > li{
-    margin-top: 0;
-    margin-bottom: 0;
-    & > a{
-      color: @gray-dark;
-    }
-    &:hover{
-      border-right: 1px solid @gray;
-    }
-    &.active{
-      border-right: 2px solid @gray-dark;
-      & > a{
-        font-weight: bold;
-      }
-
-    }
-  }
+.btn-right{
+  float: right;
 }
+
 .course-title-banner, .event-title-banner{
     height:200px;
     width:100%;
@@ -116,66 +133,6 @@
   }
 }
 
-
-body.venueApp{
-  line-height: 1.42857143;
-}
-.venueApp a{
-  color: #26A69A;
-}
-
-.card-name(){
-  color: #fff;
-  text-align: left;
-  background-color: @gray-dark;
-  background-repeat: no-repeat;
-  background-attachment: center;
-  background-position: center;
-  background-size: cover;
-  min-height: 176px;
-  padding: 0;
-  & > .overlay {
-    background: rgba(0, 0, 0, 0.7);
-    width:100%;
-    display: flex;
-    align-items: center;
-    align-self: flex-end;
-    & > .mdl-card__title-text{
-      padding: 16px;
-      width:100%;
-      align-self: flex-end;
-    }
-  }
-}
-
-.card-desc(){
-  max-height:140px;
-  text-align: left;
-  overflow:hidden;
-}
-
-.card-ref(){
-}
-
-.card-shortname(){
-  min-height: 85px;
-  & > .overlay {
-    background: rgba(0, 0, 0, 0.7);
-    width:100%;
-    min-height: 85px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    & > .mdl-card__title-text{
-      align-self: flex-end;
-    }
-  }
-}
-.card-hover(){
-  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2);
-  cursor:pointer;
-}
-
 .inside {
 }
 .inside-full-height {
@@ -210,10 +167,32 @@ body.venueApp{
 
   .class-card-container{
     text-align:center;
-    background-color: #eee;
   }
 }
 
+.uib-tab{
+  .nav-link{
+    text-transform: uppercase;
+  }
+}
+
+.left-column{
+  border-right:1px solid #ccc;
+}
+.bottom-row{
+  border-top:1px solid #ccc;
+  margin-top: 15px;
+}
+.top-row{
+  border-bottom:1px solid #ccc;
+  margin-bottom: 15px;
+}
+.full-width{
+  width: 100%;
+}
+.no-spacing{
+  margin: 0;
+}
 
 
 /* columns of same height styles */
@@ -332,23 +311,11 @@ body.venueApp{
   }
 }
 
-@background-color: #fafafa;
-
-@gray-darker:            lighten(#000, 13.5%); // #222
-@gray-dark:              lighten(#000, 20%);   // #333
-@gray:                   lighten(#000, 33.5%); // #555
-@gray-light:             lighten(#000, 60%);   // #999
-@gray-lighter:           lighten(#000, 93.5%); // #eee
-
-@brand-primary:         #428bca;
-@brand-success:         #5cb85c;
-@brand-info:            #5bc0de;
-@brand-warning:         #f0ad4e;
-@brand-danger:          #d9534f;
-
 
 // injector
+@import 'mdl.less';
 @import 'account/verify/verify.less';
+@import 'account/signup/signup.less';
 @import 'admin/admin.less';
 @import 'courses/courses.less';
 @import 'courses/edit/courseedit.less';
@@ -365,15 +332,12 @@ body.venueApp{
 @import 'instructor/events/events.less';
 @import 'instructor/newcourse/newcourse.less';
 @import 'instructor/newevent/newevent.less';
-@import 'instructor/signup/signup.less';
 @import 'instructor/studentsubmissions/studentsubmissions.less';
-@import 'instructor/verifystudents/verifystudents.less';
 @import 'main/main.less';
 @import 'student/courses/studentcourses.less';
 @import 'student/dashboard/dashboard.less';
 @import 'student/events/studentevents.less';
 @import 'student/profile/profile.less';
-@import 'student/signup/signup.less';
 @import 'student/submissions/submission.less';
 @import 'student/upload/submit/submit.less';
 @import 'student/upload/upload.less';

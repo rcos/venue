@@ -38,7 +38,7 @@ import eventinfo from './eventinfo';
 import events from './events';
 import instructor from './instructor';
 import student from './student';
-import main from './main/main.component';
+import main from './main';
 
 import _Auth from '../components/auth/auth.module';
 import footer from '../components/footer/footer.component';
@@ -48,7 +48,6 @@ import util from '../components/util/util.module';
 import socket from '../components/socket/socket.service';
 import config from './config';
 
-import sidebar from '../components/sidebar/sidebar.directive';
 import showImage from '../components/showImage/showImage.directive';
 import modal from '../components/modal/modal.service';
 

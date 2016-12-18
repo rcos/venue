@@ -1,11 +1,13 @@
 .event-card{
+  .mdl-card;
+  .mdl-shadow--2dp;
   display: table;
   margin: 24px auto;
   text-align: left;
   min-height: 200px;
 
   background-color: #fff;
-  width: auto;
+  // width: auto;
   .event-name{
     .card-name;
   }
@@ -25,13 +27,16 @@
   .event-sect{
       color:#888;
   }
-
+  .event-button{
+    .card-button();
+  }
   &.short{
     min-height: 136px;
 
     .event-ref{
       color:#666;
       padding:7px;
+
     }
     .event-sect{
         color:#888;
@@ -40,7 +45,9 @@
       .card-shortname();
     }
   }
-
+  .event-dates {
+    .mdl-card__supporting-text
+  }
   .event-section {
     ul {
         list-style:none;
@@ -62,6 +69,7 @@
   }
   .event-section-courses {
     padding:0px;
+    // .mdl-card__supporting-text;
   }
 }
 
@@ -70,7 +78,7 @@
 }
 
 .isPastDate {
-  opacity: .5;
+  opacity: .75;
 }
 
 .event-card:hover{

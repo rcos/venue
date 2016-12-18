@@ -10,7 +10,8 @@ export default angular.module('directives.pictureBanner', [showImage])
         imageurls: '=',
       },
       link: function (scope, element, attrs) {
-        scope.$watch('course', function(){
+        scope.$watch('imageurls', function(){
+          console.log("imageurls",scope.imageurls)
           if(scope.imageurls){
             if(scope.imageurls.length > 0 && scope.imageurls[0].startsWith('/api/')){
               $http.get(scope.imageurls[0], {responseType: 'arraybuffer'})

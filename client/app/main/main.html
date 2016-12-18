@@ -1,65 +1,75 @@
-
 <div class='homepage'>
-<div class='purpose'>
-  <div class='container'>
-    <div class='row'>
-      <div class='col-xs-12'>
-        <div class='shadow-container'>
-          <img src='/assets/images/empac.jpg'/>
-          <div class='lower-shadow shadow'></div>
-          <div class='title'>
-            venue
-            <div class='slogan'>
-              Credit where it counts
+  <div class='about'>
+    <div class="container">
+      <div class='row'>
+        <div class='col-xs-12'>
+          <div class='logo-container'>
+            <img src='/assets/images/white_venue_vertical.png'/>
+          </div>
+          <div class='description'>
+              Venue is a platform that allows instructors to give students credit for
+              attending events. An instructor signs on and creates courses and events,
+              students can then use the venue app to upload event submissions, which
+              can contain images or GPS data that verifies a student attended an event.
+            </p>
+          </div>
+          <div class="links row" ng-hide="loggedIn">
+            <div class='col-sm-4'>
+              <a href="/courses">Courses</a>
+            </div>
+            <div class='col-sm-4'>
+              <a href="/signup">Sign Up</a>
+            </div>
+            <div class='col-sm-4'>
+              <a href="/login">Login</a>
             </div>
           </div>
-          <div class='higher-shadow shadow'></div>
+          <div class="links row" ng-show="isStudent">
+            <div class='col-sm-4'>
+              <a href="/student/dashboard">Dashboard</a>
+            </div>
+            <div class='col-sm-4'>
+              <a href="/student/courses">Courses</a>
+            </div>
+            <div class='col-sm-4'>
+              <a href="/student/events">Events</a>
+            </div>
+          </div>
+          <div class="links row" ng-show="isInstructor">
+            <div class='col-sm-4'>
+              <a href="/instructor/dashboard">Dashboard</a>
+            </div>
+            <div class='col-sm-4'>
+              <a href="/instructor/courses">Courses</a>
+            </div>
+            <div class='col-sm-4'>
+              <a href="/instructor/events">Events</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div id='features' class='features'>
+    <div class="container">
+      <div class='row'>
+        <div class='col-md-6 icons'>
+          <span class='glyphicon glyphicon-phone'></span><span class='plus-text'> + </span>
+          <span class='glyphicon glyphicon-book'></span>
+        </div>
+        <div class='col-md-6'>
+          <h3> Features </h3>
+          <ul>
+            <li>Create courses with multiple sections</li>
+            <li>Student and Instructor dashboards with activity feeds</li>
+            <li>Geo-tagged events and picture uploads</li>
+            <li>Email notifications</li>
+            <li>Companion iOS and Android apps</li>
+            <li>Administrator Control Panels</li>
+            <li>Bulk data downloads</li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<div class='what-is'>
-  <div class='container'>
-    <div class='row'>
-      <div class='col-md-6 icons'>
-        <span class='glyphicon glyphicon-phone'></span><span class='plus-text'> + </span>
-        <span class='glyphicon glyphicon-book'></span>
-      </div>
-      <div class='col-md-6'>
-        <h3>What is venue?</h3>
-        <p class='description'>Venue is a platform that allows instructors to give students credit for
-        attending events. An instructor signs on and creates courses and events,
-        students can then use the venue app to upload event submissions, which
-        can contain images or GPS data that verifies a student attended an event.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id='features' class='features'>
-  <div class='container'>
-    <div class='row'>
-      <div class='col-md-6'>
-        <h3> Features </h3>
-        <ul>
-          <li>Create courses with multiple sections</li>
-          <li>Student and Instructor dashboards with activity feeds</li>
-          <li>Geo-tagged events and picture uploads</li>
-          <li>Email notifications</li>
-          <li>Companion iOS and Android apps</li>
-          <li>Administrator Control Panels</li>
-          <li>Bulk data downloads</li>
-        </ul>
-      </div>
-      <div class='col-md-6'>
-        <div class='get-started'>
-          <h2>Get started with venue today! </h2>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-

@@ -13,9 +13,11 @@ var eventReminderTemplate = fs.readFileSync(path.join(__dirname,"templates","eve
 var emailClient;
 switch(config.emailService){
   case "SMTP":
+    console.log("Setting email to SMTP")
     emailClient = require("./smtp");
     break;
   case "SENDGRID":
+    console.log("Setting email to SENDGRID")
     emailClient = require("./sendgrid");
     break;
   case "MOCK":

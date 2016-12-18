@@ -9,7 +9,7 @@ export default angular.module('directives.submissionview', [showImage])
   .controller('SubmissionViewCtrl', SubmissionViewCtrl)
   .directive('submissionview', function () {
     return {
-      templateUrl: 'components/submissionview/submissionview.html',
+      template: require('./submissionview.html'),
       controller: 'SubmissionViewCtrl',
       restrict: 'E',
       scope: {

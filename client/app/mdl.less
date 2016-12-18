@@ -1,0 +1,577 @@
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+/**
+Forked from https://github.com/google/material-design-lite
+and modified by the venue team to contain only the nessesary styles for
+cards, shadows, and buttons, an some base styles
+*/
+
+html {
+  color: @text-color-primary;
+  font-size: 1em;
+  line-height: 1.4;
+  font-family: @preferred_font;
+  width: 100%;
+  height: 100%;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+/*
+* Make body take up the entire screen
+* Remove body margin so layout containers don't cause extra overflow.
+*/
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+/*
+ * Main display reset for IE support.
+ * Source: http://weblog.west-wind.com/posts/2015/Jan/12/main-HTML5-Tag-not-working-in-Internet-Explorer-91011
+ */
+main {
+  display: block;
+}
+
+/*
+* Apply no display to elements with the hidden attribute.
+* IE 9 and 10 support.
+*/
+*[hidden] {
+  display: none !important;
+}
+/*
+ * Remove text-shadow in selection highlight:
+ * https://twitter.com/miketaylr/status/12228805301
+ *
+ * These selection rule sets have to be separate.
+ * Customize the background color to match your design.
+ */
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+/*
+ * A better looking default horizontal rule
+ */
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+/*
+ * Remove the gap between audio, canvas, iframes,
+ * images, videos and the bottom of their containers:
+ * https://github.com/h5bp/html5-boilerplate/issues/440
+ */
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+    vertical-align: middle;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+    resize: vertical;
+}
+
+h1 {
+  font-size: 45px;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+h2 {
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 48px;
+
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 40px;
+
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+h4 {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 32px;
+  -moz-osx-font-smoothing: grayscale;
+
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+h5 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.02em;
+
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+h6 {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.04em;
+
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0;
+
+  margin-bottom: 16px;
+}
+
+a {
+  color: @colorPurple;
+  font-weight: 500;
+}
+
+/*
+ * Clearfix: contain floats
+ *
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    `contenteditable` attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that receive the `clearfix` class.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/* ==========  Card  ========== */
+
+@card-background-color: white;
+@card-text-color: black;
+@card-image-placeholder-color: @colorPurple;
+@card-supporting-text-text-color: rgba(0,0,0,0.54);
+
+@card-border-color: rgba(0,0,0,0.1);
+@card-subtitle-color: rgba(0,0,0,0.54);
+/* CARD */
+
+/* Card dimensions */
+@card-horizontal-padding: 16px ;
+@card-vertical-padding: 16px ;
+
+.card-name(){
+  color: #fff;
+  text-align: left;
+  background-color: @gray-dark;
+  background-repeat: no-repeat;
+  background-attachment: center;
+  background-position: center;
+  background-size: cover;
+  min-height: 176px;
+  padding: 0;
+
+  align-items: center;
+  display: block;
+  display: flex;
+  justify-content: stretch;
+  line-height: normal;
+  box-sizing: border-box;
+  flex-grow: 1;
+
+  & > .overlay {
+    background: rgba(0, 0, 0, 0.7);
+    width:100%;
+    display: flex;
+    align-items: center;
+    align-self: flex-end;
+    & > .title{
+      padding: 16px;
+      width:100%;
+      align-self: flex-end;
+
+      color: inherit;
+      display: block;
+      display: flex;
+      font-size: 24px;
+      font-weight: 300;
+      line-height: normal;
+      overflow: hidden;
+      margin: 0;
+    }
+  }
+}
+
+.card-desc(){
+  .mdl-card__supporting-text;
+  max-height:140px;
+  text-align: left;
+  overflow:hidden;
+}
+
+.card-ref(){
+  .mdl-card__actions;
+}
+
+.card-shortname(){
+  min-height: 85px;
+  & > .overlay {
+    background: rgba(0, 0, 0, 0.7);
+    width:100%;
+    min-height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    & > .mdl-card__title-text{
+      align-self: flex-end;
+    }
+  }
+}
+.card-hover(){
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2);
+  cursor:pointer;
+}
+.card-button(){
+  .mdl-button;
+  .mdl-button--colored;
+  .mdl-js-button;
+}
+
+.mdl-card {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  font-weight: 400;
+  min-height: 200px;
+  overflow: hidden;
+  width: 330px;
+  z-index: 1;
+  position: relative;
+  background: @card-background-color;
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+
+.mdl-card__supporting-text {
+  color: @card-supporting-text-text-color;
+  font-size: 14px;
+  line-height: 18px;
+  overflow: hidden;
+  padding: @card-vertical-padding 2*@card-horizontal-padding @card-vertical-padding @card-horizontal-padding;
+  &.mdl-card--border {
+    border-bottom: 1px solid @card-border-color;
+  }
+}
+.mdl-js-button{
+  text-transform: uppercase;
+}
+.mdl-card__actions {
+  font-size: 16px;
+  line-height: normal;
+  width: 100%;
+  background-color: rgba(0,0,0,0);
+  padding: 8px;
+  box-sizing: border-box;
+  border-top: 1px solid @card-border-color;
+}
+
+@shadow-key-umbra-opacity: 0.2 ;
+@shadow-key-penumbra-opacity: 0.14 ;
+@shadow-ambient-shadow-opacity: 0.12 ;
+
+/* Shadows */
+
+// Focus shadow mixin.
+.focus-shadow() {
+  box-shadow: 0 0 8px rgba(0,0,0,.18),0 8px 16px rgba(0,0,0,.36);
+}
+
+.mdl-shadow--2dp {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, @shadow-key-penumbra-opacity),
+              0 3px 1px -2px rgba(0, 0, 0, @shadow-key-umbra-opacity),
+              0 1px 5px 0 rgba(0, 0, 0, @shadow-ambient-shadow-opacity);
+}
+
+/* BUTTON */
+/**
+ *
+ * Dimensions
+ *
+ */
+@button-min-width: 64px;
+@button-height: 36px;
+@button-padding: 16px;
+@button-margin: 4px;
+@button-border-radius: 2px;
+
+@button-fab-size: 56px;
+@button-fab-size-mini: 40px;
+@button-fab-font-size: 24px;
+@button-fab-font-size-2: -12px;
+
+@button-icon-size: 32px;
+@button-icon-size-mini: 24px;
+
+
+/* ==========  Standard Buttons  ========== */
+
+// Default button colors.
+@button-primary-color: rgba(9,9,9, 0.20);
+@button-secondary-color: rgb(0,0,0);
+@button-hover-color: @button-primary-color;
+@button-active-color: rgba(9,9,9, 0.40);
+@button-focus-color: rgba(0,0,0, 0.12);
+
+// Colored button colors.
+@button-primary-color-alt: @colorPurple;
+@button-secondary-color-alt: @colorBlue;
+@button-hover-color-alt: @colorPurple;
+@button-active-color-alt: @colorPurple;
+@button-focus-color-alt: @button-focus-color;
+
+// Ripple color for colored raised buttons.
+@button-ripple-color-alt: @brand-success;
+
+// Disabled button colors.
+@button-primary-color-disabled: rgba(0,0,0, 0.12);
+@button-secondary-color-disabled: rgba(0,0,0, 0.26);
+
+// FAB colors and sizes.
+@button-fab-color-alt: @colorRed;
+@button-fab-hover-color-alt: @colorRed;
+@button-fab-active-color-alt: @colorRed;
+@button-fab-text-color-alt: @colorBlue;
+@button-fab-ripple-color-alt: @colorBlue;
+
+// Icon button colors and sizes.
+@button-icon-color: @gray-dark;
+@button-icon-focus-color: @button-focus-color;
+
+
+// The button component. Defaults to a flat button.
+.mdl-button {
+  background: transparent;
+  border: none;
+  border-radius: @button-border-radius;
+  color: @button-secondary-color;
+  position: relative;
+  height: @button-height;
+  margin: 0;
+  min-width: @button-min-width;
+  padding: 0 @button-padding;
+  display: inline-block;
+  @include typo-button();
+  overflow: hidden;
+  will-change: box-shadow;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1),
+              background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1) ,
+              color 0.2s cubic-bezier(0.4, 0, 0.2, 1) ;
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  line-height: @button-height;
+  vertical-align: middle;
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+
+  &:hover {
+    background-color: @button-hover-color;
+  }
+
+  &:focus:not(:active) {
+    background-color: @button-focus-color;
+  }
+
+  &:active {
+    background-color: @button-active-color;
+  }
+
+  &.mdl-button--colored {
+    color: @button-primary-color-alt;
+
+    &:focus:not(:active) {
+      background-color: @button-focus-color-alt;
+    }
+  }
+}
+
+input.mdl-button[type="submit"] {
+  -webkit-appearance:none;
+}
+
+  // Raised buttons
+  .mdl-button--raised {
+    background: @button-primary-color;
+    @include shadow-2dp();
+
+    &:active {
+      @include shadow-4dp();
+      background-color: @button-active-color;
+    }
+
+    &:focus:not(:active) {
+      @include focus-shadow();
+      background-color: @button-active-color;
+    }
+
+    &.mdl-button--colored {
+      background: @button-primary-color-alt;
+      color: @button-secondary-color-alt;
+
+      &:hover {
+        background-color: @button-hover-color-alt;
+      }
+
+      &:active {
+        background-color: @button-active-color-alt;
+      }
+
+      &:focus:not(:active) {
+        background-color: @button-active-color-alt;
+      }
+
+      & .mdl-ripple {
+        background: @button-ripple-color-alt;
+      }
+    }
+  }
+
+
+// Colorized buttons
+
+.mdl-button--primary.mdl-button--primary {
+  color: @button-primary-color-alt;
+  & .mdl-ripple {
+    background: @button-secondary-color-alt;
+  }
+  &.mdl-button--raised, &.mdl-button--fab {
+    color: @button-secondary-color-alt;
+    background-color: @button-primary-color-alt;
+  }
+}
+
+.mdl-button--accent.mdl-button--accent {
+  color: @button-fab-color-alt;
+  & .mdl-ripple {
+    background: @button-fab-text-color-alt;
+  }
+  &.mdl-button--raised, &.mdl-button--fab {
+    color: @button-fab-text-color-alt;
+    background-color: @button-fab-color-alt;
+  }
+}
+
+// Disabled buttons
+
+.mdl-button {
+  // Bump up specificity by using [disabled] twice.
+  &[disabled][disabled],
+  &.mdl-button--disabled.mdl-button--disabled {
+    color: @button-secondary-color-disabled;
+    cursor: default;
+    background-color: transparent;
+  }
+
+  &--fab {
+    // Bump up specificity by using [disabled] twice.
+    &[disabled][disabled],
+    &.mdl-button--disabled.mdl-button--disabled {
+      background-color: @button-primary-color-disabled;
+      color: @button-secondary-color-disabled;
+    }
+  }
+
+  &--raised {
+    // Bump up specificity by using [disabled] twice.
+    &[disabled][disabled],
+    &.mdl-button--disabled.mdl-button--disabled {
+      background-color: @button-primary-color-disabled;
+      color: @button-secondary-color-disabled;
+      box-shadow: none;
+    }
+  }
+  &--colored {
+    // Bump up specificity by using [disabled] twice.
+    &[disabled][disabled],
+    &.mdl-button--disabled.mdl-button--disabled {
+      color: @button-secondary-color-disabled;
+    }
+  }
+}
+
+// Align icons inside buttons with text
+.mdl-button .material-icons {
+  vertical-align: middle;
+}

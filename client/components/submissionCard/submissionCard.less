@@ -1,4 +1,6 @@
 .submission-card{
+  .mdl-card;
+  .mdl-shadow--2dp;
   display: table;
   margin: 24px auto;
   text-align: left;
@@ -17,9 +19,12 @@
   }
   .submission-desc{
     .card-desc;
+    border-bottom: 1px solid @card-border-color;
   }
   .submission-ref{
-    .card-ref()
+    .card-desc;
+    // border-top: none;
+
   }
   &.short{
     min-height: 136px;

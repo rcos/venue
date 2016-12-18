@@ -6,7 +6,6 @@ export default function routes($routeProvider) {
   $routeProvider
     .when('/student/:id/profile', {
       template: require('./profile.html'),
-      controller: 'ProfileCtrl',
-      authenticate: 'student'
+      controller: 'StudentProfileCtrl'
     });
 }
