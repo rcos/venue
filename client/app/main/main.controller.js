@@ -3,11 +3,16 @@
 export default class MainController {
   /*@ngInject*/
   constructor($scope, Auth) {
+    $scope.loggedIn = false;
+    $scope.isStudent = false;
+    $scope.isInstructor = false;
     Auth.getCurrentUser((user) => {
       $scope.user = user;
-      $scope.loggedIn = Auth.isLoggedIn();
-      $scope.isStudent = (!user.isInstructor) && Auth.isLoggedIn();
-      $scope.isInstructor = user.isInstructor;
+      $scope.loggedIn = Auth.isLoggedInSync();
+      if ($scope.loggedIn){
+        $scope.isStudent = user.isStudentSync();
+        $scope.isInstructor = user.isInstructorSync();
+      }
     });
   }
 }

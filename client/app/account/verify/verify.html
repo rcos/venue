@@ -7,7 +7,7 @@
       <div class="col-sm-12">
         <div class="row">
           <div ng-hide="isVerified">
-            You should recieve an email from noreply_venue_team@venue_url.com with a verification link.
+            You should recieve an email from {{ fromEmail || "noreply_venue_team@venue_url.com"}} with a verification link.
             <p>
               <a ng-click="resendEmail()" class="mousePointer">Resend Email</a>
             </p>
@@ -18,5 +18,3 @@
     </div>
   </div>
 </div>
-
-

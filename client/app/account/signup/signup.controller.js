@@ -1,35 +1,35 @@
 'use strict';
-
 export default class SignupController {
 
   /*@ngInject*/
-  constructor(Auth, $location) {
-    this.Auth = Auth;
-    this.$location = $location;
-  }
+  constructor($scope, $location, Auth) {
+      $scope.user = {};
+      $scope.errors = {};
 
-  register(form) {
-    this.submitted = true;
+      $scope.register = (form)=>{
+          $scope.submitted = true;
+          if (form.$valid) {
+            Auth.createUser({
+              firstName: $scope.user.firstName,
+              lastName: $scope.user.lastName,
+              email: $scope.user.email,
+              password: $scope.user.password,
+              isInstructor: false
+            })
+            .then(() => {
+              $location.path('/verify/emailVerification');
+            })
+            .catch(err => {
+              err = err.data;
+              $scope.errors = {};
 
-    if (form.$valid) {
-      return this.Auth.createUser({
-          name: this.user.name,
-          email: this.user.email,
-          password: this.user.password
-        })
-        .then(() => {
-          // Account created, redirect to home
-          this.$location.path('/');
-        })
-        .catch(err => {
-          err = err.data;
-          this.errors = {};
-          // Update validity of form fields that match the mongoose errors
-          angular.forEach(err.errors, (error, field) => {
-            form[field].$setValidity('mongoose', false);
-            this.errors[field] = error.message;
-          });
-        });
-    }
+              // Update validity of form fields that match the mongoose errors
+              angular.forEach(err.errors, (error, field) => {
+                form[field].$setValidity('mongoose', false);
+                $scope.errors[field] = error.message;
+              });
+            });
+          }
+      };
   }
 }

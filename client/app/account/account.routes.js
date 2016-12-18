@@ -39,10 +39,9 @@ export default function routes($routeProvider) {
       template: require('./verify/verify.html'),
       controller: 'VerifyAccountCtrl'
     })
-    // .when('/signup', {
-    //   template: require('./signup/signup.html'),
-    //   controller: 'SignupController',
-    //   controllerAs: 'vm'
-    // })
+    .when('/signup', {
+      template: require('./signup/signup.html'),
+      controller: 'SignupController',
+    })
     ;
 }

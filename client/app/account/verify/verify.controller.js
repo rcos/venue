@@ -3,7 +3,8 @@
 export default class VerifyAccountCtrl {
 
   /*@ngInject*/
-  constructor($scope, $routeParams, User, $location) {
+  constructor($scope, $routeParams, User, $location, appConfig) {
+    var fromEmail = appConfig.serverEmail;
     User.verify({controller: $routeParams.id}, (res)=>{
       $scope.isVerified = res.isVerified;
     });
