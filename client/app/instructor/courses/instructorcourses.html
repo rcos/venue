@@ -1,12 +1,13 @@
-
 <div class="container instructor">
   <div class="row">
     <div class="col-sm-12 instructor-courses">
-      <h1 class="page-header">Courses</h1>
+      <h1 class="page-header">
+        Your Courses
+        <a href="/courses" class="btn btn-lg margin btn-success btn-right" role="button">View All Courses</a>
+        <a href="/instructor/newcourse" class="btn btn-lg margin btn-primary btn-right" role="button">New Course</a>
+      </h1>
       <h3 ng-hide="anyCourses">You are not the instructor for any sections yet</h3>
       <h4 ng-hide="anyCourses">Create a <a href="/instructor/newcourse">course</a> to get started</h4>
-      <h4 ng-show="anyCourses">Create a <a href="/instructor/newcourse">new course</a></h4>
-      <h4><a href="/courses">View All Courses</a></h4>
       <div class="card-container row">
         <course-card class="col-md-6" ng-repeat='course in user.courses' click='goToCourse(course)' data="course" short="false" sections='course.sections'>  </course-card>
       </div>

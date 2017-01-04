@@ -1,7 +1,10 @@
 <div class="courses-page">
   <div class='container'>
     <div class='row'>
-      <h3 class="text-center" ng-hide="courses.length">No courses have been created yet</h3>
+      <div class='col-xs-12'>
+        <h1 class="page-header">All Courses</h1>
+        <h3 class="text-center" ng-hide="courses.length">No courses have been created yet</h3>
+      </div>
       <div class='col-xs-12 search-bar-container' ng-show="courses.length">
         <div class="search-bar">
           <div class="input-group">
@@ -15,10 +18,7 @@
          </div>
       </div>
     </div>
-  </div>
-
-  <div class='class-card-container' ng-show="courses.length">
-    <div class='container'>
+    <div class='class-card-container' ng-show="courses.length">
       <div class='row text-center'>
         <course-card class="card col-lg-4 col-md-6" ng-repeat='course in filteredCourses = (courses | filter:searchText)' click='openCourse(course)' data="course" short="false">  </course-card>
         <div class='no-results' ng-show='filteredCourses.length == 0'>
