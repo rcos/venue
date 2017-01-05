@@ -14,7 +14,7 @@
               <th class="text-center">Students</th>
               <th class="text-center">Edit</th>
             </tr>
-            <tr ng-repeat="section in sections" ng-show="section.pendingStudents.length > 0">
+            <tr class='btn-row-sm' ng-repeat="section in sections" ng-show="section.pendingStudents.length > 0">
               <td>
                 <span class='studentCount'>{{section.course.name}}</span>
               </td>
@@ -26,7 +26,7 @@
                 <span>{{section.students.length}}</span>
               </td>
               <td>
-                <a href="#" class="btn btn-default" ng-href="{{ viewSection(section) }}" role="button">View</a>
+                <a href="#" class="btn btn-default btn-sm" ng-href="{{ viewSection(section) }}" role="button">View</a>
               </td>
             </tr>
           </table>

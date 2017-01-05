@@ -425,7 +425,7 @@ export function unenrollInSection(req, res, next) {
   var userId = req.user._id;
   var sectionId = req.body.sectionid;
   Section.findOneAndUpdateAsync({"_id": sectionId} , {
-      $pull : {students: userId}
+      $pull : {students: userId, pendingStudents: userId}
     }).then( section => {
       res.json(section);
     })

@@ -3,10 +3,14 @@ export default class CourseViewCtrl {
 
   /*@ngInject*/
   constructor($scope, $location, $http, $routeParams, Auth, User, Course, Section) {
+    $scope.isStudent = false;
+    $scope.isInstructor = false;
     Auth.getCurrentUser((user) => {
       $scope.user = user;
-      $scope.isStudent = (!user.isInstructor) && Auth.isLoggedIn();
-      $scope.isInstructor = user.isInstructor;
+      if (user.hasOwnProperty('role')){
+        $scope.isStudent = (!Auth.isInstructorSync()) && Auth.isLoggedInSync();
+        $scope.isInstructor = Auth.isInstructorSync();
+      }
       loadCourses();
     });
 
@@ -23,7 +27,7 @@ export default class CourseViewCtrl {
     $scope.editCourse = function(){
       return "/courses/"+ $routeParams.id + "/edit";
     };
-    
+
     $scope.editSection = function(section){
       return "/courses/"+ $routeParams.id + "/sections/" + section._id + "/edit"
     };
