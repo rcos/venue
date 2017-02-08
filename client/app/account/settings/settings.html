@@ -1,8 +1,23 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
-      <h1>Change Password</h1>
+      <h1>Settings</h1>
     </div>
+    <div class="col-sm-12">
+      <h2>Name</h2>
+      <h4>{{user.firstName}} {{user.lastName}}</h4>
+      <div class="form-group">
+        <label>First</label>
+
+        <input type="text" name="password" class="form-control" ng-model="vm.user.oldPassword"
+               mongoose-error/>
+        <p class="help-block" ng-show="form.password.$error.mongoose">
+            {{ vm.errors.other }}
+        </p>
+      </div>
+
+    </div>
+
     <div class="col-sm-12">
       <form class="form" name="form" ng-submit="vm.changePassword(form)" novalidate>
 
