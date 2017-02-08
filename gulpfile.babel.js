@@ -316,13 +316,6 @@ gulp.task('start:server:prod', () => {
         .on('log', onServerLog);
 });
 
-gulp.task('start:inspector', () => {
-    gulp.src([])
-        .pipe(plugins.nodeInspector({
-          debugPort: 5858
-        }));
-});
-
 gulp.task('start:server:debug', () => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'development';
     config = require(`./${serverPath}/config/environment`);
@@ -367,7 +360,6 @@ gulp.task('serve:debug', cb => {
             'env:all'
         ],
         'webpack:dev',
-        'start:inspector',
         ['start:server:debug', 'start:client'],
         'watch',
         cb
