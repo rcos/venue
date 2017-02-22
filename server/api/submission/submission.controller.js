@@ -241,7 +241,6 @@ exports.image = function(req, res){
   if (!req.params.name || !req.params.userId || !req.params.eventId){
     return res.json(404);
   }
-  console.log("Upload path",config.imageUploadPath,config.tmpUploadPath);
 
   return imageDownload.getImage(
     req.params.name,
