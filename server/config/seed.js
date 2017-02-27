@@ -603,7 +603,7 @@ export function allSubmissions(){
       images: ["/api/submissions/image/000000000000000000000004/000000000000000000001000/submission1.jpg"], // path to image on static image server?
       time: Date.now(),
       submitter: allUsers().foo._id,
-      authors: [allUsers().foo._id, allUsers().kelly._id, allUsers().jane._id],
+      authors: [allUsers().foo._id],
       sectionEvent: allSectionEvents().netArt12Concerts._id,
       verified: true,
       location: {
@@ -621,7 +621,7 @@ export function allSubmissions(){
       images: ["/api/submissions/image/000000000000000000000004/000000000000000000001000/submission2.jpg"], // path to image on static image server?
       time: Date.now(),
       submitter: allUsers().kelly._id,
-      authors: [allUsers().foo._id, allUsers().jane._id, allUsers().kelly._id],
+      authors: [allUsers().kelly._id],
       sectionEvent: allSectionEvents().netArt12Concerts._id,
       verified: false,
       instructorApproval: {
@@ -645,7 +645,7 @@ export function allSubmissions(){
       images: ["/api/submissions/image/000000000000000000000004/000000000000000000001000/submission1.jpg"], // path to image on static image server?
       time: Date.now(),
       submitter: allUsers().jane._id,
-      authors: [allUsers().foo._id, allUsers().jane._id, allUsers().kelly._id],
+      authors: [allUsers().jane._id],
       sectionEvent: allSectionEvents().netArt12Concerts._id,
       verified: false,
       location: {

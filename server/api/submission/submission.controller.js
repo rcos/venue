@@ -101,7 +101,17 @@ exports.index = function(req, res) {
   var withSection = withDefault(req.query.withSection, false);
   var withSectionCourse = withDefault(req.query.withSectionCourse, false);
 
+  var studentRequest = !req.user.isInstructor;
+  var search = {};
+  if (studentRequest){
+    search = { $or: [{ submitter: req.user._id}, { authors: {$in: [req.user._id]} } ]};
+    console.log("recived request from student");
+    console.log("search",search);
+  }
   function respond(query){
+        console.log("query",query);
+
+    query.populate("instructorApproval.instructor");
     if (withStudents){
       query.populate("authors");
       query.populate("submitter");
@@ -141,7 +151,7 @@ exports.index = function(req, res) {
             model: 'EventInfo'
           }
         });
-      };
+      }
     }
 
     query.sort({time: -1});
@@ -152,7 +162,7 @@ exports.index = function(req, res) {
   }
 
   if (req.query.onlyInstructor){
-    var instructorId = req.query.onlyInstructor.toLowerCase() == "me" ? req.user._id : req.query.onlyInstructor;
+    var instructorId = req.query.onlyInstructor.toLowerCase() === "me" ? req.user._id : req.query.onlyInstructor;
     Section.findAsync({instructors: instructorId})
       .then((instructorSections) => {
         var instructorSectionIds = instructorSections.map((sec) => sec._id);
@@ -160,8 +170,10 @@ exports.index = function(req, res) {
       })
       .then((sectionEvents) => {
         var sectionEventIds = sectionEvents.map((evnt) => evnt._id);
+        search.sectionEvent = {$in: sectionEventIds};
         if (onlyNumber){
-            Submission.count({sectionEvent: {$in: sectionEventIds}})
+
+            Submission.count(search)
             .execAsync()
             .then((entity)=>{
               return {"number": entity};
@@ -170,7 +182,7 @@ exports.index = function(req, res) {
             .catch(handleError(res));
         }
         else{
-          respond(Submission.find({sectionEvent: {$in: sectionEventIds}}))
+          respond(Submission.find(search))
         }
       });
 
@@ -178,8 +190,10 @@ exports.index = function(req, res) {
     SectionEvent.findAsync({section: req.query.onlySection})
       .then((sectionEvents) => {
         var sectionEventIds = sectionEvents.map((evnt) => evnt._id);
+        search.sectionEvent = {$in: sectionEventIds};
+
         if (onlyNumber){
-            Submission.count({sectionEvent: {$in: sectionEventIds}})
+            Submission.count(search)
             .execAsync()
             .then((entity)=>{
               return {"number": entity};
@@ -188,12 +202,19 @@ exports.index = function(req, res) {
             .catch(handleError(res));
         }
         else{
-          respond(Submission.find({sectionEvent: {$in: sectionEventIds}}))
+          respond(Submission.find(search))
         }
       });
   }else if (req.query.onlyStudent){
     var studentId = req.query.onlyStudent == 'me' ? req.user._id : req.query.onlyStudent;
-    var search = { $or: [{ submitter: studentId}, { authors: {$in: [studentId]} } ]};
+    if (studentRequest){
+      studentId = req.user._id;
+      //already in search
+    }
+    else{
+      search.$or=[{ submitter: studentId}, { authors: {$in: [studentId]} } ];
+    }
+
     if (req.query.onlySectionEvent) search.sectionEvent = req.query.onlySectionEvent;
     if (onlyNumber){
         Submission.count(search)
@@ -207,8 +228,10 @@ exports.index = function(req, res) {
       respond(Submission.find(search));
     }
   }else if (req.query.onlySectionEvent){
+    search.sectionEvent = req.query.onlySectionEvent;
+
     if (onlyNumber){
-        Submission.count({sectionEvent: req.query.onlySectionEvent})
+        Submission.count(search)
         .then((entity)=>{
           return {"number": entity};
         })
@@ -216,10 +239,10 @@ exports.index = function(req, res) {
         .catch(handleError(res));
     }
     else{
-      respond(Submission.find({sectionEvent: req.query.onlySectionEvent}));
+      respond(Submission.find(search));
     }
   }else if (req.query.onlyNumber){
-    Submission.count()
+    Submission.count(search)
     .then((entity)=>{
       return {"number": entity};
     })
@@ -227,7 +250,7 @@ exports.index = function(req, res) {
     .catch(handleError(res));
 
   }else{
-    respond(Submission.find());
+    respond(Submission.find(search));
   }
 };
 

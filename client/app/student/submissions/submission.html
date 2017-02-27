@@ -1,13 +1,20 @@
+<div class="container student">
+  <div class="row">
+    <div class='col-sm-12'>
+      <h1 class="page-header">Submissions</h1>
+      <h3 ng-hide="submissions.length">No submissions yet</h3>
+      <h4>Upload a <a href="/student/upload">submission</a></h4>
 
-    <div class="container student">
-      <div class="row">
-        <div class='col-sm-12'>
-          <h1 class="page-header">Submissions</h1>
-          <h3 ng-hide="submissions.length">No submissions yet</h3>
-          <h4>Upload a <a href="/student/upload">submission</a></h4>
-          <div>
-            <submission-card class="col-md-6" ng-repeat="submission in submissions" click="goToEvent(submission.sectionEvent)" data="submission" short="true" />
-          </div>
-        </div>
-      </div>
+      <div ng-show="submissions.length">
+        <uib-tabset active="active">
+          <uib-tab index="0" heading="Images">
+        <submission-card class="col-md-6" ng-repeat="submission in submissions" click="goToEvent(submission.sectionEvent)" data="submission" short="true" />
+          </uib-tab>
+          <uib-tab index="1" heading="List">
+            <br/>
+            <submissionview></submissionview>
+          </uib-tab>
+      </uib-tabset>
     </div>
+  </div>
+</div>

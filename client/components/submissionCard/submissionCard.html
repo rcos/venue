@@ -13,7 +13,7 @@
       <div class='submission-ref'>
           <div> Submitted: {{data.time | date : "MMM. d, h:mm a"}}</div>
           <div> Author: {{ data.submitter.firstName }} {{ data.submitter.lastName }}</div>
-          <div> Author: {{ data.submitter.firstName }} {{ data.submitter.lastName }}</div>
+          <div ng-show="data.instructorApproval.instructor"> Graded by: {{ data.instructorApproval.instructor.firstName }} {{ data.instructorApproval.instructor.lastName }}</div>
           <div class="verification-icon">
             <i class="fa fa-check verified" title="verified" aria-hidden="true" ng-show="{{data.verified}}"></i>
             <i class="fa fa-times rejected" title="rejected" aria-hidden="true" ng-show="{{data.instructorApproval.rejected }}"></i>
