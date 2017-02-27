@@ -328,7 +328,7 @@ export function allEvents(){
       description: "Faculty of the School of Humanities, Arts and Social Sciences (HASS) collaborate with the Center for Biotechnology and Interdisciplinary Studies (CBIS) and local Troy artists on two Art_X concerts to discover the art in science and the science in art.  The concerts, which will be held on Tuesday October 6 and October 20 at 4:30 pm in the CBIS Auditorium, are free and open to the RPI community. Following each concert, there will be a reception hosted by CBIS in the Gallery of the CBIS Auditorium.",
       imageURLs: ["/api/eventinfos/image/rpi_concerts-1470324497084.jpeg"], // url to image
       author: allUsers().travis._id, //Travis
-      creationDate: new Date("January 1, 2016 03:24:00"),
+      creationDate: new Date(new Date().getTime() + -7 * 24 * 60 * 60 * 1000 + 4*60*60*1000),
       location: {
         address: "110 8th St, Troy, NY  12180, United States",
         description: "Empac",
@@ -364,11 +364,11 @@ export function allEvents(){
           }
       },
       times: [{
-          start: new Date("January 20, 2016 18:00:00"),
-          end: new Date("January 20, 2016 20:00:00"),
+          start: new Date(new Date().getTime() + -6 * 24 * 60 * 60 * 1000 + 1*60*60*1000),
+          end: new Date(new Date().getTime() + -6 * 24 * 60 * 60 * 1000 + 4*60*60*1000),
       },{
-          start: new Date("January 22, 2016 18:00:00"),
-          end: new Date("January 22, 2016 20:00:00"),
+          start:new Date(new Date().getTime() + -5 * 24 * 60 * 60 * 1000 + 1*60*60*1000),
+          end: new Date(new Date().getTime() + -5 * 24 * 60 * 60 * 1000 + 4*60*60*1000),
       }],
       _id: mongoose.Types.ObjectId('000000000000000000000020')
     },
@@ -377,7 +377,7 @@ export function allEvents(){
       description: "Judson Laipply dances the last 50 years.",
       imageURLs: ["/api/eventinfos/image/dancing-1470324472479.jpeg"], // url to image
       author: allUsers().bob._id, //Bob
-      creationDate: new Date("January 4, 2016 05:49:06"),
+      creationDate: new Date(new Date().getTime() + -2 * 24 * 60 * 60 * 1000),
       location: {
         address: "110 8th St, Troy, NY  12180, United States",
         description: "Empac",
@@ -409,8 +409,8 @@ export function allEvents(){
 
       },
       times: [{
-          start: new Date("January 15, 2016 18:00:00"),
-          end: new Date("January 15, 2016 20:00:00"),
+          start: new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000 + 2*60*60*1000),
+          end: new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000 + 4*60*60*1000),
       }],
       _id: mongoose.Types.ObjectId('000000000000000000000021')
 
@@ -519,7 +519,7 @@ export function allSectionEvents(){
       course: allCourses().netArt._id,//Net art
       submissionInstructions:"Make sure to take a photo with the program.",
       author: allUsers().travis._id, //Travis
-      creationDate: new Date("January 1, 2016 03:24:00"),
+      creationDate: new Date(new Date().getTime() + -5 * 24 * 60 * 60 * 1000 + 4*60*60*1000),
       info: allEvents().concerts._id,//Art_X Concerts: Examine Intersections of Science, Art
       _id: mongoose.Types.ObjectId('000000000000000000001000')
     },
@@ -528,7 +528,7 @@ export function allSectionEvents(){
       course: allCourses().netArt._id,//Net art
       submissionInstructions:"Make sure to take a photo in front of the building.",
       author: allUsers().travis._id, //Travis
-      creationDate: new Date("January 1, 2016 03:24:00"),
+      creationDate: new Date(),
       info: allEvents().concerts._id,//Art_X Concerts: Examine Intersections of Science, Art
       _id: mongoose.Types.ObjectId('000000000000000000001001')
     },
@@ -537,7 +537,7 @@ export function allSectionEvents(){
       course: allCourses().openSource._id,//Introduction to Open Source
       submissionInstructions:"Make sure to take a photo in front of the building.",
       author: allUsers().travis._id, //Travis
-      creationDate: new Date("January 1, 2016 03:24:00"),
+      creationDate: new Date(),
       info: allEvents().concerts._id,//Art_X Concerts: Examine Intersections of Science, Art
       _id: mongoose.Types.ObjectId('000000000000000000001002')
     },
@@ -546,7 +546,7 @@ export function allSectionEvents(){
       course: allCourses().imaging._id,//Media Studio: Imaging
       submissionInstructions:"Make sure to take a photo in front of the building.",
       author: allUsers().travis._id, //Travis
-      creationDate: new Date("January 1, 2016 03:24:00"),
+      creationDate: new Date(),
       info: allEvents().concerts._id,//Art_X Concerts: Examine Intersections of Science, Art
       _id: mongoose.Types.ObjectId('000000000000000000001003')
     },
@@ -555,7 +555,7 @@ export function allSectionEvents(){
       course: allCourses().art._id,//Art, Community and Technology
       submissionInstructions:"Dance!",
       author: allUsers().bob._id, //Bob
-      creationDate: new Date("January 4, 2016 05:49:06"),
+      creationDate: new Date(),
       info: allEvents().dancing._id,//Dancing Through the Years
       _id: mongoose.Types.ObjectId('000000000000000000001004')
     },
@@ -564,7 +564,7 @@ export function allSectionEvents(){
       course: allCourses().imaging._id,//Media Studio: Imaging
       submissionInstructions:"",
       author: allUsers().bob._id, //Bob
-      creationDate: new Date("January 4, 2016 05:49:06"),
+      creationDate: new Date(),
       info: allEvents().dancing._id,//Dancing Through the Years
       _id: mongoose.Types.ObjectId('000000000000000000001005')
     },
@@ -573,7 +573,7 @@ export function allSectionEvents(){
       course: allCourses().netArt._id,//Net art
       submissionInstructions:"",
       author: allUsers().bob._id, //Bob
-      creationDate: new Date("January 4, 2016 05:49:06"),
+      creationDate: new Date(),
       info: allEvents().dancing._id,//Dancing Through the Years
       _id: mongoose.Types.ObjectId('000000000000000000001006')
     },

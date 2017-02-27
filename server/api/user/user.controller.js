@@ -307,11 +307,17 @@ export function show(req, res, next) {
       done(user, profile);
     });
   }))
+  .spread(ifFlagManipulate(req.query.withSubmissions, (user,profile,done)=>{
+    return user.getSubmissionsAsync(req.query).then((submissions)=>{
+      profile.submissions = submissions;
+      done(user, profile);
+    });
+  }))
   .spread(ifFlagManipulate((req.query.withSectionEvents && req.query.withSubmissionFlag), (user,profile,done)=>{
     return user.getSubmissionsAsync(req.query).then((submissions)=>{
       submissions.forEach(submission => {
         profile.sectionEvents = profile.sectionEvents.map( se => {
-          se.submitted = se.submitted || submission.sectionEvent == se._id;
+          se.submitted = se.submitted || submission.sectionEvent === se._id;
           return se;
         });
       });
