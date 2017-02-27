@@ -6,7 +6,7 @@ export default class StudentDashboardCtrl {
     $scope.user = {};
     $scope.courses = [];
     $scope.events = [];
-
+    $scope.anyEvents = true;
     Auth.getCurrentUser((user) => {
       $scope.user = user;
 

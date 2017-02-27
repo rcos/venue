@@ -17,7 +17,7 @@
              </div>
           </div>
         </div>
-        <div class='class-card-container' ng-show="eventsArray.length">
+        <div class='class-card-container' ng-show="eventsArray.length" class="ng-cloak">
           <div class='row text-center'>
             <div class='event-page'>
               <event-card class="col-md-6" ng-repeat='event in filteredEvents = (eventsArray | filter:searchText)' data="event" click='goToEvent(event)' sectionClick='goToEvent(event)' short="false" />
