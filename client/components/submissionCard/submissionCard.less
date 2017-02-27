@@ -23,6 +23,23 @@
   }
   .submission-ref{
     .card-desc;
+    position: relative;
+    .verification-icon{
+      padding: 16px;
+      font-size: 2em;
+      position: absolute;
+      bottom: 1px;
+      right: 0;
+      .verified{
+        color: green;
+      }
+      .rejected{
+        color: red;
+      }
+      .pending{
+        color: grey;
+      }
+    }
     // border-top: none;
 
   }
@@ -31,7 +48,6 @@
 
     .submission-ref{
       color:#666;
-      padding:7px;
     }
     .submission-sect{
         color:#888;

@@ -282,6 +282,7 @@ exports.create = function(req, res) {
         authors : req.body.authors,
         sectionEvent : req.body.eventId,
         verified: false,
+        rejected: false,
         locationMatch: false,
         time: Date.now(),
         content: req.body.content
@@ -325,6 +326,7 @@ exports.create = function(req, res) {
                 }
               },
               verified: eventinfo !== null,
+              rejected: false,
               locationMatch: eventinfo !== null,
               time: Date.now(),
               content: req.body.content
