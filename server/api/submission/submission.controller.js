@@ -105,12 +105,8 @@ exports.index = function(req, res) {
   var search = {};
   if (studentRequest){
     search = { $or: [{ submitter: req.user._id}, { authors: {$in: [req.user._id]} } ]};
-    console.log("recived request from student");
-    console.log("search",search);
   }
   function respond(query){
-        console.log("query",query);
-
     query.populate("instructorApproval.instructor");
     if (withStudents){
       query.populate("authors");
