@@ -1,5 +1,5 @@
 'use strict';
-export default class ProfileCtrl {
+export default class StudentProfileCtrl {
 
   /*@ngInject*/
   constructor($scope) {

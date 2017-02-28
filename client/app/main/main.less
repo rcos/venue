@@ -1,95 +1,50 @@
 .homepage{
+  font-family:Raleway;
   h3{
     font-family:Raleway;
   }
-  .purpose{
-    .title{
-      font-family:Raleway;
-      font-size:128px;
-      display: inline-block;
-      position:relative;
-      color:#000;
-      text-shadow:0px 0px 2px rgba(0,0,0,1);
-
-      .slogan{
-        text-shadow: none;
-        font-family:Raleway;
-        font-size:24px;
-        position: absolute;
-        bottom:0px;
-        right:0px;
-        display:inline-block;
-      }
-    }
-
-    .explanation{
-      position:absolute;
-      top:220px;
-      width:400px;
-      font-size:14px;
-      color:#666;
-    }
-
+  .about{
+    background-color: @colorDarkBackground;
+    color:white;
     img{
-      position:absolute;
-      right:0px;
-      top:0px;
+      display: block;
+      margin: auto;
+      width: 40%;
     }
 
-    .shadow-container{
+    .logo-container{
       position:relative;
       overflow:hidden;
-      height:340px;
+      // height:340px;
       margin-bottom: 60px;
-      margin-top: 40px;
+      margin-top: 60px;
     }
-
-    .shadow{
-      position:absolute;
-      left:-20px;
-      top:0;
-      height:340px;
-      right:0px;
+    .description{
+      font-size:24px;
+      text-align: center;
+      margin-bottom: 60px;
+      margin-top: 60px;
     }
-    .lower-shadow{
-      background-image:linear-gradient(70deg, #fff 500px, rgba(255,255,255,0));
-    }
-    .higher-shadow{
-      opacity:.75;
-      background-image:linear-gradient(0,rgba(255,255,255,0),#fff);
+    .links{
+      font-size:24px;
+      margin-bottom: 60px;
+      margin-top: 60px;
+      text-align: center;
+      a{
+        color: white;
+      }
     }
   }
 
-  .what-is{
+  .features{
+    color: @text-color-primary;
     padding-top:30px;
     padding-bottom:40px;
-    box-shadow:0px 10px 10px rgba(0,0,0,.25) inset;
-    background-color: #333;
-    color:#fff;
-
-    h1{
-      padding-bottom: 16px;
-    }
-    .description{
-      font-size:16px;
-      font-weight: lighter;
-    }
     .icons{
       font-size:102px;
       text-align:left;
       padding-top:50px;
     }
-    .plus-text{
-      font-size:102px;
-      line-height: 102px;
-      user-select: none;
-      vertical-align: top;
-    }
-  }
-
-  .features{
-    padding-top:30px;
-    padding-bottom:40px;
 
     li{
       font-size:16px;

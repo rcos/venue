@@ -8,7 +8,7 @@ export default angular.module('directives.courseTitleBanner', [showImage, pictur
   .directive('courseTitleBanner', function ($http) {
     "ngInject";
     return {
-      templateUrl: 'components/courseTitleBanner/courseTitleBanner.html',
+      template: require('./courseTitleBanner.html'),
       restrict: 'EA',
       scope: {
         course: '=',
@@ -23,7 +23,7 @@ export default angular.module('directives.courseTitleBanner', [showImage, pictur
   })
   .directive('courseTitleBannerBasic', function ($http) {
     return {
-      templateUrl: 'components/courseTitleBanner/courseTitleBannerBasic.html',
+      template: require('./courseTitleBannerBasic.html'),
       restrict: 'EA',
       scope: {
         course: '=',
@@ -37,7 +37,7 @@ export default angular.module('directives.courseTitleBanner', [showImage, pictur
   })
   .directive('courseTitleBannerBase', function ($http) {
     return {
-      templateUrl: 'components/courseTitleBanner/courseTitleBannerBase.html',
+      template: require('./courseTitleBannerBase.html'),
       restrict: 'EA',
       scope: {
         course: '=',

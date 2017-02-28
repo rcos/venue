@@ -1,5 +1,3 @@
-
-
 <div class='container instructor'>
   <div class="instructorSectionview">
     <course-title-banner section="section" course="course" link="/courses/{{course._id}}"></course-title-banner>
@@ -11,15 +9,8 @@
     </div>
 
     <div class='row'>
-      <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect col-sm-12">
-        <div class="mdl-tabs__tab-ba row">
-          <a href="#info-panel" class="mdl-tabs__tab is-active col-sm-2">Information</a>
-          <a href="#student-panel" class="mdl-tabs__tab col-sm-2">Students</a>
-          <a href="#event-panel" class="mdl-tabs__tab col-sm-2">Events</a>
-          <a href="#submissions-panel" class="mdl-tabs__tab col-sm-2">Submissions</a>
-        </div>
-
-        <div class='mdl-tabs__panel is-active' id='info-panel'>
+      <uib-tabset active="active">
+        <uib-tab index="0" heading="Information">
           <table class="course-section text-center table table-hover section-information">
             <tr>
               <td class="text-right section-info">Instructor<span ng-show="section.instructors.length > 1">s</span></td>
@@ -56,9 +47,8 @@
             </tr>
           </table>
           <a href="#" class="btn btn-default edit-section col-sm-2" ng-href="{{ viewEditSection() }}" role="button">Edit</a>
-        </div>
-
-        <div class="mdl-tabs__panel" id="student-panel">
+        </uib-tab>
+        <uib-tab index="1" heading="Students">
           <div class="" ng-show="section.pendingStudents.length > 0">
             <h4>Pending Students</h4>
             <table class="pending-students text-center table table-hover">
@@ -84,9 +74,9 @@
               </tr>
             </table>
           </div>
-        </div>
+        </uib-tab>
 
-        <div class="mdl-tabs__panel" id="event-panel">
+        <uib-tab index="2" heading="Events">
           <div ng-hide="section.events.length">
             <h4> No events yet. Assign one <a href="/instructor/newevent">here</a> </h4>
           </div>
@@ -95,9 +85,9 @@
               <event-card ng-click='goToEvent(event)' data="event"  short="true" preview="true" >  </event-card>
             </div>
           </div>
-        </div>
+        </uib-tab>
 
-        <div class="mdl-tabs__panel" id="submissions-panel">
+        <uib-tab index="3" heading="Submissions">
           <div class="events row">
             <div class="col-sm-12">
               <h4> View Submissions for Event Assignments </h4>
@@ -107,7 +97,7 @@
 
               <div class="card-container" ng-show="section.events.length">
                 <div class="col-md-3" ng-repeat='event in section.events' >
-                  <event-card selected="selectedEventId == event._id" ng-click='selectEvent(event)' data="event"  short="true" preview="true" >  </event-card>
+                  <event-card link-enabled="false" selected="selectedEventId == event._id" ng-click='selectEvent(event)' data="event"  short="true" preview="true" >  </event-card>
                 </div>
               </div>
             </div>
@@ -152,9 +142,8 @@
             </div>
           </div>
           <!-- END VIEW STUDENTS/SUBMISSIONS FOR EVENT -->
-          </div>
-        </div>
-
-      </div>
+        </uib-tab>
+      </uib-tabset>
     </div>
+  </div>
 </div>

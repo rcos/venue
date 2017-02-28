@@ -1,4 +1,4 @@
-<div class='navbar-container'>
+<div class='navbar-container' ng-hide="nav.isActive('/')">
   <div class='container'>
     <div class="navbar navbar-default venue-nav navbar-static-top">
       <div class="navbar-header">
@@ -8,49 +8,67 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a href="/" class="navbar-brand">venue</a>
+        <a class="navbar-brand" href="/">
+          <img alt="Venue Icon" src="/assets/images/white_venue_small.png">
+        </a>
+
       </div>
+
       <div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
-        <ul class="nav navbar-nav">
-          <li ng-show="nav.isStudent()" ng-class="{active: nav.isActive('/student/dashboard')}">
+        <ul ng-show="nav.isStudent()" class="nav navbar-nav">
+          <li ng-class="{active: nav.isActive('/student/dashboard')}">
             <a href="/student/dashboard">Dashboard</a>
           </li>
-          <li ng-show="nav.isStudent()" ng-class="{active: nav.isActive('/student/upload')}">
-            <a href="/student/upload">Upload</a>
+          <li ng-class="{active: isActive('/student/courses')}">
+            <a href="/student/courses">Courses</a>
           </li>
-          <li ng-show="nav.isStudent()" ng-class="{active: nav.isActive('/student/events')}">
+          <li ng-class="{active: nav.isActive('/student/events')}">
             <a href="/student/events">Events</a>
           </li>
+          <li ng-class="{active: isActive('/student/submissions')}">
+            <a href="/student/submissions">Submissions</a>
+          </li>
 
-          <li ng-show="nav.isInstructor()" ng-class="{active: nav.isActive('/instructor/dashboard')}">
+          <li ng-class="{active: nav.isActive('/student/upload')}">
+            <a href="/student/upload">Upload</a>
+          </li>
+        </ul>
+
+        <ul ng-show="nav.isInstructor()" class="nav navbar-nav">
+          <li ng-class="{active: nav.isActive('/instructor/dashboard')}">
             <a href="/instructor/dashboard">Dashboard</a>
           </li>
-          <li ng-show="nav.isInstructor()" ng-class="{active: nav.isActive('/instructor/newevent')}">
-            <a href="/instructor/newevent">Create Event</a>
+          <li ng-class="{active: isActive('/instructor/courses')}">
+            <a href="/instructor/courses">Courses</a>
           </li>
-          <li ng-show="nav.isInstructor()" ng-class="{active: nav.isActive('/instructor/events')}">
+          <li ng-class="{active: nav.isActive('/instructor/events')}">
             <a href="/instructor/events">Events</a>
           </li>
-
-          <li ng-class="{active: nav.isActive('/courses')}">
-            <a href="/courses">Search Courses</a>
+          <li ng-class="{active: isActive('/instructor/studentsubmissions')}">
+            <a href="/instructor/studentsubmissions">Submissions</a>
           </li>
 
           <li ng-show="nav.isAdmin()" ng-class="{active: nav.isActive('/admin')}"><a href="/admin">Admin</a></li>
         </ul>
 
-        <ul class="nav navbar-nav navbar-right">
-          <li>
-            <a href="#" ng-click="nav.help()">Help</a>
+        <ul ng-hide="nav.isLoggedIn()" class="nav navbar-nav">
+          <li ng-class="{active: nav.isActive('/courses')}">
+            <a href="/courses">Search Courses</a>
           </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
           <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/signup')}">
-            <a href="/student/signup">Sign up</a>
+            <a href="/signup">Sign up</a>
           </li>
           <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/login')}">
             <a href="/login">Login</a>
           </li>
-          <li ng-show="nav.isLoggedIn()">
-            <a href="/settings">You are logged in as {{ nav.getCurrentUser().firstName }}</a>
+          <li ng-show="nav.isInstructor()">
+            <a ng-href="/instructor/{{nav.getCurrentUser()._id}}/profile">{{ nav.getCurrentUser().firstName }}</a>
+          </li>
+          <li ng-show="nav.isStudent()">
+            <a ng-href="/student/{{nav.getCurrentUser()._id}}/profile">{{ nav.getCurrentUser().firstName }}</a>
           </li>
           <li ng-show="nav.isLoggedIn()" ng-class="{active: nav.isActive('/settings')}">
             <a href="/settings"><span class="glyphicon glyphicon-cog"></span></a>

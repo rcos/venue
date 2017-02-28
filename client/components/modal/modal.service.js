@@ -14,7 +14,7 @@ export default angular.module('directives.modal', [])
       angular.extend(modalScope, scope);
 
       return $modal.open({
-        templateUrl: 'components/modal/modal.html',
+        template: require('./modal.html'),
         windowClass: modalClass,
         scope: modalScope
       });

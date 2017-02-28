@@ -1,24 +1,22 @@
-<div class='mdl-card mdl-shadow--2dp submission-card' ng-click="click(data)" ng-class="{'short':short, 'expanded':expanded}">
+<div class='submission-card' ng-click="click(data)" ng-class="{'short':short, 'expanded':expanded}">
   <div class='row'>
     <div ng-class="{'col-xs-12': !expanded, 'col-xs-6': expanded}">
-      <div class='submission-name mdl-card__title mdl-card--expand' ng-style="{'background-image':'url(' + img + ')'}">
+      <div class='submission-name' ng-style="{'background-image':'url(' + img + ')'}">
       </div>
-      <div class='submission-desc mdl-card__supporting-text'>
+      <div class='submission-desc'>
         <div>Event: {{ data.sectionEvent.info.title }}</div>
         <div>Course: {{ data.sectionEvent.section.course.department }} {{data.sectionEvent.section.course.courseNumber}} | {{ data.sectionEvent.section.course.name }}</div>
         <div>Sections :
           <span ng-repeat="num in data.sectionEvent.section.sectionNumbers"> {{num}}<span ng-hide="$last">, </span></span>
         </div>
       </div>
-      <div class='submission-ref mdl-card__actions mdl-card--border'>
-        <div class='mdl-card__supporting-text '>
+      <div class='submission-ref'>
           <div> Submitted: {{data.time | date : "MMM. d, h:mm a"}}</div>
-            Author: {{ data.submitter.firstName }} {{ data.submitter.lastName }}
-        </div>
+          <div>Author: {{ data.submitter.firstName }} {{ data.submitter.lastName }}</div>
       </div>
     </div>
-    <div class='col-xs-6 scrollable' ng-show='expanded'>
-      {{data.content}}
-    </div>
+  </div>
+  <div class='col-xs-6 scrollable' ng-show='expanded'>
+    {{data.content}}
   </div>
 </div>

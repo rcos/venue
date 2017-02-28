@@ -6,7 +6,7 @@ export default angular.module('directives.submissionCard', [showImage])
   .directive('submissionCard', function($http,$compile, $location){
     "ngInject";
     return {
-      templateUrl: 'components/submissionCard/submissionCard.html',
+      template: require('./submissionCard.html'),
       restrict: 'EA',
       scope: {
         selected: '=',

@@ -10,7 +10,7 @@ export default angular.module('directives.courseform', [showImage])
   .controller('CourseFormCtrl', CourseFormCtrl)
   .directive('courseform', function () {
     return {
-      templateUrl: 'components/courseform/courseform.html',
+      template: require('./courseform.html'),
       controller: 'CourseFormCtrl',
       restrict: 'EA',
       link: function (scope, element, attrs) {

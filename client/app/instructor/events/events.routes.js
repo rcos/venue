@@ -4,7 +4,7 @@ export default function routes($routeProvider) {
   'ngInject';
   $routeProvider
     .when('/instructor/events', {
-      templateUrl: 'app/instructor/events/events.html',
+      template: require('./events.html'),
       controller: 'InstructorEventsCtrl',
       authenticate: 'instructor'
     });

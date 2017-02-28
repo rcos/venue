@@ -10,7 +10,7 @@ export default angular.module('directives.sectionform', [showImage])
   .controller('SectionFormController', SectionFormController)
   .directive('sectionform', function () {
     return {
-      templateUrl: 'components/sectionform/sectionform.html',
+      template: require('./sectionform.html'),
       restrict: 'EA',
       controller: 'SectionFormController',
       link: function (scope, element, attrs) {
