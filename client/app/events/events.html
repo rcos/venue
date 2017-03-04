@@ -64,9 +64,10 @@
               </div>
 
               <div ng-show='user.isInstructor && sectionInstructor'>
-                <div ng-hide='confirm'>
+                <div ng-hide='confirm' ng-cloak>
                   <button class='btn btn-md btn-warning' ng-click='deleteEvent(event)'>Remove Assignment</button>
-                  <button class='btn btn-md' ng-click='editAssignemnt()'>Edit Assignment</button>
+                  <button class='btn btn-md' ng-hide="assignmentEdit" ng-click='editAssignemnt()'>Edit Instructions</button>
+                  <button class='btn btn-md' ng-show="assignmentEdit" ng-click='cancelEdit()'>Cancel Edit</button>
 
                 </div>
                 <div ng-show='confirm' class="help-block">
@@ -78,33 +79,33 @@
                   <button class='btn btn-md btn-default' ng-click='cancelDeleteEventAssignment(event)'>cancel</button>
                 </div>
               </div>
+              <div ng-show='assignmentEdit'>
+                  <br/>
+                  <form class="eventAssignment" name="eventAssignmentForm" ng-submit="updateEventAssignment(eventAssignmentForm)" novalidate>
+
+                      <div class="form-group" ng-class="{ 'has-success': assignment.submissionInstructions  && (eventAssignmentForm.submissionInstructions.$touched || submitted), 'has-error': !assignment.submissionInstructions && (eventAssignmentForm.submissionInstructions.$touched || submitted) }">
+                          <label>Submission Instructions</label>
+
+                          <textarea type="text" name="submissionInstructions" class="form-control" ng-model="assignment.submissionInstructions"
+                          required></textarea>
+
+                          <p class="help-block" ng-show="!assignment.submissionInstructions">
+                              Submission instructions are required
+                          </p>
+                      </div>
+                      <div>
+                          <button class="btn btn-inverse btn-register" type="submit">Save</button>
+                      </div>
+
+                  </form>
+              </div>
+
               <div ng-show='user.isInstructor && !sectionInstructor'>
                 You are not an instructor for this section
               </div>
           </div>
       </div>
     </div>
-  </div>
-
-  <div class='row' ng-show='assignmentEdit'>
-      <br/>
-      <form class="eventAssignment" name="eventAssignmentForm" ng-submit="updateEventAssignment(eventAssignmentForm)" novalidate>
-
-          <div class="form-group" ng-class="{ 'has-success': assignment.submissionInstructions  && (eventAssignmentForm.submissionInstructions.$touched || submitted), 'has-error': !assignment.submissionInstructions && (eventAssignmentForm.submissionInstructions.$touched || submitted) }">
-              <label>Submission Instructions</label>
-
-              <textarea type="text" name="submissionInstructions" class="form-control" ng-model="assignment.submissionInstructions"
-              required></textarea>
-
-              <p class="help-block" ng-show="!assignment.submissionInstructions">
-                  Submission instructions are required
-              </p>
-          </div>
-          <div>
-              <button class="btn btn-inverse btn-register" type="submit">Save</button>
-          </div>
-
-      </form>
   </div>
 
   <div class='row bottom-row'>
