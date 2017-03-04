@@ -1,9 +1,7 @@
-
-
 <div class='container courses-page'>
   <div class="sectionview">
     <course-title-banner section="section" course="course" link="/courses/{{course._id}}"></course-title-banner>
-    <div class='row row-height'>
+    <div class='row row-height' ng-cloak>
       <div class="col-sm-12" ng-hide='isInstructor || isStudent'>
         <h4><a href="/login">Log in</a> to learn more</h4>
       </div>
@@ -67,7 +65,7 @@
       </div>
     </div>
     <hr/>
-    <div class='row'>
+    <div class='row' ng-cloak>
       <div class="col-sm-12 events" ng-show='isStudent'>
         <h4> Events </h4>
         <div ng-hide="section.events.length">
@@ -82,4 +80,3 @@
     </div>
   </div>
 </div>
-

@@ -1,16 +1,12 @@
-
-
 <div class='container courses-page'>
   <div class="courseview">
 
     <course-title-banner section="section" course="course" link="instructor/courses/{{course._id}}/sections/{{section._id}}"></course-title-banner>
 
-    <div class='row'>
+    <div class='row' ng-cloak>
       <div class='col-xs-12 section-edit'>
       <sectionform updating="true"></sectionform>
       </div>
     </div>
   </div>
 </div>
-
-

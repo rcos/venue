@@ -1,11 +1,7 @@
-
-
 <div class='container courses-page'>
   <div class="courseview">
-
     <course-title-banner course="course" link="/courses/{{course._id}}"></course-title-banner>
-
-    <div class='row'>
+    <div class='row' ng-cloak>
       <div class='col-xs-12 course-edit'>
       <!-- "course" must already be in scope- this is true after a CourseView -->
         <courseform updating="true"></courseform>
@@ -13,5 +9,3 @@
     </div>
   </div>
 </div>
-
-

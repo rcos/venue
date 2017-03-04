@@ -3,7 +3,7 @@
     <div class="col-sm-12 dashboard">
       <h1 class="page-header">Instructor Dashboard</h1>
       <div class="row">
-        <div class="col-sm-12 top-rowst" ng-show="anyPending">
+        <div class="col-sm-12 top-rowst" ng-show="anyPending" ng-cloak>
           <h3>Sections with Pending Students</h3>
           <h4 ng-hide="sections.length">You don't have any sections yet</h4>
           <table class="course-section text-center table table-hover" ng-show="sections.length">
@@ -32,7 +32,7 @@
           </table>
         </div>
 
-        <div class="col-sm-6 events left-column">
+        <div class="col-sm-6 events left-column" ng-cloak>
           <h3> Upcoming Events
             <a href="/instructor/newevent" class="btn btn-md margin btn-primary btn-right" role="button">New Event</a>
           </h3>
@@ -42,7 +42,7 @@
 
           </div>
         </div>
-        <div class="col-sm-6 events">
+        <div class="col-sm-6 events" ng-cloak>
           <h3> Recent Events
             <a href="/instructor/studentsubmissions" class="btn btn-md margin btn-success btn-right" role="button">Submissions</a>
           </h3>

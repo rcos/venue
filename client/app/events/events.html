@@ -1,7 +1,7 @@
 <div class='event-page container'>
   <div class='row' ng-show='err'>
     <div class='col-xs-12'>
-      <div ng-show='err.status == 404'>
+      <div ng-show='err.status == 404' ng-cloak>
         <div class='error-deadend'> we couldn't find that event </div>
         <div class='error-deadend-msg'>
           We weren't able to find that event, try to navigate to the event from your <a href="/{{user.isInstructor ? 'instructor' : 'student'}}/events"> dashboard </a>.
@@ -18,10 +18,10 @@
       </div>
     </div>
   </div>
-  <div class='row eventview' ng-hide='err'>
+  <div class='row eventview' ng-hide='err' ng-cloak>
     <event-title-banner section-event="event" event="event.info" link="/eventInfo/{{event.info._id}}"></event-title-banner>
 
-    <div class='row row-md-height'>
+    <div class='row row-md-height' ng-cloak>
       <div class='col-md-6 left-column col-md-height col-md-top'>
         <div class='inside-full-height'>
           <h4>Event Description</h4>

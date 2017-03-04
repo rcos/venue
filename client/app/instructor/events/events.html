@@ -5,10 +5,10 @@
           Your Events
           <a href="/instructor/newevent" class="btn btn-lg margin btn-primary btn-right" role="button">New Event</a>
         </h1>
-        <h3 ng-hide="eventsArray.length">No events assigned yet</h3>
-        <h4 ng-hide="eventsArray.length">Create an <a href="/instructor/newevent">event</a> to get started</h4>
+        <h3 ng-hide="eventsArray.length" ng-cloak>No events assigned yet</h3>
+        <h4 ng-hide="eventsArray.length" ng-cloak>Create an <a href="/instructor/newevent">event</a> to get started</h4>
 
-        <div class='row' ng-show="eventsArray.length">
+        <div class='row' ng-show="eventsArray.length" ng-cloak>
           <div class='col-xs-12 search-bar-container'>
             <div class="search-bar">
               <div class="input-group input-group-lg">
