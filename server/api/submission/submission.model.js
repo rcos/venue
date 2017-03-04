@@ -16,9 +16,9 @@ var SubmissionSchema = new Schema({
   instructorApproval: {
     instructor: {type : Schema.Types.ObjectId, ref: 'User'},
     time: Date,
-    rejected: Boolean,
     comments: String
   },
+  instructorVerification: { type: String, enum: ["verified", "rejected", "none"] },
   verified: Boolean,
   locationMatch: Boolean,
   location: {

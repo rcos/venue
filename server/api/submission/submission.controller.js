@@ -300,8 +300,8 @@ exports.create = function(req, res) {
         submitter : req.body.userId,
         authors : req.body.authors,
         sectionEvent : req.body.eventId,
+        instructorVerification: "none",
         verified: false,
-        rejected: false,
         locationMatch: false,
         time: Date.now(),
         content: req.body.content
@@ -344,8 +344,8 @@ exports.create = function(req, res) {
                   coordinates : req.body.coordinates
                 }
               },
+              instructorVerification: "none",
               verified: eventinfo !== null,
-              rejected: false,
               locationMatch: eventinfo !== null,
               time: Date.now(),
               content: req.body.content
