@@ -36,18 +36,20 @@
           <h3> Upcoming Events
             <a href="/instructor/newevent" class="btn btn-md margin btn-primary btn-right" role="button">New Event</a>
           </h3>
-          <h4 ng-hide="anyEvents">Assign a <a href="/instructor/newevent">event</a></h4>
+          <h4 ng-hide="anyEvents && filteredEventsAfter.length">Assign a <a href="/instructor/newevent">event</a></h4>
           <div class="card-container">
-            <event-card ng-repeat='event in events' data="event"  short="true">  </event-card>
+            <event-card ng-repeat='event in events | dateAfter:today | limitTo:10 as filteredEventsAfter' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
+
           </div>
         </div>
         <div class="col-sm-6 events">
           <h3> Recent Events
             <a href="/instructor/studentsubmissions" class="btn btn-md margin btn-success btn-right" role="button">Submissions</a>
           </h3>
-          <h4 ng-hide="anyEvents">Assign a <a href="/instructor/newevent">event</a></h4>
+          <h4 ng-hide="anyEvents && filteredEventsBefore.length" class="ng-cloak">You haven't had any events yet</h4>
           <div class="card-container">
-            <event-card ng-repeat='event in events' data="event"  short="true">  </event-card>
+            <event-card ng-repeat='event in events | dateBefore:today | limitTo:10 as filteredEventsBefore' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
+
           </div>
         </div>
       </div>
