@@ -5,10 +5,6 @@ export function EditEventFormCtrl($scope, Auth, EventInfo, User, SectionEvent, U
     $scope.today = new Date();
     $scope.today.setHours(0,0,0,0);
 
-    $scope.startDate = new Date();
-    $scope.courseCreated = false;
-    $scope.selectingEvent = true;
-
     $scope.success = false;
     $scope.mapLoaded = false;
     $scope.allShapes = [];
@@ -26,7 +22,7 @@ export function EditEventFormCtrl($scope, Auth, EventInfo, User, SectionEvent, U
       $scope.event.endDate = $scope.event.times ? new Date($scope.event.times[0].end) : new Date();
     }
 
-    $scope.createEventInfo = function(form){
+    $scope.updateEventInfo = function(form){
       $scope.submitted = true;
 
       // Save the event information and send it to the api endpoint
@@ -41,15 +37,17 @@ export function EditEventFormCtrl($scope, Auth, EventInfo, User, SectionEvent, U
             end: $scope.event.endDate
           }],
           files: [$scope.file],
-          location: $scope.event.location,
-          imageURL: $scope.event.imageURL,
+          location: {
+            address: $scope.event.location.address,
+            description: $scope.event.location.description,
+          }
         };
 
         //Upload the event
         Upload.upload({
-          url: '/api/eventinfos/',
+          url: '/api/eventinfos/'+$scope.event._id,
           data: $scope.eventInfo,
-          method: 'POST',
+          method: 'PUT',
           objectKey: '.k',
           arrayKey: '[i]'
         }).success( (response) => {
@@ -59,7 +57,7 @@ export function EditEventFormCtrl($scope, Auth, EventInfo, User, SectionEvent, U
             $scope.onSubmit();
           }
         }).catch(err => {
-          err = err.data;
+          $scope.err = err.data;
         });
       };
     };

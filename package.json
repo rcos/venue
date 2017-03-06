@@ -40,6 +40,7 @@
     "express-jwt": "^3.0.0",
     "express-session": "^1.11.3",
     "fast-json-patch": "^1.0.0",
+    "flat": "^2.0.1",
     "font-awesome": ">=4.1.0",
     "font-awesome-webpack": "0.0.4",
     "glob": "^7.0.3",

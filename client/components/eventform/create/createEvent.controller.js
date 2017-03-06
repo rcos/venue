@@ -273,7 +273,7 @@ export function CreateEventFormCtrl($scope, Auth, EventInfo, User, SectionEvent,
         $scope.eventInfo = {
           title: $scope.event.title,
           description: $scope.event.description,
-          times:[{
+          times: [{
             start: $scope.event.startDate,
             end: $scope.event.endDate
           }],
@@ -281,6 +281,7 @@ export function CreateEventFormCtrl($scope, Auth, EventInfo, User, SectionEvent,
           location: {
             address: $scope.event.location.address,
             description: $scope.event.location.description,
+            radius:  Math.abs($scope.map.bounds.northeast.longitude-$scope.map.bounds.southwest.longitude),
             geo: {
               type: 'Point',
               coordinates: [
@@ -288,31 +289,29 @@ export function CreateEventFormCtrl($scope, Auth, EventInfo, User, SectionEvent,
                 $scope.map.center.latitude
               ]
             },
-            radius: Math.abs($scope.map.bounds.northeast.longitude-$scope.map.bounds.southwest.longitude),
-            geobounds: {
+            geobounds:  {
               type: 'MultiPolygon',
               coordinates: allShapes,
-            },
-          },
-          imageURL: $scope.event.imageURL,
-        };
-        //Upload the event
-        Upload.upload({
-          url: '/api/eventinfos/',
-          data: $scope.eventInfo,
-          method: 'POST',
-          objectKey: '.k',
-          arrayKey: '[i]'
-        }).success( (response) => {
-          $scope.eventContainer.info = response;
-          $scope.submitted = false;
-          if ($scope.onSubmit){
-            $scope.onSubmit();
+            }
           }
-        }).catch(err => {
-          err = err.data;
-        });
+        }
       };
+      //Upload the event
+      Upload.upload({
+        url: '/api/eventinfos/',
+        data: $scope.eventInfo,
+        method: 'POST',
+        objectKey: '.k',
+        arrayKey: '[i]'
+      }).success( (response) => {
+        $scope.eventContainer.info = response;
+        $scope.submitted = false;
+        if ($scope.onSubmit){
+          $scope.onSubmit();
+        }
+      }).catch(err => {
+        err = err.data;
+      });
     };
 
     $scope.openCalendar = function(e, prop) {

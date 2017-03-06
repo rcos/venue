@@ -16,18 +16,21 @@
   }
 
   .events-selection{
-    .event{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    .event, .create-event{
 
       @boxSize: 180px;
 
-      display:inline-block;
+      // display:inline-block;
       width:@boxSize;
       height:@boxSize;
       position:relative;
       margin:8px;
       box-shadow:1px 1px 5px rgba(0,0,0,.7);
       overflow:hidden;
-
       .title{
         position:absolute;
         color:#fff;
@@ -56,35 +59,16 @@
         left:0;
         top:0;
       }
-    }
-    .event:hover{
-      cursor:pointer;
-
-      .description{
-        bottom:0px;
+      &:hover{
+        cursor:pointer;
+        .description{
+          bottom:0px;
+        }
       }
-    }
-    .create-event{
-
-      @boxSize: 180px;
-
-      display:inline-block;
-      width:@boxSize;
-      height:@boxSize;
-      position:relative;
-      margin:8px;
-      box-shadow:1px 1px 5px rgba(0,0,0,.7);
-      overflow:hidden;
-
       .fa {
         font-size: 72px;
       }
-    }
-    .create-event:hover{
-      cursor:pointer;
-      .description{
-        bottom:0px;
-      }
+
     }
   }
   .drop-box {
