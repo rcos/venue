@@ -165,7 +165,7 @@ export function create(req, res) {
       evnt.times = [evnt['times[0]']]
     }
     // Change time strings to Date objects
-    for (var a =0; a < evnt.times ; a++){
+    for (var a =0; a < evnt.times.length ; a++){
       evnt.times[a].start = new Date(evnt.times[a].start)
       evnt.times[a].end = new Date(evnt.times[a].end)
 
