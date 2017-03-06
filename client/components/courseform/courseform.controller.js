@@ -7,7 +7,17 @@ export function CourseFormCtrl ($scope, Course, Upload){
         if (form.$valid) {
           var promise;
           if ($scope.updating){
-            promise = Course.update($scope.course).$promise;
+            var course = JSON.parse(JSON.stringify($scope.course));
+            course.files = [$scope.file];
+            promise =  Upload.upload({
+                url: '/api/courses/'+$scope.course._id,
+                data: course,
+                method: 'PUT',
+                objectKey: '.k',
+                arrayKey: '[i]'
+            }).then((course) => {
+              return course.data
+            });
           }else{
             // promise = Course.create($scope.course).$promise;
             $scope.course.files = [$scope.file];
@@ -22,7 +32,7 @@ export function CourseFormCtrl ($scope, Course, Upload){
           }
           promise
               .then((course) => {
-                $scope.course._id = course._id;
+                $scope.course = course;
                 $scope.success = true;
               })
               .catch(err => {

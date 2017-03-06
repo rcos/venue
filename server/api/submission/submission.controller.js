@@ -73,9 +73,7 @@ function removeEntity(res) {
 
 function saveSubmissionImage(files, fields, cb){
   var imagePaths = [];
-  if (!files){
-    return imagePaths;
-  }
+  if (!files){return cb(imagePaths);}
 
   Promise.all(files.map(file => {
     return new Promise((resolve, reject) => {

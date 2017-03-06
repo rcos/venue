@@ -70,13 +70,13 @@ function removeEntity(res) {
 function saveCourseImage(files: Array<any>, fields, cb){
   var imagePaths = [],
       asyncTasks = [];
-  if (!files) return imagePaths;
+  if (!files) {return cb(imagePaths);}
 
   files.forEach(file => {
     let path = config.imageUploadPath  + 'courses' + '/';
     asyncTasks.push(callback => {
         var imagePath = saveImage(file, path, function(err) {
-          callback(err)
+          return callback(err)
         });
         imagePaths.push("/api/courses/image/" + imagePath);
       });
@@ -148,14 +148,26 @@ export function update(req: $Request, res: $Response) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Course.findByIdAsync(req.params.id)
+  let files:Array<any> = req.files;
+  saveCourseImage(files, req.body, (imagePaths: Array<string>)=>{
+    var course:any = req.body;
+    course.imageURLs = imagePaths;
+    Course.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
-    .then(saveUpdates(req.body))
+    .then((entity)=>{
+      var updated = _.merge(entity, course);
+      updated.markModified('imageURLs');
+      return updated.saveAsync()
+      .then(function(updated) {
+        return updated;
+      });
+    })
     .then(responseWithResult(res))
     .catch((err,dat)=>{
       console.log(err, dat);
     })
     .catch(handleError(res));
+  });
 };
 
 // Deletes a Course from the DB

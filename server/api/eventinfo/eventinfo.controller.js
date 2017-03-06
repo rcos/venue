@@ -71,13 +71,13 @@ function removeEntity(res) {
 function saveEventInfoImage(files, fields, cb){
   var imagePaths = [],
       asyncTasks = [];
-  if (!files){return imagePaths;}
+  if (!files){return cb(imagePaths);}
 
   files.forEach(function(file) {
     var path = config.imageUploadPath  + 'eventInfoImages' + '/';
     asyncTasks.push( (callback) => {
       var imagePath = saveImage(file, path, function(err) {
-        callback(err)
+        return callback(err)
       });
       imagePaths.push("/api/eventinfos/image/" + imagePath);
       });
@@ -85,7 +85,7 @@ function saveEventInfoImage(files, fields, cb){
 
   async.parallel(asyncTasks, (error, results) => {
     // TODO: Handle Error
-    cb(imagePaths);
+    return cb(imagePaths);
   });
 }
 
