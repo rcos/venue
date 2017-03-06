@@ -176,7 +176,6 @@ export function image(req: $Request, res: $Response){
   if (!req.params.name){
     return res.json(404);
   }
-
   return imageDownload.getImage(
     req.params.name,
     config.imageUploadPath + 'courses/',

@@ -205,6 +205,7 @@ export function image(req, res){
   if (!req.params.name){
     return res.json(404);
   }
+
   return imageDownload.getImage(
     req.params.name,
     config.imageUploadPath + 'eventInfoImages/',
