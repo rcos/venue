@@ -292,7 +292,6 @@ exports.create = function(req, res) {
       req.body.authors = [req.body.userId]
     }
     if (!req.body.coordinates){
-      console.log("No coordinates supplied")
       var submit = {
         images : imagePaths,
         submitter : req.body.userId,
@@ -329,7 +328,6 @@ exports.create = function(req, res) {
           })
           .execAsync()
           .then((eventinfo)=>{
-            console.log("Event location matched",eventinfo);
 
             var submit = {
               images : imagePaths,

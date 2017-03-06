@@ -121,7 +121,6 @@ export async function index(req, res, next) {
 
 // Gets a list of Sections for a user
 export async function userSections(req, res, next) {
-  console.log("CALLED THING");
   try{
     let userId = req.params.id;
     let user = await User.findById(userId).execAsync();
@@ -134,7 +133,6 @@ export async function userSections(req, res, next) {
     return res.json(profile.sections);
 
   }catch(err){
-    console.log("ERROR HANDLED ERRORS",err);
     handleError(res)(err);
   }
 };
