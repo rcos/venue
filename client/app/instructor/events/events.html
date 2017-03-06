@@ -25,7 +25,7 @@
         <div class='class-card-container' ng-show="eventsArray.length">
           <div class='row text-center'>
             <div class='event-page'>
-              <event-card class="col-md-6" ng-repeat='event in filteredEvents = (eventsArray | filter:searchText)' data="event" click='goToEvent(event)' sectionClick='goToEvent(event)' short="false" />
+              <event-card class="col-md-6" ng-repeat='event in filteredEvents = (eventsArray | filter:searchText) | orderBy: "-times[0].start"' data="event" click='goToEvent(event)' sectionClick='goToEvent(event)' short="false" />
               <div class='no-events' ng-show='filteredEvents.length == 0'>
                 no events found matching search term
               </div>

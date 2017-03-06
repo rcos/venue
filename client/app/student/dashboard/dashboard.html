@@ -8,7 +8,7 @@
             <h4 ng-hide="anyEvents && filteredEvents.length" class="ng-cloak">You haven't been assigned any events yet</h4>
 
             <div class="card-container" class="ng-cloak">
-              <event-card ng-repeat='event in user.events | dateAfter:today | limitTo:10 as filteredEvents' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
+              <event-card ng-repeat='event in user.events | dateAfter:today | orderBy: "times[0].start"| limitTo:10 as filteredEvents' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
             </div>
           </div>
 

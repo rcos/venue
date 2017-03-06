@@ -7,7 +7,7 @@
       <div ng-show="eventsLength" class='upload-events'>
           <h3>Select event</h3>
           <div class="events">
-            <event-card class="col-md-6" ng-repeat='event in events' data="event" short="true" click='goToUploadForEvent(event)' sectionClick='goToUploadForEvent(event)'></event-card>
+            <event-card class="col-md-6" ng-repeat='event in events | orderBy: "-times[0].start"' data="event" short="true"  click='goToUploadForEvent(event)' sectionClick='goToUploadForEvent(event)'></event-card>
           </div>
       </div>
     </div>

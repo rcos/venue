@@ -8,7 +8,7 @@
       <h3 ng-hide="anyCourses" ng-cloak>You haven't signed up for any courses yet</h3>
       <h4 ng-hide="anyCourses" ng-cloak><a href="/courses">Enroll</a> in a section to get started</h4>
       <div class="card-container row" ng-cloak>
-        <course-card class="col-md-6" ng-repeat='course in user.courses' click='goToCourse(course)' data="course" short="false" sections='course.sections'>  </course-card>
+        <course-card class="col-md-6" ng-repeat='course in user.courses | orderBy:"name"' click='goToCourse(course)' data="course" short="false" sections='course.sections'>  </course-card>
       </div>
     </div>
   </div>

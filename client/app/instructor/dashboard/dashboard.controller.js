@@ -9,7 +9,7 @@ export default class InstructorDashboardCtrl {
       var eventsList = [];
       for (var key in $scope.user.events) {
           // skip loop if the property is from prototype
-          if (!$scope.user.events.hasOwnProperty(key)) continue;
+          if (!$scope.user.events.hasOwnProperty(key) || !$scope.user.events[key]._id) continue;
           eventsList.push($scope.user.events[key]);
       }
       $scope.events = eventsList;

@@ -9,7 +9,7 @@
       <label>Event Sections</label>
 
 
-      <div class='course-option' ng-repeat='course in courses'>
+      <div class='course-option' ng-repeat='course in courses | orderBy:"name"'>
         <div class="btn-group" data-toggle="buttons">
           <label class="btn btn-default"
                  ng-class="isActiveCourse(course)?'active':''">

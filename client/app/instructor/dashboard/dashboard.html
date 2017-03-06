@@ -38,7 +38,7 @@
           </h3>
           <h4 ng-hide="anyEvents && filteredEventsAfter.length">Assign a <a href="/instructor/newevent">event</a></h4>
           <div class="card-container">
-            <event-card ng-repeat='event in events | dateAfter:today | limitTo:10 as filteredEventsAfter' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
+            <event-card ng-repeat='event in events | dateAfter:today | orderBy: "times[0].start" | limitTo:10 as filteredEventsAfter' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
 
           </div>
         </div>
@@ -48,7 +48,7 @@
           </h3>
           <h4 ng-hide="anyEvents && filteredEventsBefore.length" class="ng-cloak">You haven't had any events yet</h4>
           <div class="card-container">
-            <event-card ng-repeat='event in events | dateBefore:today | limitTo:10 as filteredEventsBefore' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
+            <event-card ng-repeat='event in events | dateBefore:today | orderBy: "-times[0].end" | limitTo:10 as filteredEventsBefore' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
 
           </div>
         </div>

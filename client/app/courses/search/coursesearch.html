@@ -4,7 +4,7 @@
       <div class='col-xs-12'>
         <h1 class="page-header">All Courses
           <a href="/instructor/courses" ng-show="user && user.isInstructor" class="btn btn-lg margin btn-success btn-right" role="button">Your Courses</a>
-          <a href="/student/courses" ng-show="user && !user.isInstructor" class="btn btn-lg margin btn-success btn-right" role="button">Your Courses</a>
+          <a href="/student/courses" ng-show="user && user._id && !user.isInstructor" class="btn btn-lg margin btn-success btn-right" role="button">Your Courses</a>
           <a href="/instructor/newcourse" ng-show="user && user.isInstructor" class="btn btn-lg margin btn-primary btn-right" role="button">New Course</a>
         </h1>
         <h4 ng-show="courses.length && user && user.isInstructor">Choose a course to create a new section</h4>
@@ -26,7 +26,7 @@
     </div>
     <div class='class-card-container' ng-show="courses.length" ng-cloak>
       <div class='row text-center'>
-        <course-card class="card col-lg-4 col-md-6" ng-repeat='course in filteredCourses = (courses | filter:searchText)' click='openCourse(course)' data="course" short="false">  </course-card>
+        <course-card class="card col-lg-4 col-md-6" ng-repeat='course in filteredCourses = (courses | filter:searchText) | orderBy:"name"' click='openCourse(course)' data="course" short="false">  </course-card>
         <div class='no-results' ng-show='filteredCourses.length == 0'>
           no courses found matching search term
         </div>

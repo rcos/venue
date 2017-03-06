@@ -81,7 +81,7 @@
             <h4> No events yet. Assign one <a href="/instructor/newevent">here</a> </h4>
           </div>
           <div class="card-container" ng-show="section.events.length">
-            <div class="col-md-6" ng-repeat='event in section.events' >
+            <div class="col-md-6" ng-repeat='event in section.events  | orderBy: "-times[0].start"' >
               <event-card ng-click='goToEvent(event)' data="event"  short="true" preview="true" >  </event-card>
             </div>
           </div>
@@ -96,7 +96,7 @@
               </div>
 
               <div class="card-container" ng-show="section.events.length">
-                <div class="col-md-3" ng-repeat='event in section.events' >
+                <div class="col-md-3" ng-repeat='event in section.events | orderBy: "-times[0].start"' >
                   <event-card link-enabled="false" selected="selectedEventId == event._id" ng-click='selectEvent(event)' data="event"  short="true" preview="true" >  </event-card>
                 </div>
               </div>
