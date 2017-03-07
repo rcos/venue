@@ -7,6 +7,7 @@ export default class SettingsController {
     $scope.Auth = Auth;
     $scope.message = {};
     $scope.choosing = false;
+    $scope.button_status = "Edit";
     $scope.emailAheadOptions = [{minutes:30, time:"30 minutes", applied:false},
                                 {minutes:60, time:"1 hour", applied:false},
                                 {minutes:120, time:"2 hours", applied:false}];
@@ -33,7 +34,6 @@ export default class SettingsController {
         }
         return times
       }, []);
-
 
       User.updateEmailPreferences(emailPreferences).$promise
         .then(() => {
@@ -68,18 +68,45 @@ export default class SettingsController {
           $scope.message.updateEmailPreferences = 'Notfications Disabled.';
         })
         $scope.choosing = false;
-        
+
     }
 
-    $scope.enableNotifcations = () => {
-      $scope.emailPreferences.unsubscribe = false;
-      $scope.choosing = true;
-      let emailPreferences = {recieveEmails: !$scope.emailPreferences.unsubscribe}
+    $scope.updateNotifications = (form) => {
 
-      User.updateEmailPreferences(emailPreferences).$promise
-        .then(() => {
-          $scope.message.updateEmailPreferences = 'Notifications Enabled';
-        })
+      let emailPreferences = {recieveEmails: $scope.emailPreferences.unsubscribe,emailNotifyAheadMinutes: $scope.emailPreferences.emailNotifyAheadMinutes}
+
+      if($scope.button_status=="Edit"){
+          $scope.choosing = true;
+          $scope.button_status = "Save";
+        User.updateEmailPreferences(emailPreferences).$promise
+          .then(() => {
+            $scope.message.updateEmailPreferences = 'Notifications Enabled';
+          })
+      }
+      else{
+        emailPreferences = {recieveEmails: !$scope.emailPreferences.unsubscribe,emailNotifyAheadMinutes: $scope.emailPreferences.emailNotifyAheadMinutes}
+        $scope.emailPreferences.unsubscribe=true;
+        $scope.emailPreferences.emailNotifyAheadMinutes = $scope.emailAheadOptions.reduce((times, option) => {
+          if(option.applied){
+            $scope.emailPreferences.unsubscribe=false;
+            return times.concat(option.minutes);
+          }
+          return times
+        }, []);
+
+        emailPreferences = {recieveEmails: !$scope.emailPreferences.unsubscribe,emailNotifyAheadMinutes: $scope.emailPreferences.emailNotifyAheadMinutes}
+
+        User.updateEmailPreferences(emailPreferences).$promise
+          .then(() => {
+              $scope.message.updateEmailPreferences = 'Saving Notifications';
+            if(emailPreferences.recieveEmails==false){
+              $scope.message.updateEmailPreferences = 'Unsubscribed from Notifications';
+            }
+          })
+        $scope.choosing = false;
+        $scope.button_status = "Edit";
+
+      }
 
     }
 

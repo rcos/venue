@@ -5,23 +5,21 @@
       <h3>Email Preferences</h3>
     </div>
     <div class="col-sm-12">
-      <form class="form" name="emailPreferencesForm" ng-submit="updateEmailPreferences(emailPreferencesForm)" novalidate>
-
-        <h5>Event Reminder</h5>
+      <form class="form" name="emailPreferencesForm" ng-submit="updateNotifications(emailPreferencesForm)" novalidate>
+        <table>
+          <tr>
+            <td><h5>Event Reminder</h5></td>
+            <td><button class="btn btn-link" type="submit">{{button_status}}</button></td>
+          </tr>
+        </table>
         <div ng-repeat='emailAhead in emailAheadOptions' class="form-check disabled">
           <label class="form-check-label">
             <input type="checkbox" class="form-check-input"  ng-disabled="!choosing" ng-model="emailAhead.applied" >
             {{ emailAhead.time }} before the event
           </label>
         </div>
-
         <div class="btn-group-vertical">
-
-          <button type="input" class="btn btn-primary" ng-click = "enableNotifcations()" ng-disabled="choosing">
-          Click to choose Email Notifications
-        </button>
-        <button class="btn btn-lg btn-primary" type="submit" ng-disabled="emailPreferences.unsubscribe">Save changes</button>
-        <p class="help-block"> {{ message.updateEmailPreferences }} </p>
+         <p class="help-block"> {{ message.updateEmailPreferences }} </p>
         </div>
       </form>
     </div>
