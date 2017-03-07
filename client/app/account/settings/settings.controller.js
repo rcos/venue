@@ -25,24 +25,6 @@ export default class SettingsController {
       })
     });
 
-    $scope.updateEmailPreferences = (form) => {
-
-      let emailPreferences = {recieveEmails: $scope.emailPreferences.unsubscribe}
-      emailPreferences.emailNotifyAheadMinutes = $scope.emailAheadOptions.reduce((times, option) => {
-        if(option.applied){
-          return times.concat(option.minutes);
-        }
-        return times
-      }, []);
-
-      User.updateEmailPreferences(emailPreferences).$promise
-        .then(() => {
-          $scope.message.updateEmailPreferences = 'Email Settings successfully changed.';
-        })
-        $scope.choosing = false;
-
-    }
-
     $scope.changePassword = (form) =>  {
       $scope.submitted = true;
       if (form.$valid) {
@@ -56,19 +38,6 @@ export default class SettingsController {
             $scope.message.changePassword = '';
           });
       }
-    }
-
-    $scope.disableNotifcations = () => {
-
-      $scope.emailPreferences.unsubscribe = true;
-      let emailPreferences = {recieveEmails: !$scope.emailPreferences.unsubscribe}
-      emailPreferences = {emailNotifyAheadMinutes: []}
-      User.updateEmailPreferences(emailPreferences).$promise
-        .then(() => {
-          $scope.message.updateEmailPreferences = 'Notfications Disabled.';
-        })
-        $scope.choosing = false;
-
     }
 
     $scope.updateNotifications = (form) => {
