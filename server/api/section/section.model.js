@@ -16,31 +16,9 @@ var SectionSchema = new Schema({
 });
 
 /**
- * Pre-save hook
- */
-SectionSchema
-  .pre('save', function(next) {
-    // Handle new/update times
-    Promise.all([
-        this.getRelatedUsers(),
-        this.getSectionEventsAsync()
-    ]).then(([users, events]) => {
-        Promise.all(users.map(user => {
-            return user.updateNotifications(events);
-        })).then(()=>{
-          next();
-        });
-    });
-  });
-
-/**
  * Methods
  */
 SectionSchema.methods = {
-
-  getRelatedUsers(){
-      return this.populate({path:'students', select: "email preferences firstName lastName"}).execPopulate().then(fullSection => fullSection.students);
-  },
 
   getSectionEventsAsync(opts){
     return Event.find({section: this._id}).execAsync().then((secs) => {
