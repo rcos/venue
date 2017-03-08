@@ -12,6 +12,7 @@ export default class SettingsController {
                                 {minutes:60, time:"1 hour", applied:false},
                                 {minutes:120, time:"2 hours", applied:false}];
 
+
     User.get({withCourses: true}, (user)=>{
 
       $scope.emailPreferences = user.preferences;
@@ -66,25 +67,26 @@ export default class SettingsController {
     }
 
     $scope.updateNotifications = () => {
-
       let emailPreferences = {recieveEmails: $scope.emailPreferences.unsubscribe,emailNotifyAheadMinutes: $scope.emailPreferences.emailNotifyAheadMinutes}
-
-
       if($scope.button_status=="Edit"){
-
           $scope.choosing = true;
           $scope.button_status = "Cancel";
-
       }
       else{
         $scope.choosing = false;
         $scope.button_status = "Edit";
-        
+        User.get({withCourses: true}, (user)=>{
+          user.preferences.emailNotifyAheadMinutes.forEach(time => {
+            $scope.emailAheadOptions.forEach(preference => {
+              if(time == preference.minutes){
+                preference.applied = true;
+              }
+            })
+          })
+        });
+
+
       }
-
     }
-
-
   }
-
 }
