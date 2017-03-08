@@ -40,41 +40,46 @@ export default class SettingsController {
       }
     }
 
-    $scope.updateNotifications = (form) => {
+    $scope.saveNotifications = (form) => {
+      let emailPreferences = {recieveEmails: !$scope.emailPreferences.unsubscribe,emailNotifyAheadMinutes: $scope.emailPreferences.emailNotifyAheadMinutes}
+      $scope.emailPreferences.unsubscribe=true;
+      $scope.emailPreferences.emailNotifyAheadMinutes = $scope.emailAheadOptions.reduce((times, option) => {
+        if(option.applied){
+          $scope.emailPreferences.unsubscribe=false;
+          return times.concat(option.minutes);
+        }
+        return times
+      }, []);
 
-      let emailPreferences = {recieveEmails: $scope.emailPreferences.unsubscribe,emailNotifyAheadMinutes: $scope.emailPreferences.emailNotifyAheadMinutes}
+      emailPreferences = {recieveEmails: !$scope.emailPreferences.unsubscribe,emailNotifyAheadMinutes: $scope.emailPreferences.emailNotifyAheadMinutes}
 
-      if($scope.button_status=="Edit"){
-          $scope.choosing = true;
-          $scope.button_status = "Save";
-        User.updateEmailPreferences(emailPreferences).$promise
-          .then(() => {
-            $scope.message.updateEmailPreferences = 'Notifications Enabled';
-          })
-      }
-      else{
-        emailPreferences = {recieveEmails: !$scope.emailPreferences.unsubscribe,emailNotifyAheadMinutes: $scope.emailPreferences.emailNotifyAheadMinutes}
-        $scope.emailPreferences.unsubscribe=true;
-        $scope.emailPreferences.emailNotifyAheadMinutes = $scope.emailAheadOptions.reduce((times, option) => {
-          if(option.applied){
-            $scope.emailPreferences.unsubscribe=false;
-            return times.concat(option.minutes);
+      User.updateEmailPreferences(emailPreferences).$promise
+        .then(() => {
+            $scope.message.updateEmailPreferences = 'Saving Notifications';
+          if(emailPreferences.recieveEmails==false){
+            $scope.message.updateEmailPreferences = 'Unsubscribed from Notifications';
           }
-          return times
-        }, []);
-
-        emailPreferences = {recieveEmails: !$scope.emailPreferences.unsubscribe,emailNotifyAheadMinutes: $scope.emailPreferences.emailNotifyAheadMinutes}
-
-        User.updateEmailPreferences(emailPreferences).$promise
-          .then(() => {
-              $scope.message.updateEmailPreferences = 'Saving Notifications';
-            if(emailPreferences.recieveEmails==false){
-              $scope.message.updateEmailPreferences = 'Unsubscribed from Notifications';
-            }
-          })
+        })
         $scope.choosing = false;
         $scope.button_status = "Edit";
 
+    }
+
+    $scope.updateNotifications = () => {
+
+      let emailPreferences = {recieveEmails: $scope.emailPreferences.unsubscribe,emailNotifyAheadMinutes: $scope.emailPreferences.emailNotifyAheadMinutes}
+
+
+      if($scope.button_status=="Edit"){
+
+          $scope.choosing = true;
+          $scope.button_status = "Cancel";
+
+      }
+      else{
+        $scope.choosing = false;
+        $scope.button_status = "Edit";
+        
       }
 
     }
