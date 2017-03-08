@@ -1,56 +1,59 @@
-
-    <div class="container instructor">
+<div class="container instructor">
+  <div class="row">
+    <div class="col-sm-12 dashboard">
+      <h1 class="page-header">Instructor Dashboard</h1>
       <div class="row">
-        <div class="col-sm-12 dashboard">
-          <h1 class="page-header">Instructor Dashboard</h1>
-          <div class="row">
-            <div class="col-sm-12 top-rowst" ng-show="anyPending">
-              <h3>Sections with Pending Students</h3>
-              <h4 ng-hide="sections.length">You don't have any sections yet</h4>
-              <table class="course-section text-center table table-hover" ng-show="sections.length">
-                <tr>
-                  <th class="text-center">Course</th>
-                  <th class="text-center">Section</th>
-                  <th class="text-center">Pending</th>
-                  <th class="text-center">Students</th>
-                  <th class="text-center">Edit</th>
-                </tr>
-                <tr ng-repeat="section in sections" ng-show="section.pendingStudents.length > 0">
-                  <td>
-                    <span class='studentCount'>{{section.course.name}}</span>
-                  </td>
-                  <td><span ng-repeat="number in section.sectionNumbers"><span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last">, </span></span></td>
-                  <td>
-                    <span>{{section.pendingStudents.length}}</span>
-                  </td>
-                  <td>
-                    <span>{{section.students.length}}</span>
-                  </td>
-                  <td>
-                    <a href="#" class="btn btn-default" ng-href="{{ viewSection(section) }}" role="button">View</a>
-                  </td>
-                </tr>
-              </table>
-            </div>
-
-            <div class="col-sm-6 events left-column">
-              <h3> Upcoming Events </h3>
-              <h4 ng-hide="anyEvents">Assign a <a href="/instructor/newevent">event</a></h4>
-              <h5 ng-show="anyEvents"><a href="/instructor/newevent">New event</a></h5>
-              <div class="card-container">
-                <event-card ng-repeat='event in events' data="event"  short="true">  </event-card>
-              </div>
-            </div>
-            <div class="col-sm-6 events">
-              <h3> Recent Events </h3>
-              <h4 ng-hide="anyEvents">Assign a <a href="/instructor/newevent">event</a></h4>
-              <h5 ng-show="anyEvents"><a href="/instructor/studentsubmissions">Submissions</a></h5>
-              <div class="card-container">
-                <event-card ng-repeat='event in events' data="event"  short="true">  </event-card>
-              </div>
-            </div>
-          </div>
+        <div class="col-sm-12 top-rowst" ng-show="anyPending" ng-cloak>
+          <h3>Sections with Pending Students</h3>
+          <h4 ng-hide="sections.length">You don't have any sections yet</h4>
+          <table class="course-section text-center table table-hover" ng-show="sections.length">
+            <tr>
+              <th class="text-center">Course</th>
+              <th class="text-center">Section</th>
+              <th class="text-center">Pending</th>
+              <th class="text-center">Students</th>
+              <th class="text-center">Edit</th>
+            </tr>
+            <tr class='btn-row-sm' ng-repeat="section in sections" ng-show="section.pendingStudents.length > 0">
+              <td>
+                <span class='studentCount'>{{section.course.name}}</span>
+              </td>
+              <td><span ng-repeat="number in section.sectionNumbers"><span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last">, </span></span></td>
+              <td>
+                <span>{{section.pendingStudents.length}}</span>
+              </td>
+              <td>
+                <span>{{section.students.length}}</span>
+              </td>
+              <td>
+                <a href="#" class="btn btn-default btn-sm" ng-href="{{ viewSection(section) }}" role="button">View</a>
+              </td>
+            </tr>
+          </table>
         </div>
 
+        <div class="col-sm-6 events left-column" ng-cloak>
+          <h3> Upcoming Events
+            <a href="/instructor/newevent" class="btn btn-md margin btn-primary btn-right" role="button">New Event</a>
+          </h3>
+          <h4 ng-hide="anyEvents && filteredEventsAfter.length">Assign a <a href="/instructor/newevent">event</a></h4>
+          <div class="card-container">
+            <event-card ng-repeat='event in events | dateAfter:today | orderBy: "times[0].start" | limitTo:10 as filteredEventsAfter' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
+
+          </div>
+        </div>
+        <div class="col-sm-6 events" ng-cloak>
+          <h3> Recent Events
+            <a href="/instructor/studentsubmissions" class="btn btn-md margin btn-success btn-right" role="button">Submissions</a>
+          </h3>
+          <h4 ng-hide="anyEvents && filteredEventsBefore.length" class="ng-cloak">You haven't had any events yet</h4>
+          <div class="card-container">
+            <event-card ng-repeat='event in events | dateBefore:today | orderBy: "-times[0].end" | limitTo:10 as filteredEventsBefore' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
+
+          </div>
+        </div>
       </div>
     </div>
+
+  </div>
+</div>

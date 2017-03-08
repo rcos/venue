@@ -1,7 +1,7 @@
 <div class='event-page container'>
   <div class='row' ng-show='err'>
     <div class='col-xs-12'>
-      <div ng-show='err.status == 404'>
+      <div ng-show='err.status == 404' ng-cloak>
         <div class='error-deadend'> we couldn't find that event </div>
         <div class='error-deadend-msg'>
           We weren't able to find that event, try to navigate to the event from your <a href="/{{user.isInstructor ? 'instructor' : 'student'}}/events"> dashboard </a>.
@@ -18,10 +18,10 @@
       </div>
     </div>
   </div>
-  <div class='row eventview' ng-hide='err'>
+  <div class='row eventview' ng-hide='err' ng-cloak>
     <event-title-banner section-event="event" event="event.info" link="/eventInfo/{{event.info._id}}"></event-title-banner>
 
-    <div class='row row-md-height'>
+    <div class='row row-md-height' ng-cloak>
       <div class='col-md-6 left-column col-md-height col-md-top'>
         <div class='inside-full-height'>
           <h4>Event Description</h4>
@@ -64,9 +64,10 @@
               </div>
 
               <div ng-show='user.isInstructor && sectionInstructor'>
-                <div ng-hide='confirm'>
+                <div ng-hide='confirm' ng-cloak>
                   <button class='btn btn-md btn-warning' ng-click='deleteEvent(event)'>Remove Assignment</button>
-                  <button class='btn btn-md' ng-click='editAssignemnt()'>Edit Assignment</button>
+                  <button class='btn btn-md' ng-hide="assignmentEdit" ng-click='editAssignemnt()'>Edit Instructions</button>
+                  <button class='btn btn-md' ng-show="assignmentEdit" ng-click='cancelEdit()'>Cancel Edit</button>
 
                 </div>
                 <div ng-show='confirm' class="help-block">
@@ -78,33 +79,33 @@
                   <button class='btn btn-md btn-default' ng-click='cancelDeleteEventAssignment(event)'>cancel</button>
                 </div>
               </div>
+              <div ng-show='assignmentEdit'>
+                  <br/>
+                  <form class="eventAssignment" name="eventAssignmentForm" ng-submit="updateEventAssignment(eventAssignmentForm)" novalidate>
+
+                      <div class="form-group" ng-class="{ 'has-success': assignment.submissionInstructions  && (eventAssignmentForm.submissionInstructions.$touched || submitted), 'has-error': !assignment.submissionInstructions && (eventAssignmentForm.submissionInstructions.$touched || submitted) }">
+                          <label>Submission Instructions</label>
+
+                          <textarea type="text" name="submissionInstructions" class="form-control" ng-model="assignment.submissionInstructions"
+                          required></textarea>
+
+                          <p class="help-block" ng-show="!assignment.submissionInstructions">
+                              Submission instructions are required
+                          </p>
+                      </div>
+                      <div>
+                          <button class="btn btn-inverse btn-register" type="submit">Save</button>
+                      </div>
+
+                  </form>
+              </div>
+
               <div ng-show='user.isInstructor && !sectionInstructor'>
                 You are not an instructor for this section
               </div>
           </div>
       </div>
     </div>
-  </div>
-
-  <div class='row' ng-show='assignmentEdit'>
-      <br/>
-      <form class="eventAssignment" name="eventAssignmentForm" ng-submit="updateEventAssignment(eventAssignmentForm)" novalidate>
-
-          <div class="form-group" ng-class="{ 'has-success': assignment.submissionInstructions  && (eventAssignmentForm.submissionInstructions.$touched || submitted), 'has-error': !assignment.submissionInstructions && (eventAssignmentForm.submissionInstructions.$touched || submitted) }">
-              <label>Submission Instructions</label>
-
-              <textarea type="text" name="submissionInstructions" class="form-control" ng-model="assignment.submissionInstructions"
-              required></textarea>
-
-              <p class="help-block" ng-show="!assignment.submissionInstructions">
-                  Submission instructions are required
-              </p>
-          </div>
-          <div>
-              <button class="btn btn-inverse btn-register" type="submit">Save</button>
-          </div>
-
-      </form>
   </div>
 
   <div class='row bottom-row'>

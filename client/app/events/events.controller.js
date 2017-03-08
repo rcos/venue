@@ -66,6 +66,10 @@ export default class EventsCtrl {
       $scope.assignment = { submissionInstructions : $scope.event.submissionInstructions.slice(0)};
       $scope.assignmentEdit = true;
     };
+    $scope.cancelEdit = function(){
+      $scope.assignment = {};
+      $scope.assignmentEdit = false;
+    };
 
     $scope.updateEventAssignment = function(form){
         $scope.submitted = true;

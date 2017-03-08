@@ -2,13 +2,13 @@
   <div class="instructorSectionview">
     <course-title-banner section="section" course="course" link="/courses/{{course._id}}"></course-title-banner>
 
-    <div class='row row-height' ng-hide='isInstructor || isStudent'>
+    <div class='row row-height' ng-hide='isInstructor || isStudent'  ng-cloak>
       <div class="col-sm-12">
         <h4><a href="/login">Log in</a> to learn more</h4>
       </div>
     </div>
 
-    <div class='row'>
+    <div class='row' ng-cloak>
       <uib-tabset active="active">
         <uib-tab index="0" heading="Information">
           <table class="course-section text-center table table-hover section-information">
@@ -81,7 +81,7 @@
             <h4> No events yet. Assign one <a href="/instructor/newevent">here</a> </h4>
           </div>
           <div class="card-container" ng-show="section.events.length">
-            <div class="col-md-6" ng-repeat='event in section.events' >
+            <div class="col-md-6" ng-repeat='event in section.events  | orderBy: "-times[0].start"' >
               <event-card ng-click='goToEvent(event)' data="event"  short="true" preview="true" >  </event-card>
             </div>
           </div>
@@ -96,7 +96,7 @@
               </div>
 
               <div class="card-container" ng-show="section.events.length">
-                <div class="col-md-3" ng-repeat='event in section.events' >
+                <div class="col-md-3" ng-repeat='event in section.events | orderBy: "-times[0].start"' >
                   <event-card link-enabled="false" selected="selectedEventId == event._id" ng-click='selectEvent(event)' data="event"  short="true" preview="true" >  </event-card>
                 </div>
               </div>

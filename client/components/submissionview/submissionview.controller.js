@@ -3,7 +3,12 @@ export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, S
     "ngInject";
     $scope.viewMode = 'small';
     $scope.submissionFilter = 'submitted';
-
+    $scope.isInstructor = false;
+    Auth.getCurrentUser((user) => {
+      if (user.isInstructor){
+        $scope.isInstructor = true;
+      }
+    })
     $scope.selectedSections = [];
     $scope.selectedEvents = [];
     $scope.allEvents = {};

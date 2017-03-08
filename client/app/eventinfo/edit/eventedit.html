@@ -1,5 +1,5 @@
 <div class='eventPage'>
-  <div class='container' ng-show='err'>
+  <div class='container' ng-show='err' ng-cloak>
     <div class='col-xs-12'>
       <div ng-show='err.status == 404'>
         <div class='error-deadend'> we couldn't find that event </div>
@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-  <div class='container' ng-if='!err'>
+  <div class='container' ng-if='!err' ng-cloak>
     <edit-event event="event" on-submit="doneEdit()"></edit-event>
   </div>
 </div>

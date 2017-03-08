@@ -63,6 +63,11 @@
       <br/>
       <img ngf-src="file" width = {{imgWidth}}/>
     </div>
+    <div class="image-preview" style="font:smaller" ng-show="!file && updating">
+      Current image:
+      <br/>
+      <img ngf-src="course.imageURLs[0]" width = {{imgWidth}}/>
+    </div>
   </div>
 
   <div>

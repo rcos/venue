@@ -1,5 +1,5 @@
-<div class="picture-banner" picture-banner imageurls="course.imageURLs"></div>
-<div class="row inside">
+<div class="picture-banner" picture-banner imageurls="course.imageURLs"  ng-cloak></div>
+<div class="row inside" ng-cloak>
     <h2 class="col-sm-12"> {{ course.name }}</h2>
     <div class='course-number col-sm-10'>{{course.department}} {{course.courseNumber}}
         <span ng-show="section">| Section{{section.sectionNumbers.length > 1 ? "s": ""}}:

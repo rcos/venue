@@ -369,6 +369,31 @@ UserSchema.methods = {
 
   getSubmissionsAsync(opts){
     var query = Submission.find({submitter: mongoose.Types.ObjectId(this._id)});
+    query.populate("instructorApproval.instructor")
+    .populate("authors")
+    .populate("submitter")
+    .populate("sectionEvent");
+    query.populate({
+      path: 'sectionEvent',
+      model: 'SectionEvent',
+      populate: {
+        path: 'section',
+        model: 'Section',
+        populate: {
+          path: "course",
+          model: "Course"
+        }
+      }
+    });
+    query.populate({
+      path: 'sectionEvent',
+      model: 'SectionEvent',
+      populate: {
+        path: 'info',
+        model: 'EventInfo'
+      }
+    });
+
     return query.lean().execAsync();
   },
 

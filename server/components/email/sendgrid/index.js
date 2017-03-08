@@ -16,7 +16,6 @@ function sendEmail(email, callback){
           if (callback) callback("An error occurred sending the email");
           console.error(err, json);
         }else{
-          console.log("Sent email to", email.email)
           if (callback) callback(null);
         }
     });

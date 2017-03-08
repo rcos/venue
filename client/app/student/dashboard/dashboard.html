@@ -1,22 +1,26 @@
+  <div class="container student">
+    <div class="row">
+      <div class="col-sm-12 dashboard">
+        <h1 class="page-header">Dashboard</h1>
+        <div class="row">
+          <div class="col-md-6 events" ng-cloak>
+            <h3> Upcoming Events </h3>
+            <h4 ng-hide="anyEvents && filteredEvents.length" class="ng-cloak">You haven't been assigned any events yet</h4>
 
-    <div class="container student">
-      <div class="row">
-        <div class="col-sm-12 dashboard">
-          <h1 class="page-header">Dashboard</h1>
-          <div class="row">
-            <div class="col-md-6 events">
-              <h3> Upcoming Events </h3>
-              <h4 ng-hide="anyEvents">You haven't been assigned any events yet</h4>
-
-              <div class="card-container">
-                <event-card ng-repeat='event in user.events' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
-              </div>
+            <div class="card-container" class="ng-cloak">
+              <event-card ng-repeat='event in user.events | dateAfter:today | orderBy: "times[0].start"| limitTo:10 as filteredEvents' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
             </div>
+          </div>
 
-            <div class="col-md-6 submissions">
-              <h3> Recent Submissions </h3>
+          <div class="col-md-6 submissions" ng-cloak>
+            <h3> Recent Submissions </h3>
+            <h4 ng-hide="anySubmissions && filteredSubmissions.length" class="ng-cloak">You haven't made any submissions yet</h4>
+
+            <div class="card-container" class="ng-cloak">
+              <submission-card ng-repeat="submission in user.submissions | limitTo:10 as filteredSubmissions" click="goToEvent(submission.sectionEvent)" data="submission" short="true" />
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>

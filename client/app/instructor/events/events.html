@@ -1,16 +1,18 @@
 <div class="container instructor-events">
   <div class="row">
       <div class="col-sm-12 instructor-search-events">
-        <h1 class="page-header">Your Events</h1>
-        <h3 ng-hide="eventsArray.length">No events assigned yet</h3>
-        <h4 ng-hide="eventsArray.length">Create an <a href="/instructor/newevent">event</a> to get started</h4>
-        <h4 ng-show="eventsArray.length">Create an <a href="/instructor/newevent">new event</a></h4>
+        <h1 class="page-header">
+          Your Events
+          <a href="/instructor/newevent" class="btn btn-lg margin btn-primary btn-right" role="button">New Event</a>
+        </h1>
+        <h3 ng-hide="eventsArray.length" ng-cloak>No events assigned yet</h3>
+        <h4 ng-hide="eventsArray.length" ng-cloak>Create an <a href="/instructor/newevent">event</a> to get started</h4>
 
-        <div class='row' ng-show="eventsArray.length">
+        <div class='row' ng-show="eventsArray.length" ng-cloak>
           <div class='col-xs-12 search-bar-container'>
             <div class="search-bar">
-              <div class="input-group">
-                 <input type="text" ng-model='searchText' class="form-control" placeholder="Search events">
+              <div class="input-group input-group-lg">
+                 <input type="text" ng-model='searchText' class="form-control " placeholder="Search events">
                  <span class="input-group-btn">
                    <button class="btn btn-default" type="button">
                      <span class='glyphicon glyphicon-search'></span>
@@ -23,7 +25,7 @@
         <div class='class-card-container' ng-show="eventsArray.length">
           <div class='row text-center'>
             <div class='event-page'>
-              <event-card class="col-md-6" ng-repeat='event in filteredEvents = (eventsArray | filter:searchText)' data="event" click='goToEvent(event)' sectionClick='goToEvent(event)' short="false" />
+              <event-card class="col-md-6" ng-repeat='event in filteredEvents = (eventsArray | filter:searchText) | orderBy: "-times[0].start"' data="event" click='goToEvent(event)' sectionClick='goToEvent(event)' short="false" />
               <div class='no-events' ng-show='filteredEvents.length == 0'>
                 no events found matching search term
               </div>

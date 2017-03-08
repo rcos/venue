@@ -1,9 +1,7 @@
-
-
 <div class='container courses-page'>
   <div class="sectionview">
     <course-title-banner section="section" course="course" link="/courses/{{course._id}}"></course-title-banner>
-    <div class='row row-height'>
+    <div class='row row-height' ng-cloak>
       <div class="col-sm-12" ng-hide='isInstructor || isStudent'>
         <h4><a href="/login">Log in</a> to learn more</h4>
       </div>
@@ -67,14 +65,14 @@
       </div>
     </div>
     <hr/>
-    <div class='row'>
+    <div class='row' ng-cloak>
       <div class="col-sm-12 events" ng-show='isStudent'>
         <h4> Events </h4>
         <div ng-hide="section.events.length">
           <p> Your instructor has not added any events yet. </p>
         </div>
         <div class="card-container" ng-show="section.events.length">
-          <div class="col-md-4" ng-repeat='event in section.events' >
+          <div class="col-md-4" ng-repeat='event in section.events | orderBy: "-times[0].start"'>
             <event-card sectionClick='goToEvent(event)' click='goToEvent(event)' data="event"  short="true">  </event-card>
           </div>
         </div>
@@ -82,4 +80,3 @@
     </div>
   </div>
 </div>
-

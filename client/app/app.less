@@ -34,7 +34,11 @@
  // body.venueApp{
  //   line-height: 1.42857143;
  // }
- .venueApp a{
+ [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+.venueApp a{
    color: @text-link-color;
    &.btn-danger, &.btn-success, &.btn-warning, &.btn-primary{
      color: white;
@@ -83,6 +87,15 @@
 }
 .btn-right{
   float: right;
+}
+.verified{
+  color: green;
+}
+.rejected{
+  color: red;
+}
+.pending{
+  color: grey;
 }
 
 .course-title-banner, .event-title-banner{
@@ -153,7 +166,7 @@
   }
 
   .search-bar{
-    max-width:500px;
+    max-width:85%;
     display:inline-block;
   }
 
@@ -337,7 +350,6 @@
 @import 'student/courses/studentcourses.less';
 @import 'student/dashboard/dashboard.less';
 @import 'student/events/studentevents.less';
-@import 'student/profile/profile.less';
 @import 'student/submissions/submission.less';
 @import 'student/upload/submit/submit.less';
 @import 'student/upload/upload.less';

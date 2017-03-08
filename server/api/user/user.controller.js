@@ -307,11 +307,17 @@ export function show(req, res, next) {
       done(user, profile);
     });
   }))
+  .spread(ifFlagManipulate(req.query.withSubmissions, (user,profile,done)=>{
+    return user.getSubmissionsAsync(req.query).then((submissions)=>{
+      profile.submissions = submissions;
+      done(user, profile);
+    });
+  }))
   .spread(ifFlagManipulate((req.query.withSectionEvents && req.query.withSubmissionFlag), (user,profile,done)=>{
     return user.getSubmissionsAsync(req.query).then((submissions)=>{
       submissions.forEach(submission => {
         profile.sectionEvents = profile.sectionEvents.map( se => {
-          se.submitted = se.submitted || submission.sectionEvent == se._id;
+          se.submitted = se.submitted || submission.sectionEvent === se._id;
           return se;
         });
       });
@@ -405,15 +411,17 @@ export function enrollInSection(req, res, next) {
   var sectionId = req.body.sectionid;
   Section.findByIdAsync(sectionId)
     .then( section => {
-      if (section.enrollmentPolicy == "approvalRequired"){
-        if (section.pendingStudents.indexOf(userId) == -1){
+      if (section.enrollmentPolicy === "approvalRequired"){
+        if (section.pendingStudents.indexOf(userId) === -1){
           section.pendingStudents.push(userId);
         }
+      }else if (section.enrollmentPolicy === "closed"){
+        return res.json("Can't add to closed section");
       }else{
         section.students.push(userId);
       }
       section.save();
-      res.json(section);
+      return res.json(section);
     })
     .catch(err => next(err));
 }
@@ -425,7 +433,7 @@ export function unenrollInSection(req, res, next) {
   var userId = req.user._id;
   var sectionId = req.body.sectionid;
   Section.findOneAndUpdateAsync({"_id": sectionId} , {
-      $pull : {students: userId}
+      $pull : {students: userId, pendingStudents: userId}
     }).then( section => {
       res.json(section);
     })

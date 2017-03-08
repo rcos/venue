@@ -19,6 +19,7 @@ import passport from 'passport';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
 import mongoose from 'mongoose';
+
 var MongoStore = connectMongo(session);
 
 export default function(app) {
@@ -41,7 +42,7 @@ export default function(app) {
   app.set('view engine', 'html');
   app.use(shrinkRay());
   app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(bodyParser.json());
+  app.use(bodyParser.json({ extended: true }));
   app.use(methodOverride());
   app.use(cookieParser());
   app.use(passport.initialize());

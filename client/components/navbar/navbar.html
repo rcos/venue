@@ -64,11 +64,8 @@
           <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/login')}">
             <a href="/login">Login</a>
           </li>
-          <li ng-show="nav.isInstructor()">
-            <a ng-href="/instructor/{{nav.getCurrentUser()._id}}/profile">{{ nav.getCurrentUser().firstName }}</a>
-          </li>
-          <li ng-show="nav.isStudent()">
-            <a ng-href="/student/{{nav.getCurrentUser()._id}}/profile">{{ nav.getCurrentUser().firstName }}</a>
+          <li ng-show="nav.isLoggedIn()">
+            <a ng-href="/settings">{{ nav.getCurrentUser().firstName }}</a>
           </li>
           <li ng-show="nav.isLoggedIn()" ng-class="{active: nav.isActive('/settings')}">
             <a href="/settings"><span class="glyphicon glyphicon-cog"></span></a>

@@ -1,6 +1,6 @@
 <div class='event-page'>
   <div class='container' ng-show='err'>
-    <div class='col-xs-12'>
+    <div class='col-xs-12' ng-cloak>
       <div ng-show='err.status == 404'>
         <div class='error-deadend'> we couldn't find that event </div>
         <div class='error-deadend-msg'>
@@ -21,7 +21,7 @@
   <div class='container eventview' ng-hide='err'>
     <event-title-banner-basic event="event"></event-title-banner-basic>
 
-    <div class='row row-md-height'>
+    <div class='row row-md-height' ng-cloak>
       <div class='col-md-6 left-column col-md-height col-md-top'>
         <div class='inside-full-height'>
           <h4>Event Description</h4>

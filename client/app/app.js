@@ -54,6 +54,7 @@ import modal from '../components/modal/modal.service';
 import sortArrow from '../components/sortArrow/sortArrow.directive';
 import commaList from '../components/commaList/commaList.directive';
 import eventTitleBanner from '../components/eventTitleBanner/eventTitleBanner.directive';
+import dateFilter from '../components/dateFilter/dateFilter.directive';
 import courseCard from '../components/courseCard/courseCard.directive';
 import submissionview from '../components/submissionview/submissionview.directive';
 import submissionCard from '../components/submissionCard/submissionCard.directive';

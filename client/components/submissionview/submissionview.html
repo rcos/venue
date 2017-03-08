@@ -7,7 +7,7 @@
     <div class='row'>
       <div class='col-xs-12 search-bar-container'>
         <div class="search-bar">
-          <div class="input-group">
+          <div class="input-group" ng-show="isInstructor" >
              <input type="text" ng-model='searchName' class="form-control" placeholder="Search Students">
              <span class="input-group-btn">
                <button class="btn btn-default" type="button">
@@ -42,7 +42,11 @@
               </div>
 
               <div class='col-xs-1 centered'> <!-- Validated -->
-                <div style='text-align:center'> <i ng-show='submission.verified' class='fa fa-check' aria-hidden="true"></i> </div>
+                <div style='text-align:center'>
+                  <i ng-show='submission.verified' class='fa fa-check verified' title="verified"  aria-hidden="true"></i>
+                  <i ng-show='!submission.verified && submission.instructorVerification==="rejected"' class='fa fa-times rejected' title="rejected"  aria-hidden="true"></i>
+                  <i ng-show='!submission.verified && submission.instructorVerification==="none"' class='fa fa-ellipsis-h pending' title="verification pending" aria-hidden="true"></i>
+                </div>
               </div>
 
               <div class='col-xs-2 centered'> <!-- Section -->
@@ -73,9 +77,9 @@
                     <i ng-show='!submission.didNotSubmit' class='fa fa-check' aria-hidden="true"></i>
                     <i ng-show='submission.didNotSubmit' class='fa fa-times' aria-hidden="true"></i>
                     {{ submission.didNotSubmit ? "Not Submitted" : "Submitted" }} |
-                    <i ng-show='submission.verified' class='fa fa-check' aria-hidden="true"></i>
-                    <i ng-show='!submission.verified' class='fa fa-times' aria-hidden="true"></i>
-                    Validated |
+                    <i ng-show='submission.verified' class='fa fa-check verified' title="verified"  aria-hidden="true"></i>
+                    <i ng-show='!submission.verified && submission.instructorVerification==="rejected"' class='fa fa-times rejected' title="rejected"  aria-hidden="true"></i>
+                    <i ng-show='!submission.verified && submission.instructorVerification==="none"' class='fa fa-ellipsis-h pending' title="verification pending" aria-hidden="true"></i>                    Validated |
                     {{ submission.sectionEvent.section.course.department }}
                     {{ submission.sectionEvent.section.course.courseNumber }}
                   </div>
