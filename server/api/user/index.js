@@ -20,6 +20,7 @@ router.put('/:id/unenroll', auth.isAuthenticated(), controller.unenrollInSection
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.put('/updateInstructorStatus', auth.hasRole('admin'), controller.updateInstructorStatus);
 router.put('/updateAdminStatus', auth.hasRole('admin'), controller.updateAdminStatus);
+router.post('/emailPreferences', auth.isAuthenticated(), controller.updateEmailPreferences)
 router.post('/resendEmail', controller.resendEmail);
 router.post('/resetPassword', controller.resetPasswordEmail);
 router.post('/', controller.create);

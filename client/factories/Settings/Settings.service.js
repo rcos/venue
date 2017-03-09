@@ -9,6 +9,18 @@ export function SettingsResource($resource) {
       create: {
         method: 'POST'
       },
+      getEmailPreferences: {
+        method: 'GET',
+        params: {
+          controller: 'emailPreferences'
+        }
+      },
+      setEmailPreferences: {
+        method: 'POST',
+        params: {
+          controller: 'emailPreferences'
+        }
+      },
       current: {
         method: 'GET',
         params: {
@@ -20,7 +32,6 @@ export function SettingsResource($resource) {
         params: {
           controller: 'login'
         }
-
       },
       setSemester: {
         method: 'PUT',

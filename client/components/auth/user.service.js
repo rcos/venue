@@ -37,6 +37,12 @@ export function UserResource($resource) {
         id: 'resendEmail'
       }
     },
+    updateEmailPreferences: {
+      method: 'POST',
+      params: {
+        controller: 'emailPreferences'
+      }
+    },
     resetPassword: {
       method: 'POST',
       params: {
