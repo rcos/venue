@@ -16,24 +16,6 @@ var SectionSchema = new Schema({
 });
 
 /**
- * Pre-save hook
- */
-SectionSchema
-  .pre('save', function(next) {
-    // Handle new/update times
-    Promise.all([
-        this.getRelatedUsers(),
-        this.getSectionEventsAsync()
-    ]).then(([users, events]) => {
-        Promise.all(users.map(user => {
-            return user.updateNotifications(events);
-        })).then(()=>{
-          next();
-        });
-    });
-  });
-
-/**
  * Methods
  */
 SectionSchema.methods = {

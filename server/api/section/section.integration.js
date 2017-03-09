@@ -56,11 +56,11 @@ describe("Notification Tests", () => {
         return section.saveAsync();
       });
 
-      it('should have given the student notifications', () => {
-        return student.getNotifications().then(jobs => {
-            expect(jobs.length).to.be.at.least(1);
-        });
-      });
+      // it('should have given the student notifications', () => {
+      //   return student.getNotifications().then(jobs => {
+      //       expect(jobs.length).to.be.at.least(1);
+      //   });
+      // });
 
     });
 
