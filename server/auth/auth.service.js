@@ -107,5 +107,10 @@ export function setTokenCookie(req, res) {
   }
   var token = signToken(req.user._id, req.user.role);
   res.cookie('token', token);
-  res.redirect('/');
+  if(!req.user.isInstructor){
+    res.redirect('/student/dashboard');
+  }
+  else{
+    res.redirect('/instructor/dashboard');
+  }
 }
