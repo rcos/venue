@@ -8,15 +8,20 @@ export default class SettingsController {
     $scope.message = {};
     $scope.choosing = false;
     $scope.button_status = "Edit";
+
     $scope.emailAheadOptions = [{minutes:30, time:"30 minutes", applied:false},
                                 {minutes:60, time:"1 hour", applied:false},
                                 {minutes:120, time:"2 hours", applied:false}];
 
+    $scope.cas_enabled= false;
 
     User.get({withCourses: true}, (user)=>{
 
       $scope.emailPreferences = user.preferences;
       $scope.emailPreferences.unsubscribe = !$scope.emailPreferences.recieveEmails
+      $scope.cas = user.provider;
+      if($scope.cas=="cas")
+        $scope.cas_enabled = true;
       user.preferences.emailNotifyAheadMinutes.forEach(time => {
         $scope.emailAheadOptions.forEach(preference => {
           if(time == preference.minutes){
