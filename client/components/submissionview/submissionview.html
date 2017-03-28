@@ -20,8 +20,8 @@
     </div>
     <div class="row" ng-repeat="event in selectedEvents track by $index">
       <div class="col-xs-12">
-        <h4>{{event.title}}</h4>
-        <div ng-repeat="submission in submissions | visibleSubmission:selectedSections:event:submissionFilter:searchName">
+        <h4 ng-show="filteredEvent.length">{{event.title}}</h4>
+        <div ng-repeat="submission in submissions | visibleSubmission:selectedSections:event:submissionFilter:searchName as filteredEvent">
           <!-- Student Table -->
           <div class='row header' ng-show="$first">
             <div class='col-xs-2'> <div class='column-name'> Student Name </div> </div>
@@ -29,7 +29,7 @@
             <div class='col-xs-1'> <div class='column-name'> Validated </div> </div>
             <div class='col-xs-2'> <div class='column-name'> Course </div> </div>
             <div class='col-xs-4'> <div class='column-name'> Submission Content </div> </div>
-            <div class='col-xs-1'> <div class='column-name'> Image </div> </div>
+            <div class='col-xs-1'> <div class='column-name'> Details </div> </div>
           </div>
           <div class='item'>
             <div class='row' ng-show="viewMode == 'small'">
@@ -55,15 +55,12 @@
               </div>
 
               <div class='col-xs-4'> <!-- Submission Content -->
-                <span ng-show='submission.showAllContent'> {{ submission.content }} </span>
-                <span ng-show='!submission.showAllContent'>{{ submission.content | limitTo: 40 }}{{submission.content.length > 40 ? '...' : ''}}</span>
-                <a href='#' ng-show='submission.content.length > 40 && !submission.showAllContent' ng-click='submission.showAllContent = true'> show </a>
-                <a href='#' ng-show='submission.content.length > 40 && submission.showAllContent' ng-click='submission.showAllContent = false'> hide </a>
+                <span ng-show='!submission.showImage'>{{ submission.content | limitTo: 50 }}{{submission.content.length > 50 ? '...' : ''}}</span>
               </div>
 
               <div class='col-xs-1 centered'>
                 <div ng-show='submission.images.length > 0'>
-                  <a href='#' ng-show='!submission.showImage' ng-click='submission.showImage = true; submission.showAllContent = false'> Show </a>
+                  <a href='#' ng-show='!submission.showImage' ng-click='submission.showImage = true'> Show </a>
                   <a href='#' ng-show='submission.showImage' ng-click='submission.showImage = false'> Hide </a>
                 </div>
                 <div style='text-align:center' ng-show='submission.images.length == 0'> None </div>
