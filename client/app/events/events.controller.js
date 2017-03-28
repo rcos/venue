@@ -33,6 +33,9 @@ export default class EventsCtrl {
         },
         err => {
           $scope.err = err;
+          if (err.status == 401 || err.status == 500){
+            $location.path("/");
+          }
         });
     };
 
