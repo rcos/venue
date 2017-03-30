@@ -26,7 +26,7 @@
     </div>
     <div class='class-card-container' ng-show="courses.length" ng-cloak>
       <div class='row text-center'>
-        <course-card class="card col-lg-4 col-md-6" ng-repeat='course in filteredCourses = (courses | filter:searchText) | orderBy:"name"' click='openCourse(course)' data="course" short="false">  </course-card>
+        <course-card class="card col-lg-4 col-md-6" ng-repeat='course in filteredCourses = (courses | filter:searchText) | orderBy:"name"' data="course" short="false">  </course-card>
         <div class='no-results' ng-show='filteredCourses.length == 0'>
           no courses found matching search term
         </div>

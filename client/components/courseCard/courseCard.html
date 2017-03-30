@@ -1,18 +1,26 @@
-<div class='course-card' ng-click="click(data)" ng-class="{'short':short}">
-  <div class='course-name' picture-banner imageurls="data.imageURLs">
+<div class='course-card' ng-class="{'short':short}">
+  <a href="#" ng-href="{{viewCourse(data)}}" class='course-name' picture-banner imageurls="data.imageURLs">
     <div class='overlay'>
       <h2 class="title">{{ data.name }} </h2>
     </div>
-  </div>
+  </a>
   <div class='course-desc' data-ng-bind="data.description" data-ellipsis ng-show="!short"> </div>
-  <div class='course-ref'>
-    <a href="#" class="course-button" ng-click="click(data)">
+  <div class='course-ref' ng-hide="expandedsection">
+    <a href="#" class="course-button" href="#" ng-href="{{viewCourse(data)}}">
       {{ data.department }} {{data.courseNumber}}
       <span class='course-sect' ng-show="sections"> | Sections
         <span ng-repeat="sec in sections">
           <span ng-repeat="num in sec.sectionNumbers"> {{num}}<span ng-hide="$last">, </span></span>
           <span ng-hide="$last"> ; </span>
         </span>
+      </span>
+    </a>
+  </div>
+  <div class='course-ref' ng-show="expandedsection">
+    <a href="#" ng-repeat="sec in sections" class="course-button" href="#" ng-href="{{viewSection(data, sec)}}">
+      {{ data.department }} {{data.courseNumber}}
+      <span class='course-sect' ng-show="sections"> | sections :
+        <span ng-repeat="num in sec.sectionNumbers"> {{num}}<span ng-hide="$last">, </span></span>
       </span>
     </a>
   </div>
