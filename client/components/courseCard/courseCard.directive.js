@@ -3,7 +3,7 @@ const angular = require('angular');
 import showImage from '../showImage/showImage.directive';
 import pictureBanner from '../pictureBanner/pictureBanner.directive';
 
-export default angular.module('directives.courseCard', [showImage, pictureBanner])
+export default angular.module('directives.courseCard', [showImage, pictureBanner, 'dibari.angular-ellipsis'])
   .directive('courseCard', function ($http) {
     return {
       template: require('./courseCard.html'),

@@ -10,7 +10,7 @@
       <h4 ng-hide="anyCourses">Create a <a href="/instructor/newcourse">course</a> to get started</h4>
       <h4>Choose a <a href="/courses">course</a> to create a new section</h4>
       <div class="card-container row">
-        <course-card class="col-md-6" ng-repeat='course in user.courses | orderBy:"name"' data="course" short="false" sections='course.sections'>  </course-card>
+        <course-card class="col-md-6" ng-repeat='course in user.courses | orderBy:"name"' data="course" expandedsection="true" short="false" sections='course.sections'>  </course-card>
       </div>
     </div>
   </div>
