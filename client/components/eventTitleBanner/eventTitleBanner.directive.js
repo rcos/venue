@@ -2,7 +2,7 @@
 import commaList from '../commaList/commaList.directive';
 import pictureBanner from '../pictureBanner/pictureBanner.directive';
 
-export default angular.module('directives.eventTitleBanner', [commaList,pictureBanner])
+export default angular.module('directives.eventTitleBanner', [commaList, pictureBanner])
   .directive('eventTitleBanner', function ($http) {
     return {
       template: require('./eventTitleBanner.html'),

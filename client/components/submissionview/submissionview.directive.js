@@ -4,8 +4,9 @@ import {
   SubmissionViewCtrl
 } from './submissionview.controller';
 import showImage from '../showImage/showImage.directive';
+import submissionEdit from '../submissionEdit/submissionEdit.directive';
 
-export default angular.module('directives.submissionview', [showImage])
+export default angular.module('directives.submissionview', [showImage, submissionEdit])
   .controller('SubmissionViewCtrl', SubmissionViewCtrl)
   .directive('submissionview', function () {
     return {

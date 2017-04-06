@@ -1,0 +1,126 @@
+<div class="submissionModal">
+  <!-- <div class="modal-header">
+  </div> -->
+  <div class="modal-body">
+    <div>
+      <event-title-banner section-event="submission.sectionEvent" event="submission.sectionEvent.info"></event-title-banner-basic>
+    </div>
+    <div>
+      <div class='submission-image-container'>
+        <img ng-repeat="image in submission.images" src="{{image}}" class='submission-image'/>
+      </div>
+      <h4> Info </h4>
+      <div class="table-responsive">
+        <table class="table table-condensed">
+          <tr ng-show="isInstructor" class="active">
+            <td class="list-label">
+              Student:
+            </td>
+            <td>
+              {{submission.submitter.firstName}} {{submission.submitter.lastName}}
+            </td>
+          </tr>
+          <tr>
+            <td class="list-label">
+              Verification:
+            </td>
+            <td style="text-transform:capitalize;">
+              {{submission.instructorVerification}}
+            </td>
+          </tr>
+          <tr>
+            <td class="list-label">
+              Location:
+            </td>
+            <td>
+              {{ submission.locationMatch?"Matches":"No match"}}
+            </td>
+          </tr>
+          <tr>
+            <td class="list-label">
+              Time:
+            </td>
+            <td>
+              {{ submission.time | date : "short"}}
+            </td>
+          </tr>
+          <tr>
+            <td class="list-label">
+              Description:
+            </td>
+            <td>
+              {{ submission.content}}
+
+            </td>
+          </tr>
+      </table>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-condensed">
+        <tr class="active">
+          <td class="list-label">
+            Submission Intructions:
+          </td>
+          <td>
+            {{submission.sectionEvent.submissionInstructions}}
+          </td>
+        </tr>
+        <tr>
+          <td class="list-label">
+            {{(submission.sectionEvent.info.times.length===1)?"Time":"Times"}}:
+          </td>
+          <td>
+            <span ng-repeat="time in submission.sectionEvent.info.times">{{time.start | date : "short"}} - {{time.end | date : "short"}}, </span>
+          </td>
+        </tr>
+        <tr>
+          <td class="list-label">
+            Location:
+          </td>
+          <td>
+            {{ submission.sectionEvent.info.location.description}}
+          </td>
+        </tr>
+      </table>
+    </div>
+    <h4> Verification
+      <button type="button" ng-show="isInstructor" class="btn btn-primary btn-right" ng-click="addVerify()">Verify</button>
+    </h4>
+    <div ng-show="instructorVerification == 'none'">
+      None yet
+    </div>
+    <div ng-show="instructorVerification != 'none' && submission.instructorApproval.length > 0" ng-repeat="i in submission.instructorApproval track by $index" class="table-responsive">
+      <table class="table table-condensed">
+        <tr class="active">
+          <td class="list-label">
+            Verified by:
+          </td>
+          <td style="text-transform:capitalize;">
+            {{i.instructor.firstName}} {{i.instructor.lastName}}
+          </td>
+        </tr>
+        <tr>
+          <td class="list-label">
+            Time verified:
+          </td>
+          <td>
+            {{ i.time | date: "short" }}
+          </td>
+        </tr>
+        <tr>
+          <td class="list-label">
+            Instructor comments:
+          </td>
+          <td>
+            {{ i.comments}}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="close()">Close</button>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+  </div>
+</div>

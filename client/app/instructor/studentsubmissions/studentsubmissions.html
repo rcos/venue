@@ -7,7 +7,7 @@
       <div ng-show="submissions.length">
         <uib-tabset active="active">
           <uib-tab index="0" heading="Images">
-            <submission-card class="col-md-6" ng-repeat='submission in submissions | orderBy: "-createdAt"' data="submission" click="goToEvent(submission.sectionEvent)" short="false" />
+            <submission-card class="col-md-6" ng-repeat='submission in submissions | orderBy: "-createdAt"' data="submission" click="editSubmission(submission)" short="false" />
           </uib-tab>
           <uib-tab index="1" heading="List">
             <br/>

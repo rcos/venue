@@ -1,5 +1,5 @@
 'use strict';
-export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, SectionEvent){
+export function SubmissionViewCtrl($scope, $filter, $uibModal, Auth, Submission, Section, SectionEvent){
     "ngInject";
     $scope.viewMode = 'small';
     $scope.submissionFilter = 'submitted';
@@ -100,7 +100,8 @@ export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, S
       $scope.submissions.forEach(
         (s) => {s.submitter.name = `${s.submitter.firstName} ${s.submitter.lastName}`}
       );
-
+      $scope.editSubmission($scope.submissions[0]); //TODO : remove
+      // console.log("What is happening?")
       // Create empty submissions for students that did not submit for each section event
       $scope.allSectionEvents.forEach((se) => {
         var studentsInSection = se.section.students;
@@ -161,6 +162,30 @@ export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, S
         );
       return csv;
     };
+
+    $scope.editSubmission = (submission) => {
+      console.log("editSubmission")
+      var modalInstance = $uibModal.open({
+        template: require('../submissionEdit/submissionEdit.html'),
+        controller: 'SubmissionEditCtrl',
+        size: 'lg',
+        // backdrop : 'static',
+
+        resolve: {
+          submissionId: function () {
+            return  submission._id;
+          },
+        }
+      });
+
+      modalInstance.result.then(function (changedSubmission) {
+        // $window.location.reload();
+        submission = changedSubmission;
+      }, function(){
+
+      });
+    }
+
 
     updateSectionEvents();
 

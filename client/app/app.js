@@ -58,6 +58,7 @@ import dateFilter from '../components/dateFilter/dateFilter.directive';
 import courseCard from '../components/courseCard/courseCard.directive';
 import submissionview from '../components/submissionview/submissionview.directive';
 import submissionCard from '../components/submissionCard/submissionCard.directive';
+import submissionEdit from '../components/submissionEdit/submissionEdit.directive';
 import sectionform from '../components/sectionform/sectionform.directive';
 import eventCard from '../components/eventCard/eventCard.directive';
 import courseTitleBanner from '../components/courseTitleBanner/courseTitleBanner.directive';

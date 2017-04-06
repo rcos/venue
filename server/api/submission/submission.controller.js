@@ -274,10 +274,75 @@ exports.imageSize = function(req, res){
 
 // Gets a single Submission from the DB
 exports.show = function(req, res) {
-  Submission.findByIdAsync(req.params.id)
-    .then(handleEntityNotFound(res))
-    .then(responseWithResult(res))
-    .catch(handleError(res));
+    var withStudent = withDefault(req.query.withStudent, true);
+    var withSectionEvent = withDefault(req.query.withSectionEvent, true);
+    var withEventInfo = withDefault(req.query.withEventInfo, withSectionEvent);
+    var withSection = withDefault(req.query.withSection, false);
+    var withSectionCourse = withDefault(req.query.withSectionCourse, false);
+    var submissionId = req.params.id;
+
+    var studentRequest = !req.user.isInstructor;
+    var search = {"_id":submissionId};
+    if (studentRequest){
+      search = { "_id":submissionId, $or: [{ submitter: req.user._id}, { authors: {$in: [req.user._id]} } ]};
+    }
+    function respond(query){
+      query.populate("instructorApproval.instructor");
+      if (withStudent){
+        query.populate("authors");
+        query.populate("submitter");
+      }
+      if (withSectionEvent){
+        query.populate("sectionEvent")
+        if (withSection){
+          query.populate({
+            path: 'sectionEvent',
+            model: 'SectionEvent',
+            populate: {
+              path: 'section',
+              model: 'Section'
+            }
+          });
+          if (withSectionCourse){
+            query.populate({
+              path: 'sectionEvent',
+              model: 'SectionEvent',
+              populate: {
+                path: 'section',
+                model: 'Section',
+                populate: [{
+                  path: "course",
+                  model: "Course"
+                },
+                {
+                  path: "instructors",
+                  model: "User"
+                }],
+
+              }
+            });
+          }
+        }
+        if (withEventInfo){
+          query.populate({
+            path: 'sectionEvent',
+            model: 'SectionEvent',
+            populate: {
+              path: 'info',
+              model: 'EventInfo'
+            }
+          });
+        }
+      }
+
+      query.sort({time: -1});
+
+      query.execAsync()
+        .then(responseWithResult(res))
+        .catch(handleError(res));
+    }
+
+    return respond(Submission.findOne(search));
 };
 
 // Creates a new Submission in the DB

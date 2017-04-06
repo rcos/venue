@@ -606,6 +606,11 @@ export function allSubmissions(){
       authors: [allUsers().foo._id],
       sectionEvent: allSectionEvents().netArt12Concerts._id,
       instructorVerification: "none",
+      instructorApproval: [{
+        instructor: allUsers().bob._id,
+        time: Date.now(),
+        comments: "great job!"
+      }],
       verified: true,
       locationMatch: true,
       location: {
@@ -626,13 +631,19 @@ export function allSubmissions(){
       authors: [allUsers().kelly._id],
       sectionEvent: allSectionEvents().netArt12Concerts._id,
       instructorVerification: "rejected",
-      verified: false,
-      locationMatch: true,
-      instructorApproval: {
+      instructorApproval: [{
+        instructor: allUsers().bob._id,
+        time: Date.now(),
+        comments: "Try again"
+      },
+      {
         instructor: allUsers().travis._id,
         time: Date.now(),
-        comments: "Didn't meet requirements"
-      },
+        comments: "Needs improvement"
+      }],
+
+      verified: false,
+      locationMatch: true,
       location: {
         geo: {
           coordinates: [

@@ -13,11 +13,11 @@ var SubmissionSchema = new Schema({
   submitter: {type : Schema.Types.ObjectId, ref: 'User'},
   authors: [{type : Schema.Types.ObjectId, ref: 'User'}],
   sectionEvent: {type : Schema.Types.ObjectId, ref: 'SectionEvent'},
-  instructorApproval: {
+  instructorApproval: [{
     instructor: {type : Schema.Types.ObjectId, ref: 'User'},
     time: Date,
     comments: String
-  },
+  }],
   instructorVerification: { type: String, enum: ["verified", "rejected", "none"] },
   verified: Boolean,
   locationMatch: Boolean,
