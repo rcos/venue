@@ -100,7 +100,7 @@ export function SubmissionViewCtrl($scope, $filter, $uibModal, Auth, Submission,
       $scope.submissions.forEach(
         (s) => {s.submitter.name = `${s.submitter.firstName} ${s.submitter.lastName}`}
       );
-      $scope.editSubmission($scope.submissions[0]); //TODO : remove
+      $scope.editSubmission($scope.submissions[2]); //TODO : remove
       // console.log("What is happening?")
       // Create empty submissions for students that did not submit for each section event
       $scope.allSectionEvents.forEach((se) => {

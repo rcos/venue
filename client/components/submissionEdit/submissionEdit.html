@@ -9,7 +9,7 @@
       <div class='submission-image-container'>
         <img ng-repeat="image in submission.images" src="{{image}}" class='submission-image'/>
       </div>
-      <h4> Info </h4>
+      <h4> Submission </h4>
       <div class="table-responsive">
         <table class="table table-condensed">
           <tr ng-show="isInstructor" class="active">
@@ -55,6 +55,7 @@
           </tr>
       </table>
     </div>
+    <h4> Event </h4>
     <div class="table-responsive">
       <table class="table table-condensed">
         <tr class="active">
@@ -84,13 +85,45 @@
       </table>
     </div>
     <h4> Verification
-      <button type="button" ng-show="isInstructor" class="btn btn-primary btn-right" ng-click="addVerify()">Verify</button>
+      <button type="button" ng-show="isInstructor && !alreadyVerified && !editingVerification" class="btn btn-primary btn-right" ng-click="addVerify()">Add Verification</button>
+      <button type="button" ng-show="isInstructor && alreadyVerified && !editingVerification" class="btn btn-primary btn-right" ng-click="addVerify()">Edit Verification</button>
     </h4>
     <div ng-show="instructorVerification == 'none'">
       None yet
     </div>
+    <div ng-show="editingVerification">
+      <form class="form" name="form" ng-submit="saveVerify(form)" novalidate ng-show="!success">
+        <table class="table table-condensed table-form" ng-hide="submission._id == thisInstructionVerification._id && editingVerification">
+          <tr class="active">
+            <td class="list-label">
+              Verification:
+            </td>
+            <td>
+              <select class="form-control" ng-model="verifyEdit">
+                <option>verified</option>
+                <option>rejected</option>
+                <option>none</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="list-label">
+              Comments:
+            </td>
+            <td>
+          <input type="text" name="comments" class="form-control" ng-model="verifyComments"/>
+            </td>
+          </tr>
+        </table>
+
+        <div class="form-buttons">
+          <button ng-click="cancelVerify()" class="btn btn-default">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
     <div ng-show="instructorVerification != 'none' && submission.instructorApproval.length > 0" ng-repeat="i in submission.instructorApproval track by $index" class="table-responsive">
-      <table class="table table-condensed">
+      <table class="table table-condensed" ng-hide="submission._id == thisInstructionVerification._id && editingVerification">
         <tr class="active">
           <td class="list-label">
             Verified by:
@@ -120,7 +153,6 @@
 
     <div class="modal-footer">
       <button type="button" class="btn btn-default" ng-click="close()">Close</button>
-      <button type="submit" class="btn btn-primary">Save</button>
     </div>
   </div>
 </div>
