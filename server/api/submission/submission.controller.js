@@ -250,7 +250,7 @@ exports.index = function(req, res) {
 
 exports.image = function(req, res){
   // Prevents requesting arbitary files from the server
-  if ((req.params.name.indexOf('/') !== -1) && (req.params.userId.indexOf('/') !== -1) && (req.params.eventId.indexOf('/') !== -1)){
+  if ((req.params.name.indexOf('/') !== -1) || (req.params.userId.indexOf('/') !== -1) || (req.params.eventId.indexOf('/') !== -1)){
     return res.json(404);
   }
 
