@@ -16,6 +16,11 @@ router.get('/image/:userId/:eventId/:size/:name', controller.imageSize);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', auth.isStudent(), upload.array('files[0]'), controller.create);
 router.put('/:id', auth.isStudent(), upload.array('files[0]'), controller.update);
+router.put('/:id/verify', (req,res,next)=>{
+    auth.isAuthenticated()(req, res, ()=>{
+        controller.mySections(req,res,next);
+    });
+}, controller.verify);
 router.patch('/:id', auth.isStudent(), upload.array('files[0]'), controller.update);
 router.delete('/:id', auth.isAuthenticated(), controller.destroy);
 

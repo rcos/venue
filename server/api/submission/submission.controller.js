@@ -434,6 +434,18 @@ exports.update = function(req, res) {
     .catch(handleError(res));
 };
 
+// Verifies an existing Submission in the DB
+exports.update = function(req, res) {
+  if (req.body._id) {
+    delete req.body._id;
+  }
+  Submission.findByIdAsync(req.params.id)
+    .then(handleEntityNotFound(res))
+    .then(saveUpdates(req.body))
+    .then(responseWithResult(res))
+    .catch(handleError(res));
+};
+
 // Deletes a Submission from the DB
 exports.destroy = function(req, res) {
   Submission.findByIdAsync(req.params.id)
