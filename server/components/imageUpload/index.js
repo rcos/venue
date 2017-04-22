@@ -14,7 +14,7 @@ export function saveImage(file: {originalname: string, path: string},
   var extension = path.extname(file.originalname);
   var ext = extension.substring(1).toLowerCase();
 
-  if (ext !== 'jpeg' && ext !== 'jpg' && ext !== 'png' && ext !== 'tiff' && ext !== 'gif' && ext !== 'webp'  && ext !== 'svg' ){
+  if (ext !== 'jpeg' && ext !== 'jpg' && ext !== 'png'){
     cb("Invalid extension");
     return "";
   }
