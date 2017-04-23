@@ -5,6 +5,9 @@ export default class CourseViewCtrl {
   constructor($scope, $location, $http, $routeParams, Auth, User, Course, Section) {
     $scope.isStudent = false;
     $scope.isInstructor = false;
+    $scope.same_creator = false;
+    $scope.once = 1;
+    var creator;
     Auth.getCurrentUser((user) => {
       $scope.user = user;
       if (user.hasOwnProperty('role')){
@@ -26,6 +29,9 @@ export default class CourseViewCtrl {
     };
     $scope.editCourse = function(){
       return "/courses/"+ $routeParams.id + "/edit";
+    };
+    $scope.deleteCourse = function(){
+      return "/courses/"+$routeParams.id +"/delete"
     };
 
     $scope.editSection = function(section){
@@ -55,6 +61,9 @@ export default class CourseViewCtrl {
       }, course => {
         $scope.course = course;
         $scope.coursesLoaded = true;
+      if($scope.course.creator == $scope.user._id){
+        $scope.same_creator = true;
+      }
       }, () =>{
         $location.path('/courses')
       });

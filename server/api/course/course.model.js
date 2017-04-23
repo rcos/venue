@@ -5,11 +5,13 @@ var Schema = mongoose.Schema;
 
 import Section from '../section/section.model';
 import async from 'async';
+import User from '../user/user.model';
 
 var CourseSchema = new Schema({
   name: String,
   department: String,
   courseNumber: Number,
+  creator: {type:Schema.Types.ObjectId, ref: 'User'},
   description: String,
   semester: String,
   active: Boolean,
@@ -20,6 +22,13 @@ var CourseSchema = new Schema({
  * Methods
  */
 CourseSchema.methods = {
+
+  checkCreator(userId){
+    if(userId == this.creator._id){
+      return true;
+    }
+    return false;
+  },
 
   getRelatedUsers(){
     return Section.findAsync({course:this._id})

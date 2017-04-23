@@ -137,6 +137,7 @@ export function create(req: $ExtRequest, res: $Response) {
     else{
       course.semester = "Fall" + (date.getFullYear() - 100).toString();
     }
+    course.creator = req.user._id;
     Course.createAsync(course)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
@@ -198,4 +199,14 @@ export function image(req: $Request, res: $Response){
 export function imageSize(req: $Request, res: $Response){
   req.query.size = req.params.size;
   return exports.image(req, res);
+};
+export function check(req: $Request, res: $Response){
+  Course.findByIdAsync(req.params.courseid,'creator')
+  .then((course)=>{
+      var is_creator = course.checkCreator(req.params.studentid);
+      return
+  })
+  .catch(function(err){
+    handleEntityNotFound(res);
+  })
 };
