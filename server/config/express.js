@@ -70,6 +70,14 @@ export default function(app) {
       csrf: {
         angular: true
       },
+      csp: {
+        policy: {
+          'default-src': ' * \'self\'',
+          'script-src':  ' * \'self\'  https://cdnjs.cloudflare.com/  https://www.google-analytics.com/',
+          'style-src':   ' * \'self\'  https://fonts.googleapis.com/  https://fonts.gstatic.com/',
+          'connect-src': ' * \'self\' ',
+        }
+      },
       xframe: 'SAMEORIGIN',
       hsts: {
         maxAge: 31536000, //1 year, in seconds
@@ -89,6 +97,26 @@ export default function(app) {
     const compiler = webpack(webpackConfig);
     const browserSync = require('browser-sync').create();
 
+    app.use(lusca({
+      csrf: {
+        angular: true
+      },
+      csp: {
+        policy: {
+          'default-src': ' * \'self\' \'unsafe-inline\' \'unsafe-eval\'  http://localhost:3000 blob: http://localhost:3001 ws://localhost:3001',
+          'script-src':  ' * \'self\' \'unsafe-inline\' \'unsafe-eval\'  http://localhost:3000 blob: http://localhost:3001 ws://localhost:3001  https://cdnjs.cloudflare.com/  https://www.google-analytics.com/',
+          'style-src':   ' * \'self\' \'unsafe-inline\' \'unsafe-eval\'  http://localhost:3000 blob: http://localhost:3001 ws://localhost:3001  https://fonts.googleapis.com/  https://fonts.gstatic.com/',
+          'connect-src': ' * \'self\' \'unsafe-inline\' \'unsafe-eval\'  http://localhost:3000 blob: http://localhost:3001 ws://localhost:3001 ',
+        }
+      },
+      xframe: 'SAMEORIGIN',
+      hsts: {
+        maxAge: 31536000, //1 year, in seconds
+        includeSubDomains: true,
+        preload: true
+      },
+      xssProtection: true
+    }));
     /**
      * Run Browsersync and use middleware for Hot Module Replacement
      */
