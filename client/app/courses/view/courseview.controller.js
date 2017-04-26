@@ -2,7 +2,7 @@
 export default class CourseViewCtrl {
 
   /*@ngInject*/
-  constructor($scope, $location, $http, $routeParams, Auth, User, Course, Section) {
+  constructor($scope, $location, $http, $routeParams, Auth, User, Course, Section,SweetAlert){
     $scope.isStudent = false;
     $scope.isInstructor = false;
     $scope.same_creator = false;
@@ -31,7 +31,27 @@ export default class CourseViewCtrl {
       return "/courses/"+ $routeParams.id + "/edit";
     };
     $scope.deleteCourse = function(){
-      return "/courses/"+$routeParams.id +"/delete"
+
+      var courseid = $routeParams.id;
+      SweetAlert.swal({
+        title: "Are you sure?",
+        text: "Your will not be able to recover this course!",
+        type: "warning",
+         showCancelButton: true,
+         confirmButtonColor: "#DD6B55",confirmButtonText: "Yes, delete the course!",
+         cancelButtonText: "Cancel",
+         closeOnConfirm: false,
+         closeOnCancel: false },
+         function(isConfirm){
+           if (isConfirm) {
+             SweetAlert.swal("Deleted!", "Your course has been deleted.", "success");
+             Course.delete({id: courseid}, (res) => {
+               $location.path("/instructor/dashboard");
+               })
+           } else {
+             SweetAlert.swal("Cancelled", "Course is not deleted.", "error");
+           }
+         });
     };
 
     $scope.editSection = function(section){

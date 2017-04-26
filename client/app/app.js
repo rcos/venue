@@ -5,6 +5,7 @@ import ngAnimate from 'angular-animate';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
+import ngSweetAlert from 'angular-sweetalert';
 import 'angular-socket-io';
 const ngRoute = require('angular-route');
 
@@ -65,7 +66,6 @@ import courseform from '../components/courseform/courseform.directive';
 import pictureBanner from '../components/pictureBanner/pictureBanner.directive';
 import eventForm from '../components/eventform/eventform.module'
 
-
 import './app.less';
 
 angular.module('venueApp', [
@@ -73,13 +73,14 @@ angular.module('venueApp', [
     ngResource, ngSanitize, 'btford.socket-io', ngRoute,
     uiBootstrap,
     ngAnimate, ngMessages, ngValidationMatch,
-    ngFileUpload, ngCsv,
+    ngFileUpload,ngCsv,
     //
     'geolocation',
     'dibari.angular-ellipsis',
     'ui.bootstrap.datetimepicker',
     'uiGmapgoogle-maps',
-
+    'oitozero.ngSweetAlert',
+  
     _CourseFactory,
     _SectionEventFactory,
     _EventInfoFactory,

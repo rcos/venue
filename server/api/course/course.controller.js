@@ -12,6 +12,7 @@
 
 import _ from 'lodash';
 import Course from './course.model';
+import Section from '../section/section.model.js';
 import fs from 'fs';
 import mkdirp from 'mkdirp';
 import config from '../../config/environment';
@@ -45,6 +46,7 @@ function handleEntityNotFound(res: $Response) {
       res.status(404).json({});
       return null;
     }
+    console.log("ERROR");
     return entity;
   };
 }
