@@ -15,8 +15,5 @@ export default class StudentCoursesCtrl {
       }
       $scope.user.courses = courseList;
     });
-    $scope.goToCourse = function(course){
-      $location.path("/courses/" + course._id);
-    };
   }
 }
