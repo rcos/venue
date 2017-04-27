@@ -13,11 +13,6 @@ export default class InstructorCoursesCtrl {
           courseList.push($scope.user.courses[key]);
       }
       $scope.user.courses = courseList;
-
     });
-
-    $scope.goToCourse = (course) => {
-      $location.path("/courses/" + course._id);
-    };
   }
 }
