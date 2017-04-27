@@ -46,7 +46,6 @@ function handleEntityNotFound(res: $Response) {
       res.status(404).json({});
       return null;
     }
-    console.log("ERROR");
     return entity;
   };
 }
@@ -176,10 +175,22 @@ export function update(req: $Request, res: $Response) {
 // Deletes a Course from the DB
 export function destroy(req: $Request, res: $Response) {
   Course.findByIdAsync(req.params.id)
-    .then(handleEntityNotFound(res))
-    .then(removeEntity(res))
-    .catch(handleError(res));
-};
+    .then((course)=>{
+      Section.findAsync({course: course._id})
+      .then(handleEntityNotFound(res))
+      .then((sections)=>{
+        sections.forEach(section=>{
+          section.remove(function(err,section){
+            if(err) handleError(res);
+          })
+        })
+        return null;
+      }).catch(handleError(res))
+      return course;
+    }).then(handleEntityNotFound(res))
+      .then(removeEntity(res))
+      .catch(handleError(res));
+  };
 
 export function image(req: $Request, res: $Response){
   // Prevents requesting arbitary files from the server
