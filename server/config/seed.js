@@ -239,9 +239,9 @@ export function allCourses(){return {
       active : true,
       semester : "Spring16",
       }
-    }
-  };
-}
+    };
+  }
+
 
 export function allSections(){ return {
     netArt12: {
