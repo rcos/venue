@@ -11,8 +11,5 @@ export default class CourseSearchCtrl {
           return course;
         });
     });
-    $scope.openCourse = course => {
-      $location.path("/courses/" + course._id);
-    };
   }
 }

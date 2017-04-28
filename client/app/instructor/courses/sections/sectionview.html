@@ -80,10 +80,8 @@
           <div ng-hide="section.events.length">
             <h4> No events yet. Assign one <a href="/instructor/newevent">here</a> </h4>
           </div>
-          <div class="card-container" ng-show="section.events.length">
-            <div class="col-md-6" ng-repeat='event in section.events  | orderBy: "-times[0].start"' >
-              <event-card ng-click='goToEvent(event)' data="event"  short="true" preview="true" >  </event-card>
-            </div>
+          <div class="card-container card-flex-container" ng-show="section.events.length">
+            <event-card class="card card-flex" ng-repeat='event in section.events  | orderBy: "-times[0].start"' data="event" short="true" preview="true" >  </event-card>
           </div>
         </uib-tab>
 
@@ -95,10 +93,8 @@
                 <h5> No events yet. Assign one <a href="/instructor/newevent">here</a> </h5>
               </div>
 
-              <div class="card-container" ng-show="section.events.length">
-                <div class="col-md-3" ng-repeat='event in section.events | orderBy: "-times[0].start"' >
-                  <event-card link-enabled="false" selected="selectedEventId == event._id" ng-click='selectEvent(event)' data="event"  short="true" preview="true" >  </event-card>
-                </div>
+              <div class="card-container card-flex-container" ng-show="section.events.length">
+                  <event-card class="card-flex" ng-repeat='event in section.events | orderBy: "-times[0].start"' link-enabled="false" selected="selectedEventId == event._id" ng-click='selectEvent(event)' data="event"  short="true" preview="true" >  </event-card>
               </div>
             </div>
           </div>

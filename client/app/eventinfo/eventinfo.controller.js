@@ -28,6 +28,9 @@ export default class EventInfoCtrl {
       },
       err => {
         $scope.err = err;
+          if (err.status == 401 || err.status == 500){
+            $location.path("/");
+          }
       });
 
     $scope.editEvent = function(){

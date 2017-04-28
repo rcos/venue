@@ -17,15 +17,11 @@
              </div>
           </div>
         </div>
-        <div class='class-card-container' ng-show="eventsArray.length" class="ng-cloak">
-          <div class='row text-center'>
-            <div class='event-page'>
-              <event-card class="col-md-6" ng-repeat='event in filteredEvents = (eventsArray | filter:searchText) | orderBy: "-times[0].start"' data="event" click='goToEvent(event)' sectionClick='goToEvent(event)' short="false" />
-              <div class='no-events' ng-show='filteredEvents.length == 0'>
-                No events found matching search term
-              </div>
-            </div>
-          </div>
+        <div class='row text-center no-events' ng-show='filteredEvents.length == 0'>
+          No events found matching search terms
+        </div>
+        <div class='row text-center card-container card-flex-container' ng-show="eventsArray.length" class="ng-cloak">
+            <event-card class="card card-flex" ng-repeat='event in filteredEvents = (eventsArray | filter:searchText) | orderBy: "-times[0].start"' data="event" click='goToEvent(event)' sectionClick='goToEvent(event)' short="false" />
         </div>
       </div>
     </div>
