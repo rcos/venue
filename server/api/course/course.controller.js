@@ -175,6 +175,7 @@ export function update(req: $Request, res: $Response) {
 // Deletes a Course from the DB
 export function destroy(req: $Request, res: $Response) {
   Course.findByIdAsync(req.params.id)
+    .then(handleEntityNotFound(res))
     .then((course)=>{
       Section.findAsync({course: course._id})
       .then(handleEntityNotFound(res))
@@ -187,8 +188,7 @@ export function destroy(req: $Request, res: $Response) {
         return null;
       }).catch(handleError(res))
       return course;
-    }).then(handleEntityNotFound(res))
-      .then(removeEntity(res))
+    }).then(removeEntity(res))
       .catch(handleError(res));
   };
 
