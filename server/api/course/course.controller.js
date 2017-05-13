@@ -180,7 +180,24 @@ export function destroy(req: $Request, res: $Response) {
       Section.findAsync({course: course._id})
       .then(handleEntityNotFound(res))
       .then((sections)=>{
+        var events;
         sections.forEach(section=>{
+          section.getSectionEventsAsync()
+          .then((received_events)=>{
+            received_events.forEach(secEvent=>{
+                Submission.findAsync({setionEvent: secEvent})
+                  .then((submissions)=>{
+                    submissions.forEach(submission=>{
+                      submission.remove(function(err,section){
+                        if(err) handleError(res);
+                      })
+                    })
+                  })
+            })
+            received_events.remove(function(err,section){
+              if(err) handleError(res);
+            })
+          }).catch(handleError)
           section.remove(function(err,section){
             if(err) handleError(res);
           })
