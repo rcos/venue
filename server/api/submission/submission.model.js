@@ -19,6 +19,7 @@ var SubmissionSchema = new Schema({
     comments: String
   },
   instructorVerification: { type: String, enum: ["verified", "rejected", "none"] },
+  deleted: Boolean,
   verified: Boolean,
   locationMatch: Boolean,
   location: {

@@ -10,7 +10,8 @@ var SectionEventSchema = new Schema({
   info: {type: Schema.Types.ObjectId, ref: 'EventInfo'},
   author: {type: Schema.Types.ObjectId, ref: 'User'},
   submissionInstructions: String,
-  creationDate: Date
+  creationDate: Date,
+  deleted: Boolean
 });
 
 

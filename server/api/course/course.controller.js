@@ -175,7 +175,6 @@ export function update(req: $Request, res: $Response) {
 // Deletes a Course from the DB
 export function destroy(req: $Request, res: $Response) {
   Course.findByIdAsync(req.params.id)
-    .then(handleEntityNotFound(res))
     .then((course)=>{
       Section.findAsync({course: course._id})
       .then(handleEntityNotFound(res))
@@ -185,14 +184,7 @@ export function destroy(req: $Request, res: $Response) {
           section.getSectionEventsAsync()
           .then((received_events)=>{
             received_events.forEach(secEvent=>{
-                Submission.findAsync({setionEvent: secEvent})
-                  .then((submissions)=>{
-                    submissions.forEach(submission=>{
-                      submission.remove(function(err,section){
-                        if(err) handleError(res);
-                      })
-                    })
-                  })
+                secEvent.fullRemove();
             })
             received_events.remove(function(err,section){
               if(err) handleError(res);

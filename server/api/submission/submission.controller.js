@@ -301,7 +301,8 @@ exports.create = function(req, res) {
         verified: false,
         locationMatch: false,
         time: Date.now(),
-        content: req.body.content
+        content: req.body.content,
+        deleted: false
       };
 
       Submission.create(submit, (err, submission) => {

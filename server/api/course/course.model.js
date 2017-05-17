@@ -15,7 +15,8 @@ var CourseSchema = new Schema({
   description: String,
   semester: String,
   active: Boolean,
-  imageURLs: [String]
+  imageURLs: [String],
+  deleted: Boolean
 });
 
 /**
