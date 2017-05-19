@@ -54,6 +54,7 @@ module.exports = function makeWebpackConfig(options) {
               'angular-simple-logger',
               'angular-socket-io',
               'angular-validation-match',
+              'angular-sweetalert',
               // 'webpack-bootstrap',
               'bootstrap-social',
               'bootstrap-ui-datetime-picker',

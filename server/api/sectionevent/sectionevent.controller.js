@@ -75,7 +75,7 @@ function notifySectionCreation(sectionEvent){
       .execAsync()
       .then(section => {
         section.students.forEach(student => {
-          scheduler.now("create sectionEvent", {user:student.toObject(), sectionId: section._id.toString(), eventInfo: eventInfo.toObject()});
+          scheduler.now("create sectionEvent", {user:student.toObject(), sectionId: section._id.toString(), eventInfo: eventInfo.toObject(), deleted: false});
         });
         return sectionEvent.updateUserNotifications();
       }).then(()=> {return sectionEvent});

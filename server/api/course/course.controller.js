@@ -12,6 +12,7 @@
 
 import _ from 'lodash';
 import Course from './course.model';
+import Section from '../section/section.model.js';
 import fs from 'fs';
 import mkdirp from 'mkdirp';
 import config from '../../config/environment';
@@ -137,6 +138,7 @@ export function create(req: $ExtRequest, res: $Response) {
     else{
       course.semester = "Fall" + (date.getFullYear() - 100).toString();
     }
+    course.creator = req.user._id;
     Course.createAsync(course)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
@@ -174,9 +176,31 @@ export function update(req: $Request, res: $Response) {
 export function destroy(req: $Request, res: $Response) {
   Course.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
-    .then(removeEntity(res))
-    .catch(handleError(res));
-};
+    .then((course)=>{
+      Section.findAsync({course: course._id})
+      .then(handleEntityNotFound(res))
+      .then((sections)=>{
+        var events;
+        sections.forEach(section=>{
+          section.getSectionEventsAsync()
+          .then((received_events)=>{
+            received_events.forEach(secEvent=>{
+                secEvent.fullRemove();
+            })
+            received_events.remove(function(err,section){
+              if(err) handleError(res);
+            })
+          }).catch(handleError)
+          section.remove(function(err,section){
+            if(err) handleError(res);
+          })
+        })
+        return null;
+      }).catch(handleError(res))
+      return course;
+    }).then(removeEntity(res))
+      .catch(handleError(res));
+  };
 
 export function image(req: $Request, res: $Response){
   // Prevents requesting arbitary files from the server
@@ -198,4 +222,14 @@ export function image(req: $Request, res: $Response){
 export function imageSize(req: $Request, res: $Response){
   req.query.size = req.params.size;
   return exports.image(req, res);
+};
+export function check(req: $Request, res: $Response){
+  Course.findByIdAsync(req.params.courseid,'creator')
+  .then((course)=>{
+      var is_creator = course.checkCreator(req.params.studentid);
+      return
+  })
+  .catch(function(err){
+    handleEntityNotFound(res);
+  })
 };

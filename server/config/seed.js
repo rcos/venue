@@ -152,6 +152,7 @@ export function allCourses(){return {
       semester: "Fall15",
       active: false,
       _id: mongoose.Types.ObjectId('000000000000000000000010'),
+      creator: allUsers().bob._id,
     },
     openSource:{
       name: "Introduction to Open Source",
@@ -162,6 +163,7 @@ export function allCourses(){return {
       semester: "Spring15",
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000011'),
+      creator:allUsers().bob._id,
     },
     robotics:{
       name: "Mestizo Robotics",
@@ -172,6 +174,7 @@ export function allCourses(){return {
       semester: "Spring15",
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000012'),
+      creator: allUsers().bob._id,
     },
     art:{
       name: "Art, Community and Technology",
@@ -182,6 +185,7 @@ export function allCourses(){return {
       semester: "Spring15",
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000013'),
+      creator:allUsers().bob._id,
     },
     imaging:{
       name: "Media Studio: Imaging",
@@ -192,6 +196,7 @@ export function allCourses(){return {
       semester: "Spring15",
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000014'),
+
     },
     materials:{
       name: "Materials and Design",
@@ -222,9 +227,21 @@ export function allCourses(){return {
       semester: "Spring15",
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000017'),
-    }
-  };
-}
+      creator: allUsers().travis._id,
+    },
+    venue:{
+      _id : mongoose.Types.ObjectId("222222222222222222222220"),
+      department : "TEST",
+      imageURLs: ["/api/courses/image/test-1470287331303.jpeg"], // url to image
+      courseNumber : 1234,
+      name : "Venue Testing",
+      description : "This course is for testing new venue features.",
+      active : true,
+      semester : "Spring16",
+      }
+    };
+  }
+
 
 export function allSections(){ return {
     netArt12: {
