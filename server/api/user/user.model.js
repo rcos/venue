@@ -10,6 +10,8 @@ import Course from '../course/course.model';
 import Submission from '../submission/submission.model';
 import {getSectionsExtra} from '../section/section.controller';
 var scheduler = require('../../schedule');
+import config from '../../config/environment';
+var userRoles = config.userRoles || ['guest', 'user', 'admin'];
 
 import SectionEvent from '../sectionevent/sectionevent.model';
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
@@ -24,7 +26,8 @@ var UserSchema = new Schema({
   },
   role: {
     type: String,
-    default: 'user'
+    default: 'user',
+    enum: userRoles
   },
   isInstructor: Boolean,
   isVerified: Boolean,

@@ -3,9 +3,6 @@ export default class InstructorSectionViewCtrl {
 
   /*@ngInject*/
   constructor($scope, $location, $routeParams, Auth, Submission, Section) {
-    // This updates material lite with dynamic elements that otherwise aren't
-    // captured
-    componentHandler.upgradeDom();
     // Current event selected by instructor
     $scope.currentEventSelection = null;
 

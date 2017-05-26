@@ -8,8 +8,7 @@
         "module": false,
         "inject": false,
         "_": false,
-        "google": false,
-        "componentHandler": false
+        "google": false
     },
     "plugins": [],
     "rules": {

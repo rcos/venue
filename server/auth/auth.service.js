@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import User from '../api/user/user.model';
+import Section from '../api/section/section.model';
 
 var validateJwt = expressJwt({
   secret: config.secrets.session
@@ -71,6 +72,38 @@ export function isInstructor(){
             }else{
                 res.status(403).send('Forbidden');
             }
+        });
+}
+/**
+ * Checks if user is an instructor
+ */
+export function isSectionInstructor(){
+    return compose()
+        .use(isInstructor())
+        .use(function meetsRequirements(req, res, next) {
+          // console.log("req",req);
+            console.log("req.baseUrl",req.baseUrl);
+
+            return Section.findByIdAsync(req.params.id)
+              .then(section => {
+                console.log("section",section)
+                if (!section) {
+                  return res.status(404).end();
+                }
+                req.section = section;
+                // console.log("section.instructors.includes(req.user._id)",section.instructors.indexOf(req.user._id.toString() != -1,section.instructors, req.user._id)
+
+                if (section.instructors.indexOf(req.user._id.toString() !== -1)){
+                    next();
+                }
+                else if (req.user.role === 'admin'){
+                    next()
+                }
+                else{
+                    return res.status(403).send('Forbidden');
+                }
+              })
+              .catch(err => next(err));
         });
 }
 

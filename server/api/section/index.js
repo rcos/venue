@@ -23,8 +23,8 @@ router.get('/', (req,res,next)=>{
 }, controller.index);
 router.get('/:id', controller.show);
 router.post('/', auth.isInstructor(), controller.create);
-router.put('/:id', auth.isInstructor(), controller.update);
-router.patch('/:id',  auth.isInstructor(), controller.update);
-router.delete('/:id',  auth.isInstructor(), controller.destroy);
+router.put('/:id', auth.isSectionInstructor(), controller.update);
+router.patch('/:id',  auth.isSectionInstructor(), controller.update);
+router.delete('/:id',  auth.isSectionInstructor(), controller.destroy);
 
 export default router;
