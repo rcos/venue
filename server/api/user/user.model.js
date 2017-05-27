@@ -4,7 +4,7 @@ import crypto from 'crypto';
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 import {Schema} from 'mongoose';
 import async from 'async';
-import uuid from 'node-uuid';
+import uuid from 'uuid';
 import Section from '../section/section.model';
 import Course from '../course/course.model';
 import Submission from '../submission/submission.model';
