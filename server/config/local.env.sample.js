@@ -9,14 +9,7 @@ module.exports = {
   DOMAIN:           'http://localhost:9000',
   SESSION_SECRET:   'venue-secret',
 
-  FACEBOOK_ID:      'app-id',
-  FACEBOOK_SECRET:  'secret',
-
-  TWITTER_ID:       'app-id',
-  TWITTER_SECRET:   'secret',
-
-  GOOGLE_ID:        'app-id',
-  GOOGLE_SECRET:    'secret',
+  PORT:  '9000',
 
   // Mail Server Settings
   EMAIL_SERVICE:    'none',
