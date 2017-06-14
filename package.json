@@ -42,7 +42,7 @@
     "fast-json-patch": "^1.0.0",
     "flat": "^2.0.1",
     "font-awesome": ">=4.1.0",
-    "font-awesome-webpack": "^0.0.5",
+    "font-awesome-webpack": "^0.0.5-beta.2",
     "glob": "^7.0.3",
     "google-maps-utility-library-v3-infobox": "^1.1.14",
     "google-maps-utility-library-v3-keydragzoom": "^2.0.9",
