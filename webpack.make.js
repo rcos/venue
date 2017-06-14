@@ -230,7 +230,7 @@ module.exports = function makeWebpackConfig(options) {
             //delays coverage til after tests are run, fixing transpiled source coverage error
             test: /\.js$/,
             exclude: /(node_modules|spec\.js|mock\.js)/,
-            loader: 'isparta-instrumenter',
+            loader: 'istanbul-instrumenter-loader',
             query: {
                 babel: {
                     // optional: ['runtime', 'es7.classProperties', 'es7.decorators']
