@@ -8,6 +8,7 @@ dist
 /server/config/local.env.js
 npm-debug.log
 coverage
+yarn.lock
 
 data/*
 data/eventImages/*
