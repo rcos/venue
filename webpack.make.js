@@ -41,36 +41,37 @@ module.exports = function makeWebpackConfig(options) {
             app: './client/app/app.js',
             polyfills: './client/polyfills.js',
             vendor: [
-              'angular',
-              'angular-bootstrap',
+              'angular-animate',
+              'angular-aria',
               'angular-cookies',
               'angular-ellipsis',
               'angular-google-maps',
-              'angularjs-geolocation',
               'angular-mocks',
               'angular-resource',
               'angular-route',
               'angular-sanitize',
               'angular-simple-logger',
               'angular-socket-io',
+              'angular-ui-bootstrap',
               'angular-validation-match',
-              // 'webpack-bootstrap',
+              'angular',
+              'angularjs-geolocation',
               'bootstrap-social',
               'bootstrap-ui-datetime-picker',
-              // 'es5-shim',
               'font-awesome-webpack',
+              'jquery',
+              'json3',
+              'lodash',
+              'ng-csv',
+              'ng-file-upload',
+              // 'es5-shim',
               // 'google-maps-utility-library-v3-infobox',
               // 'google-maps-utility-library-v3-keydragzoom',
               // 'google-maps-utility-library-v3-markerwithlabel',
-              'jquery',
-              'json3',
               // 'js-rich-marker',
-              'lodash',
               // 'markerclustererplus',
-              'material-design-lite',
-              'ng-csv',
-              'ng-file-upload',
               // 'ng-file-upload-shim'
+              // 'webpack-bootstrap',
             ]
         };
     }
@@ -137,8 +138,12 @@ module.exports = function makeWebpackConfig(options) {
 
     config.babel = {
         shouldPrintComment(commentContents) {
-            // keep `/*@ngInject*/`
-            return /@ngInject/.test(commentContents);
+            let regex = DEV
+                // keep `// @flow`, `/*@ngInject*/`, & flow type comments in dev
+                ? /(@flow|@ngInject|^:)/
+                // keep `/*@ngInject*/`
+                : /@ngInject/;
+            return regex.test(commentContents);
         }
     }
 
@@ -198,7 +203,7 @@ module.exports = function makeWebpackConfig(options) {
                 //
                 // Reference: https://github.com/webpack/style-loader
                 // Use style-loader in development for hot-loading
-                ? ExtractTextPlugin.extract('style', 'css?sourceMap!postcss')
+                ? ExtractTextPlugin.extract('style', 'css!postcss')
                 // Reference: https://github.com/webpack/null-loader
                 // Skip loading css in test mode
                 : 'null'
@@ -289,15 +294,17 @@ module.exports = function makeWebpackConfig(options) {
     // Skip rendering index.html in test mode
     // Reference: https://github.com/ampedandwired/html-webpack-plugin
     // Render index.html
-    let htmlConfig = {
-        template: 'client/_index.html',
-        filename: '../client/index.html',
-        alwaysWriteToDisk: true
+    if(!TEST) {
+        let htmlConfig = {
+            template: 'client/_index.html',
+            filename: '../client/index.html',
+            alwaysWriteToDisk: true
+        }
+        config.plugins.push(
+          new HtmlWebpackPlugin(htmlConfig),
+          new HtmlWebpackHarddiskPlugin()
+        );
     }
-    config.plugins.push(
-      new HtmlWebpackPlugin(htmlConfig),
-      new HtmlWebpackHarddiskPlugin()
-    );
 
     // Add build specific plugins
     if(BUILD) {
