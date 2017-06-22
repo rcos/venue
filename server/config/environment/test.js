@@ -8,6 +8,7 @@ module.exports = {
   mongo: {
     uri: 'mongodb://localhost/venue-test'
   },
+  port: 9000,
   sequelize: {
     uri: 'sqlite://',
     options: {

@@ -1,4 +1,4 @@
-// Generated on 2016-08-23 using generator-angular-fullstack 4.0.1
+// Generated on 2017-06-14 using generator-angular-fullstack 4.2.2
 'use strict';
 
 import _ from 'lodash';
@@ -18,7 +18,6 @@ import {protractor, webdriver_update} from 'gulp-protractor';
 import {Instrumenter} from 'isparta';
 import webpack from 'webpack-stream';
 import makeWebpackConfig from './webpack.make';
-import debug from 'gulp-debug';
 
 var plugins = gulpLoadPlugins();
 var config;
@@ -130,8 +129,7 @@ let transpileServer = lazypipe()
     .pipe(plugins.babel, {
         plugins: [
             'transform-class-properties',
-            'transform-runtime',
-            "transform-flow-strip-types"
+            'transform-runtime'
         ],
         "presets": ["es2015", "stage-0"]
     })
@@ -217,8 +215,7 @@ gulp.task('inject:less', () => {
 
 gulp.task('webpack:dev', function() {
     const webpackDevConfig = makeWebpackConfig({ DEV: true });
-    // return gulp.src(webpackDevConfig.entry.app)
-    return gulp.src(paths.client.scripts)
+    return gulp.src(webpackDevConfig.entry.app)
         .pipe(plugins.plumber())
         .pipe(webpack(webpackDevConfig))
         .pipe(gulp.dest('.tmp'));
@@ -263,12 +260,10 @@ gulp.task('transpile:server', () => {
 gulp.task('lint:scripts', cb => runSequence(['lint:scripts:client', 'lint:scripts:server'], cb));
 
 gulp.task('lint:scripts:client', () => {
-    return gulp.src(
-      _.union(
+    return gulp.src(_.union(
         paths.client.scripts,
         _.map(paths.client.test, blob => '!' + blob)
-      )
-    )
+    ))
         .pipe(lintClientScripts());
 });
 
@@ -319,7 +314,8 @@ gulp.task('start:server:prod', () => {
 gulp.task('start:server:debug', () => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'development';
     config = require(`./${serverPath}/config/environment`);
-    nodemon(`-w ${serverPath} --debug=5858 --debug-brk ${serverPath}`)
+    // nodemon(`-w ${serverPath} --debug=5858 --debug-brk ${serverPath}`)
+    nodemon(`-w ${serverPath} --inspect --debug-brk ${serverPath}`)
         .on('log', onServerLog);
 });
 
@@ -339,6 +335,7 @@ gulp.task('serve', cb => {
     runSequence(
         [
             'clean:tmp',
+            'lint:scripts',
             'inject',
             'copy:fonts:dev',
             'env:all'
@@ -391,7 +388,7 @@ gulp.task('test:server', cb => {
 
 gulp.task('mocha:unit', () => {
     return gulp.src(paths.server.test.unit)
-        .pipe(mocha())
+        .pipe(mocha());
 });
 
 gulp.task('mocha:integration', () => {
@@ -523,7 +520,7 @@ gulp.task('copy:extras', () => {
 });
 
 /**
- * turns 'boostrap/fonts/font.woff' into 'boostrap/font.woff'
+ * turns 'bootstrap/fonts/font.woff' into 'bootstrap/font.woff'
  */
 function flatten() {
     return through2.obj(function(file, enc, next) {

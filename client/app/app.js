@@ -1,7 +1,7 @@
 'use strict';
 
 import angular from 'angular';
-import ngAnimate from 'angular-animate';
+// import ngAnimate from 'angular-animate';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
@@ -19,6 +19,7 @@ import geolocation from 'angularjs-geolocation';
 import angularEllipsis from 'angular-ellipsis';
 import dateTimePicker from 'bootstrap-ui-datetime-picker';
 import googleMaps from 'angular-google-maps';
+import nemLogging from 'angular-simple-logger';
 
 import {
   routeConfig
@@ -68,16 +69,19 @@ import eventForm from '../components/eventform/eventform.module'
 
 import './app.less';
 
+
 angular.module('venueApp', [
     ngCookies,
     ngResource, ngSanitize, 'btford.socket-io', ngRoute,
     uiBootstrap,
-    ngAnimate, ngMessages, ngValidationMatch,
+    // ngAnimate,
+    ngMessages, ngValidationMatch,
     ngFileUpload, ngCsv,
     //
     'geolocation',
     'dibari.angular-ellipsis',
     'ui.bootstrap.datetimepicker',
+    'nemLogging',
     'uiGmapgoogle-maps',
 
     _CourseFactory,

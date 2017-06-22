@@ -20,8 +20,9 @@ export default class SettingsController {
       $scope.emailPreferences = user.preferences;
       $scope.emailPreferences.unsubscribe = !$scope.emailPreferences.recieveEmails
       $scope.cas = user.provider;
-      if($scope.cas=="cas")
+      if($scope.cas=="cas"){
         $scope.cas_enabled = true;
+      }
       user.preferences.emailNotifyAheadMinutes.forEach(time => {
         $scope.emailAheadOptions.forEach(preference => {
           if(time == preference.minutes){
