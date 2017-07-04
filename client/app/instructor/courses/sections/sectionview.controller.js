@@ -14,7 +14,7 @@ export default class InstructorSectionViewCtrl {
         withSectionsEvent: true,
         withSectionsInstructors: true,
         withSectionsStudents: true,
-        withSectionsPendingStudents: true,
+        withSectionsPending: true,
         withEnrollmentStatus: true,
         studentId: $scope.user._id
       }, section => {

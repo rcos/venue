@@ -412,8 +412,8 @@ export function enrollInSection(req, res, next) {
   Section.findByIdAsync(sectionId)
     .then( section => {
       if (section.enrollmentPolicy === "approvalRequired"){
-        if (section.pendingStudents.indexOf(userId) === -1){
-          section.pendingStudents.push(userId);
+        if (section.pending.students.indexOf(userId) === -1){
+          section.pending.students.push(userId);
         }
       }else if (section.enrollmentPolicy === "closed"){
         return res.json("Can't add to closed section");
@@ -433,7 +433,7 @@ export function unenrollInSection(req, res, next) {
   var userId = req.user._id;
   var sectionId = req.body.sectionid;
   Section.findOneAndUpdateAsync({"_id": sectionId} , {
-      $pull : {students: userId, pendingStudents: userId}
+      $pull : {"students": userId, "pending.students": userId}
     }).then( section => {
       res.json(section);
     })

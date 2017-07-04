@@ -10,7 +10,7 @@ export default class SectionEditCtrl {
         withSectionsEvent: true,
         withSectionsInstructors: true,
         withSectionsStudents: true,
-        withSectionsPendingStudents: true
+        withSectionsPending: true
       }, section => {
         $scope.course = section.course;
         $scope.section = section;

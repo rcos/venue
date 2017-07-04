@@ -168,7 +168,7 @@ export async function show(req, res, next) {
       data.isEnrolled = section.students.some((sectionStudent) => {
           return String(sectionStudent) === studentId || String(sectionStudent._id) === studentId ;
       });
-      data.isPending = section.pendingStudents.some((sectionStudent) => {
+      data.isPending = section.pending.students.some((sectionStudent) => {
           return String(sectionStudent) === studentId || String(sectionStudent._id) === studentId ;
       });
     }
@@ -265,8 +265,10 @@ export function getSectionsExtra(query, opts){
   if (opts.withSectionsStudents || opts.withSectionStudents){
     query = query.populate('students');
   }
-  if (opts.withSectionsPendingStudents || opts.withSectionPendingStudents){
-    query = query.populate('pendingStudents');
+  if (opts.withSectionsPending){
+    query = query.populate('pending.students');
+    query = query.populate('pending.instructors');
+    query = query.populate('pending.assistants');
   }
   return query;
 }

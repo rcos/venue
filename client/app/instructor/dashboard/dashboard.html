@@ -14,13 +14,13 @@
               <th class="text-center">Students</th>
               <th class="text-center">Edit</th>
             </tr>
-            <tr class='btn-row-sm' ng-repeat="section in sections" ng-show="section.pendingStudents.length > 0">
+            <tr class='btn-row-sm' ng-repeat="section in sections" ng-show="section.pending.students.length > 0">
               <td>
                 <span class='studentCount'>{{section.course.name}}</span>
               </td>
               <td><span ng-repeat="number in section.sectionNumbers"><span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last">, </span></span></td>
               <td>
-                <span>{{section.pendingStudents.length}}</span>
+                <span>{{section.pending.students.length}}</span>
               </td>
               <td>
                 <span>{{section.students.length}}</span>

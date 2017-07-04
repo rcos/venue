@@ -155,7 +155,11 @@ Example Response:
         3,
         4
       ],
-      "pendingStudents": [],
+      "pending": {
+        "students": [],
+        "instructors": [],
+        "assistants": [],
+      },
       "students": [
         "000000000000000000000004"
       ],
@@ -171,9 +175,13 @@ Example Response:
       "sectionNumbers": [
         1
       ],
-      "pendingStudents": [
-        "000000000000000000000006"
-      ],
+      "pending": {
+        "students": [
+          "000000000000000000000006"
+        ],
+        "instructors": [],
+        "assistants": [],
+      },
       "students": [
         "000000000000000000000004"
       ],
@@ -189,7 +197,11 @@ Example Response:
       "sectionNumbers": [
         1
       ],
-      "pendingStudents": [],
+      "pending": {
+        "students": [],
+        "instructors": [],
+        "assistants": [],
+      },
       "students": [
         "000000000000000000000004",
         "000000000000000000000005"
@@ -209,7 +221,11 @@ Example Response:
         3,
         4
       ],
-      "pendingStudents": [],
+      "pending": {
+        "students": [],
+        "instructors": [],
+        "assistants": [],
+      },
       "students": [
         "000000000000000000000004"
       ],
@@ -228,7 +244,11 @@ Example Response:
         3,
         4
       ],
-      "pendingStudents": [],
+      "pending": {
+        "students": [],
+        "instructors": [],
+        "assistants": [],
+      },
       "students": [
         "000000000000000000000004",
         "000000000000000000000005",
@@ -598,7 +618,11 @@ Example Response:
         1,
         2
       ],
-      "pendingStudents": [],
+      "pending": {
+        "students": [],
+        "instructors": [],
+        "assistants": [],
+      },
       "students": [
         "000000000000000000000006"
       ],
@@ -627,7 +651,11 @@ Example Response:
         3,
         4
       ],
-      "pendingStudents": [],
+      "pending": {
+        "students": [],
+        "instructors": [],
+        "assistants": [],
+      },
       "students": [
         "000000000000000000000004"
       ],
@@ -691,7 +719,7 @@ Example Response:
 
 Request returns an array of section objects.
 
-If you add withSectionsEvent, withSectionsCourse, withSectionsInstructors, withSectionsStudents, or withSectionsPendingStudents to the parameters, it will return with the appropriate fields populated.
+If you add withSectionsEvent, withSectionsCourse, withSectionsInstructors, withSectionsStudents, or withSectionsPending to the parameters, it will return with the appropriate fields populated.
 
 `POST /api/sections` **Authenticated** - Creates a section within a course if user is an instructor.  
 Request returns the section object.
@@ -719,7 +747,13 @@ Example Response:
   course: "000000000000000000000010",
   enrollmentPolicy: "open",
   instructors: ["000000000000000000000002"],
-  pendingStudents:["000000000000000000000005"]
+  pending: {
+    students: [
+      "000000000000000000000005"
+    ],
+    instructors: [],
+    assistants: []
+  },
   sectionNumbers: [5, 6, 7]
   students: ["000000000000000000000007", "000000000000000000000008"]
 }
@@ -822,7 +856,11 @@ Example Request:
       course: {Course Object}
       enrollmentPolicy: "closed"
       instructors: ["000000000000000000000002"]
-      pendingStudents: []
+      pending: {
+        students: [],
+        instructors: [],
+        assistants: []
+      },
       sectionNumbers: [ 1, 2 ]
       students: ["000000000000000000000006"]
     }

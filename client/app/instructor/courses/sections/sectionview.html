@@ -35,7 +35,7 @@
             </tr>
             <tr>
               <td class="text-right section-info">Pending Students</td>
-              <td class="text-left section-info">{{section.pendingStudents.length}}</td>
+              <td class="text-left section-info">{{section.pending.students.length}}</td>
             </tr>
             <tr>
               <td class="text-right section-info">Events</td>
@@ -49,10 +49,10 @@
           <a href="#" class="btn btn-default edit-section col-sm-2" ng-href="{{ viewEditSection() }}" role="button">Edit</a>
         </uib-tab>
         <uib-tab index="1" heading="Students">
-          <div class="" ng-show="section.pendingStudents.length > 0">
+          <div class="" ng-show="section.pending.students.length > 0">
             <h4>Pending Students</h4>
             <table class="pending-students text-center table table-hover">
-              <tr ng-repeat="student in section.pendingStudents">
+              <tr ng-repeat="student in section.pending.students">
                 <td class="text-left align-middle">{{student.firstName}} {{student.lastName}}</td>
                 <td class="text-center">
                   <button ng-click='verifyPendingStudent(student)' class='verify mdl-button mdl-js-button mdl-button--raised mdl-button--colored'> Verify </button>

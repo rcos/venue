@@ -50,7 +50,7 @@ CourseSchema.methods = {
             return String(sectionStudent) === studentId || String(sectionStudent._id) === studentId ;
 
           });
-          section.isPending = section.pendingStudents.some((sectionStudent) => {
+          section.isPending = section.pending.students.some((sectionStudent) => {
             return String(sectionStudent) === studentId || String(sectionStudent._id) === studentId ;
 
           });

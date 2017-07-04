@@ -241,10 +241,12 @@ describe('Section API:', function() {
             }
         },
         {
-            param: "withSectionPendingStudents=true",
+            param: "withSectionPending=true",
             should: "return pending students",
             test: ( section ) => {
-                expect(section.pendingStudents).to.be.a('array');
+                expect(section.pending.students).to.be.a('array');
+                expect(section.pending.instructors).to.be.a('array');
+                expect(section.pending.assistants).to.be.a('array');
             }
         },
         {

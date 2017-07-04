@@ -233,23 +233,40 @@ export function allSections(){ return {
       _id:mongoose.Types.ObjectId('000000000000000000000120'),
       course : allCourses().netArt._id, //Net Art
       students : [allUsers().jane._id, allUsers().kelly._id, allUsers().foo._id], //Jane
-      pendingStudents : [],
-      instructors : [allUsers().bob._id] //Bob
+      pending : {
+        students : [],
+        instructors : [],
+        assistants : []
+      },
+      instructors : [allUsers().bob._id], //Bob
+      assistants : []
     },
+
     netArt34: {
       sectionNumbers: [3,4,5],
       enrollmentPolicy: "closed",
       _id:mongoose.Types.ObjectId('000000000000000000000220'),
       course : allCourses().netArt._id, //Net Art
       students : [allUsers().foo._id], //Foo
-      pendingStudents : [],
+      pending : {
+        students : [],
+        instructors : [],
+        assistants : []
+      },
       instructors : [allUsers().bob._id], //Bob
+      assistants : []
     },
+
     openSource1: {
       course : allCourses().openSource._id, //Introduction to Open Source
       students : [allUsers().foo._id], //Foo
-      pendingStudents : [allUsers().jane._id], //Jane
+      pending : {
+        students : [allUsers().jane._id], //Jane
+        instructors : [],
+        assistants : []
+      },
       instructors : [allUsers().bob._id], //Bob
+      assistants : [],
       sectionNumbers: [1],
       enrollmentPolicy: "approvalRequired",
       _id:mongoose.Types.ObjectId('000000000000000000000121'),
@@ -257,8 +274,13 @@ export function allSections(){ return {
     robotics1: {
       course : allCourses().robotics._id, //Mestizo Robotics
       students : [allUsers().foo._id, allUsers().kelly._id], //Foo and Kelly
-      pendingStudents : [],
+      pending : {
+        students : [],
+        instructors : [],
+        assistants : []
+      },
       instructors : [allUsers().travis._id,allUsers().bob._id], //Travis & Bob
+      assistants : [],
       sectionNumbers: [1],
       enrollmentPolicy: "approvalRequired",
       _id:mongoose.Types.ObjectId('000000000000000000000122'),
@@ -266,8 +288,13 @@ export function allSections(){ return {
     art1: {
       course : allCourses().art._id, //Art, Community and Technology
       students : [],
-      pendingStudents : [],
+      pending : {
+        students : [],
+        instructors : [],
+        assistants : []
+      },
       instructors : [allUsers().travis._id], //Travis
+      assistants : [],
       sectionNumbers: [1],
       enrollmentPolicy: "open",
       _id:mongoose.Types.ObjectId('000000000000000000000123'),
@@ -275,8 +302,13 @@ export function allSections(){ return {
     art234: {
       course : allCourses().art._id, //Art, Community and Technology
       students : [allUsers().foo._id], //foo
-      pendingStudents : [],
+      pending : {
+        students : [],
+        instructors : [],
+        assistants : []
+      },
       instructors : [allUsers().bob._id], //Bob
+      assistants : [],
       sectionNumbers: [2,3,4],
       enrollmentPolicy: "open",
       _id:mongoose.Types.ObjectId('000000000000000000000223'),
@@ -284,8 +316,13 @@ export function allSections(){ return {
     imaging1234: {
       course : allCourses().imaging._id, //Media Studio: Imaging
       students :  [allUsers().foo._id ,allUsers().kelly._id ,allUsers().jane._id ], //foo, kelly, jane
-      pendingStudents :  [],
+      pending : {
+        students : [],
+        instructors : [],
+        assistants : []
+      },
       instructors :  [allUsers().travis._id ], //Travis
+      assistants : [],
       sectionNumbers: [1,2,3,4],
       enrollmentPolicy: "closed",
       _id:mongoose.Types.ObjectId('000000000000000000000124'),
@@ -293,8 +330,13 @@ export function allSections(){ return {
     designStudio1: {
       course : allCourses().designStudio._id, //Design Studio
       students : [],
-      pendingStudents : [allUsers().foo._id ,allUsers().kelly._id ,allUsers().jane._id ], //foo, kelly, jane
+      pending : {
+        students : [allUsers().foo._id ,allUsers().kelly._id ,allUsers().jane._id], //foo, kelly, jane
+        instructors : [],
+        assistants : []
+      },
       instructors : [],
+      assistants : [],
       sectionNumbers: [1],
       enrollmentPolicy: "closed",
       _id:mongoose.Types.ObjectId('000000000000000000000125'),
@@ -302,8 +344,13 @@ export function allSections(){ return {
     citiesLands1: {
       course : allCourses().citiesLands._id, //Cities/Lands
       students : [],
-      pendingStudents : [allUsers().foo._id ,allUsers().kelly._id ,allUsers().jane._id ], //foo, kelly, jane
+      pending : {
+        students : [allUsers().foo._id ,allUsers().kelly._id ,allUsers().jane._id], //foo, kelly, jane
+        instructors : [],
+        assistants : []
+      },
       instructors : [allUsers().travis._id ], //Travis
+      assistants : [],
       sectionNumbers: [1],
       enrollmentPolicy: "closed",
       _id:mongoose.Types.ObjectId('000000000000000000000126'),
@@ -311,8 +358,13 @@ export function allSections(){ return {
     venue1:{
       course : allCourses().venue._id, //Venue
       students : [allUsers().curt._id], //curt
-      pendingStudents : [ ],
+      pending : {
+        students : [],
+        instructors : [],
+        assistants : []
+      },
       instructors : [allUsers().venue._id ], //Venue
+      assistants : [],
       sectionNumbers: [1],
       enrollmentPolicy: "open",
       _id:mongoose.Types.ObjectId('333333333333333333333330'),

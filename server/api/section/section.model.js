@@ -10,7 +10,12 @@ var SectionSchema = new Schema({
   course: {type : Schema.Types.ObjectId, ref: 'Course'},
   instructors: [{type : Schema.Types.ObjectId, ref: 'User'}],
   students: [{type : Schema.Types.ObjectId, ref: 'User'}],
-  pendingStudents: [{type : Schema.Types.ObjectId, ref: 'User'}],
+  assistants: [{type : Schema.Types.ObjectId, ref: 'User'}],
+  pending: {
+    students: [{type : Schema.Types.ObjectId, ref: 'User'}],
+    instructors: [{type : Schema.Types.ObjectId, ref: 'User'}],
+    assistants: [{type : Schema.Types.ObjectId, ref: 'User'}]
+  },
   sectionNumbers: [Number],
   enrollmentPolicy: {type: String, enum: ['open', 'closed', 'approvalRequired']},
 });

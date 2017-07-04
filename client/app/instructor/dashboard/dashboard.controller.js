@@ -4,7 +4,7 @@ export default class InstructorDashboardCtrl {
   /*@ngInject*/
   constructor($scope, $routeParams, $location, User, Auth, Util) {
     $scope.today = new Date();
-    User.get({withCourses:true, withEvents: true, withEventSections: true, withSections:true, withSectionsCourse:true, withSectionsPendingStudents:true}, (user) => {
+    User.get({withCourses:true, withEvents: true, withEventSections: true, withSections:true, withSectionsCourse:true, withSectionsPending:true}, (user) => {
       $scope.user = user;
       var eventsList = [];
       for (var key in $scope.user.events) {
@@ -21,7 +21,7 @@ export default class InstructorDashboardCtrl {
       $scope.anyPending = false;
 
       for (var a = 0; a < $scope.sections.length; a++){
-        if ($scope.sections[a].pendingStudents.length > 0){
+        if ($scope.sections[a].pending.students.length > 0){
           $scope.anyPending = true
           break;
         }
