@@ -75,13 +75,12 @@ export function isInstructor(){
         });
 }
 /**
- * Checks if user is an instructor
+ * Checks if user is an instructor of the queried section
  */
 export function isSectionInstructor(){
     return compose()
         .use(isInstructor())
         .use(function meetsRequirements(req, res, next) {
-          // console.log("req",req);
             console.log("req.baseUrl",req.baseUrl);
 
             return Section.findByIdAsync(req.params.id)
