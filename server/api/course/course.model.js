@@ -9,6 +9,12 @@ import async from 'async';
 var CourseSchema = new Schema({
   name: String,
   department: String,
+  instructors: [{type : Schema.Types.ObjectId, ref: 'User'}],
+  assistants: [{type : Schema.Types.ObjectId, ref: 'User'}],
+  pending: {
+    instructors: [{type : Schema.Types.ObjectId, ref: 'User'}],
+    assistants: [{type : Schema.Types.ObjectId, ref: 'User'}]
+  },
   courseNumber: Number,
   description: String,
   semester: String,

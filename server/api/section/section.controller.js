@@ -96,11 +96,15 @@ function checkSectionReq(req) {
       if(sectionNumbers[i] < 0){
         throw "Section number must be greater than zero";
       }
-      if (sectionNumbers[i + 1] == sectionNumbers[i]) {
+      if (sectionNumbers[i + 1] === sectionNumbers[i]) {
         throw "Section number must be greater than zero";
       }
     }
   }
+  else{
+    throw "You need at least one section number"
+  }
+
 }
 
 // Gets a list of Sections
@@ -117,7 +121,7 @@ export async function index(req, res, next) {
     }catch(err){
       await handleError(res)(err);
     }
-};
+}
 
 // Gets a list of Sections for a user
 export async function userSections(req, res, next) {
@@ -135,7 +139,7 @@ export async function userSections(req, res, next) {
   }catch(err){
     handleError(res)(err);
   }
-};
+}
 
 
 // Gets a list of Sections for the user
@@ -186,63 +190,74 @@ export function create(req, res) {
   Section.createAsync(req.body)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
-};
-
-// Updates an existing Section in the DB
-
-function saveSectionUpdates(req) {
-
-  return (section) => {
-    var pendingStudent;
-    if(req.body.pendingStudent){
-      pendingStudent = req.body.pendingStudent;
-      if(section.pendingStudents.remove(pendingStudent)){
-        section.students.push(pendingStudent);
-      }
-      else{
-        throw "Not a valid pending student";
-      }
-    }
-    if(req.body.removePendingStudent){
-      pendingStudent = req.body.removePendingStudent;
-      if(!section.pendingStudents.remove(pendingStudent)){
-        throw "Not a valid pending student";
-      }
-    }
-    if(req.body.removeStudent){
-
-      var student = req.body.removeStudent;
-      if(!section.students.remove(student)){
-        throw "Not a valid student";
-      }
-    }
-    if (req.body.sectionNumbers){
-      checkSectionReq(req);
-      section.sectionNumbers = req.body.sectionNumbers.map(Number);
-    }
-    if(req.body.enrollmentPolicy)
-    {
-      section.enrollmentPolicy = req.body.enrollmentPolicy;
-    }
-    if(req.body.instructors)
-    {
-      section.instructors = req.body.instructors;
-    }
-    return section.saveAsync();
-  }
 }
 
+// Updates an existing Section in the DB
 
 export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Section.findByIdAsync(req.params.id)
-    .then(handleEntityNotFound(res))
-    .then(saveSectionUpdates(req))
-    .then(responseWithResult(res))
-    .catch(handleError(res));
-};
+  // Section retrived by canEditSection
+  var section = req.section;
+  var student;
+
+  // Confirm pending student
+  if(req.body.pendingStudent){
+    student = req.body.pendingStudent;
+    if(section.pending.students.remove(student)){
+      section.students.push(student);
+    }
+    else{
+      throw "Not a valid pending student";
+    }
+  }
+
+  // Reject pending student
+  if(req.body.removePendingStudent){
+    student = req.body.removePendingStudent;
+    if(!section.pending.students.remove(student)){
+      throw "Not a valid pending student";
+    }
+  }
+
+  // Remove student
+  if(req.body.removeStudent){
+    student = req.body.removeStudent;
+    if(!section.students.remove(student)){
+      throw "Not a valid student";
+    }
+  }
+
+  // Update section numbers
+  if (req.body.sectionNumbers){
+    checkSectionReq(req);
+    section.sectionNumbers = req.body.sectionNumbers.map(Number);
+  }
+
+  // Update enrollement policy
+  if(req.body.enrollmentPolicy)
+  {
+    section.enrollmentPolicy = req.body.enrollmentPolicy;
+  }
+
+  // Update instructors
+  if(req.body.instructors)
+  {
+    section.instructors = req.body.instructors;
+  }
+
+  // Update assistants
+  if(req.body.assistants)
+  {
+    section.assistants = req.body.assistants;
+  }
+
+  return section.saveAsync()
+  .then(responseWithResult(res))
+  .catch(handleError(res));
+}
+
 
 // Deletes a Section from the DB
 export function destroy(req, res) {

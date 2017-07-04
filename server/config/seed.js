@@ -50,6 +50,17 @@ export function allUsers(){return {
       _id: mongoose.Types.ObjectId('000000000000000000000002'),
       preferences: {emailNotifyAheadMinutes: [30]},
     },
+    super: {
+      provider: 'local',
+      firstName: 'Super',
+      lastName: 'Instructor',
+      email: 'super@super.com',
+      password: 'super',
+      isVerified: true,
+      isInstructor: true,
+      _id: mongoose.Types.ObjectId('000000000000000000000008'),
+      preferences: {emailNotifyAheadMinutes: [30]},
+    },
     travis: {
       provider: 'local',
       firstName: 'Travis',
@@ -142,6 +153,12 @@ export function allCourses(){return {
       description : "This course is for testing new venue features.",
       active : true,
       semester : "Spring16",
+      pending : {
+        instructors : [],
+        assistants : []
+      },
+      instructors : [allUsers().super._id], //Super
+      assistants : []
     },
     netArt:{
       name: 'Net Art',
@@ -152,6 +169,12 @@ export function allCourses(){return {
       semester: "Fall15",
       active: false,
       _id: mongoose.Types.ObjectId('000000000000000000000010'),
+      pending : {
+        instructors : [],
+        assistants : []
+      },
+      instructors : [allUsers().super._id], //Super
+      assistants : []
     },
     openSource:{
       name: "Introduction to Open Source",
@@ -162,6 +185,12 @@ export function allCourses(){return {
       semester: "Spring15",
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000011'),
+      pending : {
+        instructors : [],
+        assistants : []
+      },
+      instructors : [allUsers().super._id], //Super
+      assistants : []
     },
     robotics:{
       name: "Mestizo Robotics",
@@ -172,6 +201,12 @@ export function allCourses(){return {
       semester: "Spring15",
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000012'),
+      pending : {
+        instructors : [],
+        assistants : []
+      },
+      instructors : [allUsers().super._id], //Super
+      assistants : []
     },
     art:{
       name: "Art, Community and Technology",
@@ -182,6 +217,12 @@ export function allCourses(){return {
       semester: "Spring15",
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000013'),
+      pending : {
+        instructors : [],
+        assistants : []
+      },
+      instructors : [allUsers().super._id], //Super
+      assistants : []
     },
     imaging:{
       name: "Media Studio: Imaging",
@@ -192,6 +233,12 @@ export function allCourses(){return {
       semester: "Spring15",
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000014'),
+      pending : {
+        instructors : [],
+        assistants : []
+      },
+      instructors : [allUsers().super._id], //Super
+      assistants : []
     },
     materials:{
       name: "Materials and Design",
@@ -202,6 +249,12 @@ export function allCourses(){return {
       semester: "Spring15",
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000015'),
+      pending : {
+        instructors : [],
+        assistants : []
+      },
+      instructors : [allUsers().super._id], //Super
+      assistants : []
     },
     designStudio:{
       name: "Design Studio",
@@ -212,6 +265,12 @@ export function allCourses(){return {
       semester: "Spring15",
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000016'),
+      pending : {
+        instructors : [],
+        assistants : []
+      },
+      instructors : [allUsers().super._id], //Super
+      assistants : []
     },
     citiesLands:{
       name: "Cities/Lands",
@@ -222,6 +281,12 @@ export function allCourses(){return {
       semester: "Spring15",
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000017'),
+      pending : {
+        instructors : [],
+        assistants : []
+      },
+      instructors : [allUsers().super._id], //Super
+      assistants : []
     }
   };
 }

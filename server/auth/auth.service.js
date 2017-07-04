@@ -7,6 +7,7 @@ import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import User from '../api/user/user.model';
 import Section from '../api/section/section.model';
+import Course from '../api/course/course.model';
 
 var validateJwt = expressJwt({
   secret: config.secrets.session
@@ -74,36 +75,167 @@ export function isInstructor(){
             }
         });
 }
+
 /**
- * Checks if user is an instructor of the queried section
+* Checks if user can edit the section
+*/
+export function canEditSection(){
+  return compose()
+  .use(isAuthenticated())
+  .use(function meetsRequirements(req, res, next) {
+    if (req.user.role === 'admin'){
+      return next();
+    }
+    if (req.baseUrl === '/api/sections'){
+      return Section.findById(req.params.id)
+      .populate("course").execAsync()
+      .then(section => {
+        console.log("section",section)
+        req.section = section;
+
+        if (!section) {
+          return res.status(404).end();
+        }
+        req.section = section;
+
+        if (section.instructors.indexOf(req.user._id.toString()) !== -1){
+          next();
+        }
+        else if (section.assistants.indexOf(req.user._id.toString()) !== -1){
+          next();
+        }
+        else if (section.course.instructors.indexOf(req.user._id.toString()) !== -1){
+          next();
+        }
+        else if (section.course.assistants.indexOf(req.user._id.toString()) !== -1){
+          next();
+        }
+        else{
+          return res.status(403).send('Forbidden');
+        }
+      })
+      .catch(err => next(err));
+    }
+    else{
+      console.log("req.baseUrl",req.baseUrl);
+      res.status(403).send('Forbidden');
+    }
+  });
+}
+/**
+* Checks if user can edit the section
+*/
+export function canAdminSection(){
+  return compose()
+  .use(isAuthenticated())
+  .use(function meetsRequirements(req, res, next) {
+    if (req.user.role === 'admin'){
+      return next();
+    }
+    if (req.baseUrl === '/api/sections'){
+      return Section.findById(req.params.id)
+      .populate("course").execAsync()
+      .then(section => {
+        console.log("section",section)
+        req.section = section;
+
+        if (!section) {
+          return res.status(404).end();
+        }
+        req.section = section;
+
+        if (section.instructors.indexOf(req.user._id.toString()) !== -1){
+          next();
+        }
+        else if (section.course.instructors.indexOf(req.user._id.toString()) !== -1){
+          next();
+        }
+        else{
+          return res.status(403).send('Forbidden');
+        }
+      })
+      .catch(err => next(err));
+    }
+    else{
+      console.log("req.baseUrl",req.baseUrl);
+      res.status(403).send('Forbidden');
+    }
+  });
+}
+
+/**
+ * Checks if user can edit the course
  */
-export function isSectionInstructor(){
+export function canAdminCourse(){
     return compose()
-        .use(isInstructor())
-        .use(function meetsRequirements(req, res, next) {
-            console.log("req.baseUrl",req.baseUrl);
+    .use(isAuthenticated())
+    .use(function meetsRequirements(req, res, next) {
+        if (req.user.role === 'admin'){
+            return next();
+        }
+        if (req.baseUrl === '/api/sections'){
+          return Course.findByIdAsync(req.body.course)
+            .then(course => {
+              console.log("course",course)
+              if (!course) {
+                return res.status(404).end();
+              }
+              req.course = course;
 
-            return Section.findByIdAsync(req.params.id)
-              .then(section => {
-                console.log("section",section)
-                if (!section) {
-                  return res.status(404).end();
-                }
-                req.section = section;
-                // console.log("section.instructors.includes(req.user._id)",section.instructors.indexOf(req.user._id.toString() != -1,section.instructors, req.user._id)
+              if (course.instructors.indexOf(req.user._id.toString()) !== -1){
+                  next();
+              }
+              else{
+                  return res.status(403).send('Forbidden');
+              }
+            })
+            .catch(err => next(err));
+        }
+        else if (req.baseUrl === '/api/courses'){
+          return Course.findByIdAsync(req.params.id)
+            .then(course => {
+              console.log("course",course)
+              console.log("req.user",req.user)
+              if (!course) {
+                return res.status(404).end();
+              }
+              req.course = course;
 
-                if (section.instructors.indexOf(req.user._id.toString() !== -1)){
-                    next();
-                }
-                else if (req.user.role === 'admin'){
-                    next()
-                }
-                else{
-                    return res.status(403).send('Forbidden');
-                }
-              })
-              .catch(err => next(err));
-        });
+              if (course.instructors.indexOf(req.user._id.toString()) !== -1){
+                  console.log("option one",course.instructors,course.instructors.indexOf(req.user._id.toString()));
+                  next();
+              }
+              else if (course.assistants.indexOf(req.user._id.toString()) !== -1){
+                  console.log("option two");
+                  next();
+              }
+              else{
+                  console.log("forbidden");
+                  return res.status(403).send('Forbidden');
+              }
+            })
+            .catch(err => next(err));
+        }
+        else{
+          console.log("req.baseUrl",req.baseUrl);
+          res.status(403).send('Forbidden');
+        }
+    });
+}
+
+/**
+ * Checks if user can edit the course
+ */
+export function canAddCourse(){
+    return compose()
+    .use(isAuthenticated())
+    .use(function meetsRequirements(req, res, next) {
+        if (req.user.isInstructor || req.user.role === 'admin'){
+            next();
+        }else{
+            res.status(403).send('Forbidden');
+        }
+    });
 }
 
 /**

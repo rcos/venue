@@ -22,9 +22,21 @@ router.get('/', (req,res,next)=>{
     }
 }, controller.index);
 router.get('/:id', controller.show);
-router.post('/', auth.isInstructor(), controller.create);
-router.put('/:id', auth.isSectionInstructor(), controller.update);
-router.patch('/:id',  auth.isSectionInstructor(), controller.update);
-router.delete('/:id',  auth.isSectionInstructor(), controller.destroy);
+router.post('/', auth.canAdminCourse(), controller.create);
+router.put('/:id', (req,res,next)=>{
+    if (req.body.instructors || req.body.assistants){
+        auth.canAdminSection()(req, res, next);
+    }else {
+        auth.canEditSection()(req, res, next);
+    }
+}, controller.update);
+router.patch('/:id', (req,res,next)=>{
+    if (req.body.instructors || req.body.assistants){
+        auth.canAdminSection()(req, res, next);
+    }else {
+        auth.canEditSection()(req, res, next);
+    }
+}, controller.update);
+router.delete('/:id',  auth.canAdminSection(), controller.destroy);
 
 export default router;

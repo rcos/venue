@@ -15,9 +15,9 @@ router.get('/', controller.index);
 router.get('/image/:name', controller.image);
 router.get('/image/:size/:name', controller.imageSize);
 router.get('/:id', controller.show);
-router.post('/', auth.isInstructor(), upload.array('files[0]'), controller.create);
-router.put('/:id', auth.isInstructor(), upload.array('files[0]'), controller.update);
-router.patch('/:id', auth.isInstructor(), upload.array('files[0]'), controller.update);
-router.delete('/:id', auth.isInstructor(), controller.destroy);
+router.post('/', auth.canAddCourse(), upload.array('files[0]'), controller.create);
+router.put('/:id', auth.canAdminCourse(), upload.array('files[0]'), controller.update);
+router.patch('/:id', auth.canAdminCourse(), upload.array('files[0]'), controller.update);
+router.delete('/:id', auth.canAdminCourse(), controller.destroy);
 
 export default router;
