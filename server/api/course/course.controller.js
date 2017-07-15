@@ -130,6 +130,7 @@ export function create(req: $ExtRequest, res: $Response) {
     var course:any = req.body,
       date = new Date();
     course.imageURLs = imagePaths;
+    course.administrators = [req.user.id];
     course.active = true;
     if(date.getMonth() < 5){
       course.semester = "Spring" + (date.getFullYear() - 100).toString();

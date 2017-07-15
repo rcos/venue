@@ -104,7 +104,7 @@ export function canEditSection(){
         else if (section.assistants.indexOf(req.user._id.toString()) !== -1){
           next();
         }
-        else if (section.course.instructors.indexOf(req.user._id.toString()) !== -1){
+        else if (section.course.administrators.indexOf(req.user._id.toString()) !== -1){
           next();
         }
         else if (section.course.assistants.indexOf(req.user._id.toString()) !== -1){
@@ -147,7 +147,7 @@ export function canAdminSection(){
         if (section.instructors.indexOf(req.user._id.toString()) !== -1){
           next();
         }
-        else if (section.course.instructors.indexOf(req.user._id.toString()) !== -1){
+        else if (section.course.administrators.indexOf(req.user._id.toString()) !== -1){
           next();
         }
         else{
@@ -182,7 +182,7 @@ export function canAdminCourse(){
               }
               req.course = course;
 
-              if (course.instructors.indexOf(req.user._id.toString()) !== -1){
+              if (course.administrators.indexOf(req.user._id.toString()) !== -1){
                   next();
               }
               else{
@@ -201,8 +201,8 @@ export function canAdminCourse(){
               }
               req.course = course;
 
-              if (course.instructors.indexOf(req.user._id.toString()) !== -1){
-                  console.log("option one",course.instructors,course.instructors.indexOf(req.user._id.toString()));
+              if (course.administrators.indexOf(req.user._id.toString()) !== -1){
+                  console.log("option one",course.administrators,course.administrators.indexOf(req.user._id.toString()));
                   next();
               }
               else if (course.assistants.indexOf(req.user._id.toString()) !== -1){

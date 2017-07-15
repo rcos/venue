@@ -154,10 +154,10 @@ export function allCourses(){return {
       active : true,
       semester : "Spring16",
       pending : {
-        instructors : [],
+        administrators : [],
         assistants : []
       },
-      instructors : [allUsers().super._id], //Super
+      administrators : [allUsers().super._id], //Super
       assistants : []
     },
     netArt:{
@@ -170,10 +170,10 @@ export function allCourses(){return {
       active: false,
       _id: mongoose.Types.ObjectId('000000000000000000000010'),
       pending : {
-        instructors : [],
+        administrators : [],
         assistants : []
       },
-      instructors : [allUsers().super._id], //Super
+      administrators : [allUsers().super._id], //Super
       assistants : []
     },
     openSource:{
@@ -186,10 +186,10 @@ export function allCourses(){return {
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000011'),
       pending : {
-        instructors : [],
+        administrators : [],
         assistants : []
       },
-      instructors : [allUsers().super._id], //Super
+      administrators : [allUsers().super._id], //Super
       assistants : []
     },
     robotics:{
@@ -202,10 +202,10 @@ export function allCourses(){return {
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000012'),
       pending : {
-        instructors : [],
+        administrators : [],
         assistants : []
       },
-      instructors : [allUsers().super._id], //Super
+      administrators : [allUsers().super._id], //Super
       assistants : []
     },
     art:{
@@ -218,10 +218,10 @@ export function allCourses(){return {
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000013'),
       pending : {
-        instructors : [],
+        administrators : [],
         assistants : []
       },
-      instructors : [allUsers().super._id], //Super
+      administrators : [allUsers().super._id], //Super
       assistants : []
     },
     imaging:{
@@ -234,10 +234,10 @@ export function allCourses(){return {
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000014'),
       pending : {
-        instructors : [],
+        administrators : [],
         assistants : []
       },
-      instructors : [allUsers().super._id], //Super
+      administrators : [allUsers().super._id], //Super
       assistants : []
     },
     materials:{
@@ -250,10 +250,10 @@ export function allCourses(){return {
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000015'),
       pending : {
-        instructors : [],
+        administrators : [],
         assistants : []
       },
-      instructors : [allUsers().super._id], //Super
+      administrators : [allUsers().super._id], //Super
       assistants : []
     },
     designStudio:{
@@ -266,10 +266,10 @@ export function allCourses(){return {
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000016'),
       pending : {
-        instructors : [],
+        administrators : [],
         assistants : []
       },
-      instructors : [allUsers().super._id], //Super
+      administrators : [allUsers().super._id], //Super
       assistants : []
     },
     citiesLands:{
@@ -282,10 +282,10 @@ export function allCourses(){return {
       active: true,
       _id: mongoose.Types.ObjectId('000000000000000000000017'),
       pending : {
-        instructors : [],
+        administrators : [],
         assistants : []
       },
-      instructors : [allUsers().super._id], //Super
+      administrators : [allUsers().super._id], //Super
       assistants : []
     }
   };
