@@ -90,24 +90,22 @@ export function canEditSection(){
       return Section.findById(req.params.id)
       .populate("course").execAsync()
       .then(section => {
-        console.log("section",section)
-        req.section = section;
-
         if (!section) {
           return res.status(404).end();
         }
         req.section = section;
+        var userId = req.user._id.toString();
 
-        if (section.instructors.indexOf(req.user._id.toString()) !== -1){
+        if (section.instructors.indexOf(userId) !== -1){
           next();
         }
-        else if (section.assistants.indexOf(req.user._id.toString()) !== -1){
+        else if (section.assistants.indexOf(userId) !== -1){
           next();
         }
-        else if (section.course.administrators.indexOf(req.user._id.toString()) !== -1){
+        else if (section.course.administrators.indexOf(userId) !== -1){
           next();
         }
-        else if (section.course.assistants.indexOf(req.user._id.toString()) !== -1){
+        else if (section.course.assistants.indexOf(userId) !== -1){
           next();
         }
         else{
@@ -136,18 +134,16 @@ export function canAdminSection(){
       return Section.findById(req.params.id)
       .populate("course").execAsync()
       .then(section => {
-        console.log("section",section)
-        req.section = section;
-
         if (!section) {
           return res.status(404).end();
         }
+        var userId = req.user._id.toString();
         req.section = section;
 
-        if (section.instructors.indexOf(req.user._id.toString()) !== -1){
+        if (section.instructors.indexOf(userId) !== -1){
           next();
         }
-        else if (section.course.administrators.indexOf(req.user._id.toString()) !== -1){
+        else if (section.course.administrators.indexOf(userId) !== -1){
           next();
         }
         else{
@@ -173,53 +169,37 @@ export function canAdminCourse(){
         if (req.user.role === 'admin'){
             return next();
         }
+        var courseId = "";
         if (req.baseUrl === '/api/sections'){
-          return Course.findByIdAsync(req.body.course)
-            .then(course => {
-              console.log("course",course)
-              if (!course) {
-                return res.status(404).end();
-              }
-              req.course = course;
-
-              if (course.administrators.indexOf(req.user._id.toString()) !== -1){
-                  next();
-              }
-              else{
-                  return res.status(403).send('Forbidden');
-              }
-            })
-            .catch(err => next(err));
+          courseId = req.body.course;
         }
         else if (req.baseUrl === '/api/courses'){
-          return Course.findByIdAsync(req.params.id)
-            .then(course => {
-              console.log("course",course)
-              console.log("req.user",req.user)
-              if (!course) {
-                return res.status(404).end();
-              }
-              req.course = course;
-
-              if (course.administrators.indexOf(req.user._id.toString()) !== -1){
-                  console.log("option one",course.administrators,course.administrators.indexOf(req.user._id.toString()));
-                  next();
-              }
-              else if (course.assistants.indexOf(req.user._id.toString()) !== -1){
-                  console.log("option two");
-                  next();
-              }
-              else{
-                  console.log("forbidden");
-                  return res.status(403).send('Forbidden');
-              }
-            })
-            .catch(err => next(err));
+          courseId = req.params.id;
         }
         else{
           console.log("req.baseUrl",req.baseUrl);
           res.status(403).send('Forbidden');
         }
+        return Course.findByIdAsync(courseId)
+          .then(course => {
+            if (!course) {
+              return res.status(404).end();
+            }
+            var userId = req.user._id.toString();
+            req.course = course;
+
+            if (course.administrators.indexOf(userId) !== -1){
+                next();
+            }
+            else if (course.assistants.indexOf(userId) !== -1){
+                next();
+            }
+            else{
+                console.log("forbidden");
+                return res.status(403).send('Forbidden');
+            }
+          })
+          .catch(err => next(err));
     });
 }
 
