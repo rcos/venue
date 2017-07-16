@@ -147,7 +147,7 @@ export function mySections(req, res, next) {
   var userId = req.user._id;
   req.params.id = userId;
   userSections(req, res, next);
-};
+}
 
 // Gets a single Section from the DB
 export async function show(req, res, next) {
@@ -181,7 +181,7 @@ export async function show(req, res, next) {
   }catch(err){
     handleError(res)(err);
   }
-};
+}
 
 // Creates a new Section in the DB
 export function create(req, res) {
@@ -193,39 +193,45 @@ export function create(req, res) {
 }
 
 // Updates an existing Section in the DB
-
 export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
   // Section retrived by canEditSection
   var section = req.section;
-  var student;
+  var users, u;
 
-  // Confirm pending student
-  if(req.body.pendingStudent){
-    student = req.body.pendingStudent;
-    if(section.pending.students.remove(student)){
-      section.students.push(student);
+  for (var type in ['students','instructors','assistants']){
+    // Confirm pending
+    if(req.body.confirm && req.body.confirm[type]){
+      users = req.body.confirm[type];
+      for (u in users){
+        if(section.pending[type].remove(u)){
+          section[type].push(u);
+        }
+        else{
+          throw "Not a valid pending "+type+" to confirm";
+        }
+      }
     }
-    else{
-      throw "Not a valid pending student";
+    // Remove pending
+    if(req.body.reject && req.body.reject[type]){
+      users = req.body.reject[type];
+      for (u in users){
+        if(!section.pending[type].reject(u)){
+          throw "Not a valid pending "+type+" to reject";
+        }
+      }
     }
-  }
 
-  // Reject pending student
-  if(req.body.removePendingStudent){
-    student = req.body.removePendingStudent;
-    if(!section.pending.students.remove(student)){
-      throw "Not a valid pending student";
-    }
-  }
-
-  // Remove student
-  if(req.body.removeStudent){
-    student = req.body.removeStudent;
-    if(!section.students.remove(student)){
-      throw "Not a valid student";
+    // Remove current
+    if(req.body.remove && req.body.remove[type]){
+      users = req.body.remove[type];
+      for (u in users){
+        if(!section[type].remove(u)){
+          throw "Not a valid pending "+type+" to remove";
+        }
+      }
     }
   }
 
@@ -265,7 +271,7 @@ export function destroy(req, res) {
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
-};
+}
 
 export function getSectionsExtra(query, opts){
   opts = opts || {};

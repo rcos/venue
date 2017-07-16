@@ -67,21 +67,21 @@ export default class InstructorSectionViewCtrl {
 
     $scope.verifyPendingStudent = (pendingStudent) => {
       var section = $scope.section;
-      Section.update({id: section._id}, {pendingStudent: pendingStudent._id}, () => {
+      Section.update({id: section._id}, {confirm: {students: [pendingStudent._id]}}, () => {
           loadPageSection();
         });
     };
 
-    $scope.ignorePendingStudent = (pendingStudent) => {
+    $scope.rejectPendingStudent = (pendingStudent) => {
       var section = $scope.section;
-      Section.update({id: section._id}, {removePendingStudent: pendingStudent._id}, () => {
+      Section.update({id: section._id}, {reject: {students: [pendingStudent._id]}}, () => {
           loadPageSection();
         });
     };
 
-    $scope.removeStudent = (pendingStudent) => {
+    $scope.removeStudent = (student) => {
       var section = $scope.section;
-      Section.update({id: section._id}, {removeStudent: pendingStudent._id}, () => {
+      Section.update({id: section._id}, {remove: {students: [student._id]}}, () => {
           loadPageSection();
         });
     };

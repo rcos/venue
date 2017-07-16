@@ -24,14 +24,14 @@ router.get('/', (req,res,next)=>{
 router.get('/:id', controller.show);
 router.post('/', auth.canAdminCourse(), controller.create);
 router.put('/:id', (req,res,next)=>{
-    if (req.body.instructors || req.body.assistants){
+    if (req.body.confirm.instructors || req.body.remove.instructors || req.body.confirm.assistants || req.body.remove.assistants){
         auth.canAdminSection()(req, res, next);
     }else {
         auth.canEditSection()(req, res, next);
     }
 }, controller.update);
 router.patch('/:id', (req,res,next)=>{
-    if (req.body.instructors || req.body.assistants){
+    if (req.body.confirm.instructors || req.body.remove.instructors || req.body.confirm.assistants || req.body.remove.assistants){
         auth.canAdminSection()(req, res, next);
     }else {
         auth.canEditSection()(req, res, next);
