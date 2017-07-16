@@ -7,7 +7,7 @@ import * as superwith from "../superwith.integration";
 import Section from "./section.model";
 import User from "../user/user.model";
 
-import {seed, exampleSection, exampleStudent} from '../../config/seed';
+import {exampleSection, exampleStudent} from '../../config/testingseed';
 
 var newSection;
 
