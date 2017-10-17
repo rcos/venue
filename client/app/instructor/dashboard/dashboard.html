@@ -32,6 +32,36 @@
           </table>
         </div>
 
+        <!-- Student Search -->
+        <div>
+          <label>Search Students: <input ng-model="search.$"></label>
+          <table id="searchTextResults">
+             <tr>
+              <th class="text-center">First Name</th>
+              <th class="text-center">Last Name</th>
+              <th class="text-center">Course</th>
+              <th class="text-center">Profile</th>
+            </tr>
+
+            <tr ng-repeat="student in friends | filter:search:strict">
+              <!-- <td>{{friend.name}}</td>
+              <td>{{friend.phone}}</td> -->
+              <td>
+                <a href="#" class="btn btn-default btn-sm" ng-href="{{ viewSection(section) }}" role="button">View</a>
+              </td>
+              <td>
+                <a href="#" class="btn btn-default btn-sm" ng-href="{{ viewSection(section) }}" role="button">View</a>
+              </td>
+              <td>
+                <a href="#" class="btn btn-default btn-sm" ng-href="{{ viewSection(section) }}" role="button">View</a>
+              </td>
+              <td>
+                <a href="#" class="btn btn-default btn-sm" ng-href="{{ viewSection(section) }}" role="button">View</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+
         <div class="col-sm-6 events left-column" ng-cloak>
           <h3> Upcoming Events
             <a href="/instructor/newevent" class="btn btn-md margin btn-primary btn-right" role="button">New Event</a>
@@ -52,6 +82,7 @@
 
           </div>
         </div>
+
       </div>
     </div>
 

@@ -18,6 +18,4 @@ export default function routes($routeProvider) {
       template: require('./view/sectionview.html'),
       controller: 'SectionViewCtrl'
     });
-
-
 }
