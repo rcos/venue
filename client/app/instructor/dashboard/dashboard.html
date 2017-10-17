@@ -34,26 +34,28 @@
 
         <!-- Student Search -->
         <div>
+          <h3>Search All Students</h3>
           <label>Search Students: <input ng-model="search.$"></label>
-          <table id="searchTextResults">
+          <table id="searchTextResults" class="course-section text-center table table-hover">
              <tr>
               <th class="text-center">First Name</th>
               <th class="text-center">Last Name</th>
               <th class="text-center">Course</th>
+              <th class="text-center">Section</th>
               <th class="text-center">Profile</th>
             </tr>
-
-            <tr ng-repeat="student in friends | filter:search:strict">
-              <!-- <td>{{friend.name}}</td>
-              <td>{{friend.phone}}</td> -->
+            <tr class='btn-row-sm'>
               <td>
-                <a href="#" class="btn btn-default btn-sm" ng-href="{{ viewSection(section) }}" role="button">View</a>
+                <span>Name</span>
               </td>
               <td>
-                <a href="#" class="btn btn-default btn-sm" ng-href="{{ viewSection(section) }}" role="button">View</a>
+               <span>name</span>
               </td>
               <td>
-                <a href="#" class="btn btn-default btn-sm" ng-href="{{ viewSection(section) }}" role="button">View</a>
+                <span>course</span>
+              </td>
+              <td>
+                <span>section</span>
               </td>
               <td>
                 <a href="#" class="btn btn-default btn-sm" ng-href="{{ viewSection(section) }}" role="button">View</a>
@@ -67,7 +69,7 @@
             <a href="/instructor/newevent" class="btn btn-md margin btn-primary btn-right" role="button">New Event</a>
           </h3>
           <h4 ng-hide="anyEvents && filteredEventsAfter.length">Assign a <a href="/instructor/newevent">event</a></h4>
-          <div class="card-container">
+          <div clss="card-container">
             <event-card ng-repeat='event in events | dateAfter:today | orderBy: "times[0].start" | limitTo:10 as filteredEventsAfter' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
 
           </div>
