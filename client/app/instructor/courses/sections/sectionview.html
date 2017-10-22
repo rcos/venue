@@ -63,17 +63,23 @@
               </tr>
             </table>
           </div>
+
           <div class="" ng-show="section.students.length > 0">
             <h4>Enrolled Students</h4>
             <table class="students text-center table table-hover">
+              <!-- Need to add Angualr filter and styilized search bar-->
+              <!-- <label>Search: <input ng-model="searchText"></label> -->
+              
               <tr ng-repeat="student in section.students">
                 <td class="text-left align-middle">{{student.firstName}} {{student.lastName}}</td>
                 <td class="text-center">
                   <button ng-click='removeStudent(student)' class='ignore mdl-button mdl-js-button mdl-button--raised '> Remove </button>
                 </td>
               </tr>
+
             </table>
           </div>
+
         </uib-tab>
 
         <uib-tab index="2" heading="Events">
