@@ -42,13 +42,6 @@ export default class InstructorSectionViewCtrl implements OnInit{
       loadPageSection();
     });
 
-    // StudentSearch needs to take a filter as input and create a subquery from the student list based on it
-    // var findStudent = function(){
-    //   for(var i=0; i < $scope.section.students.length; i++){
-
-    //   }
-    // }
-
     var findStudentSubmission = function(){
       for(var i=0; i < $scope.section.students.length; i++){
         $scope.section.students[i].submission = '';
