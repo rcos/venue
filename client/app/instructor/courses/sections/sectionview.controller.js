@@ -1,11 +1,15 @@
 'use strict';
-export default class InstructorSectionViewCtrl {
+export default class InstructorSectionViewCtrl implements OnInit{
+
+  // This updates material lite with dynamic elements that otherwise aren't
+  // captured
+  ngOnInit() {
+    componentHandler.upgradeDom();
+  }
 
   /*@ngInject*/
   constructor($scope, $location, $routeParams, Auth, Submission, Section) {
-    // This updates material lite with dynamic elements that otherwise aren't
-    // captured
-    componentHandler.upgradeDom();
+    
     // Current event selected by instructor
     $scope.currentEventSelection = null;
 
