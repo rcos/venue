@@ -37,7 +37,7 @@
             <a href="/instructor/newevent" class="btn btn-md margin btn-primary btn-right" role="button">New Event</a>
           </h3>
           <h4 ng-hide="anyEvents && filteredEventsAfter.length">Assign a <a href="/instructor/newevent">event</a></h4>
-          <div clss="card-container">
+          <div class="card-container">
             <event-card ng-repeat='event in events | dateAfter:today | orderBy: "times[0].start" | limitTo:10 as filteredEventsAfter' click='goToUploadForEvent(event)' data="event"  short="true">  </event-card>
 
           </div>
