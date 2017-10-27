@@ -5,6 +5,10 @@ export default class InstructorSectionViewCtrl implements OnInit{
   // captured
   ngOnInit() {
     componentHandler.upgradeDom();
+    console.log("worked");
+     // for(var i=0; i < $scope.section.students.length; i++){
+     //    console.log($scope.section.students[i]);
+     //  }
   }
 
   /*@ngInject*/
@@ -41,6 +45,12 @@ export default class InstructorSectionViewCtrl implements OnInit{
       }
       loadPageSection();
     });
+
+    // var findStudent = function() {
+    //   for(var i=0; i < $scope.section.students.length; i++){
+    //     console.log($scope.section.students[i]);
+    //   }
+    // }
 
     var findStudentSubmission = function(){
       for(var i=0; i < $scope.section.students.length; i++){
