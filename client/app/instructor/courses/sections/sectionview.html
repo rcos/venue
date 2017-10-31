@@ -81,9 +81,9 @@
                  </div>
                </div>
             </div>
-          
 
-            <table class="students text-center table table-hover">              
+
+            <table class="students text-center table table-hover">
               <tr ng-repeat="student in filteredStudents = (section.students | filter:searchText)" data="name" short="false">
                 <td class="text-left align-middle">{{student.firstName}} {{student.lastName}}</td>
                 <td class="text-center">
@@ -94,17 +94,6 @@
                   <td class="text-left align-middle">no students found matching search term</td>
                 </div>
             </table>
-
-
-            <!-- <table class="students text-center table table-hover">              
-              <tr ng-repeat="student in section.students">
-                <td class="text-left align-middle">{{student.firstName}} {{student.lastName}}</td>
-                <td class="text-center">
-                  <button ng-click='removeStudent(student)' class='ignore mdl-button mdl-js-button mdl-button-raised '> Remove </button>
-                </td>
-              </tr>
-            </table> -->
-
 
           </div>
 
