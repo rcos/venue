@@ -13,7 +13,7 @@ export default class InstructorSectionViewCtrl implements OnInit{
 
   /*@ngInject*/
   constructor($scope, $location, $routeParams, Auth, Submission, Section) {
-    
+
     // Current event selected by instructor
     $scope.currentEventSelection = null;
 
@@ -45,12 +45,6 @@ export default class InstructorSectionViewCtrl implements OnInit{
       }
       loadPageSection();
     });
-
-    // var findStudent = function() {
-    //   for(var i=0; i < $scope.section.students.length; i++){
-    //     console.log($scope.section.students[i]);
-    //   }
-    // }
 
     var findStudentSubmission = function(){
       for(var i=0; i < $scope.section.students.length; i++){
