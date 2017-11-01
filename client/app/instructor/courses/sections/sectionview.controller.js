@@ -9,7 +9,7 @@ export default class InstructorSectionViewCtrl implements OnInit{
 
   /*@ngInject*/
   constructor($scope, $location, $routeParams, Auth, Submission, Section) {
-    
+
     // Current event selected by instructor
     $scope.currentEventSelection = null;
 

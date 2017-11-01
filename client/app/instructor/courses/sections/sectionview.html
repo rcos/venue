@@ -49,6 +49,7 @@
           <a href="#" class="btn btn-default edit-section col-sm-2" ng-href="{{ viewEditSection() }}" role="button">Edit</a>
         </uib-tab>
         <uib-tab index="1" heading="Students">
+
           <div class="" ng-show="section.pendingStudents.length > 0">
             <h4>Pending Students</h4>
             <table class="pending-students text-center table table-hover">
@@ -63,17 +64,38 @@
               </tr>
             </table>
           </div>
+
           <div class="" ng-show="section.students.length > 0">
             <h4>Enrolled Students</h4>
+
+            <!-- display search bar -->
+            <div class='col-xs-12 search-bar-container' ng-show="section.students.length">
+              <div class="search-bar">
+                <div class="input-group">
+                   <input type="text" ng-model='searchText' class="form-control" placeholder="Search students">
+                   <span class="input-group-btn">
+                     <button class="btn btn-default" type="button">
+                       <span class='glyphicon glyphicon-search'></span>
+                     </button>
+                   </span>
+                 </div>
+               </div>
+            </div>
+
             <table class="students text-center table table-hover">
-              <tr ng-repeat="student in section.students">
+              <tr ng-repeat="student in filteredStudents = (section.students | filter:searchText)" data="name" short="false">
                 <td class="text-left align-middle">{{student.firstName}} {{student.lastName}}</td>
                 <td class="text-center">
                   <button ng-click='removeStudent(student)' class='ignore mdl-button mdl-js-button mdl-button--raised '> Remove </button>
                 </td>
               </tr>
+              <tr class='no-results' ng-hide="filteredStudents.length > 0 ">
+                <td class="text-left align-middle">no students found matching search term</td>
+              </tr>
             </table>
+
           </div>
+
         </uib-tab>
 
         <uib-tab index="2" heading="Events">
