@@ -1,4 +1,10 @@
-# venue
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/10917080/32852976-c373540a-ca07-11e7-9e0d-0421fc662af0.png" width=200px/>
+</p>
+
+## Venue is a platform that allows instructors to give students credit for attending events. An instructor signs on and creates courses and events, students can then use the venue app to upload event submissions, which can contain images or GPS data that verifies a student attended an event.
+
+
 [![Build Status](https://travis-ci.org/rcos/venue.svg)](https://travis-ci.org/rcos/venue)
 [![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg?maxAge=2592000)]()
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/rcos/venue/dev/LICENSE.md)
