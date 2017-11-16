@@ -6,7 +6,7 @@
 'use strict';
 import User from '../api/user/user.model';
 import Course from '../api/course/course.model';
-import Event from '../api/eventinfo/eventinfo.model';
+import EventInfo from '../api/eventinfo/eventinfo.model';
 import SectionEvent from '../api/sectionevent/sectionevent.model';
 import Section from '../api/section/section.model';
 import Submission from '../api/submission/submission.model';
@@ -69,7 +69,7 @@ export function allCourses(){ return {
         administrators : [],
         assistants : []
       },
-      administrators : [allUsers().admin._id], //Admin
+      administrators : [allUsers().admin._id, allUsers().teacher._id], //Admin
       assistants : []
     }
 }}
@@ -228,9 +228,9 @@ module.exports.createSections = function(){
   return Section.createAsync(_.values(allSections()));
 }
 
-// Create Events
+// Create Event info
 module.exports.createEvents = function(){
-  return Event.createAsync(_.values(allEvents()));
+  return EventInfo.createAsync(_.values(allEvents()));
 }
 // Create Section Events
 

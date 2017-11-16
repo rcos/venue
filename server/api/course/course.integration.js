@@ -47,39 +47,37 @@ describe('Course API:', function() {
         });
     });
 // tests that auth is working properly. teacher can't modify example, can modify newly created.
-    describe('POST and GET /api/courses/:id', function() {
-
+    describe('PUT and GET /api/courses/:id', function() {
         var newCourse;
-        before((done)=>{
-          auth.instructor.request(app)
-          .post('/api/courses')
-          .type('form')
-          .field('name', 'New Course')
-          .field('description', 'This is the brand new course!!!')
-          .field('department', 'TEST')
-          .field('courseNumber', '2100')
-          .attach('files[0]', './client/assets/images/empac.jpg')
-          .expect(201)
-          .expect('Content-Type', /json/)
-          .end(function(err, res) {
-            if (err) done(err)
-            newCourse = res.body;
-            done();
-          });
-        })
 
         it('should respond with the newly created course', function(done) {
-            request(app)
-            .get('/api/courses/' + newCourse._id)
-            .expect(200)
+            auth.instructor.request(app)
+            .post('/api/courses')
+            .type('form')
+            .field('name', 'New Course')
+            .field('description', 'This is the brand new course!!!')
+            .field('department', 'TEST')
+            .field('courseNumber', '2100')
+            .attach('files[0]', './client/assets/images/empac.jpg')
+            .expect(201)
             .expect('Content-Type', /json/)
             .end(function(err, res) {
-                expect(err).to.be.an('null');
-                var course = res.body;
-                expect(course.name).to.equal('New Course');
-                expect(course.description).to.equal('This is the brand new course!!!');
-                done();
+              expect(err).to.be.an('null');
+              newCourse = res.body;
+
+              auth.instructor.request(app)
+              .get('/api/courses/' + newCourse._id)
+              .expect(200)
+              .expect('Content-Type', /json/)
+              .end(function(err, res) {
+                  expect(err).to.be.an('null');
+                  var course = res.body;
+                  expect(course.name).to.equal('New Course');
+                  expect(course.description).to.equal('This is the brand new course!!!');
+                  done();
+              });
             });
+
         });
 
     });
@@ -145,28 +143,22 @@ describe('Course API:', function() {
     });
 
     describe('DELETE and GET /api/courses/:id', function() {
+      it('should respond with 404 when course does not exist', function(done) {
+        auth.instructor.request(app)
+        .delete('/api/courses/' + exampleCourse._id)
+        .expect(204)
+        .end(function(err, res) {
+          if (err) done(err)
 
-        before((done) => {
-            auth.instructor.request(app)
-            .delete('/api/courses/' + exampleCourse._id)
-            .expect(204)
-            .end(function(err, res) {
-                if (err) done(err)
-                done();
-            });
+          auth.instructor.request(app)
+          .delete('/api/courses/' + exampleCourse._id)
+          .expect(404)
+          .end(function(err, res) {
+            expect(err).to.be.an('null');
+            done();
+          });
         });
-
-        it('should respond with 404 when course does not exist', function(done) {
-            auth.instructor.request(app)
-            .delete('/api/courses/' + exampleCourse._id)
-            .expect(404)
-            .end(function(err, res) {
-                if (err) {
-                    return done(err);
-                }
-                done();
-            });
-        });
+      });
 
     });
 

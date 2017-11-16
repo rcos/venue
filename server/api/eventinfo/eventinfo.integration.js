@@ -12,25 +12,31 @@ import User from "../user/user.model";
 
 import {exampleEvent, exampleStudent} from '../../config/testingseed';
 
+var eventInfo;
+var student;
+
+beforeEach((done) => {
+  console.log("EventInfo.findByIdAsync before")
+    EventInfo.findByIdAsync(exampleEvent._id).then(evnt => {
+        eventInfo = evnt;
+        done();
+    });
+});
+
+beforeEach((done) => {
+    console.log("User.findByIdAsync before")
+
+    User.findByIdAsync(exampleStudent._id).then(stu => {
+      student = stu;
+      done()
+    });
+});
+
 describe("EventInfo Static Methods", ()=>{
-    var eventInfo;
-    var student;
-
-    before(() => {
-        return EventInfo.findByIdAsync(exampleEvent._id).then(evnt => {
-            eventInfo = evnt;
-        });
-    });
-
-    before(() => {
-        return User.findByIdAsync(exampleStudent._id).then(stdent => {
-          student = stdent;
-        });
-    });
 
     var relatedUsers;
     describe("Static Methods", () => {
-        before(done => {
+        beforeEach(done => {
             eventInfo.getRelatedUsers().then(users => {
                 relatedUsers = users;
                 done();
@@ -38,17 +44,17 @@ describe("EventInfo Static Methods", ()=>{
         });
 
         it("getRelatedUsers() should return users", () => {
+          console.log("relatedUsers",relatedUsers,eventInfo)
             expect(relatedUsers).to.be.a('array');
             expect(relatedUsers[0]).to.have.property('firstName');
             expect(relatedUsers[0]).to.have.property('lastName');
-            expect(relatedUsers[0]).to.have.property('isInstructor');
         });
     });
 
     describe("notification updating on eventinfo change", () => {
-      before(() => student.clearNotifications());
+      beforeEach(() => student.clearNotifications());
 
-      before(() => {
+      beforeEach(() => {
         eventInfo.times = [{
             start: moment().add(1,'hour').toDate(),
             end: moment().add(1,'hour').toDate()
@@ -68,32 +74,27 @@ describe("EventInfo Static Methods", ()=>{
 
 
 describe('EventInfo API:', function() {
-  var newEventInfo;
   describe('GET /api/eventinfos', function() {
     var eventinfos;
 
-    beforeEach(function(done) {
-      request(app)
-        .get('/api/eventinfos')
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-          eventinfos = res.body;
-          done();
-        });
-    });
-
     it('should respond with JSON array', function() {
-      expect(eventinfos).to.be.instanceOf(Array);
+    request(app)
+      .get('/api/eventinfos')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end(function(err, res) {
+        expect(err).to.be.an('null');
+        eventinfos = res.body;
+        expect(eventinfos).to.be.instanceOf(Array);
+      });
+
     });
 
   });
 
   describe('POST /api/eventinfos', function() {
-    before(function(done) {
+    var newEventInfo;
+    it('should respond with the newly created eventinfo', function() {
       auth.instructor.request(app)
         .post('/api/eventinfos')
         .type('form')
@@ -123,45 +124,62 @@ describe('EventInfo API:', function() {
         .expect(201)
         .expect('Content-Type', /json/)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
+          expect(err).to.be.an('null');
           newEventInfo = res.body;
-          done();
+          expect(newEventInfo.title).to.equal('New EventInfo');
+          expect(newEventInfo.description).to.equal('This is the brand new eventinfo!!!');
         });
-    });
 
-    it('should respond with the newly created eventinfo', function() {
-      expect(newEventInfo.title).to.equal('New EventInfo');
-      expect(newEventInfo.description).to.equal('This is the brand new eventinfo!!!');
     });
-
   });
 
   describe('GET /api/eventinfos/:id', function() {
-    var eventinfo;
-
-    beforeEach(function(done) {
-      request(app)
-        .get('/api/eventinfos/' + newEventInfo._id)
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-          eventinfo = res.body;
-          done();
-        });
-    });
-
-    afterEach(function() {
-      eventinfo = {};
-    });
 
     it('should respond with the requested eventinfo', function() {
-      expect(eventinfo.title).to.equal('New EventInfo');
-      expect(eventinfo.description).to.equal('This is the brand new eventinfo!!!');
+      auth.instructor.request(app)
+        .post('/api/eventinfos')
+        .type('form')
+        .field('title', 'New EventInfo')
+        .field('description', 'This is the brand new eventinfo!!!')
+        .field("times[0][start]", "2016-07-24T23:26:51.573Z")
+        .field("times[0][end]", "2016-07-25T00:26:51.573Z")
+        .field("location[address]", "asdasd")
+        .field("location[description]", "asdasd")
+        .field("location[geo][type]", "Point")
+        .field("location[geo][coordinates][0]", "-73.68399119999998")
+        .field("location[geo][coordinates][1]", "42.7285023")
+        .field("location[radius]", "0.045318603515625")
+        .field("location[geobounds][type]", "MultiPolygon")
+        // This location is around RPI
+        .field("location[geobounds][coordinates][0][0][0][0]", "-73.68066787719727")
+        .field("location[geobounds][coordinates][0][0][0][1]", "42.734152628905065")
+        .field("location[geobounds][coordinates][0][0][1][0]", "-73.68890762329102")
+        .field("location[geobounds][coordinates][0][0][1][1]", "42.724064845595954")
+        .field("location[geobounds][coordinates][0][0][2][0]", "-73.64358901977539")
+        .field("location[geobounds][coordinates][0][0][2][1]", "42.72229931484221")
+        .field("location[geobounds][coordinates][0][0][3][0]", "-73.68066787719727")
+        .field("location[geobounds][coordinates][0][0][3][1]", "42.73415262890506")
+        .field("location[geobounds][coordinates][0][0][4][0]", "-73.68066787719727")
+        .field("location[geobounds][coordinates][0][0][4][1]", "42.734152628905065")
+        .attach('files[0]', './client/assets/images/empac.jpg')
+        .expect(201)
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          expect(err).to.be.an('null');
+          var newEventInfo = res.body;
+          request(app)
+            .get('/api/eventinfos/' + newEventInfo._id)
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+              expect(err).to.be.an('null');
+              var eventinfo = res.body;
+
+              expect(eventinfo.title).to.equal('New EventInfo');
+              expect(eventinfo.description).to.equal('This is the brand new eventinfo!!!');
+            });
+        });
+
     });
   });
 
@@ -192,7 +210,11 @@ describe('EventInfo API:', function() {
   describe('PUT /api/eventinfos/:id', function() {
     var updatedEventInfo
 
-    beforeEach(function(done) {
+    afterEach(function() {
+      updatedEventInfo = {};
+    });
+
+    it('should respond with the updated eventinfo', function() {
       auth.instructor.request(app)
         .put('/api/eventinfos/' + newEventInfo._id)
         .send({
@@ -202,23 +224,12 @@ describe('EventInfo API:', function() {
         .expect(200)
         .expect('Content-Type', /json/)
         .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
+          expect(err).to.be.an('null');
           updatedEventInfo = res.body;
-          done();
+          expect(updatedEventInfo.title).to.equal('Updated EventInfo');
+          expect(updatedEventInfo.description).to.equal('This is the updated eventinfo!!!');
         });
-    });
-
-    afterEach(function() {
-      updatedEventInfo = {};
-    });
-
-    it('should respond with the updated eventinfo', function() {
-      expect(updatedEventInfo.title).to.equal('Updated EventInfo');
-      expect(updatedEventInfo.description).to.equal('This is the updated eventinfo!!!');
-    });
-
+      });
   });
 
   describe('DELETE /api/eventinfos/:id', function() {

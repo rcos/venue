@@ -17,10 +17,15 @@ beforeEach(function (done){
 
 beforeEach(function (done){
   this.timeout(25000);
-  auth.init().then(() => done());
+  auth.init().then(() => {
+    console.log("Auth Init");
+    done()
+  });
 });
 
 afterEach(function (done){
   this.timeout(25000);
+  console.log("Clear DB");
+
   clearDB().then(() => done());
 });

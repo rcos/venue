@@ -115,6 +115,7 @@ EventInfoSchema.methods = {
      getRelatedUsers(){
          return SectionEvent.findAsync({info:this._id})
          .then(sectionEvents =>{
+           console.log("sectionEvents",sectionEvents)
              return Promise.all(sectionEvents.map(se => se.getRelatedUsers()))
                            .then(userLists=>
                                userLists.reduce((a,b) => {

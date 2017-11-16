@@ -190,6 +190,8 @@ export function canAdminCourse(){
             }
             var userId = req.user._id.toString();
             req.course = course;
+            console.log("userId", userId)
+            console.log("course.administrators.indexOf(userId)", course.administrators.indexOf(userId))
             if (course.administrators.indexOf(userId) !== -1){
                 next();
             }

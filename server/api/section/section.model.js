@@ -26,7 +26,11 @@ var SectionSchema = new Schema({
 SectionSchema.methods = {
 
   getRelatedUsers(){
-      return this.populate({path:'students', select: "email preferences firstName lastName"}).execPopulate().then(fullSection => fullSection.students);
+      return this
+        .populate({path:'students', select: "email preferences firstName lastName"})
+        .populate({path:'instructors', select: "email preferences firstName lastName"})
+        .execPopulate()
+        .then(fullSection => fullSection.students);
   },
 
   getSectionEventsAsync(opts){
