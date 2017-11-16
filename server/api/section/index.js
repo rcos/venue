@@ -22,9 +22,9 @@ router.get('/', (req,res,next)=>{
     }
 }, controller.index);
 router.get('/:id', controller.show);
-router.post('/', auth.isInstructor(), controller.create);
-router.put('/:id', auth.isInstructor(), controller.update);
+router.post('/', auth.isCreator(), controller.create);
+router.put('/:id', auth.isCreator(), controller.update);
 router.patch('/:id',  auth.isInstructor(), controller.update);
-router.delete('/:id',  auth.isInstructor(), controller.destroy);
+router.delete('/:id',  auth.isCreator(), controller.destroy);
 
 export default router;

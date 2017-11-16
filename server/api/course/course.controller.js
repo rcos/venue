@@ -106,19 +106,23 @@ export function show(req: $Request, res: $Response) {
       if (!course){
         return null;
       }
-      if (req.query.withSections){
-        course.getSections({
-          withInstructors: req.query.withSectionInstructors,
-          withEnrollmentStatus: req.query.withSectionEnrollmentStatus,
-          studentId: req.query.studentid
-        }, (sections) => {
-          course = course.toObject();
-          course.sections = sections;
-          course.isCreator = req.query.studentid === course.creatorID;
+      if (req.query.checkCreator) {
+        responseWithResult(res)(req.query.studentid === course.creatorID);
+      } else {
+        if (req.query.withSections){
+          course.getSections({
+            withInstructors: req.query.withSectionInstructors,
+            withEnrollmentStatus: req.query.withSectionEnrollmentStatus,
+            studentId: req.query.studentid
+          }, (sections) => {
+            course = course.toObject();
+            course.sections = sections;
+            course.isCreator = req.query.studentid === course.creatorID;
+            responseWithResult(res)(course);
+          })
+        }else{
           responseWithResult(res)(course);
-        })
-      }else{
-        responseWithResult(res)(course);
+        }
       }
     })
     .catch(handleError(res));

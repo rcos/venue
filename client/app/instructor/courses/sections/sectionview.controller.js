@@ -2,10 +2,9 @@
 export default class InstructorSectionViewCtrl {
 
   /*@ngInject*/
-  constructor($scope, $location, $routeParams, Auth, Submission, Section) {
+  constructor($scope, $location, $routeParams, Auth, Course, Submission, Section) {
     // This updates material lite with dynamic elements that otherwise aren't
     // captured
-    componentHandler.upgradeDom();
     // Current event selected by instructor
     $scope.currentEventSelection = null;
 
@@ -36,6 +35,7 @@ export default class InstructorSectionViewCtrl {
         $location.path('courses/'+$routeParams.id+'/sections/'+$routeParams.sectionId);
       }
       loadPageSection();
+      loadCourse();
     });
 
     var findStudentSubmission = function(){
@@ -101,5 +101,20 @@ export default class InstructorSectionViewCtrl {
     $scope.selectStudent = function(student){
       $scope.selectedStudent = student;
     };
+
+    function loadCourse(){
+      Course.get({
+        id: $routeParams.id,
+        checkCreator:true,
+        studentid: $scope.user._id
+      }, isCreator => {
+        $scope.isCreator = isCreator;
+      });
+    }
+
+  }
+
+  ngOnInit(): any {
+    componentHandler.upgradeDom();
   }
 }

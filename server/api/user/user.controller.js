@@ -54,7 +54,19 @@ function createForgotPasswordVerificationToken(req, user, cb){
  * restriction: 'admin'
  */
 export function index(req, res) {
-  User.findAsync({})
+  User.findAsync()
+    .then(users => {
+      res.status(200).json(users);
+    })
+    .catch(handleError(res));
+}
+
+/**
+ * Get list of instructors
+ * restriction: 'instructor'
+ */
+export function indexInstructors(req, res) {
+  User.findAsync({isInstructor: true})
     .then(users => {
       res.status(200).json(users);
     })
