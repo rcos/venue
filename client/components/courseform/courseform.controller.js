@@ -1,7 +1,10 @@
 'use strict';
-export function CourseFormCtrl ($scope, Course, Upload){
+export function CourseFormCtrl ($scope, Auth, Course, Upload){
     "ngInject";
     $scope.courseCreated = false;
+    Auth.getCurrentUser((user) => {
+      $scope.user = user;
+    });
     $scope.submitForm = (form)=>{
         $scope.submitted = true;
         if (form.$valid) {
@@ -20,6 +23,7 @@ export function CourseFormCtrl ($scope, Course, Upload){
             });
           }else{
             // promise = Course.create($scope.course).$promise;
+            $scope.course.creatorID = $scope.user._id;
             $scope.course.files = [$scope.file];
             promise =  Upload.upload({
                 url: '/api/courses/',

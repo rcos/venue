@@ -63,7 +63,7 @@ export function SectionFormController($scope, $location, $routeParams, Auth, Use
           sectionNumbers:[sectionNum],
           enrollmentPolicy: $scope.section.enrollmentPolicy
         }
-        if (form.$valid) {
+        if (form.$valid && $scope.section.enrollmentPolicy) {
           var promise;
           section.instructors = [];
           angular.forEach($scope.allInstructors, function(instructor) {
