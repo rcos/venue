@@ -114,6 +114,7 @@ export function show(req: $Request, res: $Response) {
         }, (sections) => {
           course = course.toObject();
           course.sections = sections;
+          course.isCreator = req.query.studentid === course.creatorID;
           responseWithResult(res)(course);
         })
       }else{

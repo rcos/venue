@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import User from '../api/user/user.model';
+import Course from '../api/course/course.model';
 
 var validateJwt = expressJwt({
   secret: config.secrets.session
@@ -57,6 +58,42 @@ export function hasRole(roleRequired) {
         res.status(403).send('Forbidden');
       }
     });
+}
+
+/**
+ * Checks if user is creator of course, need course id in req body or req query
+ */
+export function isCreator(){
+    return compose()
+        .use(isAuthenticated())
+        .use(function meetsRequirements(req, res, next) {
+          console.log(req);
+          if (req.body.course) {
+            Course.findByIdAsync(req.body.course)
+              .then(course => {
+                if (!course) {
+                  return res.status(401).end();
+                }
+                if (course.creatorID==req.user._id) {
+                  next();
+                }else{
+                  res.status(403).send('Forbidden');
+                }
+              })
+          } else {
+            Course.findByIdAsync(req.query.course)
+              .then(course => {
+                if (!course) {
+                  return res.status(401).end();
+                }
+                if (course.creatorID==req.user._id) {
+                  next();
+                }else{
+                  res.status(403).send('Forbidden');
+                }
+              })
+          }
+        });
 }
 
 /**

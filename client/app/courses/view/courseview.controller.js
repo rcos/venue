@@ -55,6 +55,7 @@ export default class CourseViewCtrl {
       }, course => {
         $scope.course = course;
         $scope.coursesLoaded = true;
+        $scope.isCreator = course.isCreator;
       }, () =>{
         $location.path('/courses')
       });

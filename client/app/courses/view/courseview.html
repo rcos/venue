@@ -1,6 +1,8 @@
 <div class='container courses-page'>
     <div class="courseview">
         <course-title-banner-basic course="course"></course-title-banner-basic>
+        <h3 ng-show='isCreator'>You are the creator of this course.</h3>
+
         <div class="row row-md-height" ng-cloak>
             <div class="col-md-6 left-column col-md-height col-md-top">
                 <div class="inside-full-height">
@@ -51,6 +53,7 @@
                         <th class="text-center">Students</th>
                         <th class="text-center">Pending</th>
                         <th class="text-center">Info</th>
+                        <th class="text-center" ng-show="isCreator">Edit</th>
                     </tr>
                     <tr ng-repeat="section in course.sections">
                         <td class="big-number"><span ng-repeat="number in section.sectionNumbers"><span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last">, </span></span></td>
@@ -67,6 +70,9 @@
                         </td>
                         <td>
                             <a href="#" class="btn btn-default" ng-href="{{ viewSection(section) }}" role="button">View</a>
+                        </td>
+                        <td ng-show="isCreator">
+                            <a href="#" class="btn btn-default" ng-href="{{ editSection(section) }}" role="button">Edit</a>
                         </td>
                     </tr>
                 </table>
