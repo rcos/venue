@@ -11,11 +11,10 @@ var auth = require("../../auth/local/test.integration");
 var superwith = require("../superwith.integration");
 var mongoose = require('mongoose');
 
-import {exampleStudent, exampleSectionEvent} from '../../config/seed';
+import {exampleSectionEvent, exampleStudent} from '../../config/testingseed';
 
 describe('User API:', function() {
   var user;
-
     describe('GET /api/users', function() {
         var users;
 
@@ -211,6 +210,8 @@ describe('User notification:', function() {
 
     var student;
     var fullEvent;
+    before(() => seed());
+    after(() => clearDB());
 
     before(() => {
       return SectionEvent.findByIdAsync(exampleSectionEvent._id)

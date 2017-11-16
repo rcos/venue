@@ -125,8 +125,11 @@ export function show(req: $Request, res: $Response) {
 
 // Creates a new Course in the DB
 export function create(req: $ExtRequest, res: $Response) {
+  console.log("Create course");
   let files:Array<any> = req.files;
   saveCourseImage(files, req.body, (imagePaths: Array<string>)=>{
+      console.log("Image saved");
+
     var course:any = req.body,
       date = new Date();
     course.imageURLs = imagePaths;

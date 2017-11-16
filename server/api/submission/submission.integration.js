@@ -7,15 +7,20 @@ var newSubmission;
 var auth = require("../../auth/local/test.integration");
 var superwith = require("../superwith.integration");
 
-var seed = require('../../config/seed');
-var exampleSectionEvent = seed.exampleSectionEvent;
-var exampleStudent = seed.exampleStudent;
-var exampleInstructor = seed.exampleInstructor;
-var exampleSubmission = seed.exampleSubmission;
+import {
+  exampleSectionEvent,
+  exampleInstructor,
+  exampleSubmission,
+  exampleStudent,
+  allCourses,
+  allSections,
+  allEvents,
+  allSectionEvents,
+} from '../../config/testingseed';
+
 import {validLocations, badLocations} from './testassets';
 
 describe('Submission API:', function() {
-
   describe('GET /api/submissions', function() {
     var submissions;
 
@@ -234,10 +239,10 @@ describe('Submission API:', function() {
 
   describe("valid submission tests", () => {
 
-    var course = seed.allCourses().netArt;
-    var section = seed.allSections().netArt12;
-    var info = seed.allEvents().concerts;
-    var sectionEvent = seed.allSectionEvents().netArt12Concerts;
+    var course = allCourses().netArt;
+    var section = allSections().netArt12;
+    var info = allEvents().concerts;
+    var sectionEvent = allSectionEvents().netArt12Concerts;
 
     describe("passing validation", () => {
 

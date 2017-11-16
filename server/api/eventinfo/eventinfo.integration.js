@@ -10,19 +10,14 @@ var moment = require('moment');
 
 import User from "../user/user.model";
 
-var seed = require('../../config/seed');
-var exampleStudent = seed.exampleStudent;
-var eventinfoExampleId = seed.exampleEvent._id;
-
-var newEventInfo;
+import {exampleEvent, exampleStudent} from '../../config/testingseed';
 
 describe("EventInfo Static Methods", ()=>{
-
     var eventInfo;
     var student;
 
     before(() => {
-        return EventInfo.findByIdAsync(eventinfoExampleId).then(evnt => {
+        return EventInfo.findByIdAsync(exampleEvent._id).then(evnt => {
             eventInfo = evnt;
         });
     });
@@ -73,7 +68,7 @@ describe("EventInfo Static Methods", ()=>{
 
 
 describe('EventInfo API:', function() {
-
+  var newEventInfo;
   describe('GET /api/eventinfos', function() {
     var eventinfos;
 
@@ -171,7 +166,7 @@ describe('EventInfo API:', function() {
   });
 
   describe("GET /api/eventinfos/:id with options", function(){
-      superwith.test(request(app), `/api/eventinfos/${eventinfoExampleId}`, [
+      superwith.test(request(app), `/api/eventinfos/${exampleEvent._id}`, [
           {
               param: "withSectionEvents=true",
               should: "get section events",

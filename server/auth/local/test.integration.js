@@ -7,12 +7,12 @@ var request = require('supertest');
 var superagent = require('superagent');
 
 var studentAccount = {
-  "email": "foo@foo.com",
-  "password": "foo"
+  "email": "test@test.com",
+  "password": "test"
 };
 var instructorAccount = {
-  "email": "bob@bob.com",
-  "password": "bob"
+  "email": "teacher@teacher.com",
+  "password": "teacher"
 };
 var adminAccount = {
     "email": "admin@admin.com",

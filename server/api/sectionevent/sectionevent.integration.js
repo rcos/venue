@@ -9,7 +9,7 @@ import scheduler from '../../schedule';
 import SectionEvent from './sectionevent.model';
 import User from "../user/user.model";
 
-import {exampleSectionEvent, exampleStudent} from '../../config/seed';
+import {exampleSectionEvent, exampleStudent} from '../../config/testingseed';
 
 var newSectionEvent;
 
@@ -56,7 +56,6 @@ describe("SectionEvent Notification Handling", function(){
 
 
 describe('SectionEvent API:', function() {
-
   describe('GET /api/sectionevents', function() {
     var sectionevents;
 

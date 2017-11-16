@@ -166,6 +166,7 @@ export function canAdminCourse(){
     return compose()
     .use(isAuthenticated())
     .use(function meetsRequirements(req, res, next) {
+      console.log("canAdminCourse",req.baseUrl);
         if (req.user.role === 'admin'){
             return next();
         }
@@ -182,12 +183,13 @@ export function canAdminCourse(){
         }
         return Course.findByIdAsync(courseId)
           .then(course => {
+                  console.log("course",course);
+
             if (!course) {
               return res.status(404).end();
             }
             var userId = req.user._id.toString();
             req.course = course;
-
             if (course.administrators.indexOf(userId) !== -1){
                 next();
             }

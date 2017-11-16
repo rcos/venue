@@ -30,19 +30,19 @@ export function allUsers(){return {
     },
     test: {
       provider: 'local',
-      role: 'test',
+      role: 'user',
       firstName: 'test',
       lastName: 'User',
       email: 'test@test.com',
       password: 'test',
       isVerified: true,
       isInstructor: false,
-      _id: mongoose.Types.ObjectId('000000000000000000000002'),
+      _id: mongoose.Types.ObjectId('000000000000000000000004'),
       preferences: {emailNotifyAheadMinutes: [30]},
     },
     teacher: {
       provider: 'local',
-      role: 'teacher',
+      role: 'user',
       firstName: 'teacher',
       lastName: 'User',
       email: 'teacher@teacher.com',
@@ -55,9 +55,9 @@ export function allUsers(){return {
   };
 }
 
-export function allCourses(){return {
+export function allCourses(){ return {
     testCourse:{
-      _id : mongoose.Types.ObjectId("222222222222222222222220"),
+      _id : mongoose.Types.ObjectId("111111111111111111111111"),
       department : "TEST",
       imageURLs: ["/api/courses/image/test-1470287331303.jpeg"], // url to image
       courseNumber : 1234,
@@ -78,15 +78,15 @@ export function allSections(){ return {
     testSection: {
       sectionNumbers: [1,2],
       enrollmentPolicy: "open",
-      _id:mongoose.Types.ObjectId('111111111111111111111120'),
-      course : allCourses().netArt._id, //Net Art
-      students : [allUsers().jane._id, allUsers().kelly._id, allUsers().foo._id], //Jane
+      _id:mongoose.Types.ObjectId('222222222222222222222221'),
+      course : allCourses().testCourse._id, //testCourse
+      students : [allUsers().test._id], //Test
       pending : {
         students : [],
         instructors : [],
         assistants : []
       },
-      instructors : [allUsers().bob._id], //Bob
+      instructors : [allUsers().teacher._id], //teacher
       assistants : []
     }
   }
@@ -142,7 +142,7 @@ export function allEvents(){
         start:new Date(new Date().getTime() + -5 * 24 * 60 * 60 * 1000 + 1*60*60*1000),
         end: new Date(new Date().getTime() + -5 * 24 * 60 * 60 * 1000 + 4*60*60*1000),
       }],
-      _id: mongoose.Types.ObjectId('000000000000000000000020')
+      _id: mongoose.Types.ObjectId('333333333333333333333331')
     }
   }
 }
@@ -153,24 +153,23 @@ export function allSectionEvents(){
       section: allSections().testSection._id,// Test Section
       course: allCourses().testCourse._id,//Test course
       submissionInstructions:"Write about what you learned.",
-      author: allUsers().teacher._id, //Travis
+      author: allUsers().teacher._id, //teacher
       creationDate: new Date(new Date().getTime() + -5 * 24 * 60 * 60 * 1000 + 4*60*60*1000),
       info: allEvents().testEvent._id,//Test Event
       _id: mongoose.Types.ObjectId('000000000000000000001000')
     }
-
   }
 }
 
 export function allSubmissions(){
   return {
     testSubmission:{
-      _id : mongoose.Types.ObjectId("666666666666666666666661"),
+      _id : mongoose.Types.ObjectId("555555555555555555555551"),
       content: "This is what I learned from the test.",
       images: ["/api/submissions/image/000000000000000000000004/000000000000000000001000/submission1.jpg"], // path to image on static image server?
       time: Date.now(),
-      submitter: allUsers().Test._id,
-      authors: [allUsers().Test._id],
+      submitter: allUsers().test._id,
+      authors: [allUsers().test._id],
       sectionEvent: allSectionEvents().testSectionEvent._id,
       instructorVerification: "none",
       verified: true,
@@ -192,7 +191,7 @@ export function allSubmissions(){
 export function allSettings(){
   return {
     testSettings:{
-      _id : mongoose.Types.ObjectId("777777777777777777777771"),
+      _id : mongoose.Types.ObjectId("666666666666666666666661"),
       semester: "Current",
       login: {
         cas: true,
@@ -249,8 +248,6 @@ module.exports.createSettings = function(){
   return Settings.createAsync(_.values(allSettings()));
 };
 
-
-
 module.exports.exampleInstructor = allUsers().teacher;
 module.exports.exampleStudent = allUsers().test;
 module.exports.exampleAdmin = allUsers().admin;
@@ -273,19 +270,19 @@ module.exports.seed = function(){
 
     return module.exports.clearDB()
     .then(module.exports.createUsers).then(() => {
-      console.log('finished populating users');
+      console.log('finished populating test users');
     }).then(module.exports.createCourses).then(() => {
-      console.log('finished populating courses');
+      console.log('finished populating test courses');
     }).then(module.exports.createEvents).then(() => {
-      console.log('finished populating events');
+      console.log('finished populating test events');
     }).then(module.exports.createSections).then(()=>{
-      console.log('finished populating sections');
+      console.log('finished populating test sections');
     }).then(module.exports.createSectionEvents).then(()=>{
-      console.log('finished populating section events');
+      console.log('finished populating test section events');
     }).then(module.exports.createSubmissions).then(()=>{
-      console.log("finished populating submissions");
+      console.log("finished populating test submissions");
     }).then(module.exports.createSettings).then(()=>{
-      console.log("finished populating settings");
+      console.log("finished populating test settings");
     }).then( () => {
       resolved = true;
       resolve()
@@ -294,5 +291,4 @@ module.exports.seed = function(){
       reject(`Error seeding the database!, ${err}`);
     });
   });
-
 }

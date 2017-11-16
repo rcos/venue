@@ -1,4 +1,4 @@
-var seed = require('../config/seed').seed;
+import {seed, clearDB} from '../config/testingseed';
 var auth = require("../auth/local/test.integration");
 var app = require("../");
 
@@ -10,12 +10,17 @@ before(function (done){
   });
 });
 
-before(function (done){
+beforeEach(function (done){
   this.timeout(25000);
   seed().then(() => done());
 });
 
-before(function (done){
+beforeEach(function (done){
   this.timeout(25000);
   auth.init().then(() => done());
+});
+
+afterEach(function (done){
+  this.timeout(25000);
+  clearDB().then(() => done());
 });

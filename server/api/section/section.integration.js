@@ -12,14 +12,15 @@ import {exampleSection, exampleStudent} from '../../config/testingseed';
 var newSection;
 
 describe("Notification Tests", () => {
-
     var section;
 
     before(() => {
         return Section.findByIdAsync(exampleSection._id).then(sec => {
             section = sec;
+                      console.log(section)
+
         });
-    });
+  });
 
     describe("Static Method Tests", ()=>{
         var relatedUsers;
@@ -31,6 +32,7 @@ describe("Notification Tests", () => {
         });
 
         it("expect getRelatedUsers to return users", () => {
+          console.log(section)
             expect(relatedUsers).to.be.a('array');
             expect(relatedUsers[0]).to.have.property('firstName');
             expect(relatedUsers[0]).to.have.property('lastName');
@@ -67,7 +69,6 @@ describe("Notification Tests", () => {
 });
 
 describe('Section API:', function() {
-
   describe('GET /api/sections', function() {
     var sections;
 

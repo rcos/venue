@@ -140,6 +140,8 @@ let mocha = lazypipe()
         reporter: 'spec',
         bail: true,
         timeout: 5000,
+        checkLeaks: true,
+        showStack: true,
         require: [
             './mocha.conf'
         ]
@@ -394,10 +396,12 @@ gulp.task('mocha:unit', () => {
 gulp.task('mocha:integration', () => {
     return gulp.src(paths.server.test.integration)
         .pipe(mocha())
-        .once('error', function () {
+        .once('error', function (err) {
+          console.log("mocha:integration error", err)
             process.exit(1);
         })
         .once('end', function () {
+          console.log("mocha:integration end")
             process.exit();
         });
 });

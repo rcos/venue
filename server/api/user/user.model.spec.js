@@ -4,6 +4,8 @@ import app from '../..';
 import User from './user.model';
 
 var user;
+import {seed, exampleSection, exampleStudent, exampleInstructor} from '../../config/testingseed';
+
 var genUser = function() {
   user = new User({
     provider: 'local',
@@ -42,41 +44,39 @@ describe('User Model', function() {
   });
 
   describe('#getSections', function() {
-    var seed = require('../../config/seed');
-    beforeEach(() => seed.seed());
+    beforeEach(() => seed());
 
     it('should be able to get a seed user\'s sections', function(done) {
-      User.findOneAsync({"firstName" : "Jane"}).then(function
+      User.findOneAsync({"firstName" : exampleStudent.firstName}).then(function
         (user){
-          user.getSectionsAsync().should.eventually.have.length(2).notify(done);
+          user.getSectionsAsync().should.eventually.have.length(1).notify(done);
         });
     });
 
     it('should be able to get a seed instructor\'s sections', function(done) {
-      User.findOneAsync({"firstName" : "Bob"}).then(function
+      User.findOneAsync({"firstName" : exampleInstructor.firstName}).then(function
         (user){
-          user.getSectionsAsync().should.eventually.have.length(5).notify(done);
+          user.getSectionsAsync().should.eventually.have.length(1).notify(done);
         });
     });
   });
 
   describe('#getEvents', function() {
-    var seed = require('../../config/seed');
-    beforeEach(() => seed.seed());
+    beforeEach(() => seed());
 
     it('should be able to get a seed user\'s events', function(done) {
-      User.findOneAsync({"firstName" : "Jane"}).then((user) => {
+      User.findOneAsync({"firstName" : exampleStudent.firstName}).then((user) => {
           user.getEventsAsync({})
             .then((eventObject) => Object.keys(eventObject).map((k) => eventObject[k]))
-            .should.eventually.have.length(2).notify(done);
+            .should.eventually.have.length(1).notify(done);
         });
     });
 
     it('should be able to get a seed instructor\'s events', function(done) {
-      User.findOneAsync({"firstName" : "Bob"}).then((user) => {
+      User.findOneAsync({"firstName" : exampleInstructor.firstName}).then((user) => {
           user.getEventsAsync({})
             .then((eventObject) => Object.keys(eventObject).map((k) => eventObject[k]))
-            .should.eventually.have.length(2).notify(done);
+            .should.eventually.have.length(1).notify(done);
         });
     });
   });
