@@ -77,7 +77,13 @@ export function isInstructor(){
 }
 
 /**
-* Checks if user can edit the section
+* Checks if user can edit the section (everything but confirming instructors and assistants)
+People who can edit sections:
+Admins
+Section Instructors
+Section Assistants
+Course Admins
+Course Assistants
 */
 export function canEditSection(){
   return compose()
@@ -121,7 +127,12 @@ export function canEditSection(){
   });
 }
 /**
-* Checks if user can edit the section
+* Checks if user can administer the section (confirming instructors and assistants)
+People who can administer sections:
+Admins
+Section Instructors
+Course Admins
+
 */
 export function canAdminSection(){
   return compose()
@@ -158,9 +169,52 @@ export function canAdminSection(){
     }
   });
 }
+/**
+ * Checks if user can edit the course (everything but confirm administrators and sssistants)
+ People who can administer courses:
+ Admins
+ Course Admins
+ */
+export function canAdminCourse(){
+    return compose()
+    .use(isAuthenticated())
+    .use(function meetsRequirements(req, res, next) {
+      console.log("canAdminCourse",req.baseUrl);
+        if (req.user.role === 'admin'){
+            return next();
+        }
+        courseId = req.params.id;
+        return Course.findByIdAsync(courseId)
+          .then(course => {
+                  console.log("course",course);
+
+            if (!course) {
+              return res.status(404).end();
+            }
+            var userId = req.user._id.toString();
+            req.course = course;
+            console.log("userId", userId)
+            console.log("course.administrators.indexOf(userId)", course.administrators.indexOf(userId))
+            if (course.administrators.indexOf(userId) !== -1){
+                next();
+            }
+            else{
+                console.log("forbidden");
+                return res.status(403).send('Forbidden');
+            }
+          })
+          .catch(err => next(err));
+    });
+}
 
 /**
- * Checks if user can edit the course
+ * Checks if user can admin the course (create sections, change course info)
+ People who can administer courses:
+ Admins
+ Course Admins
+ Course Assistants
+
+ Can be accessed from /api/sections or /api/courses
  */
 export function canAdminCourse(){
     return compose()
@@ -208,7 +262,10 @@ export function canAdminCourse(){
 }
 
 /**
- * Checks if user can edit the course
+ * Checks if user can add a course
+  People who can add courses:
+  Admins
+  Instructors
  */
 export function canAddCourse(){
     return compose()

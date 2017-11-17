@@ -201,6 +201,19 @@ export function update(req, res) {
   var section = req.section;
   var users, u;
 
+  // Update full instructors list
+  if(req.body.instructors)
+  {
+    section.instructors = req.body.instructors;
+  }
+
+  // Update full assistants list
+  if(req.body.assistants)
+  {
+    section.assistants = req.body.assistants;
+  }
+
+
   for (var type in ['students','instructors','assistants']){
     // Confirm pending
     if(req.body.confirm && req.body.confirm[type]){
@@ -218,7 +231,7 @@ export function update(req, res) {
     if(req.body.reject && req.body.reject[type]){
       users = req.body.reject[type];
       for (u in users){
-        if(!section.pending[type].reject(u)){
+        if(!section.pending[type].remove(u)){
           throw "Not a valid pending "+type+" to reject";
         }
       }
@@ -245,18 +258,6 @@ export function update(req, res) {
   if(req.body.enrollmentPolicy)
   {
     section.enrollmentPolicy = req.body.enrollmentPolicy;
-  }
-
-  // Update instructors
-  if(req.body.instructors)
-  {
-    section.instructors = req.body.instructors;
-  }
-
-  // Update assistants
-  if(req.body.assistants)
-  {
-    section.assistants = req.body.assistants;
   }
 
   return section.saveAsync()

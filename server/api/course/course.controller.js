@@ -154,23 +154,91 @@ export function update(req: $Request, res: $Response) {
   }
   let files:Array<any> = req.files;
   saveCourseImage(files, req.body, (imagePaths: Array<string>)=>{
-    var course:any = req.body;
-    course.imageURLs = imagePaths;
-    Course.findByIdAsync(req.params.id)
-    .then(handleEntityNotFound(res))
-    .then((entity)=>{
-      var updated = _.merge(entity, course);
-      updated.markModified('imageURLs');
-      return updated.saveAsync()
-      .then(function(updated) {
-        return updated;
-      });
-    })
-    .then(responseWithResult(res))
-    .catch((err,dat)=>{
-      console.log(err, dat);
-    })
-    .catch(handleError(res));
+    // Course retrived by canEditSection
+    var course = req.course;
+    if (imagePaths.length){
+      course.imageURLs = imagePaths;
+      course.markModified('imageURLs');
+
+    }
+
+    // Update full administrators list
+    if(req.body.administrators)
+    {
+      course.administrators = req.body.instructors;
+    }
+
+    // Update full assistants list
+    if(req.body.assistants)
+    {
+      course.assistants = req.body.assistants;
+    }
+
+    for (var type in ['administrators','assistants']){
+      // Confirm pending
+      if(req.body.confirm && req.body.confirm[type]){
+        users = req.body.confirm[type];
+        for (u in users){
+          if(course.pending[type].remove(u)){
+            course[type].push(u);
+          }
+          else{
+            throw "Not a valid pending "+type+" to confirm";
+          }
+        }
+      }
+      // Remove pending
+      if(req.body.reject && req.body.reject[type]){
+        users = req.body.reject[type];
+        for (u in users){
+          if(!course.pending[type].remove(u)){
+            throw "Not a valid pending "+type+" to reject";
+          }
+        }
+      }
+
+      // Remove current
+      if(req.body.remove && req.body.remove[type]){
+        users = req.body.remove[type];
+        for (u in users){
+          if(!course[type].remove(u)){
+            throw "Not a valid pending "+type+" to remove";
+          }
+        }
+      }
+    }
+    // Update name
+    if(req.body.name)
+    {
+      course.name = req.body.name;
+    }
+
+    // Update department code
+    if(req.body.department)
+    {
+      course.department = req.body.department;
+    }
+    // Update description
+    if(req.body.description)
+    {
+      course.description = req.body.description;
+    }
+    // Update semester
+    if(req.body.semester)
+    {
+      course.semester = req.body.semester;
+    }
+    // Update active
+    if(req.body.active)
+    {
+      course.active = req.body.active;
+    }
+
+
+    return course.saveAsync()
+    .then(function(updated) {
+      return updated;
+    });
   });
 };
 

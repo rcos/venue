@@ -16,8 +16,20 @@ router.get('/image/:name', controller.image);
 router.get('/image/:size/:name', controller.imageSize);
 router.get('/:id', controller.show);
 router.post('/', auth.canAddCourse(), upload.array('files[0]'), controller.create);
-router.put('/:id', auth.canAdminCourse(), upload.array('files[0]'), controller.update);
-router.patch('/:id', auth.canAdminCourse(), upload.array('files[0]'), controller.update);
+router.put('/:id', (req,res,next)=>{
+    if (req.body.confirm.administrators || req.body.remove.administrators || req.body.confirm.assistants || req.body.remove.assistants){
+        auth.canAdminCourse()(req, res, next);
+    }else {
+        auth.canEditCourse()(req, res, next);
+    }
+}, upload.array('files[0]'), controller.update);
+router.patch('/:id', (req,res,next)=>{
+    if (req.body.confirm.administrators || req.body.remove.administrators || req.body.confirm.assistants || req.body.remove.assistants){
+        auth.canAdminCourse()(req, res, next);
+    }else {
+        auth.canEditCourse()(req, res, next);
+    }
+}, upload.array('files[0]'), controller.update);
 router.delete('/:id', auth.canAdminCourse(), controller.destroy);
 
 export default router;
