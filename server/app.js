@@ -19,6 +19,17 @@ import schedule from './schedule';
 
 // Setup server
 var app = express();
+var fs = require('fs');
+var morgan = require('morgan');
+var path = require('path');
+
+
+// create a write stream (in append mode)
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'});
+
+// setup the logger
+app.use(morgan('combined', {stream: accessLogStream}));
+
 var server = http.createServer(app);
 var socketio = socketioModule(server, {
   serveClient: config.env !== 'production',
