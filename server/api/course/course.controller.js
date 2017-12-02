@@ -106,24 +106,48 @@ export function show(req: $Request, res: $Response) {
       if (!course){
         return null;
       }
-      if (req.query.checkCreator) {
-        responseWithResult(res)(req.query.studentid === course.creatorID);
-      } else {
-        if (req.query.withSections){
-          course.getSections({
-            withInstructors: req.query.withSectionInstructors,
-            withEnrollmentStatus: req.query.withSectionEnrollmentStatus,
-            studentId: req.query.studentid
-          }, (sections) => {
-            course = course.toObject();
-            course.sections = sections;
-            course.isCreator = req.query.studentid === course.creatorID;
-            responseWithResult(res)(course);
+      if (!req.query.checkRoles && !req.query.withSections) {
+        responseWithResult(res)(course);
+      }
+      if (req.query.checkRoles) {
+        var checkDict = {};
+        checkDict['creator'] = req.query.studentid === course.creatorID;
+        checkDict['instructor'] = checkDict['creator'];
+        checkDict['student'] = false;
+      }
+      course.getSections({
+        withInstructors: req.query.withSectionInstructors || req.query.checkRoles,
+        withEnrollmentStatus: req.query.withSectionEnrollmentStatus || req.query.checkRoles,
+        studentId: req.query.studentid || req.query.checkRoles
+      }, (sections) => {
+        course = course.toObject();
+        course.sections = sections;
+
+        if (!req.query.checkRoles) {
+          responseWithResult(res)(course);
+        } else {
+          sections.forEach(function(section) {
+            section.instructors.forEach(function(i) {
+              if (i._id == req.query.studentid) {
+                checkDict['instructor'] = true;
+              }
+            })
+            section.students.forEach(function(s) {
+              if (s == req.query.studentid) {
+                checkDict['student'] = true;
+              }
+            })
           })
-        }else{
+          course.checkRole = checkDict;
+          if (req.query.studentid === undefined) {
+            course.checkRole['creator'] = false;
+            course.checkRole['instructor'] = false;
+            course.checkRole['student'] = false;
+          }
           responseWithResult(res)(course);
         }
-      }
+
+      });
     })
     .catch(handleError(res));
 };

@@ -67,7 +67,6 @@ export function isCreator(){
     return compose()
         .use(isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
-          console.log(req);
           if (req.body.course) {
             Course.findByIdAsync(req.body.course)
               .then(course => {

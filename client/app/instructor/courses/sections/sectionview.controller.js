@@ -105,10 +105,12 @@ export default class InstructorSectionViewCtrl {
     function loadCourse(){
       Course.get({
         id: $routeParams.id,
-        checkCreator:true,
-        studentid: $scope.user._id
-      }, isCreator => {
-        $scope.isCreator = isCreator;
+        studentid: $scope.user._id,
+        checkRoles: true
+      }, course => {
+        $scope.isCreator = course.checkRole['creator'];
+        $scope.isInstructor = course.checkRole['instructor'] || course.checkRole['creator'];
+        $scope.isStudent = course.checkRole['student'];
       });
     }
 

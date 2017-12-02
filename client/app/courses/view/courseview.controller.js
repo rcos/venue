@@ -51,11 +51,14 @@ export default class CourseViewCtrl {
         withSections:true,
         withSectionInstructors: true,
         withSectionEnrollmentStatus: true,
-        studentid: $scope.user._id
+        studentid: $scope.user._id,
+        checkRoles: true
       }, course => {
         $scope.course = course;
         $scope.coursesLoaded = true;
-        $scope.isCreator = course.isCreator;
+        $scope.isCreator = course.checkRole['creator'];
+        $scope.isInstructor = course.checkRole['instructor'];
+        $scope.isStudent = course.checkRole['student'];
       }, () =>{
         $location.path('/courses')
       });

@@ -23,7 +23,6 @@ export function SectionFormController($scope, $location, $routeParams, Auth, Use
               instructor.current = false;
               instructor.orderNum = -1;
               if (!$scope.creating){
-                //console.log($scope.section.instructors);
                 angular.forEach($scope.section.instructors, function(current) {
                   if (instructor._id==current._id || instructor._id==current) {
                     $scope.noInstructors = false;
