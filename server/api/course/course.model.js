@@ -14,7 +14,7 @@ var CourseSchema = new Schema({
   semester: String,
   active: Boolean,
   imageURLs: [String],
-  creatorID: String
+  supervisorId: {type : Schema.Types.ObjectId, ref: 'User'}
 });
 
 /**

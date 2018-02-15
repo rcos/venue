@@ -12,6 +12,7 @@
 
 import _ from 'lodash';
 import Course from './course.model';
+import User from '../user/user.model';
 import fs from 'fs';
 import mkdirp from 'mkdirp';
 import config from '../../config/environment';
@@ -107,13 +108,20 @@ export function show(req: $Request, res: $Response) {
         return null;
       }
       if (!req.query.checkRoles && !req.query.withSections) {
+        // if sections are not needed and user role does not need to be checked
         responseWithResult(res)(course);
       }
       if (req.query.checkRoles) {
-        var checkDict = {};
-        checkDict['creator'] = req.query.studentid === course.creatorID;
-        checkDict['instructor'] = checkDict['creator'];
-        checkDict['student'] = false;
+        // if user role needs to be checked, initialize role dict
+        var roleDict = {};
+        User.findOneAsync({ _id: req.query.studentid })
+          .then(user => {
+            console.log(user)
+            roleDict['supervisor'] = req.query.studentid == course.supervisorId || user.role=='admin';
+            roleDict['instructor'] = roleDict['supervisor'];
+            roleDict['student'] = false;
+          })
+        
       }
       course.getSections({
         withInstructors: req.query.withSectionInstructors || req.query.checkRoles,
@@ -124,25 +132,28 @@ export function show(req: $Request, res: $Response) {
         course.sections = sections;
 
         if (!req.query.checkRoles) {
+          // if sections are needed and user role does not need to be checked
           responseWithResult(res)(course);
         } else {
+          // if sections are needed and user role needs to be checked
           sections.forEach(function(section) {
             section.instructors.forEach(function(i) {
               if (i._id == req.query.studentid) {
-                checkDict['instructor'] = true;
+                roleDict['instructor'] = true;
               }
             })
             section.students.forEach(function(s) {
               if (s == req.query.studentid) {
-                checkDict['student'] = true;
+                roleDict['student'] = true;
               }
             })
           })
-          course.checkRole = checkDict;
+          course.roleDict = roleDict;
           if (req.query.studentid === undefined) {
-            course.checkRole['creator'] = false;
-            course.checkRole['instructor'] = false;
-            course.checkRole['student'] = false;
+            // if user is not logged in
+            course.roleDict['supervisor'] = false;
+            course.roleDict['instructor'] = false;
+            course.roleDict['student'] = false;
           }
           responseWithResult(res)(course);
         }

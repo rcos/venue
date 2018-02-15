@@ -45,7 +45,7 @@
               <td class="text-left section-info">{{(section.enrollmentPolicy === "approvalRequired")?"approval":section.enrollmentPolicy}}</td>
             </tr>
           </table>
-          <a href="#" ng-show="isCreator" class="btn btn-default edit-section col-sm-2" ng-href="{{ viewEditSection() }}" role="button">Edit</a>
+          <a href="#" ng-show="isSupervisor" class="btn btn-default edit-section col-sm-2" ng-href="{{ viewEditSection() }}" role="button">Edit</a>
         </uib-tab>
         <uib-tab index="1" heading="Students">
           <div class="" ng-show="section.pendingStudents.length > 0">

@@ -103,15 +103,30 @@ export default class InstructorSectionViewCtrl {
     };
 
     function loadCourse(){
-      Course.get({
-        id: $routeParams.id,
-        studentid: $scope.user._id,
-        checkRoles: true
-      }, course => {
-        $scope.isCreator = course.checkRole['creator'];
-        $scope.isInstructor = course.checkRole['instructor'] || course.checkRole['creator'];
-        $scope.isStudent = course.checkRole['student'];
-      });
+      var user = Auth.getCurrentUserSync().$promise;
+      if (user) {
+        user.then((user) => {
+          Course.get({
+            id: $routeParams.id,
+            studentid: user._id,
+            checkRoles: true
+          }, course => {
+            $scope.isSupervisor = course.roleDict['supervisor'];
+            $scope.isInstructor = course.roleDict['instructor'];
+            $scope.isStudent = course.roleDict['student'];
+          });
+        })
+      } else {
+        Course.get({
+          id: $routeParams.id,
+          checkRoles: true
+        }, course => {
+          $scope.isSupervisor = course.roleDict['supervisor'];
+          $scope.isInstructor = course.roleDict['instructor'];
+          $scope.isStudent = course.roleDict['student'];
+        });
+      }
+      
     }
 
   }

@@ -23,7 +23,7 @@ export function CourseFormCtrl ($scope, Auth, Course, Upload){
             });
           }else{
             // promise = Course.create($scope.course).$promise;
-            $scope.course.creatorID = $scope.user._id;
+            $scope.course.supervisorId = $scope.user._id;
             $scope.course.files = [$scope.file];
             promise =  Upload.upload({
                 url: '/api/courses/',

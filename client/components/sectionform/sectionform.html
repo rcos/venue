@@ -65,11 +65,11 @@
           <div class="ia-input">
             <input type="text" ng-model="searchText" ng-keyup="filterSearch(searchText)" class="form-control"/>
             <div class="list-group">
-                <a class="list-group-item" style="color:black;" ng-show="showInstructorList" ng-click="addSearch(instructor)" ng-repeat="instructor in filteredInstructors | limitTo:5 | filter:{current:false} | orderBy:'name'">{{instructor.name}}</a>
+                <a class="list-group-item" style="color:black;" ng-show="showInstructorList" ng-click="selectInstructor(instructor)" ng-repeat="instructor in filteredInstructors | limitTo:5 | filter:{current:false} | orderBy:'name'">{{instructor.name}}</a>
             </div>
           </div>
           <div class="ia-button">
-            <button class="btn btn-primary" type="button" ng-click="addInstructor()" ng-show="instructorLoaded">Add</button>
+            <button class="btn btn-primary" type="button" ng-click="addInstructor()" ng-show="showAddButton">Add</button>
           </div>
         </div>
       </div>

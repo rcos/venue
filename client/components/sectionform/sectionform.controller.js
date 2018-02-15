@@ -84,11 +84,11 @@ export function SectionFormController($scope, $location, $routeParams, Auth, Use
               }
             })
             .catch(err => {
+              alert("You do not have permission.");
               err = err.data;
               $scope.errors = {};
-
               // Update validity of form fields that match the mongoose errors
-             angular.forEach(err.errors, (error, field) => {
+              angular.forEach(err.errors, (error, field) => {
                 form[field].$setValidity('mongoose', false);
                 $scope.errors[field] = error.message;
               });
@@ -104,7 +104,9 @@ export function SectionFormController($scope, $location, $routeParams, Auth, Use
     }
 
     $scope.filterSearch = function(searchText){
-      $scope.instructorLoaded = false;
+      // Creates an array of instructors that matches the input string
+      // searchText is the input string
+      $scope.showAddButton = false;
       $scope.showInstructorList = searchText.length > 0;
       $scope.filteredInstructors = [];
       angular.forEach($scope.allInstructors, function(instructor){
@@ -114,19 +116,21 @@ export function SectionFormController($scope, $location, $routeParams, Auth, Use
       });
     }
 
-    $scope.addSearch = function(instructor){
+    $scope.selectInstructor = function(instructor){
+      // Select an instructor
       $scope.searchText = instructor.name;
-      $scope.instructorLoaded = true;
+      $scope.showAddButton = true;
       $scope.loadedInstructor = instructor;
       $scope.showInstructorList = false;
     }
 
-    $scope.addInstructor = function(instructor){
+    $scope.addInstructor = function(){
+      // Add the selected instructor to the section
       $scope.loadedInstructor.current = true;
       $scope.loadedInstructor.orderNum = $scope.instructorCount;
       $scope.instructorCount += 1;
       $scope.searchText = "";
-      $scope.instructorLoaded = false;
+      $scope.showAddButton = false;
     }
 
     $scope.deleteSection = (section) => {

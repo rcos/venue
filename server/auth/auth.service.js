@@ -61,9 +61,9 @@ export function hasRole(roleRequired) {
 }
 
 /**
- * Checks if user is creator of course, need course id in req body or req query
+ * Checks if user is supervisor of course, need course id in req body or req query
  */
-export function isCreator(){
+export function isSupervisor(){
     return compose()
         .use(isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
@@ -73,7 +73,7 @@ export function isCreator(){
                 if (!course) {
                   return res.status(401).end();
                 }
-                if (course.creatorID==req.user._id) {
+                if (course.supervisorId==req.user._id || req.user.role=='admin') {
                   next();
                 }else{
                   res.status(403).send('Forbidden');
@@ -85,7 +85,7 @@ export function isCreator(){
                 if (!course) {
                   return res.status(401).end();
                 }
-                if (course.creatorID==req.user._id) {
+                if (course.supervisorId==req.user._id) {
                   next();
                 }else{
                   res.status(403).send('Forbidden');
