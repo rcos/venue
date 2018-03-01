@@ -7,6 +7,7 @@ import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import User from '../api/user/user.model';
 import Course from '../api/course/course.model';
+import Section from '../api/section/section.model';
 
 var validateJwt = expressJwt({
   secret: config.secrets.session
@@ -67,8 +68,15 @@ export function isSupervisor(){
     return compose()
         .use(isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
-          if (req.body.course) {
-            Course.findByIdAsync(req.body.course)
+          var course_id;
+          console.log(req.params)
+          if (req.body.course || req.query.course) {
+            if (req.body.course) {
+              course_id = req.body.course;
+            } else {
+              course_id = req.query.course;
+            }
+            Course.findByIdAsync(course_id)
               .then(course => {
                 if (!course) {
                   return res.status(401).end();
@@ -79,17 +87,22 @@ export function isSupervisor(){
                   res.status(403).send('Forbidden');
                 }
               })
-          } else {
-            Course.findByIdAsync(req.query.course)
-              .then(course => {
-                if (!course) {
-                  return res.status(401).end();
-                }
-                if (course.supervisorId.equals(req.user._id) || req.user.role=='admin') {
-                  next();
-                }else{
-                  res.status(403).send('Forbidden');
-                }
+          } else { // if no course id is given in req
+            Section.findByIdAsync(req.params.id)
+              .then(section => {
+                console.log(section)
+                Course.findByIdAsync(section.course)
+                  .then(course => {
+                    console.log(course)
+                    if (!course) {
+                      return res.status(401).end();
+                    }
+                    if (course.supervisorId.equals(req.user._id) || req.user.role=='admin') {
+                      next();
+                    }else{
+                      res.status(403).send('Forbidden');
+                    }
+                  })
               })
           }
         });
