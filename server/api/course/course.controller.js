@@ -116,7 +116,6 @@ export function show(req: $Request, res: $Response) {
         var roleDict = {};
         User.findOneAsync({ _id: req.query.studentid })
           .then(user => {
-            console.log(user)
             roleDict['supervisor'] = req.query.studentid == course.supervisorId || user.role=='admin';
             roleDict['instructor'] = roleDict['supervisor'];
             roleDict['student'] = false;

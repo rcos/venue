@@ -53,7 +53,7 @@
                         <th class="text-center">Students</th>
                         <th class="text-center">Pending</th>
                         <th class="text-center">Info</th>
-                        <th class="text-center" ng-show="isSupervisor">Edit</th>
+                        <th class="text-center" ng-show="isSupervisor"></th>
                     </tr>
                     <tr ng-repeat="section in course.sections | orderBy : 'sectionNumbers'">
                         <td class="big-number"><span ng-repeat="number in section.sectionNumbers"><span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last">, </span></span></td>
@@ -69,10 +69,10 @@
                             <span class='studentCount'>{{section.pendingStudents.length}}</span>
                         </td>
                         <td>
-                            <a href="#" class="btn btn-default" ng-href="{{ viewSection(section) }}" role="button">View</a>
+                            <a href="#" class="btn btn-default btn-xs" ng-href="{{ viewSection(section) }}" role="button">View</a>
                         </td>
                         <td ng-show="isSupervisor">
-                            <a href="#" class="btn btn-default" ng-href="{{ editSection(section) }}" role="button">Edit</a>
+                            <a href="#" class="glyphicon glyphicon-pencil" ng-href="{{ editSection(section) }}" role="button"></a>
                         </td>
                     </tr>
                 </table>

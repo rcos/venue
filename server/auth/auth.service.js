@@ -73,7 +73,7 @@ export function isSupervisor(){
                 if (!course) {
                   return res.status(401).end();
                 }
-                if (course.supervisorId==req.user._id || req.user.role=='admin') {
+                if (course.supervisorId.equals(req.user._id) || req.user.role=='admin') {
                   next();
                 }else{
                   res.status(403).send('Forbidden');
@@ -85,7 +85,7 @@ export function isSupervisor(){
                 if (!course) {
                   return res.status(401).end();
                 }
-                if (course.supervisorId==req.user._id) {
+                if (course.supervisorId.equals(req.user._id) || req.user.role=='admin') {
                   next();
                 }else{
                   res.status(403).send('Forbidden');

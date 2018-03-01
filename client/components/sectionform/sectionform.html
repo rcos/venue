@@ -16,14 +16,14 @@
         </p>
 
 
-        <label>Current Section Instructors</label><br>
+        <label>Section Instructors</label><br>
         <ul class="list-group">
           <p ng-show="currentInstructors.length==0">No Instructors</p>
           <div ng-repeat="instructor in currentInstructors = (allInstructors | filter:{current:true} | orderBy:'orderNum')">
             <li style="margin-top:10px; width:300px;" class="list-group-item">{{instructor.name}}
               <span class="pull-right">
                 <!-- <button type="button" class="btn btn-danger btn-xs" ng-click="removeCurrent(instructor)">Remove</button> -->
-                <button type="button" style="color: red; outline: none; border: 0; background: transparent;"class="glyphicon glyphicon-remove" ng-click="removeCurrent(instructor)"/>
+                <button type="button" ng-show="isSupervisor" style="color: red; outline: none; border: 0; background: transparent;"class="glyphicon glyphicon-remove" ng-click="removeCurrent(instructor)"/>
               </span>
             </li>
 
@@ -59,17 +59,18 @@
           </div>
         </ul>
 
-
-        <label>Add Instructor</label>
-        <div class="instructor-add">
-          <div class="ia-input">
-            <input type="text" ng-model="searchText" ng-keyup="filterSearch(searchText)" class="form-control"/>
-            <div class="list-group">
-                <a class="list-group-item" style="color:black;" ng-show="showInstructorList" ng-click="selectInstructor(instructor)" ng-repeat="instructor in filteredInstructors | limitTo:5 | filter:{current:false} | orderBy:'name'">{{instructor.name}}</a>
+        <div ng-show="isSupervisor">
+          <label>Add Instructor</label>
+          <div class="instructor-add">
+            <div class="ia-input">
+              <input type="text" ng-model="searchText" ng-keyup="filterSearch(searchText)" class="form-control"/>
+              <div class="list-group">
+                  <a class="list-group-item" style="color:black;" ng-show="showInstructorList" ng-click="selectInstructor(instructor)" ng-repeat="instructor in filteredInstructors | limitTo:5 | filter:{current:false} | orderBy:'name'">{{instructor.name}}</a>
+              </div>
             </div>
-          </div>
-          <div class="ia-button">
-            <button class="btn btn-primary" type="button" ng-click="addInstructor()" ng-show="showAddButton">Add</button>
+            <div class="ia-button">
+              <button class="btn btn-primary" type="button" ng-click="addInstructor()" ng-show="showAddButton">Add</button>
+            </div>
           </div>
         </div>
       </div>

@@ -7,34 +7,46 @@ export function SectionFormController($scope, $location, $routeParams, Auth, Use
       $scope.user = user;
       Course.get({
         id: $routeParams.id,
-        withSections:true
+        studentid: user._id,
+        checkRoles: true,
+        withSections: true
       }, course => {
+        $scope.isSupervisor = course.roleDict['supervisor'];
+        $scope.isInstructor = course.roleDict['instructor'];
+        $scope.isStudent = course.roleDict['student'];
         $scope.course = course;
         if(!$scope.creating){
           setCurrentSection();
         }
         $scope.noInstructors = true;
         $scope.instructorCount = 0;
-        User.getAllInstructors().$promise
-          .then(allInstructors => {
-            allInstructors.sort(i => i.name);
-            $scope.allInstructors = allInstructors.map(instructor => {
-              instructor.name = instructor.firstName + " " + instructor.lastName;
-              instructor.current = false;
-              instructor.orderNum = -1;
-              if (!$scope.creating){
-                angular.forEach($scope.section.instructors, function(current) {
-                  if (instructor._id==current._id || instructor._id==current) {
-                    $scope.noInstructors = false;
-                    instructor.current = true;
-                    instructor.orderNum = $scope.instructorCount;
-                    $scope.instructorCount += 1;
-                  }
-                });
+        
+        User.getAllInstructors({
+          validOnly: true
+        }, allInstructors => {
+          allInstructors.sort(i => i.name);
+          $scope.allInstructors = allInstructors.map(instructor => {
+            instructor.name = instructor.firstName + " " + instructor.lastName;
+            instructor.current = false;
+            instructor.orderNum = -1;
+            if (!$scope.creating){
+              angular.forEach($scope.section.instructors, function(current) {
+                // check if instructor is an instructor of this section
+                if (instructor._id==current._id || instructor._id==current) {
+                  $scope.noInstructors = false;
+                  instructor.current = true;
+                  instructor.orderNum = $scope.instructorCount;
+                  $scope.instructorCount += 1;
+                }
+              });
+            } else {
+              if (instructor._id==user._id && $scope.isInstructor) {
+                instructor.current=true;
               }
-              return instructor;
-            });
+            }
+            return instructor;
           })
+        })
       });
 
     });

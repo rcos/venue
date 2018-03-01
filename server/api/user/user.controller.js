@@ -66,11 +66,22 @@ export function index(req, res) {
  * restriction: 'instructor'
  */
 export function indexInstructors(req, res) {
-  User.findAsync({isInstructor: true})
-    .then(users => {
-      res.status(200).json(users);
-    })
-    .catch(handleError(res));
+  if (req.query.validOnly) {  // omit test, admin, and venue team instrcutors
+    User.findAsync({isInstructor: true, _id: {$nin: ['000000000000000000000000', 
+                                                     '000000000000000000000001', 
+                                                     "111111111111111111111112"]}})
+      .then(users => {
+        res.status(200).json(users);
+      })
+      .catch(handleError(res));
+  } else {
+    User.findAsync({isInstructor: true})
+      .then(users => {
+        res.status(200).json(users);
+      })
+      .catch(handleError(res));
+  }
+  
 }
 
 /**
