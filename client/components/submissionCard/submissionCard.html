@@ -19,6 +19,9 @@
             <i class="fa fa-times rejected" title="rejected" aria-hidden="true" ng-show="!data.verified && data.instructorVerification==='rejected'"></i>
             <i class="fa fa-ellipsis-h pending" title="verification pending" aria-hidden="true" ng-show="!data.verified && data.instructorVerification==='none'"></i>
           </div>
+          <div class="validate-btn">
+            <a href="" ng-show="!data.verified" class="btn btn-primary btn-xs" ng-click="validateSubmission1(data, $event)" role="button" type="button"> Validate </a>
+          </div>
       </div>
     </div>
   </div>

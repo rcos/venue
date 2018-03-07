@@ -161,6 +161,15 @@ export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, S
         );
       return csv;
     };
+    
+    $scope.validateSubmission = function(s){
+      Submission.patch({
+        _id: s._id,
+        verified: true
+      }, (updatedSubmission) => {
+        s.verified = true;
+      });
+    };
 
     updateSectionEvents();
 

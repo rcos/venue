@@ -27,6 +27,7 @@
             <div class='col-xs-2'> <div class='column-name'> Student Name </div> </div>
             <div class='col-xs-1'> <div class='column-name'> Submitted </div> </div>
             <div class='col-xs-1'> <div class='column-name'> Validated </div> </div>
+            <!-- <div class='col-xs-1'> <div class='column-name'>  </div> </div> -->
             <div class='col-xs-2'> <div class='column-name'> Course </div> </div>
             <div class='col-xs-4'> <div class='column-name'> Submission Content </div> </div>
             <div class='col-xs-1'> <div class='column-name'> Image </div> </div>
@@ -47,7 +48,9 @@
                   <i ng-show='!submission.verified && submission.instructorVerification==="rejected"' class='fa fa-times rejected' title="rejected"  aria-hidden="true"></i>
                   <i ng-show='!submission.verified && submission.instructorVerification==="none"' class='fa fa-ellipsis-h pending' title="verification pending" aria-hidden="true"></i>
                 </div>
+                <a href="#" ng-show="!submission.verified" class="btn btn-primary btn-xs" ng-click="validateSubmission(submission)" role="button"> Validate </a>
               </div>
+              
 
               <div class='col-xs-2 centered'> <!-- Section -->
                 {{ submission.sectionEvent.section.course.department }}
