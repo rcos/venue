@@ -21,6 +21,8 @@ import path from 'path';
 import flatten from 'flat';
 import async from 'async';
 
+var parser = require('ua-parser-js');
+
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
@@ -228,6 +230,16 @@ export function image(req, res){
   if (!req.params.name){
     return res.json(404);
   }
+
+  // Test User Agent
+  console.log("THIS IS THE INFORMATION FOR THE USER AGENT\n");
+  var ua = parser(req.headers['user-agent']);
+  console.log(ua.browser);        // {name: "Chromium", version: "15.0.874.106"}
+  console.log(ua.device);         // {model: undefined, type: undefined, vendor: undefined}
+  console.log(ua.os);             // {name: "Ubuntu", version: "11.10"}
+  console.log(ua.os.version);     // "11.10"
+  console.log(ua.engine.name);    // "WebKit"
+  console.log(ua.cpu.architecture,"\n");   // "amd64"
 
   return imageDownload.getImage(
     req.params.name,

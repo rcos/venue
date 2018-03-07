@@ -35,14 +35,21 @@ morgan(function (tokens, req, res) {
   // Need to possibly create header flags for detecting
   // console.log("DISPLAYING USER AGENT INFO\n");
   // console.log(req.get('User-Agent'));
+  var ua = parser(req.headers['user-agent']);
+    // write the result as response
+    res.end(JSON.stringify(ua, null, '  '));
+    // get user-agent header
+    // write the result as response
+    res.end(JSON.stringify(ua, null, '  '));
 
   return [
-    req.get('User-Agent'),
     tokens.method(req, res),
     tokens.url(req, res),
     tokens.status(req, res),
     tokens.res(req, res, 'content-length'), '-',
-    tokens['response-time'](req, res), 'ms'
+    tokens['response-time'](req, res), 'ms',
+
+    JSON.stringify(ua, null, '  ')
   ].join(' ')
 });
 
