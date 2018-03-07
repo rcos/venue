@@ -21,8 +21,30 @@ import schedule from './schedule';
 var app = express();
 var fs = require('fs');
 var morgan = require('morgan');
+
+var finalhandler = require('finalhandler');
+var logger = morgan('combined');
+
 var path = require('path');
 
+// Set up custom format logs
+morgan(function (tokens, req, res) {
+  // Parse api, check if its a user submission, parse user data too (sender username and type of request)
+  // Add a flag
+  // When a person sends a request, there should be a check to ensure it came from the browser
+  // Need to possibly create header flags for detecting
+  // console.log("DISPLAYING USER AGENT INFO\n");
+  // console.log(req.get('User-Agent'));
+
+  return [
+    req.get('User-Agent'),
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms'
+  ].join(' ')
+});
 
 // create a write stream (in append mode)
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'});
