@@ -20,11 +20,12 @@
         <ul class="list-group">
           <p ng-show="currentInstructors.length==0">No Instructors</p>
           <div ng-repeat="instructor in currentInstructors = (allInstructors | filter:{current:true} | orderBy:'orderNum')">
-            <li style="margin-top:10px; width:300px;" class="list-group-item">{{instructor.name}}
+            <li ng-show="isSupervisor" style="margin-top:10px; width:300px;" class="list-group-item">{{instructor.name}}
               <span class="pull-right">
-                <!-- <button type="button" class="btn btn-danger btn-xs" ng-click="removeCurrent(instructor)">Remove</button> -->
-                <button type="button" ng-show="isSupervisor" style="color: red; outline: none; border: 0; background: transparent;"class="glyphicon glyphicon-remove" ng-click="removeCurrent(instructor)"/>
+                <button type="button" style="color: red; outline: none; border: 0; background: transparent;"class="glyphicon glyphicon-remove" ng-click="removeCurrent(instructor)"/>
               </span>
+            </li>
+            <li ng-show="isInstructor" style="margin-top:10px; width:300px; opacity:0.6" class="list-group-item">{{instructor.name}}
             </li>
 
             <!-- <div modal="instructorModal" close="cancel()">
