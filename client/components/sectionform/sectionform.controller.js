@@ -1,5 +1,5 @@
 'use strict';
-export function SectionFormController($scope, $location, $routeParams, Auth, User, Course, Section){
+export function SectionFormController($scope, $location, $routeParams, $filter, Auth, User, Course, Section){
     "ngInject";
 
     Auth.getCurrentUser((user) => {
@@ -15,38 +15,38 @@ export function SectionFormController($scope, $location, $routeParams, Auth, Use
         $scope.isInstructor = course.roleDict['instructor'];
         $scope.isStudent = course.roleDict['student'];
         $scope.course = course;
+        
         if(!$scope.creating){
           setCurrentSection();
+          var instructorDict = {};
+          angular.forEach($scope.section.instructors, function(sectInstructor) {
+            instructorDict[sectInstructor.firstName + sectInstructor.lastName] = 1;
+          });
         }
-        $scope.noInstructors = true;
-        $scope.instructorCount = 0;
-        
+        $scope.instructorCount = 1;
         User.getAllInstructors({
           validOnly: true
         }, allInstructors => {
-          allInstructors.sort(i => i.name);
+          allInstructors =  $filter('orderBy')(allInstructors, 'firstName+lastName');
           $scope.allInstructors = allInstructors.map(instructor => {
             instructor.name = instructor.firstName + " " + instructor.lastName;
-            instructor.current = false;
-            instructor.orderNum = -1;
+            instructor.inSection = false;
+            instructor.orderNum = 0;
             if (!$scope.creating){
-              angular.forEach($scope.section.instructors, function(current) {
-                // check if instructor is an instructor of this section
-                if (instructor._id==current._id || instructor._id==current) {
-                  $scope.noInstructors = false;
-                  instructor.current = true;
-                  instructor.orderNum = $scope.instructorCount;
-                  $scope.instructorCount += 1;
-                }
-              });
+              if (instructorDict[instructor.firstName+instructor.lastName]) {
+                instructor.inSection = true;
+                instructor.orderNum = $scope.instructorCount;
+                $scope.instructorCount += 1;
+              }
             } else {
-              if (instructor._id==user._id && $scope.isInstructor) {
-                instructor.current=true;
+              if (instructor._id==user._id) {
+                instructor.inSection = true;
               }
             }
             return instructor;
-          })
-        })
+          });
+        });
+        
       });
 
     });
@@ -78,7 +78,7 @@ export function SectionFormController($scope, $location, $routeParams, Auth, Use
           var promise;
           section.instructors = [];
           angular.forEach($scope.allInstructors, function(instructor) {
-            if (instructor.current) {
+            if (instructor.inSection) {
               section.instructors.push(instructor._id);
             }
           });
@@ -111,7 +111,7 @@ export function SectionFormController($scope, $location, $routeParams, Auth, Use
 
     $scope.removeCurrent = function(instructor){
       if (confirm("Are you sure you want to remove " + instructor.name + " from this section?")){
-        instructor.current = false;
+        instructor.inSection = false;
       }
     }
 
@@ -122,7 +122,7 @@ export function SectionFormController($scope, $location, $routeParams, Auth, Use
       $scope.showInstructorList = searchText.length > 0;
       $scope.filteredInstructors = [];
       angular.forEach($scope.allInstructors, function(instructor){
-        if(instructor.name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0){
+        if(instructor.name.toLowerCase().indexOf(searchText.toLowerCase()) == 0){
           $scope.filteredInstructors.push(instructor);
         }
       });
@@ -138,7 +138,7 @@ export function SectionFormController($scope, $location, $routeParams, Auth, Use
 
     $scope.addInstructor = function(){
       // Add the selected instructor to the section
-      $scope.loadedInstructor.current = true;
+      $scope.loadedInstructor.inSection = true;
       $scope.loadedInstructor.orderNum = $scope.instructorCount;
       $scope.instructorCount += 1;
       $scope.searchText = "";
