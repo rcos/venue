@@ -1,7 +1,7 @@
 'use strict';
 export default class InstructorCoursesCtrl {
-
   /*@ngInject*/
+
   constructor($scope, $location, User) {
     User.get({withCourses: true}, (user)=>{
       $scope.user = user;

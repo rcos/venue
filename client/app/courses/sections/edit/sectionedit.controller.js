@@ -14,6 +14,7 @@ export default class SectionEditCtrl {
       }, section => {
         $scope.course = section.course;
         $scope.section = section;
+    
       }, () =>{
         $location.path('/courses');
       });
@@ -23,5 +24,6 @@ export default class SectionEditCtrl {
       $scope.isInstructor = user.isInstructor;
       loadSection();
     });
+
   }
 }
