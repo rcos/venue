@@ -1,7 +1,7 @@
 'use strict';
 export function SectionFormController($scope, $location, $routeParams, $filter, Auth, User, Course, Section){
     "ngInject";
-
+    $scope.prevSearchText = "";
     Auth.getCurrentUser((user) => {
       $scope.creating = $scope.updating != "true";
       $scope.user = user;
@@ -120,12 +120,24 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       // searchText is the input string
       $scope.showAddButton = false;
       $scope.showInstructorList = searchText.length > 0;
-      $scope.filteredInstructors = [];
-      angular.forEach($scope.allInstructors, function(instructor){
-        if(instructor.name.toLowerCase().indexOf(searchText.toLowerCase()) == 0){
-          $scope.filteredInstructors.push(instructor);
-        }
-      });
+      
+      if (searchText.length > $scope.prevSearchText.length) {
+        $scope.newFilteredInstructors = [];
+        angular.forEach($scope.filteredInstructors, function(instructor){
+          if(instructor.name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0){
+            $scope.newFilteredInstructors.push(instructor);
+          }
+        });
+        $scope.filteredInstructors = $scope.newFilteredInstructors;
+      } else {
+        $scope.filteredInstructors = [];
+        angular.forEach($scope.allInstructors, function(instructor){
+          if(instructor.name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0){
+            $scope.filteredInstructors.push(instructor);
+          }
+        });
+      }
+      $scope.prevSearchText = searchText;
     }
 
     $scope.selectInstructor = function(instructor){

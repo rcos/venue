@@ -50,10 +50,13 @@ export default angular.module('directives.courseTitleBanner', [showImage, pictur
           return element.firstName + " " + element.lastName;
         }
         function getSupervisor(scope){
-          $scope.$watch("course", function() {
-            User.get({id: $scope.course.supervisorId}, supervisor => {
-              $scope.supervisor = supervisor;
-            })
+          var courseWatch = $scope.$watch("course", function() {
+            if ($scope.course) {
+              User.get({id: $scope.course.supervisorId}, supervisor => {
+                $scope.supervisor = supervisor;
+              })
+              courseWatch();
+            }
           });
         }
         

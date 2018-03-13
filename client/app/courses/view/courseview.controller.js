@@ -37,9 +37,9 @@ export default class CourseViewCtrl {
     };
 
     function loadCourse(){
-      var user = Auth.getCurrentUserSync().$promise;
-      if (user) {
-        user.then((user) => {
+      var userPromise = Auth.getCurrentUserSync().$promise;
+      if (userPromise) {
+        userPromise.then((user) => {
           Course.get({
             id: $routeParams.id,
             withSections:true,
@@ -63,13 +63,12 @@ export default class CourseViewCtrl {
           withSections:true,
           withSectionInstructors: true,
           withSectionEnrollmentStatus: true,
-          checkRoles: true
         }, course => {
           $scope.course = course;
           $scope.coursesLoaded = true;
-          $scope.isSupervisor = course.roleDict['supervisor'];
-          $scope.isInstructor = course.roleDict['instructor'];
-          $scope.isStudent = course.roleDict['student'];
+          $scope.isSupervisor = false;
+          $scope.isInstructor = false;
+          $scope.isStudent = false;
         }, () =>{
           $location.path('/courses')
         });
