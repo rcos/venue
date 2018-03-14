@@ -21,43 +21,66 @@ import schedule from './schedule';
 var app = express();
 var fs = require('fs');
 var morgan = require('morgan');
+var MobileDetect = require('mobile-detect');
+
+morgan.token('isMobile', function (req, res) {
+  var md = new MobileDetect(req.headers['user-agent']);
+  if ( md.mobile() ) {
+    return "REQUEST FROM " + md.mobile();
+  } else {
+    return "REQUEST FROM desktop device.";
+  }
+});
+// morgan(':isMobile :method :url :status :res[content-length] - :response-time ms');
+// morgan(function (tokens, req, res) {
+//   return [
+//     tokens.method(req, res),
+//     tokens.url(req, res),
+//     tokens.status(req, res),
+//     tokens.res(req, res, 'content-length'), '-',
+//     tokens['response-time'](req, res), 'ms'
+//   ].join(' ')
+// });
 
 var finalhandler = require('finalhandler');
 var logger = morgan('combined');
 
 var path = require('path');
 
-// Set up custom format logs
-morgan(function (tokens, req, res) {
-  // Parse api, check if its a user submission, parse user data too (sender username and type of request)
-  // Add a flag
-  // When a person sends a request, there should be a check to ensure it came from the browser
-  // Need to possibly create header flags for detecting
-  // console.log("DISPLAYING USER AGENT INFO\n");
-  // console.log(req.get('User-Agent'));
-  var ua = parser(req.headers['user-agent']);
-    // write the result as response
-    res.end(JSON.stringify(ua, null, '  '));
-    // get user-agent header
-    // write the result as response
-    res.end(JSON.stringify(ua, null, '  '));
-
-  return [
-    tokens.method(req, res),
-    tokens.url(req, res),
-    tokens.status(req, res),
-    tokens.res(req, res, 'content-length'), '-',
-    tokens['response-time'](req, res), 'ms',
-
-    JSON.stringify(ua, null, '  ')
-  ].join(' ')
-});
+// // Set up custom format logs
+// morgan(function (tokens, req, res) {
+//   // Parse api, check if its a user submission, parse user data too (sender username and type of request)
+//   // Add a flag
+//   // When a person sends a request, there should be a check to ensure it came from the browser
+//   // Need to possibly create header flags for detecting
+//   // console.log("DISPLAYING USER AGENT INFO\n");
+//   // console.log(req.get('User-Agent'));
+//
+//   var md = new MobileDetect(req.headers['user-agent']);
+//   if ( md.mobile() ) {
+//     console.log("REQUEST FROM " + md.mobile());
+//   } else {
+//     console.log("REQUEST FROM desktop device.");
+//   }
+//
+//   // return [
+//   //
+//   //   tokens.method(req, res),
+//   //   tokens.url(req, res),
+//   //   tokens.status(req, res),
+//   //   tokens.res(req, res, 'content-length'), '-',
+//   //   tokens['response-time'](req, res), 'ms',
+//   //
+//   //   JSON.stringify(ua, null, '  ')
+//   // ].join(' ')
+//   return md.mobile();
+// });
 
 // create a write stream (in append mode)
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'});
 
 // setup the logger
-app.use(morgan('combined', {stream: accessLogStream}));
+app.use(morgan(':isMobile :method :url :status :res[content-length] - :response-time ms', {stream: accessLogStream}));
 
 var server = http.createServer(app);
 var socketio = socketioModule(server, {
