@@ -22,6 +22,7 @@ import flatten from 'flat';
 import async from 'async';
 
 var parser = require('ua-parser-js');
+var MobileDetect = require('mobile-detect');
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -93,6 +94,17 @@ function saveEventInfoImage(files, fields, cb){
 
 // Gets a list of EventInfos
 export function index(req, res) {
+
+  // Display the device type in the console
+  var md = new MobileDetect(req.headers['user-agent']);
+  if ( md.mobile() ) {
+    console.log("REQUEST FROM " + md.mobile());
+  }
+
+  else {
+    console.log("REQUEST FROM desktop device.");
+  }
+
   EventInfo.findAsync()
     .then(responseWithResult(res))
     .catch(handleError(res));
@@ -232,14 +244,22 @@ export function image(req, res){
   }
 
   // Test User Agent
-  console.log("THIS IS THE INFORMATION FOR THE USER AGENT\n");
-  var ua = parser(req.headers['user-agent']);
-  console.log(ua.browser);        // {name: "Chromium", version: "15.0.874.106"}
-  console.log(ua.device);         // {model: undefined, type: undefined, vendor: undefined}
-  console.log(ua.os);             // {name: "Ubuntu", version: "11.10"}
-  console.log(ua.os.version);     // "11.10"
-  console.log(ua.engine.name);    // "WebKit"
-  console.log(ua.cpu.architecture,"\n");   // "amd64"
+  // console.log("THIS IS THE INFORMATION FOR THE USER AGENT\n");
+  // var ua = parser(req.headers['user-agent']);
+  // console.log(ua.browser);        // {name: "Chromium", version: "15.0.874.106"}
+  // console.log(ua.device);         // {model: undefined, type: undefined, vendor: undefined}
+  // console.log(ua.os);             // {name: "Ubuntu", version: "11.10"}
+  // console.log(ua.os.version);     // "11.10"
+  // console.log(ua.engine.name);    // "WebKit"
+  // console.log(ua.cpu.architecture,"\n");   // "amd64"
+
+  // Display the device type in the console
+  var md = new MobileDetect(req.headers['user-agent']);
+  if ( md.mobile() ) {
+    console.log("REQUEST FROM " + md.mobile());
+  } else {
+    console.log("REQUEST FROM desktop device.");
+  }
 
   return imageDownload.getImage(
     req.params.name,
