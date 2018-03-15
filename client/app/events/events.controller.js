@@ -1,10 +1,16 @@
 'use strict';
 export default class EventsCtrl {
   /*@ngInject*/
-  constructor($scope, $location, $routeParams, SectionEvent, EventInfo, Auth, uiGmapGoogleMapApi, uiGmapIsReady) {  
+  constructor($scope, $location, $routeParams, SectionEvent, EventInfo, Auth, Submission, uiGmapGoogleMapApi, uiGmapIsReady) {  
     $scope.assignment = {};
     Auth.getCurrentUser((user) => {$scope.user = user});
     $scope.eventId = $routeParams.id;
+
+    Submission.getAll({
+      onlySectionEvent: $scope.eventId
+    }, (submissions) => {
+      $scope.submissions = submissions;
+    })
 
     $scope.sectionStudent = false;
     $scope.sectionInstructor = false;
@@ -159,6 +165,20 @@ export default class EventsCtrl {
             fillOpacity: 0.35
           })
           eventPoly.setMap(instances[0].map);
+          
+          angular.forEach($scope.submissions, (submission) => {
+            console.log(submission)
+            var submissionMarker = new google.maps.Marker({
+              position: {
+                lat: submission.location.geo.coordinates[1],
+                lng: submission.location.geo.coordinates[0]
+              },
+              map: instances[0].map,
+              title: submission.submitter.firstName + " " + submission.submitter.lastName
+            })
+          });
+          
+          
         })
     });
     
