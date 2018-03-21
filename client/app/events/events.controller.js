@@ -118,69 +118,53 @@ export default class EventsCtrl {
         }
       };
     
-    $scope.mapInit = function() {
-      $scope.map = {
-        control: {},
-        center: {
-          latitude:  $scope.latAvg,
-          longitude: $scope.lngAvg
-        },
-        zoom: 13,
-        dragging: false,
-        drawing: false,
-        bounds: {},
-        markers: [],
-        idkey: 'place_id',
-        options: {scrollwheel: false}
-      };
-      $scope.mapLoaded = true;
-    }
-    
-    uiGmapGoogleMapApi.then(function(maps) {
-      $scope.mapLoaded = true;
-      maps.visualRefresh = true;
-      // Set default bounds to be RPI
-      // $scope.defaultBounds = new google.maps.LatLngBounds(
-      //   new google.maps.LatLng(42.7766, -73.5380),
-      //   new google.maps.LatLng(42.6757, -73.8292));
-      // 
-      // $scope.map.bounds = {
-      //   northeast: {
-      //     latitude:$scope.defaultBounds.getNorthEast().lat(),
-      //     longitude:$scope.defaultBounds.getNorthEast().lng()
-      //   },
-      //   southwest: {
-      //     latitude:$scope.defaultBounds.getSouthWest().lat(),
-      //     longitude:-$scope.defaultBounds.getSouthWest().lng()
-      //   }
-      // };
-      uiGmapIsReady.promise()
-        .then(function(instances) {
-          var eventPoly = new google.maps.Polygon({
-            paths: $scope.eventCoords,
-            strokeColor: '#00ff00',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: '#00ff00',
-            fillOpacity: 0.35
-          })
-          eventPoly.setMap(instances[0].map);
-          
-          angular.forEach($scope.submissions, (submission) => {
-            console.log(submission)
-            var submissionMarker = new google.maps.Marker({
-              position: {
-                lat: submission.location.geo.coordinates[1],
-                lng: submission.location.geo.coordinates[0]
-              },
-              map: instances[0].map,
-              title: submission.submitter.firstName + " " + submission.submitter.lastName
-            })
-          });
-          
-          
-        })
-    });
+    // $scope.mapInit = function() {
+    //   $scope.map = {
+    //     control: {},
+    //     center: {
+    //       latitude:  $scope.latAvg,
+    //       longitude: $scope.lngAvg
+    //     },
+    //     zoom: 13,
+    //     dragging: false,
+    //     drawing: false,
+    //     bounds: {},
+    //     markers: [],
+    //     idkey: 'place_id',
+    //     options: {scrollwheel: false}
+    //   };
+    //   $scope.mapLoaded = true;
+    // }
+    // 
+    // uiGmapGoogleMapApi.then(function(maps) {
+    //   $scope.mapLoaded = true;
+    //   maps.visualRefresh = true;
+    //   uiGmapIsReady.promise()
+    //     .then(function(instances) {
+    //       var eventPoly = new google.maps.Polygon({
+    //         paths: $scope.eventCoords,
+    //         strokeColor: '#00ff00',
+    //         strokeOpacity: 0.8,
+    //         strokeWeight: 2,
+    //         fillColor: '#00ff00',
+    //         fillOpacity: 0.35
+    //       })
+    //       eventPoly.setMap(instances[0].map);
+    //       
+    //       angular.forEach($scope.submissions, (submission) => {
+    //         var submissionMarker = new google.maps.Marker({
+    //           position: {
+    //             lat: submission.location.geo.coordinates[1],
+    //             lng: submission.location.geo.coordinates[0]
+    //           },
+    //           map: instances[0].map,
+    //           title: submission.submitter.firstName + " " + submission.submitter.lastName
+    //         })
+    //       });
+    //       
+    //       
+    //     })
+    // });
     
   }
 }
