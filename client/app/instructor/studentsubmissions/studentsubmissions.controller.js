@@ -3,17 +3,12 @@ export default class StudentSubmissionsCtrl {
 
   /*@ngInject*/
   constructor($scope, $location, User, Auth, Submission) {
-    Submission.getAll({'onlyInstructor': 'me', 'withStudents': true, 'withSection': true, 'withSectionCourse': true}, (submissions)=>{
-      $scope.submissions = submissions;
-    });
-    
     $scope.refreshSubmissions = function() {
-      console.log($scope)
-      console.log('hi')
       Submission.getAll({'onlyInstructor': 'me', 'withStudents': true, 'withSection': true, 'withSectionCourse': true}, (submissions)=>{
         $scope.submissions = submissions;
       });
     }
+    $scope.refreshSubmissions();
 
     $scope.goToEvent = (event) => {
       $location.path("/events/" + event._id);
