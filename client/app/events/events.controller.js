@@ -1,7 +1,7 @@
 'use strict';
 export default class EventsCtrl {
   /*@ngInject*/
-  constructor($scope, $location, $routeParams, SectionEvent, Auth) {
+  constructor($scope, $location, $routeParams, SectionEvent, EventInfo, Auth, uiGmapGoogleMapApi, uiGmapIsReady) {  
     $scope.assignment = {};
     Auth.getCurrentUser((user) => {$scope.user = user});
     $scope.eventId = $routeParams.id;
@@ -98,5 +98,62 @@ export default class EventsCtrl {
           });
         }
       };
+    
+    $scope.mapInit = function() {
+      $scope.map = {
+        control: {},
+        center: {
+          latitude:  42.7285023,
+          longitude: -73.6839912
+        },
+        zoom: 12,
+        dragging: false,
+        drawing: false,
+        bounds: {},
+        markers: [],
+        idkey: 'place_id',
+        options: {scrollwheel: false}
+      };
+      $scope.mapLoaded = true;
+    }
+    
+    uiGmapGoogleMapApi.then(function(maps) {
+      $scope.mapLoaded = true;
+      maps.visualRefresh = true;
+      // Set default bounds to be RPI
+      $scope.defaultBounds = new google.maps.LatLngBounds(
+        new google.maps.LatLng(42.7766, -73.5380),
+        new google.maps.LatLng(42.6757, -73.8292));
+      
+      $scope.map.bounds = {
+        northeast: {
+          latitude:$scope.defaultBounds.getNorthEast().lat(),
+          longitude:$scope.defaultBounds.getNorthEast().lng()
+        },
+        southwest: {
+          latitude:$scope.defaultBounds.getSouthWest().lat(),
+          longitude:-$scope.defaultBounds.getSouthWest().lng()
+        }
+      };
+      uiGmapIsReady.promise()
+        .then(function(instances) {
+          var eventCoords = [];
+          angular.forEach($scope.event.info.location.geobounds.coordinates[0][0], function(point) {
+            eventCoords.push({lat: point[1], lng: point[0]});
+          });
+          var eventPoly = new google.maps.Polygon({
+            paths: eventCoords,
+            strokeColor: '#00ff00',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#00ff00',
+            fillOpacity: 0.35
+          })
+          eventPoly.setMap(instances[0].map);
+        })
+    });
+    
+    
+    $scope.mapInit();
   }
 }

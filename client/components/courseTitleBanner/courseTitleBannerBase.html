@@ -1,7 +1,8 @@
 <div class="picture-banner" picture-banner imageurls="course.imageURLs"  ng-cloak></div>
 <div class="row inside" ng-cloak>
     <h2 class="col-sm-12"> {{ course.name }}</h2>
-    <div class='course-number col-sm-10'>{{course.department}} {{course.courseNumber}}
+    <div class='course-number col-sm-10'>{{course.department}} {{course.courseNumber}} 
+      {{" | Supervisor: "}} {{supervisor.firstName}} {{supervisor.lastName}}
         <span ng-show="section">| Section{{section.sectionNumbers.length > 1 ? "s": ""}}:
             <comma-list list="section.sectionNumbers" ampersand="true"></comma-list>
             <span>| Instructor{{section.instructors.length > 1 ? "s" : ""}}</span>:

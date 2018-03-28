@@ -8,6 +8,7 @@ var router = new Router();
 
 router.get('/examplecsv.csv', controller.getExampleCSVUpload);
 router.get('/', auth.hasRole('admin'), controller.index);
+router.get('/instructors', auth.isInstructor(), controller.indexInstructors);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 router.get('/me', auth.isAuthenticated(), controller.me);
 router.get('/verify/:token', controller.verify);

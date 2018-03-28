@@ -45,10 +45,23 @@ export default angular.module('directives.courseTitleBanner', [showImage, pictur
       },
       link: function (scope, element, attrs) {
       },
-      controller: function ($scope, $element) {
+      controller: function ($scope, $element, $q, User) {
         $scope.printNames = function(element){
           return element.firstName + " " + element.lastName;
         }
+        function getSupervisor(scope){
+          var courseWatch = $scope.$watch("course", function() {
+            if ($scope.course) {
+              User.get({id: $scope.course.supervisorId}, supervisor => {
+                $scope.supervisor = supervisor;
+              })
+              courseWatch();
+            }
+          });
+        }
+        
+        getSupervisor($scope);
+        
       }
     };
   })

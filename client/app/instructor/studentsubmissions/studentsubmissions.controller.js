@@ -6,6 +6,14 @@ export default class StudentSubmissionsCtrl {
     Submission.getAll({'onlyInstructor': 'me', 'withStudents': true, 'withSection': true, 'withSectionCourse': true}, (submissions)=>{
       $scope.submissions = submissions;
     });
+    
+    $scope.refreshSubmissions = function() {
+      console.log($scope)
+      console.log('hi')
+      Submission.getAll({'onlyInstructor': 'me', 'withStudents': true, 'withSection': true, 'withSectionCourse': true}, (submissions)=>{
+        $scope.submissions = submissions;
+      });
+    }
 
     $scope.goToEvent = (event) => {
       $location.path("/events/" + event._id);
