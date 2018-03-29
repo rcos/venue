@@ -11,8 +11,18 @@ export default class NavbarComponent {
     this.isStudent = Auth.isStudentSync;
     this.isInstructor = Auth.isInstructorSync;
     this.getCurrentUser = Auth.getCurrentUserSync;
-
     this.isCollapsed = true;
+    this.newPath = "/";
+
+    // If the user is loggedin, clicking the logo will return them to them to their dashboard
+    if (this.isLoggedIn) {
+      if (this.isStudent) {
+        this.newPath = "/student/dashboard";
+      }
+      if (this.isInstructor) {
+        this.newPath = "/instructor/dashboard";
+      }
+    }
 
     this.help = () => {
         if (this.user.firstName && this.isStudent()){
@@ -23,6 +33,16 @@ export default class NavbarComponent {
             $window.location.href = "https://github.com/rcos/venue/wiki";
         }
     };
+
+    // this.redirect = () => {
+    //   if (this.user.firstName && this.isStudent()){
+    //       $window.location.href = "https://github.com/rcos/venue/wiki/Student-How-to";
+    //   }else if (this.isInstructor()){
+    //       $window.location.href = "https://github.com/rcos/venue/wiki/Instructor-How-to";
+    //   }else{
+    //       $window.location.href = "https://github.com/rcos/venue/wiki";
+    //   }
+    // }
   }
 
   isActive(route) {
