@@ -7,7 +7,7 @@ export default class MainController {
     $scope.isStudent = false;
     $scope.isInstructor = false;
     Auth.getCurrentUser((user) => {
-      $scope.user = user;
+      $scope.user = user; 
       $scope.loggedIn = Auth.isLoggedInSync();
       if ($scope.loggedIn) {
         $scope.isStudent = Auth.isStudentSync();
