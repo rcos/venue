@@ -30,7 +30,16 @@ export default angular.module('directives.submissionCard', [showImage])
           }
         });
       },
-      controller: function ($scope, $element) {
+      controller: function ($scope, $element, Submission) {
+        $scope.validateSubmission1 = function(s, event){
+          Submission.patch({
+            _id: s._id,
+            verified: true
+          }, (updatedSubmission) => {
+            s.verified = true;
+          });
+          event.stopPropagation();
+        };
       }
     };
   })

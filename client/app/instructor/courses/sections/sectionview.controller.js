@@ -8,8 +8,9 @@ export default class InstructorSectionViewCtrl implements OnInit{
   }
 
   /*@ngInject*/
-  constructor($scope, $location, $routeParams, Auth, Submission, Section) {
-
+  constructor($scope, $location, $routeParams, Auth, Course, Submission, Section) {
+    // This updates material lite with dynamic elements that otherwise aren't
+    // captured
     // Current event selected by instructor
     $scope.currentEventSelection = null;
 
@@ -40,6 +41,7 @@ export default class InstructorSectionViewCtrl implements OnInit{
         $location.path('courses/'+$routeParams.id+'/sections/'+$routeParams.sectionId);
       }
       loadPageSection();
+      loadCourse();
     });
 
     var findStudentSubmission = function(){
@@ -105,5 +107,37 @@ export default class InstructorSectionViewCtrl implements OnInit{
     $scope.selectStudent = function(student){
       $scope.selectedStudent = student;
     };
+
+    function loadCourse(){
+      var user = Auth.getCurrentUserSync().$promise;
+      if (user) {
+        user.then((user) => {
+          Course.get({
+            id: $routeParams.id,
+            studentid: user._id,
+            checkRoles: true
+          }, course => {
+            $scope.isSupervisor = course.roleDict['supervisor'];
+            $scope.isInstructor = course.roleDict['instructor'];
+            $scope.isStudent = course.roleDict['student'];
+          });
+        })
+      } else {
+        Course.get({
+          id: $routeParams.id,
+          checkRoles: true
+        }, course => {
+          $scope.isSupervisor = course.roleDict['supervisor'];
+          $scope.isInstructor = course.roleDict['instructor'];
+          $scope.isStudent = course.roleDict['student'];
+        });
+      }
+      
+    }
+
+  }
+
+  ngOnInit(): any {
+    componentHandler.upgradeDom();
   }
 }

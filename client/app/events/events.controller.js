@@ -1,10 +1,16 @@
 'use strict';
 export default class EventsCtrl {
   /*@ngInject*/
-  constructor($scope, $location, $routeParams, SectionEvent, Auth) {
+  constructor($scope, $location, $routeParams, SectionEvent, EventInfo, Auth, Submission, uiGmapGoogleMapApi, uiGmapIsReady) {  
     $scope.assignment = {};
     Auth.getCurrentUser((user) => {$scope.user = user});
     $scope.eventId = $routeParams.id;
+
+    Submission.getAll({
+      onlySectionEvent: $scope.eventId
+    }, (submissions) => {
+      $scope.submissions = submissions;
+    })
 
     $scope.sectionStudent = false;
     $scope.sectionInstructor = false;
@@ -29,7 +35,20 @@ export default class EventsCtrl {
           {
             $scope.sectionInstructor = true;
           }
-
+          $scope.eventCoords = [];
+          var lats = 0;
+          var lngs = 0;
+          var count = 0;
+          angular.forEach($scope.event.info.location.geobounds.coordinates[0][0], function(point) {
+            $scope.eventCoords.push({lat: point[1], lng: point[0]});
+            lats = lats + point[1];
+            lngs = lngs + point[0];
+            count = count + 1;
+          });
+          $scope.latAvg = lats/count;
+          $scope.lngAvg = lngs/count;
+          
+          $scope.mapInit();
         },
         err => {
           $scope.err = err;
@@ -98,5 +117,54 @@ export default class EventsCtrl {
           });
         }
       };
+    
+    // $scope.mapInit = function() {
+    //   $scope.map = {
+    //     control: {},
+    //     center: {
+    //       latitude:  $scope.latAvg,
+    //       longitude: $scope.lngAvg
+    //     },
+    //     zoom: 13,
+    //     dragging: false,
+    //     drawing: false,
+    //     bounds: {},
+    //     markers: [],
+    //     idkey: 'place_id',
+    //     options: {scrollwheel: false}
+    //   };
+    //   $scope.mapLoaded = true;
+    // }
+    // 
+    // uiGmapGoogleMapApi.then(function(maps) {
+    //   $scope.mapLoaded = true;
+    //   maps.visualRefresh = true;
+    //   uiGmapIsReady.promise()
+    //     .then(function(instances) {
+    //       var eventPoly = new google.maps.Polygon({
+    //         paths: $scope.eventCoords,
+    //         strokeColor: '#00ff00',
+    //         strokeOpacity: 0.8,
+    //         strokeWeight: 2,
+    //         fillColor: '#00ff00',
+    //         fillOpacity: 0.35
+    //       })
+    //       eventPoly.setMap(instances[0].map);
+    //       
+    //       angular.forEach($scope.submissions, (submission) => {
+    //         var submissionMarker = new google.maps.Marker({
+    //           position: {
+    //             lat: submission.location.geo.coordinates[1],
+    //             lng: submission.location.geo.coordinates[0]
+    //           },
+    //           map: instances[0].map,
+    //           title: submission.submitter.firstName + " " + submission.submitter.lastName
+    //         })
+    //       });
+    //       
+    //       
+    //     })
+    // });
+    
   }
 }

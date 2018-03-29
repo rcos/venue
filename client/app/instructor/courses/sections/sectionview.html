@@ -7,7 +7,6 @@
         <h4><a href="/login">Log in</a> to learn more</h4>
       </div>
     </div>
-
     <div class='row' ng-cloak>
       <uib-tabset active="active">
         <uib-tab index="0" heading="Information">
@@ -46,7 +45,7 @@
               <td class="text-left section-info">{{(section.enrollmentPolicy === "approvalRequired")?"approval":section.enrollmentPolicy}}</td>
             </tr>
           </table>
-          <a href="#" class="btn btn-default edit-section col-sm-2" ng-href="{{ viewEditSection() }}" role="button">Edit</a>
+          <a href="#" ng-show="isSupervisor" class="btn btn-default edit-section col-sm-2" ng-href="{{ viewEditSection() }}" role="button">Edit</a>
         </uib-tab>
         <uib-tab index="1" heading="Students">
 

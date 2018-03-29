@@ -6,6 +6,8 @@ import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import User from '../api/user/user.model';
+import Course from '../api/course/course.model';
+import Section from '../api/section/section.model';
 
 var validateJwt = expressJwt({
   secret: config.secrets.session
@@ -57,6 +59,53 @@ export function hasRole(roleRequired) {
         res.status(403).send('Forbidden');
       }
     });
+}
+
+/**
+ * Checks if user is supervisor of course, need course id in req body or req query
+ */
+export function isSupervisor(){
+    return compose()
+        .use(isAuthenticated())
+        .use(function meetsRequirements(req, res, next) {
+          var course_id;
+          console.log(req.params)
+          if (req.body.course || req.query.course) {
+            if (req.body.course) {
+              course_id = req.body.course;
+            } else {
+              course_id = req.query.course;
+            }
+            Course.findByIdAsync(course_id)
+              .then(course => {
+                if (!course) {
+                  return res.status(401).end();
+                }
+                if (course.supervisorId.equals(req.user._id) || req.user.role=='admin') {
+                  next();
+                }else{
+                  res.status(403).send('Forbidden');
+                }
+              })
+          } else { // if no course id is given in req
+            Section.findByIdAsync(req.params.id)
+              .then(section => {
+                console.log(section)
+                Course.findByIdAsync(section.course)
+                  .then(course => {
+                    console.log(course)
+                    if (!course) {
+                      return res.status(401).end();
+                    }
+                    if (course.supervisorId.equals(req.user._id) || req.user.role=='admin') {
+                      next();
+                    }else{
+                      res.status(403).send('Forbidden');
+                    }
+                  })
+              })
+          }
+        });
 }
 
 /**

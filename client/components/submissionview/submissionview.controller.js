@@ -13,6 +13,10 @@ export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, S
     $scope.selectedEvents = [];
     $scope.allEvents = {};
 
+    var submissionsWatch = $scope.$watch("$parent.$parent.$parent.submissions", function() {
+      $scope.submissions = $scope.$parent.$parent.$parent.submissions;        
+    });
+
     var updateSectionEvents = function(){
       if ($scope.eventId){
         SectionEvent.get({id: $scope.eventId, withEventInfo:true},(sectionEvent) => {
@@ -160,6 +164,15 @@ export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, S
           sub.content, sub.images.join(' ')])
         );
       return csv;
+    };
+    
+    $scope.validateSubmission = function(s){
+      Submission.patch({
+        _id: s._id,
+        verified: true
+      }, (updatedSubmission) => {
+        s.verified = true;
+      });
     };
 
     updateSectionEvents();

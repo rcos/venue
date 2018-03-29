@@ -171,7 +171,8 @@ describe('Section API:', function() {
       auth.instructor.request(app)
         .post('/api/sections')
         .send({
-          sectionNumbers: [1,2,3]
+          sectionNumbers: [1,2,3],
+          course: '000000000000000000000012'
         })
         .expect(201)
         .expect('Content-Type', /json/)
@@ -263,7 +264,7 @@ describe('Section API:', function() {
     var updatedSection
 
     beforeEach(function(done) {
-      auth.instructor.request(app)
+      auth.admin.request(app)
         .put('/api/sections/' + newSection._id)
         .send({
           sectionNumbers: [1,3,5]
@@ -291,8 +292,20 @@ describe('Section API:', function() {
 
   describe('DELETE /api/sections/:id', function() {
 
-    it('should respond with 204 on successful removal', function(done) {
+    it('should respond with 403 when instructor does not have permission', function(done) {
       auth.instructor.request(app)
+        .delete('/api/sections/' + newSection._id)
+        .expect(403)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+          done();
+        });
+    });
+    
+    it('should respond with 204 on successful removal', function(done) {
+      auth.admin.request(app)
         .delete('/api/sections/' + newSection._id)
         .expect(204)
         .end(function(err, res) {
@@ -301,7 +314,7 @@ describe('Section API:', function() {
           }
           done();
         });
-    });
+    });    
 
     it('should respond with 404 when section does not exist', function(done) {
       request(app)

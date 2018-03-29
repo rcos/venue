@@ -142,6 +142,7 @@ export function allCourses(){return {
       description : "This course is for testing new venue features.",
       active : true,
       semester : "Spring16",
+      supervisorId: allUsers().admin._id,
     },
     netArt:{
       name: 'Net Art',
@@ -151,6 +152,7 @@ export function allCourses(){return {
       description: "Net Art is a hands-on studio course that uses the examination of the historical and theoretical aspects of Web-based art and virtual social spaces as a launching pad for individual student work. Considerable work at the conceptual level and a survey of Web-oriented software and programming enable students to create new works in net-based art.",
       semester: "Fall15",
       active: false,
+      supervisorId: allUsers().bob._id,
       _id: mongoose.Types.ObjectId('000000000000000000000010'),
     },
     openSource:{
@@ -161,6 +163,7 @@ export function allCourses(){return {
       description: "The goal of this course is to provide a strong foundation in open source software development in preparation for jobs in industry or for more advanced courses. An important component of this course is participation in a community and contributing to an open source project. This course also provides an understanding of open source software tools and community, an understanding of open source licensing, an understanding of testing, version control, and open source software stacks. Students must come with a desire to learn new things, as well as the ability to adapt to open source tools and packages.",
       semester: "Spring15",
       active: true,
+      supervisorId: allUsers().bob._id,
       _id: mongoose.Types.ObjectId('000000000000000000000011'),
     },
     robotics:{
@@ -171,6 +174,7 @@ export function allCourses(){return {
       description: "Students will participate in the development of an artistic academic project comprised of an interconnected spherical robotic community dispersed and developed by different research units throughout the Americas.",
       semester: "Spring15",
       active: true,
+      supervisorId: allUsers().travis._id,
       _id: mongoose.Types.ObjectId('000000000000000000000012'),
     },
     art:{
@@ -181,6 +185,7 @@ export function allCourses(){return {
       description: "Through direct experience in the community, this course explores the complex roles and relationships of art, education and technology, students will develop a plan to work with a media arts center, community organization or school; final teams will produce real-world arts and education projects that ultimately will be realized as significant additions to their professional portfolio.  The projects can include a range from traditional arts practice to creative writing, creative IT models to community art and activism. We will examine diverse case studies, with special focus on the development and sustainability of a new local media arts center in Troy, the Sanctuary for Independent Media.  Students from a wide interdisciplinary range of studies are encouraged to enroll: a strong interest in how you can integrate creativity into your own knowledge base, and a desire to do field work in the community, are all that is required.",
       semester: "Spring15",
       active: true,
+      supervisorId: allUsers().travis._id,
       _id: mongoose.Types.ObjectId('000000000000000000000013'),
     },
     imaging:{
@@ -191,6 +196,7 @@ export function allCourses(){return {
       description: "This course introduces students to digital photography, web design, and interactive multimedia in making art. Students broaden their understanding of such topics as composition, effective use of images, color theory, typography, and narrative flow. Inquiry and experimentation are encouraged, leading towards the development of the skill and techniques needed to create visual art with electronic media.",
       semester: "Spring15",
       active: true,
+      supervisorId: allUsers().travis._id,
       _id: mongoose.Types.ObjectId('000000000000000000000014'),
     },
     materials:{
@@ -201,6 +207,7 @@ export function allCourses(){return {
       description: "This course establishes an understanding of the most common materials, their properties and resulting uses, and the implications of their uses in the larger context of material life cycles. The structural makeup of metals, ceramics, polymers, and composite materials is discovered and their resulting properties, costs, and life cycle consequences are clarified. An understanding of basic mechanical properties is established hands on by conducting tension, compression, and 3-point bending tests (mse-lab). Physical performance of material constructs as synergy between form and material properties is further illustrated. Experiments are conducted that introduce such major concepts as structural loading, properties of sections, and resulting system performance. Sustainability: The concept of life cycles is introduced; material and energy flows are tracked throughout the entire material life cycle. This will be accomplished alongside introducing major material groupings (metals, polymers, ceramics, and composites). Students come to realize that environmental concerns are directly related to structural composition and material availability. Consequences of resource extraction, distribution, manipulation, use, and disposal, reuse or recycle are addressed at both local and global scales. Selected field trips to materials extraction, processing, manufacturing, disposal, and recycling facilities are aimed to give physical meaning to the concept of life cycle.",
       semester: "Spring15",
       active: true,
+      supervisorId: allUsers().admin._id,
       _id: mongoose.Types.ObjectId('000000000000000000000015'),
     },
     designStudio:{
@@ -211,6 +218,7 @@ export function allCourses(){return {
       description: "Design studio introducing students from all disciplines to general design through a series of short projects.",
       semester: "Spring15",
       active: true,
+      supervisorId: allUsers().admin._id,
       _id: mongoose.Types.ObjectId('000000000000000000000016'),
     },
     citiesLands:{
@@ -221,6 +229,7 @@ export function allCourses(){return {
       description: "This lecture-seminar is an examination of the parallel historical formation and operation of human settlements.",
       semester: "Spring15",
       active: true,
+      supervisorId: allUsers().travis._id,
       _id: mongoose.Types.ObjectId('000000000000000000000017'),
     }
   };

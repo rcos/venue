@@ -3,25 +3,16 @@ export default class CourseViewCtrl {
 
   /*@ngInject*/
   constructor($scope, $location, $http, $routeParams, Auth, User, Course, Section) {
-    $scope.isStudent = false;
-    $scope.isInstructor = false;
-    Auth.getCurrentUser((user) => {
-      $scope.user = user;
-      if (user.hasOwnProperty('role')){
-        $scope.isStudent = (!Auth.isInstructorSync()) && Auth.isLoggedInSync();
-        $scope.isInstructor = Auth.isInstructorSync();
-      }
-      loadCourses();
-    });
+    loadCourse();
 
     $scope.enroll = function(section){
       User.enroll({_id: $scope.user._id, sectionid: section._id}, ()=>{
-        loadCourses();
+        loadCourse();
       })
     };
     $scope.unenroll = function(section){
       User.unenroll({_id: $scope.user._id, sectionid: section._id}, ()=>{
-        loadCourses();
+        loadCourse();
       })
     };
     $scope.editCourse = function(){
@@ -45,19 +36,46 @@ export default class CourseViewCtrl {
       return "/courses/"+ $routeParams.id + "/sections/create"
     };
 
-    function loadCourses(){
-      Course.get({
-        id: $routeParams.id,
-        withSections:true,
-        withSectionInstructors: true,
-        withSectionEnrollmentStatus: true,
-        studentid: $scope.user._id
-      }, course => {
-        $scope.course = course;
-        $scope.coursesLoaded = true;
-      }, () =>{
-        $location.path('/courses')
-      });
+    function loadCourse(){
+      var userPromise = Auth.getCurrentUserSync().$promise;
+      if (userPromise) {
+        userPromise.then((user) => {
+          Course.get({
+            id: $routeParams.id,
+            withSections:true,
+            withSectionInstructors: true,
+            withSectionEnrollmentStatus: true,
+            studentid: user._id,
+            checkRoles: true
+          }, course => {
+            $scope.course = course;
+            $scope.coursesLoaded = true;
+            $scope.isSupervisor = course.roleDict['supervisor'];
+            $scope.isInstructor = course.roleDict['instructor'];
+            $scope.isStudent = course.roleDict['student'];
+          }, () =>{
+            $location.path('/courses')
+          });
+        })
+      } else { // if user is not logged in
+        Course.get({
+          id: $routeParams.id,
+          withSections:true,
+          withSectionInstructors: true,
+          withSectionEnrollmentStatus: true,
+        }, course => {
+          $scope.course = course;
+          $scope.coursesLoaded = true;
+          $scope.isSupervisor = false;
+          $scope.isInstructor = false;
+          $scope.isStudent = false;
+        }, () =>{
+          $location.path('/courses')
+        });
+      }
+      
+      
+      
     }
 
   }

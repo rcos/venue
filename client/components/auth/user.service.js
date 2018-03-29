@@ -25,6 +25,14 @@ export function UserResource($resource) {
         controller: ''
       }
     },
+    getAllInstructors: {
+      method: 'GET',
+      params: {
+        id:'instructors',
+        controller: ''
+      },
+      isArray:true
+    },
     verify: {
       method: 'GET',
       params: {
