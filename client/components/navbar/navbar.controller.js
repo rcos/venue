@@ -14,7 +14,6 @@ export default class NavbarComponent {
     this.isCollapsed = true;
     this.newPath = "/";
 
-    // If the user is loggedin, clicking the logo will return them to them to their dashboard
     if (this.isLoggedIn) {
       if (this.isStudent) {
         this.newPath = "/student/dashboard";
@@ -33,16 +32,6 @@ export default class NavbarComponent {
             $window.location.href = "https://github.com/rcos/venue/wiki";
         }
     };
-
-    // this.redirect = () => {
-    //   if (this.user.firstName && this.isStudent()){
-    //       $window.location.href = "https://github.com/rcos/venue/wiki/Student-How-to";
-    //   }else if (this.isInstructor()){
-    //       $window.location.href = "https://github.com/rcos/venue/wiki/Instructor-How-to";
-    //   }else{
-    //       $window.location.href = "https://github.com/rcos/venue/wiki";
-    //   }
-    // }
   }
 
   isActive(route) {
