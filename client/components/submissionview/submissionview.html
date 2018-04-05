@@ -46,7 +46,7 @@
                 <div style='text-align:center'>
                   <i ng-show='submission.verified' class='fa fa-check verified' title="verified"  aria-hidden="true"></i>
                   <i ng-show='!submission.verified && submission.instructorVerification==="rejected"' class='fa fa-times rejected' title="rejected"  aria-hidden="true"></i>
-                  <i ng-show='!submission.verified && submission.instructorVerification==="none"' class='fa fa-ellipsis-h pending' title="verification pending" aria-hidden="true"></i>
+                  <i ng-show='!submission.verified && submission.instructorVerification==="none"' class='fa fa-exclamation-triangle pending' title="verification pending" aria-hidden="true"></i>
                 </div>
                 <a href="#" ng-show="!submission.verified" class="btn btn-primary btn-xs" ng-click="validateSubmission(submission)" role="button"> Validate </a>
               </div>
