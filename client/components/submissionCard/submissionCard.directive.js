@@ -30,7 +30,9 @@ export default angular.module('directives.submissionCard', [showImage])
           }
         });
       },
-      controller: function ($scope, $element, Submission) {
+      controller: function ($scope, $element, Submission, Auth) {
+        $scope.isInstructor = Auth.isInstructorSync();
+        
         $scope.validateSubmission1 = function(s, event){
           Submission.patch({
             _id: s._id,
