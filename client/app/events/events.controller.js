@@ -35,20 +35,20 @@ export default class EventsCtrl {
           {
             $scope.sectionInstructor = true;
           }
-          $scope.eventCoords = [];
-          var lats = 0;
-          var lngs = 0;
-          var count = 0;
-          angular.forEach($scope.event.info.location.geobounds.coordinates[0][0], function(point) {
-            $scope.eventCoords.push({lat: point[1], lng: point[0]});
-            lats = lats + point[1];
-            lngs = lngs + point[0];
-            count = count + 1;
-          });
-          $scope.latAvg = lats/count;
-          $scope.lngAvg = lngs/count;
-          
-          $scope.mapInit();
+          // $scope.eventCoords = [];
+          // var lats = 0;
+          // var lngs = 0;
+          // var count = 0;
+          // angular.forEach($scope.event.info.location.geobounds.coordinates[0][0], function(point) {
+          //   $scope.eventCoords.push({lat: point[1], lng: point[0]});
+          //   lats = lats + point[1];
+          //   lngs = lngs + point[0];
+          //   count = count + 1;
+          // });
+          // $scope.latAvg = lats/count;
+          // $scope.lngAvg = lngs/count;
+          // 
+          // $scope.mapInit();
         },
         err => {
           $scope.err = err;
