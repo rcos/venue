@@ -48,10 +48,10 @@
       A course description is required
     </p>
   </div>
-  
+
   <div class="form-group" ng-if="isSupervisor">
     <label>Course Supervisor</label><br>
-    
+
     <a class="list-group-item" style="margin-bottom:10px; width:300px;">{{supervisor.name}}</a>
 
     <div class="instructor-add-field">
@@ -67,9 +67,9 @@
     </div>
 
   </div>
-  
-  
-  
+
+
+
 
   <div class="form-group" ng-class="{ 'has-error': submitted && !file}">
     <label>Course Image</label>
@@ -78,6 +78,7 @@
       ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false"
       accept="image/*"
       ngf-pattern="'image/*'">Drop images here or click to upload</div>
+
     <p class="help-block" ng-show="!file && submitted">
       An course image is required
     </p>
@@ -92,6 +93,10 @@
       <img ngf-src="course.imageURLs[0]" width = {{imgWidth}}/>
     </div>
   </div>
+
+  <b>CSV File</b> <input type="file" id="csvfile"><br />
+  <button id="submitbutton" type="button">read.csv</button>
+  <pre><code id="output"></code></pre>
 
   <div>
     <button class="btn btn-primary btn-lg btn-register" type="submit">
@@ -111,3 +116,35 @@
     <a ng-href='/courses/{{course._id}}'>Return to the coursepage</a>
   </div>
 </div>
+
+<script type="text/javascript">
+//because read.csv is in utils
+ocpu.seturl("//public.opencpu.org/ocpu/library/utils/R");
+
+//actual handler
+$("#submitbutton").on("click", function(){
+
+  //arguments
+  var myheader = $("#header").val() == "true";
+  var myfile = $("#csvfile")[0].files[0];
+
+  if(!myfile){
+      alert("No file selected.");
+      return;
+  }
+
+  // disable the button during upload
+  $("#submitbutton").attr("disabled", "disabled");
+
+  // //perform the request
+  var req = ocpu.call("read.csv", {
+      "file" : myfile,
+      "header" : myheader
+  }, function(session){
+      session.getConsole(function(outtxt){
+          $("#output").text(outtxt);
+      });
+    });
+  });
+
+  </script>
