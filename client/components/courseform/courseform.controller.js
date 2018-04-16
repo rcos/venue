@@ -3,10 +3,10 @@ export function CourseFormCtrl ($scope, Auth, Course, Upload, User){
     "ngInject";
     $scope.courseCreated = false;
     $scope.prevSearchText = "";
-    
+
     Auth.getCurrentUser((user) => {
       $scope.user = user;
-      
+
         User.getAllInstructors({
           validOnly: true
         }, allInstructors => {
@@ -39,10 +39,10 @@ export function CourseFormCtrl ($scope, Auth, Course, Upload, User){
               }
             });
           }
-          
+
         });
     });
-    
+
     $scope.submitForm = (form)=>{
         $scope.submitted = true;
         if (form.$valid) {
@@ -96,7 +96,7 @@ export function CourseFormCtrl ($scope, Auth, Course, Upload, User){
       // searchText is the input string
       $scope.showAddButton = false;
       $scope.showInstructorList = searchText.length > 0;
-      
+
       if (searchText.length > $scope.prevSearchText.length) {
         $scope.newFilteredInstructors = [];
         angular.forEach($scope.filteredInstructors, function(instructor){
@@ -132,5 +132,46 @@ export function CourseFormCtrl ($scope, Auth, Course, Upload, User){
       $scope.showAddButton = false;
       $scope.searchText = "";
     }
-    
+
+    $scope.viewCSV = function() {
+      //because read.csv is in utils
+      ocpu.seturl("//public.opencpu.org/ocpu/library/utils/R")
+
+      //actual handler
+      $("#submitbutton").on("click", function(){
+
+          //arguments
+          var myheader = $("#header").val() == "true";
+          var myfile = $("#csvfile")[0].files[0];
+
+          if(!myfile){
+              alert("No file selected.");
+              return;
+          }
+
+          //disable the button during upload
+          $("#submitbutton").attr("disabled", "disabled");
+
+          //perform the request
+          var req = ocpu.call("read.csv", {
+              "file" : myfile,
+              "header" : myheader
+          }, function(session){
+              session.getConsole(function(outtxt){
+                  $("#output").text(outtxt);
+              });
+          });
+
+          //if R returns an error, alert the error message
+          req.fail(function(){
+              alert("Server error: " + req.responseText);
+          });
+
+          //after request complete, re-enable the button
+          req.always(function(){
+              $("#submitbutton").removeAttr("disabled");
+          });
+      });
+    }
+
   };

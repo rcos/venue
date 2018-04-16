@@ -94,10 +94,6 @@
     </div>
   </div>
 
-  <b>CSV File</b> <input type="file" id="csvfile" accept=".csv"><br />
-  <button id="submitbutton" type="button">read.csv</button>
-  <pre><code id="output"></code></pre>
-
   <div>
     <button class="btn btn-primary btn-lg btn-register" type="submit">
       {{updating ? "Update Course" : "Create Course"}}
@@ -116,35 +112,3 @@
     <a ng-href='/courses/{{course._id}}'>Return to the coursepage</a>
   </div>
 </div>
-
-<script type="text/javascript">
-//because read.csv is in utils
-ocpu.seturl("//public.opencpu.org/ocpu/library/utils/R");
-
-//actual handler
-$("#submitbutton").on("click", function(){
-
-  //arguments
-  var myheader = $("#header").val() == "true";
-  var myfile = $("#csvfile")[0].files[0];
-
-  if(!myfile){
-      alert("No file selected.");
-      return;
-  }
-
-  // disable the button during upload
-  $("#submitbutton").attr("disabled", "disabled");
-
-  // //perform the request
-  var req = ocpu.call("read.csv", {
-      "file" : myfile,
-      "header" : myheader
-  }, function(session){
-      session.getConsole(function(outtxt){
-          $("#output").text(outtxt);
-      });
-    });
-  });
-
-  </script>

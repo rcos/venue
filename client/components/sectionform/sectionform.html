@@ -20,19 +20,19 @@
         <ul class="list-group">
           <p ng-show="!currentInstructors.length">No Instructors</p>
           <div ng-repeat="instructor in currentInstructors = (allInstructors | filter:{inSection:true} | orderBy:'orderNum')">
-            <li ng-show="isSupervisor" 
-                style="margin-bottom:5px; width:300px;" 
+            <li ng-show="isSupervisor"
+                style="margin-bottom:5px; width:300px;"
                 class="list-group-item">
               {{instructor.name}}
               <span class="pull-right">
-                <button type="button" 
+                <button type="button"
                     style="color: red; outline: none; border: 0; background: transparent;"
-                    class="glyphicon glyphicon-remove" 
+                    class="glyphicon glyphicon-remove"
                     ng-click="removeCurrent(instructor)"/>
               </span>
             </li>
-            <li ng-show="!isSupervisor" 
-                style="margin-bottom:5px; width:300px; opacity:0.6" 
+            <li ng-show="!isSupervisor"
+                style="margin-bottom:5px; width:300px; opacity:0.6"
                 class="list-group-item">
               {{instructor.name}}
             </li>
@@ -45,10 +45,10 @@
             <div class="instructor-add-input">
               <input type="text" ng-model="searchText" ng-keyup="filterSearch(searchText)" class="form-control"/>
               <div class="list-group">
-                <a class="list-group-item" 
-                    style="color:black;" 
-                    ng-show="showInstructorList" 
-                    ng-click="selectInstructor(instructor)" 
+                <a class="list-group-item"
+                    style="color:black;"
+                    ng-show="showInstructorList"
+                    ng-click="selectInstructor(instructor)"
                     ng-repeat="instructor in filteredInstructors | limitTo:5 | filter:{inSection:false} | orderBy:'name'">
                   {{instructor.name}}
                 </a>
@@ -59,7 +59,19 @@
             </div>
           </div>
         </div>
-        
+
+      </div>
+
+      <div class="form-group">
+        <label>Import Users (.csv)</label>
+        <div ngf-drop ngf-select ng-model="file" class="drop-box"
+            ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false"
+            accept=".csv"
+            ngf-pattern="*.csv">Drop a .csv or click to upload</div>
+        <div style="font:smaller">
+          {{file.name}} {{file.$error}} {{file.$errorParam}}
+          <br/>
+        </div>
       </div>
 
       <div class="form-group" ng-class="{ 'has-success': section.enrollmentPolicy && submitted,
