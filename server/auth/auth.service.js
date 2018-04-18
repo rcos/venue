@@ -8,6 +8,7 @@ import compose from 'composable-middleware';
 import User from '../api/user/user.model';
 import Course from '../api/course/course.model';
 import Section from '../api/section/section.model';
+import Submission from '../api/submission/submission.model';
 
 var validateJwt = expressJwt({
   secret: config.secrets.session
@@ -62,15 +63,14 @@ export function hasRole(roleRequired) {
 }
 
 /**
- * Checks if user is supervisor of course, need course id in req body or req query
+ * Checks if user is supervisor of course, need course id or section id in req body or req query
  */
 export function isSupervisor(){
     return compose()
         .use(isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
-          var course_id;
-          console.log(req.params)
           if (req.body.course || req.query.course) {
+            var course_id;
             if (req.body.course) {
               course_id = req.body.course;
             } else {
@@ -107,6 +107,50 @@ export function isSupervisor(){
           }
         });
 }
+
+/**
+ * Checks if user is an instructor of a course, need course id in req body or req query
+ */
+export function isCourseInstructor(){
+    return compose()
+        .use(isAuthenticated())
+        .use(function meetsRequirements(req, res, next) {
+            if (!req.user.isInstructor) {
+              res.status(403).send('Forbidden');
+            }
+            var userId = req.user._id;
+            console.log(req)
+            if (req.baseUrl === '/api/submissions') {
+              if (req.body._id) {
+                Submission.findByIdAsync(req.body._id)
+                  .then(submission => {
+                    
+                    console.log(submission)
+                  })
+              }
+            }
+            
+            if (req.user.isInstructor){
+              
+              }
+              
+              // console.log(req.body)
+              // console.log(req.query)
+              // if (req.body.course || req.query.course) {
+              //   var course_id = req.body.course ? req.body.course : req.query.course;
+              //   Section.findAsync({course:this._id})
+              //     .then(sections => {
+              //       console.log(sections)
+              //       res.status(403).send('Forbidden');
+              //     })
+              // }  
+              next();
+            }
+        });
+}
+
+
+
 
 /**
  * Checks if user is an instructor
