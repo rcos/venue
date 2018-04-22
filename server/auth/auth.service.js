@@ -9,6 +9,7 @@ import User from '../api/user/user.model';
 import Course from '../api/course/course.model';
 import Section from '../api/section/section.model';
 import Submission from '../api/submission/submission.model';
+import SectionEvent from '../api/sectionevent/sectionevent.model'
 
 var validateJwt = expressJwt({
   secret: config.secrets.session
@@ -69,82 +70,85 @@ export function isSupervisor(){
     return compose()
         .use(isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
+          if (!req.user.isInstructor)
+            res.status(403).send('Forbidden');
           if (req.body.course || req.query.course) {
-            var course_id;
-            if (req.body.course) {
-              course_id = req.body.course;
-            } else {
-              course_id = req.query.course;
-            }
+            var course_id = req.body.course ? req.body.course : req.query.course;
             Course.findByIdAsync(course_id)
               .then(course => {
-                if (!course) {
+                if (!course) 
                   return res.status(401).end();
-                }
-                if (course.supervisorId.equals(req.user._id) || req.user.role=='admin') {
-                  next();
-                }else{
-                  res.status(403).send('Forbidden');
-                }
+                if (!(course.supervisorId.equals(req.user._id) || req.user.role=='admin'))
+                  return res.status(403).send('Forbidden');
+                next();
               })
           } else { // if no course id is given in req
             Section.findByIdAsync(req.params.id)
               .then(section => {
-                console.log(section)
                 Course.findByIdAsync(section.course)
                   .then(course => {
-                    console.log(course)
-                    if (!course) {
+                    if (!course)
                       return res.status(401).end();
-                    }
-                    if (course.supervisorId.equals(req.user._id) || req.user.role=='admin') {
-                      next();
-                    }else{
-                      res.status(403).send('Forbidden');
-                    }
+                    if (!(course.supervisorId.equals(req.user._id) || req.user.role=='admin'))
+                      return res.status(403).send('Forbidden');
+                    next();
                   })
               })
           }
         });
 }
 
+function isInstructorInSection(userId, sectionId) {
+  return Section.findByIdAsync(sectionId)
+    .then(section => {
+      var isInstructor = false;
+      section.instructors.forEach(function(instructorId) {
+        if (instructorId.equals(userId))
+          isInstructor = true;
+      })
+      return isInstructor;
+  }).catch(err => next(err));
+}
+
 /**
- * Checks if user is an instructor of a course, need course id in req body or req query
+ * Checks if user is an instructor of a course
  */
 export function isCourseInstructor(){
     return compose()
         .use(isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
-            if (!req.user.isInstructor) {
+            if (!req.user.isInstructor)
               res.status(403).send('Forbidden');
-            }
             var userId = req.user._id;
-            console.log(req)
-            if (req.baseUrl === '/api/submissions') {
+            if (req.baseUrl == '/api/submissions') {
               if (req.body._id) {
                 Submission.findByIdAsync(req.body._id)
                   .then(submission => {
-                    
-                    console.log(submission)
-                  })
+                    SectionEvent.findByIdAsync(submission.sectionEvent)
+                      .then(sectionEvent => {
+                        isInstructorInSection(userId, sectionEvent.section)
+                          .then(inSection => {
+                            if (!inSection) {
+                              res.status(403).send('Forbidden');
+                            } else {
+                              next();
+                            }
+                          }).catch(err => next(err));
+                    }).catch(err => next(err));
+                }).catch(err => next(err));
               }
-            }
-            
-            if (req.user.isInstructor){
-              
-              }
-              
-              // console.log(req.body)
-              // console.log(req.query)
-              // if (req.body.course || req.query.course) {
-              //   var course_id = req.body.course ? req.body.course : req.query.course;
-              //   Section.findAsync({course:this._id})
-              //     .then(sections => {
-              //       console.log(sections)
-              //       res.status(403).send('Forbidden');
-              //     })
-              // }  
-              next();
+            } else if (req.baseUrl == '/api/sectionevents') {
+              SectionEvent.findByIdAsync(req.params.id)
+                .then(sectionEvent => {
+                  isInstructorInSection(userId, sectionEvent.section)
+                    .then(inSection => {
+                      if (!inSection) {
+                        res.status(403).send('Forbidden');
+                      } else {
+                        next();
+                      }
+                    }).catch(err => next(err));
+              }).catch(err => next(err));
             }
         });
 }

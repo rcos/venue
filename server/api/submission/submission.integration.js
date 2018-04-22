@@ -203,6 +203,53 @@ describe('Submission API:', function() {
     });
 
   });
+  
+  describe('PATCH /api/submissions/:id', function() {
+    beforeEach(function(done) {
+      auth.instructor1.request(app)
+        .patch('/api/submissions/' + newSubmission._id)
+        .send({
+          verified: true
+        })
+        .expect(403)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+          done();
+        });
+    });
+  });
+  
+  describe('PATCH /api/submissions/:id', function() {
+    var updatedSubmission
+
+    beforeEach(function(done) {
+      auth.instructor.request(app)
+        .patch('/api/submissions/' + newSubmission._id)
+        .send({
+          _id: newSubmission._id,
+          verified: true
+        })
+        .expect(200)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+          updatedSubmission = res.body;
+          done();
+        });
+    });
+
+    afterEach(function() {
+      updatedSubmission = {};
+    });
+
+    it('should respond with the updated submission', function() {
+      expect(updatedSubmission.verified).to.equal(true);
+    });
+  });
+   
 
   describe('DELETE /api/submissions/:id', function() {
 
