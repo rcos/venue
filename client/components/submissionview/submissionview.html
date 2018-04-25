@@ -46,9 +46,9 @@
                 <div style='text-align:center'>
                   <i ng-show='submission.verified' class='fa fa-check verified' title="verified"  aria-hidden="true"></i>
                   <i ng-show='!submission.verified && submission.instructorVerification==="rejected"' class='fa fa-times rejected' title="rejected"  aria-hidden="true"></i>
-                  <i ng-show='!submission.verified && submission.instructorVerification==="none"' class='fa fa-ellipsis-h pending' title="verification pending" aria-hidden="true"></i>
+                  <i ng-show='!submission.verified && submission.instructorVerification==="none"' class='fa fa-hourglass pending' title="verification pending" aria-hidden="true"></i>
                 </div>
-                <a href="#" ng-show="!submission.verified" class="btn btn-primary btn-xs" ng-click="validateSubmission(submission)" role="button"> Validate </a>
+                <a href="#" ng-show="!submission.verified" class="btn btn-primary btn-xs" ng-click="validateSubmission(submission)" role="button" type="button"> Validate </a>
               </div>
               
 
@@ -82,7 +82,7 @@
                     {{ submission.didNotSubmit ? "Not Submitted" : "Submitted" }} |
                     <i ng-show='submission.verified' class='fa fa-check verified' title="verified"  aria-hidden="true"></i>
                     <i ng-show='!submission.verified && submission.instructorVerification==="rejected"' class='fa fa-times rejected' title="rejected"  aria-hidden="true"></i>
-                    <i ng-show='!submission.verified && submission.instructorVerification==="none"' class='fa fa-ellipsis-h pending' title="verification pending" aria-hidden="true"></i>                    Validated |
+                    <i ng-show='!submission.verified && submission.instructorVerification==="none"' class='fa fa-hourglass pending' title="verification pending" aria-hidden="true"></i>                    Validated |
                     {{ submission.sectionEvent.section.course.department }}
                     {{ submission.sectionEvent.section.course.courseNumber }}
                   </div>
