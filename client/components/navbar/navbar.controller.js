@@ -11,8 +11,17 @@ export default class NavbarComponent {
     this.isStudent = Auth.isStudentSync;
     this.isInstructor = Auth.isInstructorSync;
     this.getCurrentUser = Auth.getCurrentUserSync;
-
     this.isCollapsed = true;
+    this.newPath = "/";
+
+    if (this.isLoggedIn) {
+      if (this.isStudent) {
+        this.newPath = "/student/dashboard";
+      }
+      if (this.isInstructor) {
+        this.newPath = "/instructor/dashboard";
+      }
+    }
 
     this.help = () => {
         if (this.user.firstName && this.isStudent()){
