@@ -15,7 +15,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
         $scope.isInstructor = course.roleDict['instructor'];
         $scope.isStudent = course.roleDict['student'];
         $scope.course = course;
-
+        
         if(!$scope.creating){
           setCurrentSection();
           var instructorDict = {};
@@ -46,7 +46,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
             return instructor;
           });
         });
-
+        
       });
 
     });
@@ -68,15 +68,6 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
     $scope.submitForm = (form)=>{
       $scope.submitted = true;
       var sectionNumbers = $scope.section.sectionNumbersText.split(',').map(Number);
-
-      var file = $scope.file;
-      var reader = new FileReader();
-      reader.readAsText(file);
-      reader.onload = function(event){
-       var data = event.target.result.split(/\r\n|\n/);
-       
-      }
-
       angular.forEach(sectionNumbers, function(sectionNum) {
         var section = {
           course: $scope.course._id,
@@ -129,7 +120,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       // searchText is the input string
       $scope.showAddButton = false;
       $scope.showInstructorList = searchText.length > 0;
-
+      
       if (searchText.length > $scope.prevSearchText.length) {
         $scope.newFilteredInstructors = [];
         angular.forEach($scope.filteredInstructors, function(instructor){
