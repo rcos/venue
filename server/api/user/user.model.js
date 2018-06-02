@@ -28,6 +28,7 @@ var UserSchema = new Schema({
   },
   isInstructor: Boolean,
   isVerified: Boolean,
+  isTAFor: [{course: {type : Schema.Types.ObjectId, ref: 'Course'}}],
   password: {
     type: String,
     select: false
@@ -86,6 +87,13 @@ UserSchema
     .set(function(isStudent){
         this.isInstructor = !isStudent;
     });
+
+UserSchema
+  .virtual('isTA')
+  .get(function(c) {
+    return this.TAFor.find(course =>
+      course.courseNumber === c.courseNumber);
+  })
 
 // Non-sensitive info we'll be putting in the token
 UserSchema

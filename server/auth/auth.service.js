@@ -69,7 +69,6 @@ export function isSupervisor(){
         .use(isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
           var course_id;
-          console.log(req.params)
           if (req.body.course || req.query.course) {
             if (req.body.course) {
               course_id = req.body.course;
@@ -90,10 +89,8 @@ export function isSupervisor(){
           } else { // if no course id is given in req
             Section.findByIdAsync(req.params.id)
               .then(section => {
-                console.log(section)
                 Course.findByIdAsync(section.course)
                   .then(course => {
-                    console.log(course)
                     if (!course) {
                       return res.status(401).end();
                     }
@@ -137,6 +134,23 @@ export function isStudent(){
             }
         });
 }
+
+/**
+ * Checks if a user is a TA for a course
+ */
+export function isTA(){
+  return compose()
+    .use(isAuthenticated())
+    .use(function meetsRequirements(req,res,next){
+      if(!req.user.isStudent && !req.user.isInstructor){
+        next();
+      }else{
+        res.status(403).send('Forbidden');
+      }
+    });
+}
+
+
 
 /**
  * Returns a jwt token signed by the app secret
