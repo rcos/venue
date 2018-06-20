@@ -305,7 +305,7 @@ describe('Section API:', function() {
     });
     
     it('should respond with 204 on successful removal', function(done) {
-      auth.admin.request(app)
+      auth.instructor1.request(app)
         .delete('/api/sections/' + newSection._id)
         .expect(204)
         .end(function(err, res) {
