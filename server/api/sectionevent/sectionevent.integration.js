@@ -282,6 +282,18 @@ describe('SectionEvent API:', function() {
 
   describe('DELETE /api/sectionevents/:id', function() {
 
+    it('should respond with 403 when instructor is not in section', function(done) {
+      auth.instructor1.request(app)
+        .delete('/api/sectionevents/' + newSectionEvent._id)
+        .expect(403)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+          done();
+        });
+    });
+
     it('should respond with 204 on successful removal', function(done) {
       auth.instructor.request(app)
         .delete('/api/sectionevents/' + newSectionEvent._id)
