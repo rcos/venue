@@ -18,8 +18,12 @@ var adminAccount = {
     "email": "admin@admin.com",
     "password": "admin"
 };
+var instructor1Account = {
+  "email": "travis@travis.com",
+  "password": "travis"
+};
 
-var studentAuth = {}, instructorAuth = {}, adminAuth = {};
+var studentAuth = {}, instructorAuth = {}, instructor1Auth = {}, adminAuth = {};
 
 module.exports.init = () => {
     return Promise.all([
@@ -31,6 +35,11 @@ module.exports.init = () => {
         getAuth(instructorAccount).then((auth) => {
             instructorAuth.cookie = auth.cookie;
             instructorAuth.token = auth.token;
+            return Promise.resolve();
+        }),
+        getAuth(instructor1Account).then((auth) => {
+            instructor1Auth.cookie = auth.cookie;
+            instructor1Auth.token = auth.token;
             return Promise.resolve();
         }),
         getAuth(adminAccount).then((auth) =>  {
@@ -61,6 +70,7 @@ function authRequest(auth){
 
 module.exports.student = { request: authRequest(studentAuth) };
 module.exports.instructor = { request: authRequest(instructorAuth) };
+module.exports.instructor1 = { request: authRequest(instructor1Auth) };
 module.exports.admin = { request: authRequest(adminAuth) };
 
 function getAuth(account){
