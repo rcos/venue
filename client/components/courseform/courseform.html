@@ -68,14 +68,6 @@
 
   </div>
 
-  <div class="form-group">
-    <label>Teaching Assistants </label>
-
-    <div class="existingta-show" ng-if="taExists" ng-repeat="ta in assistants">
-      <<a class="list-group-item" style="margin-bottom:10px; width:300px;">{{ta.name}}</a>
-    </div>
-
-  </div>
 
   <div class="form-group" ng-class="{ 'has-error': submitted && !file}">
     <label>Course Image</label>

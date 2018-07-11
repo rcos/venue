@@ -2,6 +2,7 @@
 export function SectionFormController($scope, $location, $routeParams, $filter, Auth, User, Course, Section){
     "ngInject";
     $scope.prevSearchText = "";
+    $scope.prevTASearchText = "";
     Auth.getCurrentUser((user) => {
       $scope.creating = $scope.updating != "true";
       $scope.user = user;
@@ -60,6 +61,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       });
       $scope.section = $scope.course.sections.splice(currentSection, 1)[0];
       $scope.section.sectionNumbersText = $scope.section.sectionNumbers.toString();
+      $scope.section.assistants = $scope.section.teachingAssistants.
       $scope.$watch('section.sectionNumbers', function(newValue, oldValue) {
         $scope.section.sectionNumbersText = $scope.section.sectionNumbers.toString();
       });
@@ -138,6 +140,32 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
         });
       }
       $scope.prevSearchText = searchText;
+    }
+
+    $scope.filterTASearch = function(searchTA){
+      //Creates an array of students that match the input string
+      //searchText is the input string
+      $scope.addTA = false;
+      $scope.showStudentList = searchTA.length > 0;
+      if (searchTA.length > $scope.prevTASearchText.length) { 
+        $scope.newFilteredStudents = [];
+        angular.forEach($scope.filteredStudents, function(student){
+          if(student.name.toLowerCase().indexOf(searchTA.toLowerCase()) >= 0){
+            $scope.newFilteredStudents.push(student);
+          }
+        });
+        $scope.filteredStudents = $scope.newFilteredStudents;
+      } else {
+        $scope.filteredStudents= [];
+        angular.forEach($scope.allStudents, function(student){
+          if(student.name.toLowerCase().indexOf(searchTA.toLowerCase()) >= 0){
+            $scope.filteredStudents.push(student);
+          }
+        });
+      }
+      $scope.prevTASearchText = searchTA;
+
+
     }
 
     $scope.selectInstructor = function(instructor){

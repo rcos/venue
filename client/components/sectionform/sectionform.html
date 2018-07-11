@@ -59,8 +59,40 @@
             </div>
           </div>
         </div>
-        
-      </div>
+
+       <!--  <label>Teaching Assistants </label>
+        <ul class="list-group">
+          <p ng-show="!currentTAs.length">No Teaching Assistants</p>
+           <div ng-repeat="ta in assistants = (allInstructors | filter:{inSection:true} | orderBy:'orderNum')">
+            <li ng-show="isSupervisor" 
+                style="margin-bottom:5px; width:300px;" 
+                class="list-group-item">
+                <input type="text" ng-model="searchText" ng-keyup="filterSearch(searchText)" class="form-control"/>
+              {{currentTAs.name}}
+             
+            </li>
+          </ul>
+
+          <label> Add Teaching Assistants </label>
+          <div class="ta-add-field">
+            <div class="ta-add-input">
+              <input type="text" ng-model="searchTA" ng-keyup="filterTASearch(searchTA)" class="form-control"/>
+              <div class="list-group">
+                <a class="list-group-item" 
+                    style="color:black;" 
+                    ng-show="showTAList" 
+                    ng-click="selectTA(ta)" 
+                    ng-repeat="student in filteredStudents | limitTo:5 | filter:{inSection:true} | orderBy:'name'">
+                  {{student.name}}
+                </a>
+              </div>
+            </div>
+            <div class="instructor-add-button">
+              <button class="btn btn-primary" type="button" ng-click="addInstructor()" ng-show="showAddButton">Add</button>
+            </div>
+          </div>
+ -->
+          
 
       <div class="form-group" ng-class="{ 'has-success': section.enrollmentPolicy && submitted,
       'has-error': !section.enrollmentPolicy && submitted }">
