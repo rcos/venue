@@ -61,7 +61,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       });
       $scope.section = $scope.course.sections.splice(currentSection, 1)[0];
       $scope.section.sectionNumbersText = $scope.section.sectionNumbers.toString();
-      $scope.section.assistants = $scope.section.teachingAssistants.
+      $scope.section.assistants = $scope.section.teachingAssistants;
       $scope.$watch('section.sectionNumbers', function(newValue, oldValue) {
         $scope.section.sectionNumbersText = $scope.section.sectionNumbers.toString();
       });
@@ -176,6 +176,12 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       $scope.showInstructorList = false;
     }
 
+    $scope.selectTA = function(ta){
+      //Select a teachin assistant
+      $scope.searchTA = student.TA;
+      $scope.show
+    }
+
     $scope.addInstructor = function(){
       // Add the selected instructor to the section
       $scope.loadedInstructor.inSection = true;
@@ -183,6 +189,11 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       $scope.instructorCount += 1;
       $scope.searchText = "";
       $scope.showAddButton = false;
+    }
+
+    $scope.addTA = function(){
+      // Makes the selected stuent a teaching assistant
+      
     }
 
     $scope.deleteSection = (section) => {
