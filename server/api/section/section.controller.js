@@ -119,6 +119,20 @@ export async function index(req, res, next) {
     }
 };
 
+//Gets the profiles of all users in the section
+export async function getStudentInfo(req,res,next){
+  var sectionId = req.params.id;
+  var students = await Section.findById(sectionId).students;
+  console.log(students);
+  if (!students) return res.status(404).end();
+  var studentProfile = []
+  for(i = 0; i < len(students); i++){
+    var profile = User.findById(students[i]);
+    studentProfile.append(profile);
+  }  
+  return res.json(studentProfile);
+};
+
 // Gets a list of Sections for a user
 export async function userSections(req, res, next) {
   try{

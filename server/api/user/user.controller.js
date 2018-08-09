@@ -84,6 +84,19 @@ export function indexInstructors(req, res) {
 }
 
 /**
+* Get list of students in a given course and section
+*restriction: 'student'
+*/
+export function indexStudents(req,res){
+  //console.log(req)
+  
+  User.findAsync({isStudent: true})
+  .then(users => {
+    res.status(200).json(users);
+  })
+  .catch(handleError(res));
+}
+/**
  * Creates a new user
  */
 export function create(req, res, next) {
