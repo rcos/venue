@@ -26,13 +26,23 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
         }
         $scope.instructorCount = 1;
 
-        Section.getStudentInfo((studentInfo) => {
-          $scope.allStudents = studentInfo
+
+      
+
+        Section.getStudentInfo({
+          id: $scope.section._id
+        }, (allStudents) => {
+          allStudents = $filter('orderBy')(allStudents, 'firstName+lastName');
+          console.log(allStudents)
+          $scope.allStudents = allStudents.map(student => {
+            student.name = student.firstName + " " + student.lastName;
+            return student;
+
+          })
+          
         });
 
         
-        
-
        
         User.getAllInstructors({
           validOnly: true
@@ -131,6 +141,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       // searchText is the input string
       $scope.showAddButton = false;
       $scope.showInstructorList = searchText.length > 0;
+      console.log($scope.showInstructorList)
       
       if (searchText.length > $scope.prevSearchText.length) {
         $scope.newFilteredInstructors = [];
@@ -149,30 +160,43 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
           }
         });
       }
+      console.log($scope.filteredInstructors)
       $scope.prevSearchText = searchText;
     }
 
     $scope.filterTASearch = function(searchTA){
+
       //Creates an array of students that match the input string
       //searchText is the input string
+
       $scope.addTA = false;
       $scope.showStudentList = searchTA.length > 0;
+      console.log($scope.showStudentList)
+
       if (searchTA.length > $scope.prevTASearchText.length) { 
+        console.log("new filter!")
         $scope.newFilteredStudents = [];
+        console.log($scope.filteredStudents)
         angular.forEach($scope.filteredStudents, function(student){
           if(student.name.toLowerCase().indexOf(searchTA.toLowerCase()) >= 0){
             $scope.newFilteredStudents.push(student);
           }
         });
+        
         $scope.filteredStudents = $scope.newFilteredStudents;
-      } else {
+        
         $scope.filteredStudents= [];
+        
         angular.forEach($scope.allStudents, function(student){
+          console.log(student)
           if(student.name.toLowerCase().indexOf(searchTA.toLowerCase()) >= 0){
+
             $scope.filteredStudents.push(student);
           }
+
         });
       }
+      console.log($scope.filteredStudents)
       $scope.prevTASearchText = searchTA;
 
     }

@@ -16,9 +16,9 @@ export function SectionResource($resource) {
       getStudentInfo: {
         method: 'GET',
         params:{
-          controller:'getStudents'
+          controller:'getStudentInfo'
         },
-        isArray:true
+        isArray: true
       },
       fullEvents: {
         method: 'GET',

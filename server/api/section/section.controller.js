@@ -121,15 +121,23 @@ export async function index(req, res, next) {
 
 //Gets the profiles of all users in the section
 export async function getStudentInfo(req,res,next){
-  var sectionId = req.params.id;
-  var students = await Section.findById(sectionId).students;
-  console.log(students);
-  if (!students) return res.status(404).end();
-  var studentProfile = []
-  for(i = 0; i < len(students); i++){
-    var profile = User.findById(students[i]);
-    studentProfile.append(profile);
+
+  
+  let sectionId = req.params.id;
+  
+  let section = await Section.findById(sectionId).execAsync();
+  section = section.toJSON();
+
+  if (!section) return res.status(404).end();
+ 
+  
+  let studentProfile = []
+  console.log(section.students);
+  for(let i = 0; i < section.students.length; i++){
+    let profile = await User.findById(section.students[i]).execAsync();
+    studentProfile.push(profile);
   }  
+  
   return res.json(studentProfile);
 };
 
@@ -163,6 +171,7 @@ export function mySections(req, res, next) {
 export async function show(req, res, next) {
   try{
     var query = Section.findById(req.params.id);
+
     var withEnrollmentStatus = req.query.withEnrollmentStatus;
 
     query = getSectionsExtra(query, req.query);

@@ -71,7 +71,7 @@
                 style="color:black;"
                 ng-show="showStudentList"
                 ng-click="selectStudent(ta)"
-                ng-repeat="ta in filteredStudents | limitTo:5 | filter:{inSection:true} | orderBy: 'name'">
+                ng-repeat="ta in filteredStudents | limitTo:5 | orderBy: 'name'">
                 {{ta.name}}
             </a>
           </div>

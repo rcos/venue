@@ -22,7 +22,7 @@ router.get('/', (req,res,next)=>{
     }
 }, controller.index);
 router.get('/:id', controller.show);
-router.get('/:id/getStudentInfo', controller.getStudentInfo);
+router.get('/:id/getStudentInfo',auth.isInstructor(),controller.getStudentInfo);
 router.post('/', auth.isInstructor(), controller.create);
 router.put('/:id', auth.isSupervisor(), controller.update);
 router.patch('/:id',  auth.isSupervisor(), controller.update);
