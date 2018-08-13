@@ -25,7 +25,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
           });
         }
         $scope.instructorCount = 1;
-
+        $scope.assistantCount = 0;
 
       
 
@@ -33,12 +33,16 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
           id: $scope.section._id
         }, (allStudents) => {
           allStudents = $filter('orderBy')(allStudents, 'firstName+lastName');
-          console.log(allStudents)
+          
           $scope.allStudents = allStudents.map(student => {
             student.name = student.firstName + " " + student.lastName;
+            student.sectionTA = student.isTAFor.findIndex(courseID => courseID === $scope.course._id) != -1;
+            if (!student.sectionTA)
+              $scope.assistantCount += 1;
             return student;
 
           })
+          console.log(allStudents)
           
         });
 
@@ -141,11 +145,11 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       // searchText is the input string
       $scope.showAddButton = false;
       $scope.showInstructorList = searchText.length > 0;
-      console.log($scope.showInstructorList)
+     
       
       if (searchText.length > $scope.prevSearchText.length) {
         $scope.newFilteredInstructors = [];
-        console.log($scope.filteredInstructors)
+        
         angular.forEach($scope.filteredInstructors, function(instructor){
           if(instructor.name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0){
             $scope.newFilteredInstructors.push(instructor);
@@ -160,7 +164,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
           }
         });
       }
-      console.log($scope.filteredInstructors)
+     
       $scope.prevSearchText = searchText;
     }
 
@@ -171,12 +175,12 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
 
       $scope.addTA = false;
       $scope.showStudentList = searchTA.length > 0;
-      console.log($scope.showStudentList)
+     
 
       if (searchTA.length > $scope.prevTASearchText.length) { 
-        console.log("new filter!")
+      
         $scope.newFilteredStudents = [];
-        console.log($scope.filteredStudents)
+       
         angular.forEach($scope.filteredStudents, function(student){
           if(student.name.toLowerCase().indexOf(searchTA.toLowerCase()) >= 0){
             $scope.newFilteredStudents.push(student);
@@ -188,7 +192,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
         $scope.filteredStudents= [];
         
         angular.forEach($scope.allStudents, function(student){
-          console.log(student)
+    
           if(student.name.toLowerCase().indexOf(searchTA.toLowerCase()) >= 0){
 
             $scope.filteredStudents.push(student);
@@ -196,7 +200,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
 
         });
       }
-      console.log($scope.filteredStudents)
+     
       $scope.prevTASearchText = searchTA;
 
     }
@@ -226,14 +230,14 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       $scope.showAddButton = false;
     }
 
-    $scope.addTA = function(){
+    $scope.addAssistant = function(){
       // Makes the selected stuent a teaching assistant
-      $scope.loadedStudent.isTAFor.append($scope.course.id);
-      $scope.loadedStudent.orderNum = 1;
-      $scope.studentCount += 1;
+      $scope.loadedStudent.isTAFor.push($scope.course._id);
+      $scope.assistantCount += 1;
       $scope.searchTA = "";
-      $scope.searchTA = false;
-
+      $scope.addTA = false;
+      $scope.loadedStudent.sectionTA = true;
+      console.log($scope.loadedStudent)
       
     }
 

@@ -132,7 +132,6 @@ export async function getStudentInfo(req,res,next){
  
   
   let studentProfile = []
-  console.log(section.students);
   for(let i = 0; i < section.students.length; i++){
     let profile = await User.findById(section.students[i]).execAsync();
     studentProfile.push(profile);

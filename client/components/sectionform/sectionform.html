@@ -62,6 +62,19 @@
         
       </div>
 
+
+      <label>Section Teaching Assistants</label>
+        <ul class="list-group">
+          <p ng-show="!currentTAs.length">No Teaching Assistants</p>
+          <div ng-repeat="ta in currentTAs=(allStudents | filter:{sectionTA:true} | orderBy:'name')">
+            <li style="margin-bottom:5px; width:300px;" 
+                class="list-group-item">
+              {{ta.name}}
+            </li>
+          </div>
+        </ul>
+
+
       <label>Add TA </label>
       <div class="ta-add-field">
         <div class="ta-add-input">
@@ -77,7 +90,7 @@
           </div>
         </div>
         <div class="ta-add-button">
-            <button class="btn btn-primary" type="button" ng-click="addTA()" ng-show="addTA">Add</button>
+            <button class="btn btn-primary" type="button" ng-click="addAssistant()" ng-show="addTA">Add</button>
         </div>
       </div>
 
