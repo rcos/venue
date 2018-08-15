@@ -67,6 +67,7 @@ function handleEntityNotFound(res) {
 
 function saveUpdates(updates) {
   return function(entity) {
+    console.log(entity)
     var updated = _.merge(entity, updates);
     return updated.saveAsync()
       .then(function(updated) {
@@ -210,12 +211,13 @@ export function create(req, res) {
     .catch(handleError(res));
 };
 
-// Updates an existing Section in the DB
+// Updates an existing Section in the DB, and updates User if they become a TA
 
 function saveSectionUpdates(req) {
 
   return (section) => {
     var pendingStudent;
+   
     if(req.body.pendingStudent){
       pendingStudent = req.body.pendingStudent;
       if(section.pendingStudents.remove(pendingStudent)){
@@ -250,6 +252,11 @@ function saveSectionUpdates(req) {
     {
       section.instructors = req.body.instructors;
     }
+    if(req.body.assistants){
+      section.teachingAssistants = req.body.assistants;
+     
+    }
+    console.log(section)
     return section.saveAsync();
   }
 }

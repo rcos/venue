@@ -70,15 +70,22 @@
             <li style="margin-bottom:5px; width:300px;" 
                 class="list-group-item">
               {{ta.name}}
+              <span class="pull-right">
+                <button type="button" 
+                    style="color: red; outline: none; border: 0; background: transparent;"
+                    class="glyphicon glyphicon-remove" 
+                    ng-click="removeTA(ta)"/>
+              </span>
             </li>
+             
           </div>
         </ul>
 
 
-      <label>Add TA </label>
+      <label>Add Teaching Assistant </label>
       <div class="ta-add-field">
         <div class="ta-add-input">
-          <input type="text" ng-model="searchTA" ng-keyup="filterTASearch(searchTA)" class="form-control"/>
+          <input type="text" ng-model="searchTA" ng-keyup="filterTASearch(searchTA)" class="form-control" style="margin-bottom:5px; width: 300px;"/>
           <div class="list-group">
             <a class="list-group-item"
                 style="color:black;"

@@ -3,7 +3,9 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
     "ngInject";
     $scope.prevSearchText = "";
     $scope.prevTASearchText = "";
+
     Auth.getCurrentUser((user) => {
+
       $scope.creating = $scope.updating != "true";
       $scope.user = user;
       Course.get({
@@ -36,12 +38,13 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
           
           $scope.allStudents = allStudents.map(student => {
             student.name = student.firstName + " " + student.lastName;
-            student.sectionTA = student.isTAFor.findIndex(courseID => courseID === $scope.course._id) != -1;
-            if (!student.sectionTA)
+            student.sectionTA = $scope.section.teachingAssistants.findIndex((ta) => ta === student._id) != -1;
+            if (student.sectionTA)
               $scope.assistantCount += 1;
             return student;
 
           })
+          console.log($scope.section)
           console.log(allStudents)
           
         });
@@ -84,8 +87,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       });
       $scope.section = $scope.course.sections.splice(currentSection, 1)[0];
       $scope.section.sectionNumbersText = $scope.section.sectionNumbers.toString();
-      $scope.section.assistants = $scope.section.teachingAssistants;
-      $scope.$watch('section.sectionNumbers', function(newValue, oldValue) {
+           $scope.$watch('section.sectionNumbers', function(newValue, oldValue) {
         $scope.section.sectionNumbersText = $scope.section.sectionNumbers.toString();
       });
     }
@@ -102,13 +104,22 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
         if (form.$valid && $scope.section.enrollmentPolicy) {
           var promise;
           section.instructors = [];
+          section.assistants = [];
           angular.forEach($scope.allInstructors, function(instructor) {
             if (instructor.inSection) {
               section.instructors.push(instructor._id);
             }
           });
+           angular.forEach($scope.allStudents, function(student) {
+            if (student.sectionTA) {
+              section.assistants.push(student._id);
+            }
+          });
+
           if ($scope.updating == "true"){
+          
             promise = Section.update({id:$routeParams.sectionId}, section).$promise;
+            
           }else{
             promise = Section.create(section).$promise;
           }
@@ -140,12 +151,17 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       }
     }
 
+    $scope.removeTA = function(ta){
+      if (confirm("Are you sure you want to remove " + instructor.name + " from this section?")){
+        ta.sectionTA = false;
+      }
+    }
+
     $scope.filterSearch = function(searchText){
       // Creates an array of instructors that matches the input string
       // searchText is the input string
       $scope.showAddButton = false;
       $scope.showInstructorList = searchText.length > 0;
-     
       
       if (searchText.length > $scope.prevSearchText.length) {
         $scope.newFilteredInstructors = [];
@@ -193,7 +209,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
         
         angular.forEach($scope.allStudents, function(student){
     
-          if(student.name.toLowerCase().indexOf(searchTA.toLowerCase()) >= 0){
+          if((student.name.toLowerCase().indexOf(searchTA.toLowerCase()) >= 0) && (!student.sectionTA)){
 
             $scope.filteredStudents.push(student);
           }
@@ -232,13 +248,12 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
 
     $scope.addAssistant = function(){
       // Makes the selected stuent a teaching assistant
-      $scope.loadedStudent.isTAFor.push($scope.course._id);
+      $scope.loadedStudent.taSections.push($scope.section._id);
       $scope.assistantCount += 1;
       $scope.searchTA = "";
       $scope.addTA = false;
       $scope.loadedStudent.sectionTA = true;
-      console.log($scope.loadedStudent)
-      
+     
     }
 
     $scope.deleteSection = (section) => {
