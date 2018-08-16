@@ -14,11 +14,12 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
         checkRoles: true,
         withSections: true
       }, course => {
+
         $scope.isSupervisor = course.roleDict['supervisor'];
         $scope.isInstructor = course.roleDict['instructor'];
         $scope.isStudent = course.roleDict['student'];
         $scope.course = course;
-        
+      
         if(!$scope.creating){
           setCurrentSection();
           var instructorDict = {};
@@ -44,8 +45,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
             return student;
 
           })
-          console.log($scope.section)
-          console.log(allStudents)
+         
           
         });
 
@@ -115,7 +115,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
               section.assistants.push(student._id);
             }
           });
-
+        
           if ($scope.updating == "true"){
           
             promise = Section.update({id:$routeParams.sectionId}, section).$promise;

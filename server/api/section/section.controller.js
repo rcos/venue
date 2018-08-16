@@ -67,7 +67,6 @@ function handleEntityNotFound(res) {
 
 function saveUpdates(updates) {
   return function(entity) {
-    console.log(entity)
     var updated = _.merge(entity, updates);
     return updated.saveAsync()
       .then(function(updated) {
@@ -256,7 +255,7 @@ function saveSectionUpdates(req) {
       section.teachingAssistants = req.body.assistants;
      
     }
-    console.log(section)
+
     return section.saveAsync();
   }
 }
@@ -283,13 +282,16 @@ export function destroy(req, res) {
 
 export function getSectionsExtra(query, opts){
   opts = opts || {};
-
+  console.log(opts)
   //FIXME too many endpoints see #113
   if (opts.withSectionsCourse || opts.withSectionCourse){
     query = query.populate('course');
   }
   if (opts.withSectionsInstructors || opts.withSectionInstructors){
     query = query.populate('instructors');
+  }
+  if(opts.withSectionsAssistants || opts.withSectionAssistants){
+    query = query.populate('teachingAssistants');
   }
   if (opts.withSectionsStudents || opts.withSectionStudents){
     query = query.populate('students');

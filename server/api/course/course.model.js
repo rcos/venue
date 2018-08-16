@@ -16,7 +16,7 @@ var CourseSchema = new Schema({
   active: Boolean,
   imageURLs: [String],
   supervisorId: {type : Schema.Types.ObjectId, ref: 'User'},
-  teachingAssistants: [{type: Schema.Types.ObjectId, ref: 'User'}]
+  teachingAssistants: {type : Schema.Types.ObjectId, ref: 'User'}
 });
 
 /**
@@ -39,11 +39,13 @@ CourseSchema.methods = {
   getSections(opts, cb){
     if (!cb) cb = function(){};
     var withInstructors = opts.withInstructors;
+    var withAssistants = opts.withAssistants;
     var withEnrollmentStatus = opts.withEnrollmentStatus;
     var studentId = opts.studentId; // for withEnrollmentStatus
 
     var query = Section.find({course: this._id});
     if (withInstructors) query.populate("instructors");
+    if (withAssistants) query.populate("teachingAssistants");
     query.then((sections)=>{
       // If requested, mark all sections student is enrolled in
       if (withEnrollmentStatus){
