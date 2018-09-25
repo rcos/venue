@@ -4,6 +4,7 @@ var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
 
 import Section from '../section/section.model';
+import User from '../user/user.model'
 import async from 'async';
 
 var CourseSchema = new Schema({
@@ -14,7 +15,8 @@ var CourseSchema = new Schema({
   semester: String,
   active: Boolean,
   imageURLs: [String],
-  supervisorId: {type : Schema.Types.ObjectId, ref: 'User'}
+  supervisorId: {type : Schema.Types.ObjectId, ref: 'User'},
+  teachingAssistants: [{type: Schema.Types.ObjectId, ref: 'User'}]
 });
 
 /**

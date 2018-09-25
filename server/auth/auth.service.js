@@ -187,6 +187,23 @@ export function isStudent(){
 }
 
 /**
+ * Checks if a user is a TA for a course
+ */
+export function isTA(){
+  return compose()
+    .use(isAuthenticated())
+    .use(function meetsRequirements(req,res,next){
+      if(!req.user.isStudent && !req.user.isInstructor){
+        next();
+      }else{
+        res.status(403).send('Forbidden');
+      }
+    });
+}
+
+
+
+/**
  * Returns a jwt token signed by the app secret
  */
 export function signToken(id, role) {
