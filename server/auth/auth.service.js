@@ -87,7 +87,6 @@ export function isSupervisor(){
               .then(section => {
                 Course.findByIdAsync(section.course)
                   .then(course => {
-                    if (!course)
                       return res.status(401).end();
                     if (!(course.supervisorId.equals(req.user._id) || req.user.role=='admin'))
                       return res.status(403).send('Forbidden');

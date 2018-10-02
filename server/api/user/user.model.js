@@ -28,7 +28,7 @@ var UserSchema = new Schema({
   },
   isInstructor: Boolean,
   isVerified: Boolean,
-  isTAFor: [{course: {type : Schema.Types.ObjectId, ref: 'Course'}}],
+  taSections: [{section: {type : Schema.Types.ObjectId, ref: 'Section'}}],
   password: {
     type: String,
     select: false
