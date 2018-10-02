@@ -16,7 +16,7 @@ export default class SectionViewCtrl {
       }, section => {
         $scope.course = section.course;
         $scope.section = section;
-        
+        console.log(section.teachingAssistants)
       }, () =>{
         $location.path('/courses');
       });
@@ -29,7 +29,7 @@ export default class SectionViewCtrl {
         $location.path('instructor/courses/'+$routeParams.id+'/sections/'+$routeParams.sectionId);
       }
       loadSection();
-      console.log(section)
+      
     });
 
     $scope.selecteEvent = function(event){
