@@ -15,6 +15,28 @@
       </div>
 
       <div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
+        <ul ng-show="nav.isTA()" class="nav navbar-nav">
+          <li ng-class="{active: nav.isActive('/student/dashboard')}">
+            <a href="/student/dashboard">Dashboard</a>
+          </li>
+          <li ng-class="{active: isActive('/student/courses')}">
+            <a href="/student/courses">Courses</a>
+          </li>
+          <li ng-class="{active: nav.isActive('/student/events')}">
+            <a href="/student/events">Events</a>
+          </li>
+          <li ng-class="{active: isActive('/student/submissions')}">
+            <a href="/student/submissions">Submissions</a>
+          </li>
+
+          <li ng-class="{active: nav.isActive('/student/upload')}">
+            <a href="/student/upload">Upload</a>
+          </li>
+
+          <li ng-class="{active: nav.isActive('/student/grading')}">
+            <a href="/student/grading">Grading</a>
+          </li>
+        </ul>
         <ul ng-show="nav.isStudent()" class="nav navbar-nav">
           <li ng-class="{active: nav.isActive('/student/dashboard')}">
             <a href="/student/dashboard">Dashboard</a>
