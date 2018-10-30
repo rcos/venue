@@ -91,6 +91,7 @@ export function allUsers(){return {
       password: 'kelly',
       isVerified: true,
       isInstructor: false,
+      taSections: [mongoose.Types.ObjectId('000000000000000000000122')],
       _id: mongoose.Types.ObjectId('000000000000000000000006'),
       preferences: {emailNotifyAheadMinutes: [30]},
     },
@@ -175,6 +176,7 @@ export function allCourses(){return {
       semester: "Spring15",
       active: true,
       supervisorId: allUsers().travis._id,
+      teachingAssistants: allUsers().kelly._id, //Kelly
       _id: mongoose.Types.ObjectId('000000000000000000000012'),
     },
     art:{

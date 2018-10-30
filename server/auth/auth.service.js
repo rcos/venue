@@ -189,7 +189,6 @@ export function isStudent(){
  * Checks if a user is a TA for a course
  */
 export function isTA(){
-  console.log("isTA")
   return compose()
     .use(isAuthenticated())
     .use(function meetsRequirements(req,res,next){
