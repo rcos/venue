@@ -174,11 +174,10 @@ export function isInstructor(){
  * Checks if user is a student
  */
 export function isStudent(){
-  console.log("12345")
     return compose()
         .use(isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
-            if (req.user.isStudent && req.user.taSections.length == 0){
+            if (req.user.isStudent){
                 next();
             }else{
                 res.status(403).send('Forbidden');
@@ -190,14 +189,13 @@ export function isStudent(){
  * Checks if a user is a TA for a course
  */
 export function isTA(){
+  console.log("isTA")
   return compose()
     .use(isAuthenticated())
     .use(function meetsRequirements(req,res,next){
-      if(req.user.isStudent && req.user.taSections.length > 0){
-        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+      if(req.user.isStudent && req.user.taSections != undefined && req.user.taSections.length > 0){
         next();
       }else{
-        console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
         res.status(403).send('Forbidden');
       }
     });

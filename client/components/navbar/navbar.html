@@ -15,7 +15,7 @@
       </div>
 
       <div uib-collapse="nav.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
-        <ul ng-show="nav.isTA()" class="nav navbar-nav">
+        <ul ng-show="nav.isTA() && nav.isStudent()" class="nav navbar-nav">
           <li ng-class="{active: nav.isActive('/student/dashboard')}">
             <a href="/student/dashboard">Dashboard</a>
           </li>
@@ -37,7 +37,7 @@
             <a href="/student/grading">Grading</a>
           </li>
         </ul>
-        <ul ng-show="nav.isStudent()" class="nav navbar-nav">
+        <ul ng-show="nav.isStudent() && !nav.isTA()" class="nav navbar-nav">
           <li ng-class="{active: nav.isActive('/student/dashboard')}">
             <a href="/student/dashboard">Dashboard</a>
           </li>

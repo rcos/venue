@@ -229,7 +229,24 @@ export function AuthService(Util, $location, $http, $cookies, $q, appConfig, Use
      * @return {Bool}
      */
     isStudentSync() {
-      return currentUser.hasOwnProperty('isInstructor') ? (currentUser.isInstructor === false) : false;
+      return currentUser.hasOwnProperty('isInstructor') ? (currentUser.isInstructor === false ) : false;
+    },
+
+    isTA(callback: Function = () => {}) {
+      console.log("isTA AUTH CALLED");
+      return Auth.getCurrentUser(undefined)
+        .then(user => {
+          var has = user.hasOwnProperty('taSections') ? (user.taSections != undefined && user.taSections.length > 0) : false;
+          safeCb(callback)(has);
+          return has;
+        });
+    },
+
+    isTASync() {
+      console.log("isTA SYNC CALLED");
+      console.log("\n")
+      console.log("TA SECTIONS: " + currentUser.taSections);
+      return currentUser.hasOwnProperty('taSections') ? (currentUser.taSections != undefined && currentUser.taSections.length > 0) : false;
     },
 
     /**

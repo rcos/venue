@@ -11,7 +11,7 @@ export default class NavbarComponent {
     this.isAdmin = Auth.isAdminSync;
     this.isStudent = Auth.isStudentSync;
     this.isInstructor = Auth.isInstructorSync;
-    this.isTA = Auth.isTASync
+    this.isTA = Auth.isTASync;
     this.getCurrentUser = Auth.getCurrentUserSync;
 
     this.isCollapsed = true;
