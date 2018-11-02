@@ -1,0 +1,100 @@
+<div class="container upload-page">
+  <div class="row">
+    <div ng-hide="success" class="col-sm-12" ng-cloak>
+      <img class="banner-img" http-src='{{sectionEvent.info.imageURLs[0]}}'/>
+      <div class="event-summary ">
+        <h1>Event Attendance</h1>
+        <div class='title'>{{sectionEvent.info.title}}</div>
+        <div class='section'>For {{sectionEvent.section.course.name}}: {{(sectionEvent.section.sectionNumbers.length===1)?"Section":"Sections"}}
+          <span ng-repeat="number in sectionEvent.section.sectionNumbers">
+            <span ng-if="$last && sectionEvent.section.sectionNumbers.length!==1"> and </span>
+            {{number}}<span ng-hide="$last || sectionEvent.section.sectionNumbers.length===2">, </span>
+          </span>
+        </div>
+
+        <div class='description'>{{sectionEvent.info.description | limitTo : 250 }}
+          {{ sectionEvent.info.description.length > 250 ? "..." : ""}} </div>
+      </div>
+    </div>
+  </div>
+  <div class='row'>
+    <div ng-hide="success" class='col-sm-12 submissionInstructions'>
+        Instructor Note: {{sectionEvent.submissionInstructions}}
+    </div>
+  </div>
+  <div class='row'>
+    <div class="col-sm-12">
+      <form class="form" name="form" ng-submit="submitEvent(form)" novalidate ng-show="!success">
+
+        <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
+                                            'has-error': form.name.$invalid && submitted }">
+          <label>Title</label>
+
+          <input type="text" name="title" class="form-control" ng-model="title"
+                 required/>
+          <p class="help-block" ng-show="form.title.$error.required && submitted">
+            A title is required
+          </p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
+                                            'has-error': form.name.$invalid && submitted }">
+          <label>Content</label>
+
+          <textarea type="text" name="content" class="form-control" ng-model="content"
+                 required></textarea>
+          <p class="help-block" ng-show="form.content.$error.required && submitted">
+            Content is required
+          </p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-success': form.password.$valid && submitted,
+                                            'has-error': form.password.$invalid && submitted }">
+
+
+
+          <div class="btn btn-default btn-lg" ngf-select ng-model="files" ngf-multiple="true"
+          ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="20MB">Select File</div>
+          <br/>
+
+          <div ngf-drop ngf-select ng-model="files" class="drop-box"
+              ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+              accept="image/*"
+              ngf-pattern="'image/*'">Drop images here or click to upload</div>
+          <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+          Files:
+          <ul class="img-upload-preview">
+              <li ng-repeat="f in files">
+                <div class="file-name">
+                  {{f.name}} {{f.$error}} {{f.$errorParam}}
+                </div>
+                <img ngf-src="f" width = {{imgWidth}}/>
+              </li>
+          </ul>
+          <p class="help-block" ng-show="!files && submitted">
+            image selection is required
+          </p>
+        </div>
+
+        <div>
+          <button class="btn btn-inverse btn-lg btn-register" type="submit">
+            Submit
+          </button>
+        </div>
+      </form>
+
+      <span class="col-sm-12 progress" ng-show="progress >= 0 && !success">
+        <div style="width:{{progress}}%" ng-bind="progress + '%'"></div>
+      </span>
+
+      <div class = "submission-success" ng-show="success">
+        <h2> Submission Sent</h2>
+        <h6 ng-hide="coords">
+          No location sent
+        </h6>
+      </div>
+
+    </div>
+
+  </div>
+</div>

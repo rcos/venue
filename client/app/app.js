@@ -97,6 +97,7 @@ angular.module('venueApp', [
     events,
     instructor,
     student,
+    ta,
     main,
 
     _Auth,

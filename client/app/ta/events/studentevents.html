@@ -1,0 +1,28 @@
+<div class="container student-events">
+  <div class="row">
+      <div class="col-sm-12 student-search-events" ng-cloak>
+        <h1 class="page-header">Your Events</h1>
+        <h3 ng-hide="eventsArray.length">No events assigned yet</h3>
+        <div class='row' ng-show="eventsArray.length">
+          <div class='col-xs-12 search-bar-container'>
+            <div class="search-bar">
+              <div class="input-group input-group-lg">
+                 <input type="text" ng-model='searchText' class="form-control" placeholder="Search events">
+                 <span class="input-group-btn">
+                   <button class="btn btn-default" type="button">
+                     <span class='glyphicon glyphicon-search'></span>
+                   </button>
+                 </span>
+               </div>
+             </div>
+          </div>
+        </div>
+        <div class='row text-center no-events' ng-show='filteredEvents.length == 0'>
+          No events found matching search terms
+        </div>
+        <div class='row text-center card-container card-flex-container' ng-show="eventsArray.length" class="ng-cloak">
+            <event-card class="card card-flex" ng-repeat='event in filteredEvents = (eventsArray | filter:searchText) | orderBy: "-times[0].start"' data="event" click='goToEvent(event)' sectionClick='goToEvent(event)' short="false" />
+        </div>
+      </div>
+    </div>
+</div>

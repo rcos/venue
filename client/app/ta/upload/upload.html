@@ -1,0 +1,15 @@
+<div class='container student'>
+  <div class='row'>
+    <div class='col-sm-12' ng-cloak>
+      <h1 class="page-header">Event Submission</h1>
+      <h3 ng-hide="eventsLength">No events assigned yet</h3>
+
+      <div ng-show="eventsLength" class='upload-events'>
+          <h3>Select event</h3>
+          <div class="events">
+            <event-card class="col-md-6" ng-repeat='event in events | orderBy: "-times[0].start"' data="event" short="true"  click='goToUploadForEvent(event)' sectionClick='goToUploadForEvent(event)'></event-card>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

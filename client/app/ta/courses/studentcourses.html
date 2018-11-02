@@ -1,0 +1,15 @@
+<div class='container student'>
+  <div class='row'>
+    <div class='col-sm-12 student-courses'>
+      <h1 class="page-header">
+        Your Courses
+        <a href="/courses" class="btn btn-lg btn-success btn-right" role="button">View All Courses</a>
+      </h1>
+      <h3 ng-hide="anyCourses" ng-cloak>You haven't signed up for any courses yet</h3>
+      <h4 ng-hide="anyCourses" ng-cloak><a href="/courses">Enroll</a> in a section to get started</h4>
+      <div class="card-container card-flex-container" ng-cloak>
+        <course-card class="card card-flex" ng-repeat='course in user.courses | orderBy:"name"' data="course" expandedsection="true" short="false" sections='course.sections'>  </course-card>
+      </div>
+    </div>
+  </div>
+</div>
