@@ -17,7 +17,7 @@ export default class SignupController {
               isInstructor: false
             })
             .then(() => {
-              $location.path('/verify/emailVerification');
+              $location.path('/verify');
             })
             .catch(err => {
               err = err.data;

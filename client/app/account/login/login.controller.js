@@ -38,7 +38,7 @@ export default class LoginController {
       .then((user) => {
         // Logged in, redirect to Dashboard
         if(!user.isVerified){
-          this.$location.path('/verify/emailVerification');
+          this.$location.path('/verify');
         }
         else if(!user.isInstructor){
           this.$location.path('/student/dashboard');
