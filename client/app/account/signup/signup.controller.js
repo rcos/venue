@@ -7,6 +7,7 @@ export default class SignupController {
       $scope.errors = {};
 
       $scope.register = (form)=>{
+          console.log(form);
           $scope.submitted = true;
           if (form.$valid) {
             Auth.createUser({
@@ -22,11 +23,15 @@ export default class SignupController {
             .catch(err => {
               err = err.data;
               $scope.errors = {};
-
+              console.log(err);
               // Update validity of form fields that match the mongoose errors
               angular.forEach(err.errors, (error, field) => {
+                console.log(form.$valid);
+                console.log(field)
                 form[field].$setValidity('mongoose', false);
+                console.log(form.$valid);
                 $scope.errors[field] = error.message;
+                // form[field].$setValidity('mongoose', true);
               });
             });
           }
