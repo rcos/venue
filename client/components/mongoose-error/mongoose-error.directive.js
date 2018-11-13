@@ -3,17 +3,15 @@
 /**
  * Removes server error when user updates input
  */
-export default angular.module('venueApp')
+export default angular.module('ngModel')
   .directive('mongooseError', function() {
-    console.log('doggo');
+    console.log('does this eve work');
     return {
       restrict: 'A',
       require: 'ngModel',
       link: function(scope, element, attrs, ngModel) {
-        console.log('dog');
-        
         element.on('keydown', () => ngModel.$setValidity('mongoose', true));
       }
     };
   })
-  .name;
+  // .name;
