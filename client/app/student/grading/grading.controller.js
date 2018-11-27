@@ -4,7 +4,7 @@ export default class GradingCtrl {
   /*@ngInject*/
   constructor($scope, $location, User, Auth, Submission) {
     $scope.refreshSubmissions = function() {
-      Submission.getAll({}, (submissions)=>{
+      Submission.getAll({'onlyTA':'me', 'withStudents': true, 'withSection':true, 'withSectionCourse':true}, (submissions)=>{
         $scope.submissions = submissions;
       });
     }
