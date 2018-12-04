@@ -4,10 +4,11 @@ export default class VerifyAccountCtrl {
 
   /*@ngInject*/
   constructor($scope, $routeParams, User, $location, appConfig, Auth) {
-    $scope.loggedIn = false;
+    $scope.loggedIn = true;
+    $scope.isSignedUp = true;
     $scope.isVerified = false;
     $scope.tryVerify = true;
-    $scope.isStudent = false;
+    $scope.isStudent = true;
     $scope.isInstructor = false;
     if ($routeParams.id == "emailVerification"){
       $scope.tryVerify = false;
@@ -27,7 +28,7 @@ export default class VerifyAccountCtrl {
       $scope.getLogin = function(){
         return "/login";
       };
-      $scope.getDashboad = function(){
+      $scope.getDashboard = function(){
         if ($scope.isStudent){
           return "/student/dashboard"
         }

@@ -16,6 +16,10 @@ export default function routes($routeProvider) {
       template: require('./resetPassword/resetPassword.html'),
       controller: 'ResetPasswordCtrl'
     })
+    .when('/verify/', {
+      template: require('./verify.html'),
+      controller: 'VerifyAccountCtrl'
+    })
     .when('/verify/:id', {
       template: require('./verify.html'),
       controller: 'VerifyAccountCtrl'

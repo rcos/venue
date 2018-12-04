@@ -35,8 +35,6 @@
         <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,
                                             'has-error': form.email.$invalid && submitted }">
           <label>Email</label>
-          {{user.email}}
-
           <input type="email" name="email" class="form-control" ng-model="user.email"
                  required
                  mongoose-error/>

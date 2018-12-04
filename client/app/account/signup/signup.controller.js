@@ -22,6 +22,7 @@ export default class SignupController {
               isInstructor: false
             })
             .then(() => {
+              console.log('hello');
               $location.path('/verify');
             })
             .catch(err => {
@@ -29,12 +30,8 @@ export default class SignupController {
               $scope.errors = {};
               // Update validity of form fields that match the mongoose errors
               angular.forEach(err.errors, (error, field) => {
-                // console.log("setting false!")
                 form[field].$setValidity('mongoose', false);
-                // console.log(form.$valid);
                 $scope.errors[field] = error.message;
-                // form[field].$setValidity('mongoose', true);
-                // console.log(form.$valid);
               });
             });
           }
