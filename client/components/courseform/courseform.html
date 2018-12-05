@@ -60,6 +60,9 @@
         <div class="list-group">
             <a class="list-group-item" style="color:black;" ng-show="showInstructorList" ng-click="selectInstructor(instructor)" ng-repeat="instructor in filteredInstructors | limitTo:5 | filter:{current:false} | orderBy:'name'">{{instructor.name}}</a>
         </div>
+        <p class="help-block" style="color:#a94442;" ng-show="showInstructorList && !filteredInstructors.length">
+          Supervisor does not exist
+        </p>
       </div>
       <div class="instructor-add-button">
         <button class="btn btn-primary" type="button" ng-click="addInstructor()" ng-show="showAddButton">Change Supervisor</button>
