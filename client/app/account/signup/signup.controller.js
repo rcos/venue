@@ -4,15 +4,10 @@ export default class SignupController {
   /*@ngInject*/
   constructor($scope, $location, Auth) {
       $scope.user = {};
-      console.log($scope);
       $scope.errors = {};
 
-      var email = $scope.user.email;
-      console.log(email);
       $scope.register = (form)=>{
-          console.log(form);
           $scope.submitted = true;
-          console.log ($scope.user.email);
           if (form.$valid) {
             Auth.createUser({
               firstName: $scope.user.firstName,
@@ -22,7 +17,7 @@ export default class SignupController {
               isInstructor: false
             })
             .then(() => {
-              console.log('hello');
+              // originally redirects to /verify/emailVerification however doesn't work
               $location.path('/verify');
             })
             .catch(err => {

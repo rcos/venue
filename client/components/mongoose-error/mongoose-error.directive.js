@@ -3,9 +3,8 @@
 /**
  * Removes server error when user updates input
  */
-export default angular.module('ngModel')
+export default angular.module('venueApp')
   .directive('mongooseError', function() {
-    console.log('does this eve work');
     return {
       restrict: 'A',
       require: 'ngModel',
@@ -14,4 +13,4 @@ export default angular.module('ngModel')
       }
     };
   })
-  // .name;
+  .name;
