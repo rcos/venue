@@ -8,7 +8,7 @@ export default class VerifyAccountCtrl {
     $scope.isSignedUp = true;
     $scope.isVerified = false;
     $scope.tryVerify = true;
-    $scope.isStudent = true;
+    $scope.isStudent = false;
     $scope.isInstructor = false;
     if ($routeParams.id == "emailVerification"){
       $scope.tryVerify = false;
@@ -29,16 +29,19 @@ export default class VerifyAccountCtrl {
         return "/login";
       };
       $scope.getDashboard = function(){
-        if ($scope.isStudent){
-          return "/student/dashboard"
-        }
-        else if ($scope.isInstructor) {
+        if ($scope.isInstructor) {
           return "/instructor/dashboard"
+        }
+        else {
+          return "/student/dashboard"
         }
       };
       $scope.getResendEmail = function(){
         return "/verify/resendEmail";
       };
+      $scope.getCourses = function(){
+        return "/courses";
+      }
     }
   }
 }

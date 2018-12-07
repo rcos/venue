@@ -1,5 +1,6 @@
 'use strict';
 
+
 export default function routes($routeProvider) {
   'ngInject';
 
@@ -16,6 +17,7 @@ export default function routes($routeProvider) {
       template: require('./resetPassword/resetPassword.html'),
       controller: 'ResetPasswordCtrl'
     })
+    //only working route currently
     .when('/verify/', {
       template: require('./verify.html'),
       controller: 'VerifyAccountCtrl'

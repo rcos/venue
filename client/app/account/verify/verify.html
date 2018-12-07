@@ -3,7 +3,15 @@
     <div class='verify-email'>
       <div ng-show="isSignedUp" class="col-sm-12>">
         <h2 class="page-header">Your Account Has Been Made</h2>
-        <a ng-href="{{ getDashboard() }}" ng-show="isSignedUp && loggedIn">Check out your dashboard!</a>
+        <p>
+          <span>
+            <a ng-href="{{ getDashboard() }}" ng-show="loggedIn">Check out your dashboard</a>
+          </span>
+          or
+          <span>
+            <a ng-href="{{ getCourses() }}" ng-show="loggedIn">start browsing some courses!</a>
+          </span>
+        </p>
       </div>
       <!-- <div ng-show="isVerified" class="col-sm-12">
         <h2 class="page-header">Account Verified</h2>
