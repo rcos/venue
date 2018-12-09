@@ -1,7 +1,22 @@
 <div class='container student'>
   <div class='row'>
     <div class='verify-email'>
-      <div ng-show="isVerified" class="col-sm-12">
+      <div ng-show="isSignedUp" class="col-sm-12>">
+        <h2 class="page-header">Your Account Has Been Made</h2>
+        <p>
+          <span>
+            <a ng-href="{{ getDashboard() }}" ng-show="loggedIn">Check out your dashboard</a>
+          </span>
+          or
+          <span>
+            <a ng-href="{{ getCourses() }}" ng-show="loggedIn">start browsing some courses!</a>
+          </span>
+        </p>
+      </div>
+
+      <!-- verify needs to work for the following -->
+
+      <!-- <div ng-show="isVerified" class="col-sm-12">
         <h2 class="page-header">Account Verified</h2>
         <a ng-href="{{ getLogin() }}" ng-show="isVerified && !loggedIn">Login to start attending events!</a>
         <a ng-href="{{ getDashboad() }}" ng-show="isVerified && loggedIn">Check out your dashboard!</a>
@@ -25,7 +40,7 @@
             <a ng-href="{{ getResendEmail() }}">Resend Email</a>
           </p>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

@@ -4,7 +4,8 @@ export default class VerifyAccountCtrl {
 
   /*@ngInject*/
   constructor($scope, $routeParams, User, $location, appConfig, Auth) {
-    $scope.loggedIn = false;
+    $scope.loggedIn = true;
+    $scope.isSignedUp = true;
     $scope.isVerified = false;
     $scope.tryVerify = true;
     $scope.isStudent = false;
@@ -27,17 +28,20 @@ export default class VerifyAccountCtrl {
       $scope.getLogin = function(){
         return "/login";
       };
-      $scope.getDashboad = function(){
-        if ($scope.isStudent){
-          return "/student/dashboard"
-        }
-        else if ($scope.isInstructor) {
+      $scope.getDashboard = function(){
+        if ($scope.isInstructor) {
           return "/instructor/dashboard"
+        }
+        else {
+          return "/student/dashboard"
         }
       };
       $scope.getResendEmail = function(){
         return "/verify/resendEmail";
       };
+      $scope.getCourses = function(){
+        return "/courses";
+      }
     }
   }
 }
