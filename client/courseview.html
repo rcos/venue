@@ -1,0 +1,118 @@
+<div class='container courses-page'>
+    <div class="courseview">
+        <course-title-banner-basic course="course"></course-title-banner-basic>
+        <h3 ng-show='isSupervisor'>You are the supervisor of this course.</h3>
+
+        <div class="row row-md-height" ng-cloak>
+            <div class="col-md-6 left-column col-md-height col-md-top">
+                <div class="inside-full-height">
+                    <h4>Course Description</h4>
+                    <div class='course-desc'>{{ course.description }} </div>
+                </div>
+            </div>
+            <div class="col-md-6 right-column col-md-height" ng-hide='isInstructor || isStudent'>
+                <div class="inside-full-height">
+                    <h4 ng-show="course.sections.length">Sections</h4>
+                    <h4 ng-hide="course.sections.length">No Sections Avalible</h4>
+                    <table class="table table-hover" ng-show="course.sections.length">
+                        <tr ng-repeat="section in course.sections">
+                            <td class="big-number text-right"><span ng-repeat="number in section.sectionNumbers"><span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last">, </span></span></td>
+                            <td class="small-text">
+                                <span ng-repeat="instructor in section.instructors">
+                                    {{instructor.firstName}} {{instructor.lastName}}
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div ng-show='isInstructor' class='col-md-6 right-column col-md-height col-md-top'>
+                <div class="row h4-spacing">
+                    <div class='col-md-7 col-md-6'>
+                        <h4 class="no-spacing">Course Control</h4>
+                    </div>
+                    <div class='col-md-5 col-md-6'>
+                        <a href="#" class="btn btn-default full-width" ng-href="{{ editCourse() }}" role="button">Edit Course</a>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row h4-spacing">
+                    <div class='col-md-7 col-md-6'>
+                        <h4 ng-show="course.sections.length" class="no-spacing">Sections</h4>
+                        <h4 ng-show="!course.sections.length" class="no-spacing">No Sections Created</h4>
+                    </div>
+                    <div class='col-md-5 col-md-6'>
+                        <a href="#" class="btn btn-default full-width" ng-href="{{ createSection() }}" role="button">Create Section</a>
+                    </div>
+                </div>
+
+                <table class="course-section text-center table table-hover" ng-show="course.sections.length">
+                    <tr>
+                        <th class="text-center">Number</th>
+                        <th class="text-center">Instructor</th>
+                        <th class="text-center">Students</th>
+                        <th class="text-center">Pending</th>
+                        <th class="text-center">Info</th>
+                        <th class="text-center" ng-show="isSupervisor"></th>
+                    </tr>
+                    <tr ng-repeat="section in course.sections | orderBy : 'sectionNumbers'">
+                        <td class="big-number"><span ng-repeat="number in section.sectionNumbers"><span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last">, </span></span></td>
+                        <td>
+                            <span ng-repeat="instructor in section.instructors">
+                                {{instructor.firstName}} {{instructor.lastName}}<span ng-hide="$last">, </span>
+                            </span>
+                        </td>
+                        <td>
+                            <span class='studentCount'>{{section.students.length}}</span>
+                        </td>
+                        <td>
+                            <span class='studentCount'>{{section.pendingStudents.length}}</span>
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-default btn-xs" ng-href="{{ viewSection(section) }}" role="button">View</a>
+                        </td>
+                        <td ng-show="isSupervisor">
+                            <a href="#" class="glyphicon glyphicon-pencil" ng-href="{{ editSection(section) }}" role="button"></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div ng-show='isStudent' class='col-md-6 right-column col-md-height col-md-top'>
+                <h4 ng-show="course.sections.length">Sections</h4>
+                <h4 ng-show="!course.sections.length">No Sections Avalible</h4>
+                <table class="course-section text-center table table-hover" ng-show="course.sections.length">
+                    <tr>
+                        <th class="text-center">Number</th>
+                        <th class="text-center">Instructor</th>
+                        <th class="text-center">Students</th>
+                        <th class="text-center">Enrollment Policy</th>
+                        <th class="text-center">Info</th>
+                        <th class="text-center">Enrolled</th>
+
+                    </tr>
+                    <tr ng-repeat="section in course.sections">
+                        <td class="big-number"><span ng-repeat="number in section.sectionNumbers"><span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last">, </span></span></td>
+                        <td>
+                            <span ng-repeat="instructor in section.instructors">
+                                {{instructor.firstName}} {{instructor.lastName}}
+                            </span>
+                        </td>
+                        <td>
+                            <span class='studentCount'>{{section.students.length}}</span>
+                        </td>
+                        <td class="text-center">{{(section.enrollmentPolicy === "approvalRequired")?"approval":section.enrollmentPolicy}}</td>
+                        <td>
+                            <a href="#" class="btn btn-default" ng-href="{{ viewSection(section) }}" role="button">View</a>
+                        </td>
+                        <td>
+                            <button ng-click='enroll(section)' ng-show='!section.isEnrolled && !section.isPending && !(section.enrollmentPolicy == "closed")' class='enroll btn btn-primary'> Enroll </button>
+                            <button ng-show='!section.isEnrolled && !section.isPending && section.enrollmentPolicy == "closed" ' class='enroll btn btn-disabled'> Closed</button>
+                            <button ng-click='unenroll(section)' ng-show='section.isPending' class='enroll btn btn-disabled'> Pending</button>
+                            <button ng-click='unenroll(section)' ng-show='section.isEnrolled' class='enroll btn btn-info'> Unenroll </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
