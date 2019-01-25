@@ -180,6 +180,30 @@ exports.index = function(req, res) {
         }
       });
 
+  }else if (req.query.onlyTA){
+    var TAId = req.query.onlyTA.toLowerCase() === "me" ? req.user._id : req.query.onlyTA;
+    Section.findAsync({teachingAssistants: TAId})
+      .then((TASections) => {
+        var TASectionIds = TASections.map((sec) => sec._id);
+        return SectionEvent.findAsync({section: {$in: TASectionIds}});
+      })
+      .then((sectionEvents) => {
+        var sectionEventIds = sectionEvents.map((evnt) => evnt._id);
+        search.sectionEvent = {$in: sectionEventIds};
+        if (onlyNumber){
+
+            Submission.count(search)
+            .execAsync()
+            .then((entity)=>{
+              return {"number": entity};
+            })
+            .then(responseWithResult(res))
+            .catch(handleError(res));
+        }
+        else{
+          respond(Submission.find(search))
+        }
+      });
   }else if (req.query.onlySection){
     SectionEvent.findAsync({section: req.query.onlySection})
       .then((sectionEvents) => {
