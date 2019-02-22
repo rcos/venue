@@ -6,14 +6,15 @@
       <h4 ng-hide="submissions.length">Create an <a href="/instructor/newevent">event</a> to get started</h4>
       <div ng-show="submissions.length">
         <uib-tabset active="active">
-          <uib-tab index="0" heading="Images" select="refreshSubmissions()">
+          <uib-tab index="0" heading="Images">
             <submission-card class="col-md-6" ng-repeat='submission in submissions | orderBy: "-createdAt"' data="submission" click="goToEvent(submission.sectionEvent)" short="false" />
           </uib-tab>
           <uib-tab index="1" heading="List" select="refreshSubmissions()">
             <br/>
             <submissionview></submissionview>
           </uib-tab>
-      </uib-tabset>
+        </uib-tabset>
+      </div>
     </div>
   </div>
 </div>

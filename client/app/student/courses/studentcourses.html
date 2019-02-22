@@ -7,9 +7,17 @@
       </h1>
       <h3 ng-hide="anyCourses" ng-cloak>You haven't signed up for any courses yet</h3>
       <h4 ng-hide="anyCourses" ng-cloak><a href="/courses">Enroll</a> in a section to get started</h4>
-      <div class="card-container card-flex-container" ng-cloak>
-        <course-card class="card card-flex" ng-repeat='course in user.courses | orderBy:"name"' data="course" expandedsection="true" short="false" sections='course.sections'>  </course-card>
-      </div>
+      <uib-tabset active="active">
+          <uib-tab index="0" heading="Images">
+            <div class="card-container card-flex-container" ng-cloak>
+              <course-card class="card card-flex" ng-repeat='course in user.courses | orderBy:"name"' data="course" expandedsection="true" short="false" sections='course.sections'>  </course-card>
+            </div>
+          </uib-tab>
+          <uib-tab index="1" heading="List" select="refreshSubmissions()">
+            <br/>
+            <submissionview></submissionview>
+          </uib-tab>
+      </uib-tabset>
     </div>
   </div>
 </div>

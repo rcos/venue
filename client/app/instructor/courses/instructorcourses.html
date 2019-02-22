@@ -9,9 +9,17 @@
       <h3 ng-hide="anyCourses">You are not the instructor for any sections yet</h3>
       <h4 ng-hide="anyCourses">Create a <a href="/instructor/newcourse">course</a> to get started</h4>
       <h4>Choose a <a href="/courses">course</a> to create a new section</h4>
-      <div class="card-container row">
-        <course-card class="col-md-6" ng-repeat='course in user.courses | orderBy:"name"' data="course" expandedsection="true" short="false" sections='course.sections'>  </course-card>
-      </div>
+      <uib-tabset active="active">
+        <uib-tab index="0" heading="Images">
+          <div class="card-container row">
+              <course-card class="col-md-6" ng-repeat='course in user.courses | orderBy:"name"' data="course" expandedsection="true" short="false" sections='course.sections'>  </course-card>
+          </div>
+        </uib-tab>
+        <uib-tab index="1" heading="List" select="refreshSubmissions()">
+          <br/>
+          <submissionview></submissionview>
+        </uib-tab>
+      </uib-tabset>
     </div>
   </div>
 </div>
