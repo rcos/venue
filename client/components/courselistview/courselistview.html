@@ -1,0 +1,40 @@
+<div class='courselistview'>
+  <div class='content'>
+    <div class="col-xs-12">
+      <!-- Course Table List -->
+      <div class='item'>
+        <div class='row'>
+          <div class='col-xs-3 centered'>
+            <a href="#" ng-href="{{viewCourse(data)}}">
+              {{ data.name }}
+            </a>
+          </div>
+          <div class='col-xs-3 description' data-ng-bind="data.description">
+            {{ data.description }}
+          </div>
+          <div class='col-xs-4 centered' ng-hide="expandedsection">
+            <a href="#" ng-href="{{viewCourse(data)}}">
+              {{ data.department }} {{data.courseNumber}}
+              <span ng-show="sections"> | Sections :
+                <span ng-repeat="sec in sections">
+                  <span ng-repeat="num in sec.sectionNumbers"> {{ num }} <span ng-hide="$last">, </span></span>
+                  <span ng-hide="$last"> ; </span>
+                </span>
+              </span>
+            </a>
+          </div>
+          <div class='cols-xs-4 centered' ng-show="expandedsection">
+            <a href="#" ng-repeat="sec in sections" ng-href="{{viewSection(data, sec)}}">
+              {{ data.department }} {{data.courseNumber}}
+              <span class='course-sect' ng-show="sections"> | Sections :
+                <span ng-repeat="num in sec.sectionNumbers"> {{ num }} <span ng-hide="$last">, </span></span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

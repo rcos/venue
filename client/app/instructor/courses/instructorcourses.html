@@ -10,14 +10,19 @@
       <h4 ng-hide="anyCourses">Create a <a href="/instructor/newcourse">course</a> to get started</h4>
       <h4>Choose a <a href="/courses">course</a> to create a new section</h4>
       <uib-tabset active="active">
-        <uib-tab index="0" heading="Images">
+        <uib-tab index="0" heading="Courses">
           <div class="card-container row">
               <course-card class="col-md-6" ng-repeat='course in user.courses | orderBy:"name"' data="course" expandedsection="true" short="false" sections='course.sections'>  </course-card>
           </div>
         </uib-tab>
-        <uib-tab index="1" heading="List" select="refreshSubmissions()">
+        <uib-tab index="1" heading="List">
           <br/>
-          <submissionview></submissionview>
+          <div class='row header'>
+            <div class='col-xs-3'> <div class='column-name'> Course Name </div> </div>
+            <div class='col-xs-3'> <div class='column-name'> Description </div> </div>
+            <div class='col-xs-6'> <div class='column-name'> Department / Course Number | Section(s)</div> </div>
+          </div>
+          <courselistview ng-repeat='course in user.courses | orderBy:"name"' data="course" expandedsection="true" short="false" sections='course.sections'>  </courselistview>
         </uib-tab>
       </uib-tabset>
     </div>
