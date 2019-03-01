@@ -17,7 +17,7 @@
               {{ data.department }} {{data.courseNumber}}
               <span ng-show="sections"> | Sections :
                 <span ng-repeat="sec in sections">
-                  <span ng-repeat="num in sec.sectionNumbers"> {{ num }} <span ng-hide="$last">, </span></span>
+                  <span ng-repeat="num in sec.sectionNumbers"> {{ num }}<span ng-hide="$last">, </span></span>
                   <span ng-hide="$last"> ; </span>
                 </span>
               </span>
@@ -27,7 +27,8 @@
             <a href="#" ng-repeat="sec in sections" ng-href="{{viewSection(data, sec)}}">
               {{ data.department }} {{data.courseNumber}}
               <span class='course-sect' ng-show="sections"> | Sections :
-                <span ng-repeat="num in sec.sectionNumbers"> {{ num }} <span ng-hide="$last">, </span></span>
+                <span ng-repeat="num in sec.sectionNumbers"> {{ num }}<span ng-hide="$last">, </span></span>
+                <span ng-hide="$last"> ; </span>
               </span>
             </a>
           </div>
