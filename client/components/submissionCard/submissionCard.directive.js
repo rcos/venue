@@ -32,6 +32,7 @@ export default angular.module('directives.submissionCard', [showImage])
       },
       controller: function ($scope, $element, Submission) {
         $scope.validateSubmission1 = function(s, event){
+          console.log("You clicked to validate a submission!");
           Submission.patch({
             _id: s._id,
             verified: true

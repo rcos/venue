@@ -105,12 +105,13 @@ function isInstructorInSection(userId, sectionId) {
         if (instructorId.equals(userId))
           isInstructor = true;
       })
+      
       return isInstructor;
   }).catch(err => next(err));
 }
 
 /**
- * Checks if user is an instructor of a course
+ * Checks if user is an instructor of a course or a TA
  */
 export function isCourseInstructor(){
     return compose()
@@ -278,4 +279,42 @@ export function setTokenCookie(req, res) {
   else{
     res.redirect('/instructor/dashboard');
   }
+}
+
+/**
+ *checks if the user is an instructor or a TA for a course
+*/
+export function isInstructorOrTAInCourse(){
+  return compose()
+      .use(isAuthenticated())
+      .use(function meetsRequirements(req, res, next) {
+          if (req.user.isInstructor || isTA()){
+            var userId = req.user._id;
+              if (req.body._id) {
+                Submission.findByIdAsync(req.body._id)
+                  .then(submission => {
+                    SectionEvent.findByIdAsync(submission.sectionEvent)
+                      .then(sectionEvent => {
+                        isInstructorInSection(userId, sectionEvent.section)
+                          .then(instructorInSection => {
+                            if (!instructorInSection) {
+                              isTAInSection(userId, sectionEvent.section)
+                                .then(taInSection => {
+                                  if(!taInSection){
+                                    res.status(403).send('Forbidden');
+                                  } else {
+                                    next();
+                                  }
+                                }).catch(err => next(err));
+                            } else {
+                              next();
+                            }
+                          }).catch(err => next(err));
+                    }).catch(err => next(err));
+                }).catch(err => next(err));
+              }
+          } else {
+            res.status(403).send('Forbidden');
+          }
+      });
 }
