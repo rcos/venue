@@ -145,6 +145,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
               });
             });
 
+          //updating the users array of sections
           promise = User.updateTASections({userId: $scope.loadedStudent._id, sectionId: $scope.section._id}).$promise;
           promise.then((student) => {
             alert("It worked!");
@@ -152,16 +153,6 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
           .catch(err => {
             alert("Student with id: " + $scope.loadedStudent._id + " did not save");
           });
-
-
-          // promise = User.update({id:$scope.loadedStudent._id}, $scope.loadedStudent).$promise;
-          // promise.then((student) => {
-          //   alert("It worked!");
-          // })
-          // .catch(err => {
-          //   alert("Student with id: " + $scope.loadedStudent._id + " did not save");
-          // });
-
         }
       });
     };

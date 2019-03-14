@@ -580,21 +580,6 @@ export function updateEmailPreferences(req, res, next) {
 }
 
 export function updateTASections(req, res, next) {
-  // User.findOneAsync({ _id: req.body.userId })
-  //   .then(user => {
-  //     if (!user) {
-  //       return res.status(401).end();
-  //     }
-  //       var sectionId = req.body.sectionId;
-  //       user.taSections.push(sectionId);
-  //       return user.saveAsync()
-  //         .then(() => {
-  //           res.status(204).end();
-  //         })
-  //         .catch(handleError(res));
-  //   })
-  //   .catch(err => next(err));
-
   Section.findOneAsync({_id: req.body.sectionId})
   .then(section => {
 
@@ -613,7 +598,6 @@ export function updateTASections(req, res, next) {
     .catch(err => next(err));
   })
   .catch(err => next(err));
-
 }
 
 function handleEntityNotFound(res) {
@@ -635,129 +619,3 @@ function responseWithResult(res, statusCode) {
   };
 }
 
-function saveTAUpdates(req) {
-
-  // return (user) => {
-  //   var pendingStudent;
-   
-  //   if(req.body.pendingStudent){
-  //     pendingStudent = req.body.pendingStudent;
-  //     if(section.pendingStudents.remove(pendingStudent)){
-  //       section.students.push(pendingStudent);
-  //     }
-  //     else{
-  //       throw "Not a valid pending student";
-  //     }
-  //   }
-  //   if(req.body.removePendingStudent){
-  //     pendingStudent = req.body.removePendingStudent;
-  //     if(!section.pendingStudents.remove(pendingStudent)){
-  //       throw "Not a valid pending student";
-  //     }
-  //   }
-  //   if(req.body.removeStudent){
-
-  //     var student = req.body.removeStudent;
-  //     if(!section.students.remove(student)){
-  //       throw "Not a valid student";
-  //     }
-  //   }
-  //   if (req.body.sectionNumbers){
-  //     checkSectionReq(req);
-  //     section.sectionNumbers = req.body.sectionNumbers.map(Number);
-  //   }
-  //   if(req.body.enrollmentPolicy)
-  //   {
-  //     section.enrollmentPolicy = req.body.enrollmentPolicy;
-  //   }
-  //   if(req.body.instructors)
-  //   {
-  //     section.instructors = req.body.instructors;
-  //   }
-  //   if(req.body.assistants){
-  //     section.teachingAssistants = req.body.assistants;
-     
-  //   }
-  return (user) => {
-
-    if(req.body.lastName){
-      user.lastName = req.body.lastName;
-    }
-    if(req.body.firstName){
-      user.firstName = req.body.firstName;
-    }
-    if(req.body.email){
-      user.email = req.body.email;
-    }
-    if(req.body.role){
-      user.role = req.body.role;
-    }
-    if(req.body.isInstructor){
-      user.isInstructor = req.body.isInstructor;
-    }
-    if(req.body.isVerified){
-      user.isVerified = req.body.isVerified;
-    }
-    if(req.body.taSections){
-      user.taSections = req.body.taSections;
-    }
-    if(req.body.password){
-      user.password= req.body.password;
-    }
-    if(req.body.provider){
-      user.provider = req.body.provider;
-    }
-    if(req.body.salt){
-      user.salt = req.body.salt;
-    } 
-    if(req.body.lastName){
-      user.body = req.body.lastName;
-    }
-    if(req.body.facebook){
-      user.facebook = req.body.facebook;
-    }
-    if(req.body.twitter){
-      user.twitter = req.body.twitter;
-    }
-    if(req.body.google){
-      user.google = req.body.google;
-    }
-    if(req.body.github){
-      user.github = req.body.github;
-    }
-    if(req.body.verificationToken){
-      user.verificationToken = req.body.verificationToken;
-    }   
-    if(req.body.preferences){
-      user.preferences = req.body.preferences;
-    }
-    if(req.body.emailNotifyAheadMinutes){
-      user.emailNotifyAheadMinutes = req.body.emailNotifyAheadMinutes;
-    }
-
-    return user.saveAsync();
-  }
-}
-
-export function update(req, res) {
-  // if (req.body._id) {
-  //   delete req.body._id;
-  // }
-  // User.findByIdAsync(req.params.id)
-  //   .then(handleEntityNotFound(res))
-  //   .then(saveTAUpdatesUpdates(req))
-  //   .then(responseWithResult(res))
-  //   .catch(handleError(res));
-  User.findOneAsync({ _id: req.body.userId })
-    .then(user => {
-      if (!user) {
-        return res.status(401).end();
-      }
-      return user.saveAsync()
-        .then(() => {
-          res.status(204).end();
-        })
-        .catch(handleError(res));
-    })
-    .catch(err => next(err));
-}

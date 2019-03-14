@@ -14,6 +14,11 @@ export default class GradingCtrl {
         $scope.submissions = submissions;
       });
     }
+    // $scope.refreshSubmissions = function() {
+    //   Submission.getAll({}, (submissions)=>{
+    //     $scope.submissions = submissions;
+    //   });
+    // }
     $scope.refreshSubmissions();
 
     $scope.goToEvent = (event) => {

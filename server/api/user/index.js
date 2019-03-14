@@ -22,7 +22,6 @@ router.get('/:id', auth.isAuthenticated(), controller.show);
 router.put('/updateInstructorStatus', auth.hasRole('admin'), controller.updateInstructorStatus);
 router.put('/updateAdminStatus', auth.hasRole('admin'), controller.updateAdminStatus);
 router.put('/updateTASections', auth.isInstructor(), controller.updateTASections);
-router.put('/:id', auth.isInstructor(), controller.update);
 router.post('/emailPreferences', auth.isAuthenticated(), controller.updateEmailPreferences)
 router.post('/resendEmail', controller.resendEmail);
 router.post('/resetPassword', controller.resetPasswordEmail);

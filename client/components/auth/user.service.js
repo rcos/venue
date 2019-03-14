@@ -86,10 +86,7 @@ export function UserResource($resource) {
       params: {
         controller: 'updateTASections'
       }
-    }, 
-    update: {
-      method: 'PUT'
-    },
+    } 
   });
   return User;
 }

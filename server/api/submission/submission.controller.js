@@ -99,7 +99,7 @@ exports.index = function(req, res) {
   var withSection = withDefault(req.query.withSection, false);
   var withSectionCourse = withDefault(req.query.withSectionCourse, false);
 
-  var studentRequest = !req.user.isInstructor;
+  var studentRequest = !req.user.isInstructor && !req.user.taSections.length > 0;
   var search = {};
   if (studentRequest){
     search = { $or: [{ submitter: req.user._id}, { authors: {$in: [req.user._id]} } ]};
