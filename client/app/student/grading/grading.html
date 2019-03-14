@@ -2,6 +2,13 @@
   <div class='row'>
     <div class='col-sm-12 grading-panel' ng-cloak>
       <h1 class="page-header">Grading</h1>
+
+      <!-- Show what classes the TA is a TA for -->
+      <h2>{{ current_user.firstName }}</h2>
+      <h2>{{ current_user.lastName }}</h2>
+      <h2>These: {{ current_user.taSections }}</h2>
+      <h1 ng-repeat="section in current_user.taSections">{{section.instructors}}</h1>
+
       <h3 ng-hide="submissions.length">No student submissions yet</h3>
       <h4 ng-hide="submissions.length">Contact your instructor to create an event</h4>
       <div ng-show="submissions.length">

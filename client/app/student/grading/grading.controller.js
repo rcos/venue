@@ -3,6 +3,10 @@ export default class GradingCtrl {
 
   /*@ngInject*/
   constructor($scope, $location, User, Auth, Submission) {
+    $scope.current_user = Auth.getCurrentUserSync();
+    // $scope.ta_sections = Auth.getCurrentUserSync().taSections;
+    // this.getCurrentUser = Auth.getCurrentUserSync;
+
     //This retreives the appropriate submissions with this user as the TA
     //Doesn't work yet
     $scope.refreshSubmissions = function() {

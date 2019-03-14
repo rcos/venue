@@ -7,8 +7,8 @@ export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, S
     Auth.getCurrentUser((user) => {
       if (user.isInstructor){
         $scope.isInstructor = true;
-      }
-    })
+      } 
+    });
     $scope.selectedSections = [];
     $scope.selectedEvents = [];
     $scope.allEvents = {};

@@ -6,7 +6,7 @@ export default class NavbarComponent {
     this.$location = $location;
     this.isStudent = false;
     this.isInstructor = false;
-    this.isTA = false;
+    //this.isTA = true;
     this.isLoggedIn = Auth.isLoggedInSync;
     this.isAdmin = Auth.isAdminSync;
     this.isStudent = Auth.isStudentSync;

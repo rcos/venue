@@ -20,7 +20,7 @@
               </td>
             </tr>
              <tr>
-              <td class="text-right section-info">Teaching Assistant<span ng-show="section.teachingAssistants.length > 1">s</span></td>
+              <td class="text-right section-info">Teaching Assistant(s)<span ng-show="section.teachingAssistants.length > 1">s</span></td>
               <td class="text-left section-info">
                 <span ng-repeat="ta in section.teachingAssistants">
                   <span ng-show="$last && !$first">& </span>{{ta.firstName}} {{ta.lastName}}<span ng-hide="$last">, </span>
