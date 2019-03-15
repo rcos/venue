@@ -5,8 +5,8 @@ export default class NewEventCtrl {
   constructor($scope) {
     $scope.event = {info:{}};
     $scope.stage = {
-      select: true,
-      create: false,
+      select: false,
+      create: true,
       assign: false,
       done: false
     }
