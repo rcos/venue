@@ -9,8 +9,11 @@
               {{ data.name }}
             </a>
           </div>
-          <div class='col-xs-3 description' data-ng-bind="data.description">
-            {{ data.description }}
+          <div class='col-xs-3'>
+            <span ng-show='data.showAllContent'> {{ data.description }} </span>
+            <span ng-show='!data.showAllContent'>{{ data.description | limitTo: 100 }}{{data.description.length > 100 ? '...' : ''}}</span>
+            <a href='#' ng-show='data.description.length > 100 && !data.showAllContent' ng-click='data.showAllContent = true'> show </a>
+            <a href='#' ng-show='data.description.length > 100 && data.showAllContent' ng-click='data.showAllContent = false'> hide </a>
           </div>
           <div class='col-xs-4 centered' ng-hide="expandedsection">
             <a href="#" ng-href="{{viewCourse(data)}}">
