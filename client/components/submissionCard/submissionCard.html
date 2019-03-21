@@ -3,7 +3,11 @@
     <div ng-class="{'col-xs-12': !expanded, 'col-xs-6': expanded}">
       <div class='submission-name' ng-style="{'background-image':'url(' + img + ')'}">
       </div>
+
+      <!-- Creating a submission image for each submission  -->
+      <!-- located under submissions then images tab-->
       <div class='submission-desc'>
+        <!-- DISPLAY SUBMISSION INFO  -->
         <div>Event: {{ data.sectionEvent.info.title }}</div>
         <div>Course: {{ data.sectionEvent.section.course.department }} {{data.sectionEvent.section.course.courseNumber}} | {{ data.sectionEvent.section.course.name }}</div>
         <div>Sections :
@@ -11,16 +15,19 @@
         </div>
       </div>
       <div class='submission-ref'>
+          <!-- DISPLAY SUBMISSION INFO -->
           <div> Submitted: {{data.time | date : "MMM. d, h:mm a"}}</div>
           <div> Author: {{ data.submitter.firstName }} {{ data.submitter.lastName }}</div>
           <div ng-show="data.instructorApproval.instructor"> Graded by: {{ data.instructorApproval.instructor.firstName }} {{ data.instructorApproval.instructor.lastName }}</div>
+          <!-- DISPLAY ICON BASED ON VERIFICATION VARIABLE VALUE -->
           <div class="verification-icon">
             <i class="fa fa-check verified" title="verified" aria-hidden="true" ng-show="data.verified"></i>
             <i class="fa fa-times rejected" title="rejected" aria-hidden="true" ng-show="!data.verified && data.instructorVerification==='rejected'"></i>
             <i class="fa fa-hourglass pending" title="verification pending" aria-hidden="true" ng-show="!data.verified && data.instructorVerification==='none'"></i>
           </div>
+          <!-- CREATING THE VALIDATE BUTTON -->
           <div class="validate-btn">
-            <a href="" ng-show="!data.verified" class="btn btn-primary btn-xs" ng-click="validateSubmission1(data, $event)" role="button" type="button"> Validate </a>
+            <a href="" ng-show="!data.verified && (isInstructor || isTA())" class="btn btn-primary btn-xs" ng-click="validateSubmission1(data, $event)" role="button" type="button"> Validate </a>
           </div>
       </div>
     </div>
