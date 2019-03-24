@@ -305,14 +305,9 @@ export function CreateEventFormCtrl($scope, Auth, EventInfo, User, SectionEvent,
       arrayKey: '[i]'
     }).success( (response) => {
       $scope.eventContainer.info = response;
-      console.log($scope.eventContainer.info);
       $scope.submitted = false;
-
       $scope.event = {};
-      $scope.eventInfo = $scope.eventContainer.info;  
-      // if ($scope.onSubmit){
-      //   $scope.onSubmit();
-      // }
+      $scope.eventInfo = $scope.eventContainer.info;
     }).catch(err => {
       err = err.data;
     });

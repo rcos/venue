@@ -48,7 +48,7 @@ export default class EventsCtrl {
           $scope.latAvg = lats/count;
           $scope.lngAvg = lngs/count;
           
-          $scope.mapInit();
+          // $scope.mapInit();
         },
         err => {
           $scope.err = err;
@@ -84,7 +84,7 @@ export default class EventsCtrl {
       $scope.confirm = false;
     };
 
-    $scope.editAssignemnt = function(){
+    $scope.editAssignment = function(){
       $scope.assignment = { submissionInstructions : $scope.event.submissionInstructions.slice(0)};
       $scope.assignmentEdit = true;
     };

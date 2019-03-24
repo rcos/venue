@@ -139,8 +139,8 @@
       </div>
 
       <div class="form-group">
-        <button class="btn btn-inverse btn-lg btn-register" type='submit'>
-          Create Event
+        <button class="btn btn-inverse btn-lg btn-register" type='submit'  ng-click="isCollapsed = !isCollapsed">
+          Assign Sections
         </button>
       </div>
 
@@ -148,7 +148,7 @@
 
 </div>
 
-<div class='eventAssignmentForm'>
+<div uib-collapse="!isCollapsed" class='eventAssignmentForm'>
   <h3>Section Assignment</h3>
   <form class="eventAssignment" name="eventAssignmentForm" ng-submit="submitEventAssignment(eventAssignmentForm)" novalidate>
 
@@ -192,7 +192,7 @@
 
     <div>
       <button class="btn btn-inverse btn-lg btn-register" type="submit">
-        {{updating ? "Update Event Assignment" : "Create Event Assignment"}}
+        Create Event
       </button>
     </div>
   </form>
