@@ -462,7 +462,7 @@ export function unenrollInSection(req, res, next) {
     .catch(err => next(err));
 }
 /**
-* Adds 
+* Adds
 
 /**
  * Get my info

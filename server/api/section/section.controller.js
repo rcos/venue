@@ -122,21 +122,21 @@ export async function index(req, res, next) {
 //Gets the profiles of all users in the section
 export async function getStudentInfo(req,res,next){
 
-  
+
   let sectionId = req.params.id;
-  
+
   let section = await Section.findById(sectionId).execAsync();
   section = section.toJSON();
 
   if (!section) return res.status(404).end();
- 
-  
+
+
   let studentProfile = []
   for(let i = 0; i < section.students.length; i++){
     let profile = await User.findById(section.students[i]).execAsync();
     studentProfile.push(profile);
-  }  
-  
+  }
+
   return res.json(studentProfile);
 };
 
@@ -216,11 +216,15 @@ function saveSectionUpdates(req) {
 
   return (section) => {
     var pendingStudent;
-   
     if(req.body.pendingStudent){
       pendingStudent = req.body.pendingStudent;
-      if(section.pendingStudents.remove(pendingStudent)){
-        section.students.push(pendingStudent);
+      console.log("pending: "+pendingStudent);
+      var index = section.pendingStudents.indexOf(pendingStudent);
+      console.log("Section: " + section);
+      console.log("Index: " + index);
+      if(index > -1){
+        section.pendingStudents.splice(index,1);
+        section.students = section.students.concat([pendingStudent]);
       }
       else{
         throw "Not a valid pending student";
@@ -253,10 +257,11 @@ function saveSectionUpdates(req) {
     }
     if(req.body.assistants){
       section.teachingAssistants = req.body.assistants;
-     
+
     }
 
-    return section.saveAsync();
+    return section.saveAsync()
+      
   }
 }
 
