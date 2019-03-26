@@ -1,7 +1,7 @@
 // Generated on 2017-06-14 using generator-angular-fullstack 4.2.2
 'use strict';
 
-import _ from 'lodash';
+import _ from "lodash";
 import del from 'del';
 import gulp from 'gulp';
 import grunt from 'grunt';

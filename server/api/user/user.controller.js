@@ -67,8 +67,8 @@ export function index(req, res) {
  */
 export function indexInstructors(req, res) {
   if (req.query.validOnly) {  // omit test, admin, and venue team instructors
-    User.findAsync({isInstructor: true, _id: {$nin: ["000000000000000000000000", 
-                                                     "000000000000000000000001", 
+    User.findAsync({isInstructor: true, _id: {$nin: ["000000000000000000000000",
+                                                     "000000000000000000000001",
                                                      "111111111111111111111112"]}})
       .then(users => {
         res.status(200).json(users);
@@ -461,6 +461,8 @@ export function unenrollInSection(req, res, next) {
     })
     .catch(err => next(err));
 }
+/**
+* Adds
 
 /**
  * Get my info

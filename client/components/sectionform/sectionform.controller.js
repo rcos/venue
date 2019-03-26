@@ -2,7 +2,10 @@
 export function SectionFormController($scope, $location, $routeParams, $filter, Auth, User, Course, Section){
     "ngInject";
     $scope.prevSearchText = "";
+    $scope.prevTASearchText = "";
+
     Auth.getCurrentUser((user) => {
+
       $scope.creating = $scope.updating != "true";
       $scope.user = user;
       Course.get({
@@ -11,11 +14,12 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
         checkRoles: true,
         withSections: true
       }, course => {
+
         $scope.isSupervisor = course.roleDict['supervisor'];
         $scope.isInstructor = course.roleDict['instructor'];
         $scope.isStudent = course.roleDict['student'];
         $scope.course = course;
-        
+      
         if(!$scope.creating){
           setCurrentSection();
           var instructorDict = {};
@@ -24,6 +28,29 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
           });
         }
         $scope.instructorCount = 1;
+        $scope.assistantCount = 0;
+
+      
+
+        Section.getStudentInfo({
+          id: $scope.section._id
+        }, (allStudents) => {
+          allStudents = $filter('orderBy')(allStudents, 'firstName+lastName');
+          
+          $scope.allStudents = allStudents.map(student => {
+            student.name = student.firstName + " " + student.lastName;
+            student.sectionTA = $scope.section.teachingAssistants.findIndex((ta) => ta === student._id) != -1;
+            if (student.sectionTA)
+              $scope.assistantCount += 1;
+            return student;
+
+          })
+         
+          
+        });
+
+        
+       
         User.getAllInstructors({
           validOnly: true
         }, allInstructors => {
@@ -60,7 +87,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       });
       $scope.section = $scope.course.sections.splice(currentSection, 1)[0];
       $scope.section.sectionNumbersText = $scope.section.sectionNumbers.toString();
-      $scope.$watch('section.sectionNumbers', function(newValue, oldValue) {
+           $scope.$watch('section.sectionNumbers', function(newValue, oldValue) {
         $scope.section.sectionNumbersText = $scope.section.sectionNumbers.toString();
       });
     }
@@ -77,13 +104,22 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
         if (form.$valid && $scope.section.enrollmentPolicy) {
           var promise;
           section.instructors = [];
+          section.assistants = [];
           angular.forEach($scope.allInstructors, function(instructor) {
             if (instructor.inSection) {
               section.instructors.push(instructor._id);
             }
           });
+           angular.forEach($scope.allStudents, function(student) {
+            if (student.sectionTA) {
+              section.assistants.push(student._id);
+            }
+          });
+        
           if ($scope.updating == "true"){
+          
             promise = Section.update({id:$routeParams.sectionId}, section).$promise;
+            
           }else{
             promise = Section.create(section).$promise;
           }
@@ -115,6 +151,12 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       }
     }
 
+    $scope.removeTA = function(ta){
+      if (confirm("Are you sure you want to remove " + instructor.name + " from this section?")){
+        ta.sectionTA = false;
+      }
+    }
+
     $scope.filterSearch = function(searchText){
       // Creates an array of instructors that matches the input string
       // searchText is the input string
@@ -123,6 +165,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       
       if (searchText.length > $scope.prevSearchText.length) {
         $scope.newFilteredInstructors = [];
+        
         angular.forEach($scope.filteredInstructors, function(instructor){
           if(instructor.name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0){
             $scope.newFilteredInstructors.push(instructor);
@@ -137,7 +180,45 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
           }
         });
       }
+     
       $scope.prevSearchText = searchText;
+    }
+
+    $scope.filterTASearch = function(searchTA){
+
+      //Creates an array of students that match the input string
+      //searchText is the input string
+
+      $scope.addTA = false;
+      $scope.showStudentList = searchTA.length > 0;
+     
+
+      if (searchTA.length > $scope.prevTASearchText.length) { 
+      
+        $scope.newFilteredStudents = [];
+       
+        angular.forEach($scope.filteredStudents, function(student){
+          if(student.name.toLowerCase().indexOf(searchTA.toLowerCase()) >= 0){
+            $scope.newFilteredStudents.push(student);
+          }
+        });
+        
+        $scope.filteredStudents = $scope.newFilteredStudents;
+        
+        $scope.filteredStudents= [];
+        
+        angular.forEach($scope.allStudents, function(student){
+    
+          if((student.name.toLowerCase().indexOf(searchTA.toLowerCase()) >= 0) && (!student.sectionTA)){
+
+            $scope.filteredStudents.push(student);
+          }
+
+        });
+      }
+     
+      $scope.prevTASearchText = searchTA;
+
     }
 
     $scope.selectInstructor = function(instructor){
@@ -148,6 +229,14 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       $scope.showInstructorList = false;
     }
 
+    $scope.selectStudent = function(student){
+      //Select a teachin assistant
+      $scope.searchTA = student.name;
+      $scope.addTA = true;
+      $scope.loadedStudent = student;
+      $scope.showStudentList = false;
+    }
+
     $scope.addInstructor = function(){
       // Add the selected instructor to the section
       $scope.loadedInstructor.inSection = true;
@@ -155,6 +244,16 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       $scope.instructorCount += 1;
       $scope.searchText = "";
       $scope.showAddButton = false;
+    }
+
+    $scope.addAssistant = function(){
+      // Makes the selected stuent a teaching assistant
+      $scope.loadedStudent.taSections.push($scope.section._id);
+      $scope.assistantCount += 1;
+      $scope.searchTA = "";
+      $scope.addTA = false;
+      $scope.loadedStudent.sectionTA = true;
+     
     }
 
     $scope.deleteSection = (section) => {
