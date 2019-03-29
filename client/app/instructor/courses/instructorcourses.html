@@ -18,9 +18,9 @@
         <uib-tab index="1" heading="List">
           <br/>
           <div class='row header'>
-            <div class='col-xs-3'> <div class='column-name'> Course Name </div> </div>
-            <div class='col-xs-3'> <div class='column-name'> Description </div> </div>
-            <div class='col-xs-6'> <div class='column-name'> Department / Course Number | Section(s)</div> </div>
+            <div class='col-xs-4'> <div class='column-name'> Course Name </div> </div>
+            <div class='col-xs-4'> <div class='column-name'> Description </div> </div>
+            <div class='col-xs-4'> <div class='column-name'> Department / Course Number | Section(s)</div> </div>
           </div>
           <courselistview ng-repeat='course in user.courses | orderBy:"name"' data="course" expandedsection="true" short="false" sections='course.sections'>  </courselistview>
         </uib-tab>
