@@ -8,5 +8,10 @@ export default function routes($routeProvider) {
       template: require('./newevent.html'),
       controller: 'NewEventCtrl',
       authenticate: 'instructor'
+    })
+    .when('/instructor/neweventassignment', {
+      template: require('./neweventassignment.html'),
+      controller: 'NewEventAsgmtCtrl',
+      authenticate: 'instructor'
     });
 }

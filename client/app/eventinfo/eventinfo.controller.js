@@ -45,9 +45,9 @@ export default class EventInfoCtrl {
       return "/events/"+sectionEvent._id
     };
 
-    // $scope.viewNewEvent = (sectionEvent) => {
-    //   return "/instructor/newevent";
-    // };
+    $scope.viewNewEvent = (sectionEvent) => {
+      return "/instructor/neweventassignment";
+    };
 
   }
 };
