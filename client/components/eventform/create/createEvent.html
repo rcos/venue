@@ -139,7 +139,7 @@
       </div>
 
       <div class="form-group">
-        <button class="btn btn-inverse btn-lg btn-register" type='submit'  ng-click="isCollapsed = !isCollapsed">
+        <button ng-disabled="eventInfoForm.$invalid" class="btn btn-inverse btn-lg btn-register" type='submit'  ng-click="isCollapsed = !isCollapsed">
           Assign Sections
         </button>
       </div>

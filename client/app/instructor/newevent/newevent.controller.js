@@ -7,6 +7,7 @@ export default class NewEventCtrl {
     $scope.stage = {
       select: false,
       create: true,
+      assign: false,
       done: false
     }
     $scope.doneSelect = function(create){
@@ -16,13 +17,13 @@ export default class NewEventCtrl {
         $scope.stage.create = true;
       }
       else {
-
         $scope.stage.assign = true;
       }
     }
     $scope.doneCreate = function(){
 
       $scope.stage.create = false;
+      $scope.stage.assign = true;
       $scope.stage.done = true;
 
     }
