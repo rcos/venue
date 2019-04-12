@@ -8,96 +8,80 @@
       <div class='col-xs-12 search-bar-container'>
         <div class="search-bar">
           <div class="input-group" ng-show="isInstructor" >
-             <input type="text" ng-model='searchName' class="form-control" placeholder="Search Students">
-             <span class="input-group-btn">
-               <button class="btn btn-default" type="button">
-                 <span class='glyphicon glyphicon-search'></span>
-               </button>
-             </span>
-           </div>
+           <input type="text" ng-model='searchName' class="form-control" placeholder="Search Students">
+           <span class="input-group-btn">
+             <button class="btn btn-default" type="button">
+               <span class='glyphicon glyphicon-search'></span>
+             </button>
+           </span>
          </div>
-      </div>
-    </div>
-    <div class="row" ng-repeat="event in selectedEvents track by $index">
-      <div class="col-xs-12">
-        <h4>{{event.title}}</h4>
-        <div ng-repeat="submission in submissions | visibleSubmission:selectedSections:event:submissionFilter:searchName">
-          <!-- Student Table -->
-          <div class='row header' ng-show="$first">
-            <div class='col-xs-2'> <div class='column-name'> Student Name </div> </div>
-            <div class='col-xs-1'> <div class='column-name'> Submitted </div> </div>
-            <div class='col-xs-1'> <div class='column-name'> Validated </div> </div>
-            <!-- <div class='col-xs-1'> <div class='column-name'>  </div> </div> -->
-            <div class='col-xs-2'> <div class='column-name'> Course </div> </div>
-            <div class='col-xs-4'> <div class='column-name'> Submission Content </div> </div>
-            <div class='col-xs-1'> <div class='column-name'> Image </div> </div>
-          </div>
+       </div>
+     </div>
+   </div>
+
+   <div class="row" ng-repeat="event in selectedEvents track by $index ">
+    <div class="col-xs-12">
+      <h4>{{event.title}}</h4>
+      <table class="table text-center">
+        <thead>
+          <tr>
+            <td sort-arrow sortby='submitter' text='Student Name' sortorder='sortorder'></td>
+            <td sort-arrow sortby='time' text='Submitted' sortorder='sortorder'></td>
+            <td sort-arrow sortby='verified' text='Validated' sortorder='sortorder'></td>
+            <td sort-arrow sortby='sectionEvent' text='Course' sortorder='sortorder'></td>
+            <td sort-arrow sortby='content' text='Submission Content' sortorder='sortorder'></td>            
+            <td>Image</td>
+          </tr>
+        </thead>
+        <tr ng-repeat="submission in submissions | visibleSubmission:selectedSections:event:submissionFilter:searchName | orderBy:sortorder">
           <div class='item'>
             <div class='row' ng-show="viewMode == 'small'">
-              <div class='col-xs-2 centered'> <!-- Student Name -->
+              <td class='col-xs-2 centered'> <!-- Student Name -->
                 {{submission.submitter.firstName}} {{submission.submitter.lastName}}
-              </div>
+              </td>
 
-              <div class='col-xs-1 centered'> <!-- Submitted -->
+              <td class='col-xs-1 centered'> <!-- Submitted -->
                 <div style='text-align:center'> <i ng-show='!submission.didNotSubmit' class='fa fa-check' aria-hidden="true"></i> </div>
-              </div>
+              </td>
 
-              <div class='col-xs-1 centered'> <!-- Validated -->
+              <td class='col-xs-1 centered'> <!-- Validated -->
                 <div style='text-align:center'>
                   <i ng-show='submission.verified' class='fa fa-check verified' title="verified"  aria-hidden="true"></i>
                   <i ng-show='!submission.verified && submission.instructorVerification==="rejected"' class='fa fa-times rejected' title="rejected"  aria-hidden="true"></i>
                   <i ng-show='!submission.verified && submission.instructorVerification==="none"' class='fa fa-hourglass pending' title="verification pending" aria-hidden="true"></i>
                 </div>
                 <a href="#" ng-show="!submission.verified" class="btn btn-primary btn-xs" ng-click="validateSubmission(submission)" role="button" type="button"> Validate </a>
-              </div>
+              </td>
               
 
-              <div class='col-xs-2 centered'> <!-- Section -->
+              <td class='col-xs-2 centered'> <!-- Section -->
                 {{ submission.sectionEvent.section.course.department }}
                 {{ submission.sectionEvent.section.course.courseNumber }}
-              </div>
+              </td>
 
-              <div class='col-xs-4'> <!-- Submission Content -->
+              <td class='col-xs-4'> <!-- Submission Content -->
                 <span ng-show='submission.showAllContent'> {{ submission.content }} </span>
                 <span ng-show='!submission.showAllContent'>{{ submission.content | limitTo: 40 }}{{submission.content.length > 40 ? '...' : ''}}</span>
                 <a href='#' ng-show='submission.content.length > 40 && !submission.showAllContent' ng-click='submission.showAllContent = true'> show </a>
                 <a href='#' ng-show='submission.content.length > 40 && submission.showAllContent' ng-click='submission.showAllContent = false'> hide </a>
-              </div>
+              </td>
 
-              <div class='col-xs-1 centered'>
+              <td class='col-xs-1 centered'>
                 <div ng-show='submission.images.length > 0'>
                   <a href='#' ng-show='!submission.showImage' ng-click='submission.showImage = true; submission.showAllContent = false'> Show </a>
                   <a href='#' ng-show='submission.showImage' ng-click='submission.showImage = false'> Hide </a>
                 </div>
                 <div style='text-align:center' ng-show='submission.images.length == 0'> None </div>
-              </div>
-            </div>
-            <div ng-show='submission.showImage || viewMode == "large"' class='row submission-large'>
-              <div class='col-xs-5 col-xs-offset-1'>
-                <div class='submission-content'>
-                  <h5> {{submission.submitter.firstName}} {{submission.submitter.lastName}} </h5>
-                  <div class='submission-info-line'>
-                    <i ng-show='!submission.didNotSubmit' class='fa fa-check' aria-hidden="true"></i>
-                    <i ng-show='submission.didNotSubmit' class='fa fa-times' aria-hidden="true"></i>
-                    {{ submission.didNotSubmit ? "Not Submitted" : "Submitted" }} |
-                    <i ng-show='submission.verified' class='fa fa-check verified' title="verified"  aria-hidden="true"></i>
-                    <i ng-show='!submission.verified && submission.instructorVerification==="rejected"' class='fa fa-times rejected' title="rejected"  aria-hidden="true"></i>
-                    <i ng-show='!submission.verified && submission.instructorVerification==="none"' class='fa fa-hourglass pending' title="verification pending" aria-hidden="true"></i>                    Validated |
-                    {{ submission.sectionEvent.section.course.department }}
-                    {{ submission.sectionEvent.section.course.courseNumber }}
+                <div ng-show='submission.showImage || viewMode == "large"' class='row submission-large'>
+                  <div class = 'col-xs-200'>
+                    <img ng-repeat="image in submission.images" src="{{image}}" class='submission-image'style="width:342px;height:192px;"/>
                   </div>
-                  {{submission.content}}
                 </div>
-              </div>
-              <div class='col-xs-5'>
-                <div class='submission-image-container'>
-                  <img ng-repeat="image in submission.images" src="{{image}}" class='submission-image'/>
-                </div>
-              </div>
+              </td>
             </div>
           </div>
-        </div>
-      </div>
+        </tr>
+      </table>
     </div>
   </div>
 </div>
