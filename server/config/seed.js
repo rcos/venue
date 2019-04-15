@@ -725,6 +725,27 @@ export function allSubmissions(){
           type: "Point"
         }
       }
+    },
+    submission4:{
+      _id : mongoose.Types.ObjectId("666666666666666666666662"),
+      content: "Foo's Robotics Submission",
+      images: ["/api/submissions/image/000000000000000000000004/000000000000000000001000/submission1.jpg"], // path to image on static image server?
+      time: Date.now(),
+      submitter: allUsers().foo._id,
+      authors: [allUsers().foo._id],
+      sectionEvent: allSectionEvents().mestizo1Robotics._id,
+      instructorVerification: "none",
+      verified: false,
+      locationMatch: false,
+      location: {
+        geo: {
+          coordinates: [
+               -73.6794438867554,
+              42.731655780717645
+          ],
+          type: "Point"
+        }
+      }
     }
   }
 }
