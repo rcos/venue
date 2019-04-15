@@ -57,6 +57,7 @@ import commaList from '../components/commaList/commaList.directive';
 import eventTitleBanner from '../components/eventTitleBanner/eventTitleBanner.directive';
 import dateFilter from '../components/dateFilter/dateFilter.directive';
 import courseCard from '../components/courseCard/courseCard.directive';
+import courselistview from '../components/courselistview/courselistview.directive';
 import submissionview from '../components/submissionview/submissionview.directive';
 import submissionCard from '../components/submissionCard/submissionCard.directive';
 import sectionform from '../components/sectionform/sectionform.directive';

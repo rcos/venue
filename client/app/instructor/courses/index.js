@@ -6,7 +6,7 @@ import sections from './sections';
 
 import InstructorCoursesCtrl from './instructorcourses.controller';
 
-export default angular.module('venueApp.instructorcourses', ['venueApp.auth', ngRoute, sections, 'directives.courseCard'])
+export default angular.module('venueApp.instructorcourses', ['venueApp.auth', ngRoute, sections, 'directives.courseCard', 'directives.courselistview'])
   .controller('InstructorCoursesCtrl', InstructorCoursesCtrl)
   .config(routing)
   .name;

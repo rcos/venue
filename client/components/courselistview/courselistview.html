@@ -1,0 +1,44 @@
+<div class='courselistview'>
+  <div class='content'>
+    <div class="col-xs-12">
+      <!-- Course Table List -->
+      <div class='item'>
+        <div class='row'>
+          <div class='col-xs-4'>
+            <a href="#" ng-href="{{viewCourse(data)}}">
+              {{ data.name }}
+            </a>
+          </div>
+          <div class='col-xs-4 descriptions-padding'>
+            <span ng-show='data.showAllContent'> {{ data.description }} </span>
+            <span ng-show='!data.showAllContent'>{{ data.description | limitTo: 100 }}{{data.description.length > 100 ? '...' : ''}}</span>
+            <a href='#' ng-show='data.description.length > 100 && !data.showAllContent' ng-click='data.showAllContent = true'> show </a>
+            <a href='#' ng-show='data.description.length > 100 && data.showAllContent' ng-click='data.showAllContent = false'> hide </a>
+          </div>
+          <div class='col-xs-4' ng-hide="expandedsection">
+            <a href="#" ng-href="{{viewCourse(data)}}" class='sections-padding'>
+              {{ data.department }} {{data.courseNumber}}
+              <span ng-show="sections"> | Sections :
+                <span ng-repeat="sec in sections">
+                  <span ng-repeat="num in sec.sectionNumbers"> {{ num }}<span ng-hide="$last">, </span></span>
+                  <span ng-hide="$last"> ; </br> </span>
+                </span>
+              </span>
+            </a>
+          </div>
+          <div class='cols-xs-4' ng-show="expandedsection">
+            <a href="#" ng-repeat="sec in sections" ng-href="{{viewSection(data, sec)}}" class='sections-padding'>
+              {{ data.department }} {{data.courseNumber}}
+              <span class='course-sect' ng-show="sections"> | Sections :
+                <span ng-repeat="num in sec.sectionNumbers"> {{ num }}<span ng-hide="$last">, </span></span>
+                <span ng-hide="$last"> ; </br> </span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
