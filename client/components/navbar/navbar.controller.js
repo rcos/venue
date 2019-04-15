@@ -2,7 +2,7 @@
 
 export default class NavbarComponent {
   /*@ngInject*/
-  constructor($location, Auth, $window) {
+  constructor($location, Auth, $window, Submission) {
     this.$location = $location;
     this.isStudent = false;
     this.isInstructor = false;
@@ -13,8 +13,25 @@ export default class NavbarComponent {
     this.isInstructor = Auth.isInstructorSync;
     this.isTA = Auth.isTASync;
     this.getCurrentUser = Auth.getCurrentUserSync;
-
     this.isCollapsed = true;
+    this.numPendingSubmissions = 0;
+
+    // check if the instructor has any pending submissions
+    if(this.isInstructor){
+        this.refreshSubmissions = function() {
+            Submission.getAll({'onlyInstructor': 'me', 'withStudents': true, 'withSection': true, 'withSectionCourse': true}, (submissions)=>{
+                var pendingSubmissions = 0;
+                submissions.forEach(function(submission){
+                    if(!submission.verified){
+                        pendingSubmissions++;
+                        console.log("Submission not verified");
+                    }
+                });
+                this.numPendingSubmissions = pendingSubmissions;
+            });
+        }
+        this.refreshSubmissions();
+    }
 
     this.help = () => {
         if (this.user.firstName && this.isStudent()){

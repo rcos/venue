@@ -67,7 +67,7 @@
             <a href="/instructor/events">Events</a>
           </li>
           <li ng-class="{active: isActive('/instructor/studentsubmissions')}">
-            <a href="/instructor/studentsubmissions">Submissions</a>
+            <a href="/instructor/studentsubmissions">Submissions {{nav.numPendingSubmissions != 0 ? nav.numPendingSubmissions : ''}}</a>
           </li>
 
           <li ng-show="nav.isAdmin()" ng-class="{active: nav.isActive('/admin')}"><a href="/admin">Admin</a></li>
