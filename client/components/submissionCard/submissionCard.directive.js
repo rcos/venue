@@ -43,14 +43,20 @@ export default angular.module('directives.submissionCard', [showImage])
         $scope.isInstructor = false;
         $scope.isTA = Auth.isTASync;
         Auth.getCurrentUser((user) => {
+          $scope.userId = user._id;
           if (user.isInstructor){
             $scope.isInstructor = true;
           }
         });
+
+        $scope.currentUserIsSubmitter = function(submitter){
+          return $scope.userId == submitter._id;
+        }
+
         // FUNCTION TO CHECK IF A SUBMISSION HAS BEEN VALIDATED
         //IF IT HAS BEEN THEN UPDATE VARIABLES
         $scope.validateSubmission1 = function(s, event){
-          console.log("You clicked to validate a submission!");
+          // console.log("You clicked to validate a submission!");
           Submission.patch({
             _id: s._id,
             verified: true

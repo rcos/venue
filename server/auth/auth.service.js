@@ -188,7 +188,7 @@ export function isStudent(){
 }
 
 function isTAInSection(userId, sectionId) {
-  console.log("isTAinSection called");
+  // console.log("isTAinSection called");
   return Section.findByIdAsync(sectionId)
     .then(section => {
       var isTA = false;

@@ -13,7 +13,7 @@ class Oblah {
   name: string = '';
 }
 
-export function AuthService(Util, $location, $http, $cookies, $q, appConfig, User) {
+export function AuthService(Util, $location, $http, $cookies, $q, appConfig, User, Section) {
   'ngInject';
   var safeCb = Util.safeCb;
   var currentUser: User = new User();
@@ -246,8 +246,8 @@ export function AuthService(Util, $location, $http, $cookies, $q, appConfig, Use
     },
 
     isTASync() {
-      console.log("TA SECTIONS: " + currentUser.taSections);
-      if(currentUser.taSections != undefined) console.log("NUM SECTIONS: " + currentUser.taSections.length);
+      // console.log("TA SECTIONS: " + currentUser.taSections);
+      // if(currentUser.taSections != undefined) console.log("NUM SECTIONS: " + currentUser.taSections.length);
       return currentUser.hasOwnProperty('taSections') ? (currentUser.taSections != undefined && currentUser.taSections.length > 0) : false;
     },
 
