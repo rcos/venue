@@ -47,7 +47,6 @@ export default class EventInfoCtrl {
 
     $scope.viewNewEvent = (sectionEvent) => {
       return "/instructor/newevent";
-      // return "/instructor/neweventassignment"; <-- Should be this for future work
     };
 
   }
