@@ -5,8 +5,7 @@
         <!-- Select an EVENT for course assignment -->
         <select-event event="event" on-submit="doneSelect(create)" ng-if='stage.select'></select-event>
         <create-event event="event" on-submit="doneCreate()" ng-if='stage.create'></create-event>
-        <assign-event event="event" on-submit="doneAssign()" ng-if='stage.assign'></assign-event>
-
+        
         <!-- WHEN FINISHED -->
         <div class="section-created" ng-show="stage.done">
           <h2>Event Assigned</h2>

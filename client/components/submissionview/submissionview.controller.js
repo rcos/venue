@@ -14,7 +14,7 @@ export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, S
     $scope.allEvents = {};
 
     var submissionsWatch = $scope.$watch("$parent.$parent.$parent.submissions", function() {
-      $scope.submissions = $scope.$parent.$parent.$parent.submissions;        
+      $scope.submissions = $scope.$parent.$parent.$parent.submissions;    
     });
 
     var updateSectionEvents = function(){

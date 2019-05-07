@@ -5,8 +5,8 @@ export default class NewEventCtrl {
   constructor($scope) {
     $scope.event = {info:{}};
     $scope.stage = {
-      select: true,
-      create: false,
+      select: false,
+      create: true,
       assign: false,
       done: false
     }
@@ -16,8 +16,7 @@ export default class NewEventCtrl {
       if (create){
         $scope.stage.create = true;
       }
-      else{
-
+      else {
         $scope.stage.assign = true;
       }
     }
@@ -25,12 +24,8 @@ export default class NewEventCtrl {
 
       $scope.stage.create = false;
       $scope.stage.assign = true;
-
-    }
-    $scope.doneAssign = function(){
-
-      $scope.stage.assign = false;
       $scope.stage.done = true;
+
     }
   }
 }
