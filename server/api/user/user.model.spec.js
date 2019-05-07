@@ -76,7 +76,7 @@ describe('User Model', function() {
       User.findOneAsync({"firstName" : "Bob"}).then((user) => {
           user.getEventsAsync({})
             .then((eventObject) => Object.keys(eventObject).map((k) => eventObject[k]))
-            .should.eventually.have.length(2).notify(done);
+            .should.eventually.have.length(3).notify(done);
         });
     });
   });
