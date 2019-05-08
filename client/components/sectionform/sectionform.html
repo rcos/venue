@@ -62,46 +62,6 @@
         
       </div>
 
-
-      <label>Section Teaching Assistants</label>
-        <ul class="list-group">
-          <p ng-show="!currentTAs.length">No Teaching Assistants</p>
-          <div ng-repeat="ta in currentTAs=(allStudents | filter:{sectionTA:true} | orderBy:'name')">
-            <li style="margin-bottom:5px; width:300px;" 
-                class="list-group-item">
-              {{ta.name}}
-              <span class="pull-right">
-                <button type="button" 
-                    style="color: red; outline: none; border: 0; background: transparent;"
-                    class="glyphicon glyphicon-remove" 
-                    ng-click="removeTA(ta)"/>
-              </span>
-            </li>
-             
-          </div>
-        </ul>
-
-
-      <label>Add Teaching Assistant </label>
-      <div class="ta-add-field">
-        <div class="ta-add-input">
-          <input type="text" ng-model="searchTA" ng-keyup="filterTASearch(searchTA)" class="form-control" style="margin-bottom:5px; width: 300px;"/>
-          <div class="list-group">
-            <a class="list-group-item"
-                style="color:black;"
-                ng-show="showStudentList"
-                ng-click="selectStudent(ta)"
-                ng-repeat="ta in filteredStudents | limitTo:5 | orderBy: 'name'">
-                {{ta.name}}
-            </a>
-          </div>
-        </div>
-        <div class="ta-add-button">
-            <button class="btn btn-primary" type="button" ng-click="addAssistant()" ng-show="addTA">Add</button>
-        </div>
-      </div>
-
-
       <div class="form-group" ng-class="{ 'has-success': section.enrollmentPolicy && submitted,
       'has-error': !section.enrollmentPolicy && submitted }">
         <label>Enrollment Policy</label>

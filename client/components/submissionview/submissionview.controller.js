@@ -4,38 +4,34 @@ export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, S
     $scope.viewMode = 'small';
     $scope.submissionFilter = 'submitted';
     $scope.isInstructor = false;
-    //determine whether the user is an instructor or not
     Auth.getCurrentUser((user) => {
       if (user.isInstructor){
         $scope.isInstructor = true;
       }
-    });
+    })
     $scope.selectedSections = [];
     $scope.selectedEvents = [];
     $scope.allEvents = {};
 
-    //continually checks to see if someone is inputting a new submission
     var submissionsWatch = $scope.$watch("$parent.$parent.$parent.submissions", function() {
-      $scope.submissions = $scope.$parent.$parent.$parent.submissions;
+      $scope.submissions = $scope.$parent.$parent.$parent.submissions;    
     });
 
-    //function to get the events for the current instructor
     var updateSectionEvents = function(){
       if ($scope.eventId){
         SectionEvent.get({id: $scope.eventId, withEventInfo:true},(sectionEvent) => {
           $scope.mainSectionEvent = sectionEvent;
 
-          //get the event with the specified id and the section of that event that is assigned to the instructor
+          // Get section events that have been assigned the same event info and were assigned in sections that
+          // this instructor teaches
           SectionEvent.getAll({ withEventInfo: true, onlyUserSections: 'me', onlyEvent: sectionEvent.info._id, withSection:true, withSectionStudents: true}, processSectionEvents);
         });
       }
-      //getting all the events and sections of those events that are assigned to the instructor
       else{
         SectionEvent.getAll({ withEventInfo: true, onlyUserSections: 'me', withSection:true, withSectionStudents: true}, processSectionEvents);
       }
     }
 
-    //creating a map of all the events for the given instructor
     var processSectionEvents = function(instructorSEs){
       $scope.allEvents = Object.keys(instructorSEs)
           .map(k => instructorSEs[k])
@@ -69,26 +65,19 @@ export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, S
             if (se.selected) $scope.selectedSections.push(se.section);
             return se;
           });
-      //if the selected event does not equal the current eventID
       if (!$scope.eventId){
-        //create an empty array for the selectedSections
         $scope.selectedSections = [];
-        //for the selected event, put it in the selectedSections array and set its selected variable to true
         $scope.allSectionEvents.forEach((se) => {
           se.selected = true;
           $scope.selectedSections.push(se.section)
         });
       }
-      //pushing the events selected into an array
       $scope.selectedEvents = [];
       $scope.allEvents.forEach((event) => {
           event.selected = true;
           $scope.selectedEvents.push(event);
       });
 
-      //promise that we only provide the correct section of the course
-      //then we go through the submissions for that section and call associateStudentsWithSubmissions()
-      //to assign the students to their submission
       Promise.all($scope.allSectionEvents.map(
         (se) =>  Submission.getAll({
           onlySectionEvent: se._id,
@@ -102,13 +91,9 @@ export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, S
       });
     }
 
-
     var associateStudentsWithSubmissions = function(){
-      //creating a map of all the students in the event
       $scope.allStudents = $scope.allSectionEvents.map((se) => se.section.students)
         .reduce((a,b) => a.concat(b))
-        //for each student find their submission and then find the id for the submission
-        //and return it to the map
         .map((student) => {
           student.submissions = $scope.submissions.filter(
             (submission) => submission.submitter._id == student._id
@@ -116,20 +101,16 @@ export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, S
           return student;
         });
 
-      //assigning each student to the correct sumbission
       $scope.submissions.forEach(
         (s) => {s.submitter.name = `${s.submitter.firstName} ${s.submitter.lastName}`}
       );
 
-      // Checking for students in current section that did not make a submission
-      // if they did not submit then make their sumbission empty
+      // Create empty submissions for students that did not submit for each section event
       $scope.allSectionEvents.forEach((se) => {
         var studentsInSection = se.section.students;
-        //find students that did not submit
         var studentsThatDidNotSubmit = studentsInSection.filter(
           (student) => student.submissions.filter((sub) => sub.sectionEvent._id == se._id).length == 0
         );
-        //creating an empty submission
         studentsThatDidNotSubmit.forEach((student) => {
           student.name = student.firstName + ' ' + student.lastName;
           $scope.submissions.push({
@@ -184,7 +165,7 @@ export function SubmissionViewCtrl($scope, $filter, Auth, Submission, Section, S
         );
       return csv;
     };
-
+    
     $scope.validateSubmission = function(s){
       Submission.patch({
         _id: s._id,

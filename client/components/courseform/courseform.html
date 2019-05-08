@@ -51,10 +51,10 @@
       A course description is required
     </p>
   </div>
-
+  
   <div class="form-group" ng-if="isSupervisor">
     <label>Course Supervisor</label><br>
-
+    
     <a class="list-group-item" style="margin-bottom:10px; width:300px;">{{supervisor.name}}</a>
 
     <div class="instructor-add-field">
@@ -73,7 +73,9 @@
     </div>
 
   </div>
-
+  
+  
+  
 
   <div class="form-group" ng-class="{ 'has-error': submitted && !file}">
     <label>Course Image</label>

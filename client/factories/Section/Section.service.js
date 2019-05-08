@@ -13,13 +13,6 @@ export function SectionResource($resource) {
         method: 'GET',
         isArray:true
       },
-      getStudentInfo: {
-        method: 'GET',
-        params:{
-          controller:'getStudentInfo'
-        },
-        isArray: true
-      },
       fullEvents: {
         method: 'GET',
         params:{

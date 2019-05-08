@@ -13,7 +13,6 @@ var SectionSchema = new Schema({
   pendingStudents: [{type : Schema.Types.ObjectId, ref: 'User'}],
   sectionNumbers: [Number],
   enrollmentPolicy: {type: String, enum: ['open', 'closed', 'approvalRequired']},
-  teachingAssistants: [{type: Schema.Types.ObjectId, ref: 'User'}]
 });
 
 /**

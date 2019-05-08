@@ -119,27 +119,6 @@ export async function index(req, res, next) {
     }
 };
 
-//Gets the profiles of all users in the section
-export async function getStudentInfo(req,res,next){
-
-  
-  let sectionId = req.params.id;
-  
-  let section = await Section.findById(sectionId).execAsync();
-  section = section.toJSON();
-
-  if (!section) return res.status(404).end();
- 
-  
-  let studentProfile = []
-  for(let i = 0; i < section.students.length; i++){
-    let profile = await User.findById(section.students[i]).execAsync();
-    studentProfile.push(profile);
-  }  
-  
-  return res.json(studentProfile);
-};
-
 // Gets a list of Sections for a user
 export async function userSections(req, res, next) {
   try{
@@ -170,7 +149,6 @@ export function mySections(req, res, next) {
 export async function show(req, res, next) {
   try{
     var query = Section.findById(req.params.id);
-
     var withEnrollmentStatus = req.query.withEnrollmentStatus;
 
     query = getSectionsExtra(query, req.query);
@@ -210,13 +188,12 @@ export function create(req, res) {
     .catch(handleError(res));
 };
 
-// Updates an existing Section in the DB, and updates User if they become a TA
+// Updates an existing Section in the DB
 
 function saveSectionUpdates(req) {
 
   return (section) => {
     var pendingStudent;
-   
     if(req.body.pendingStudent){
       pendingStudent = req.body.pendingStudent;
       var index = section.pendingStudents.indexOf(pendingStudent);
@@ -254,11 +231,6 @@ function saveSectionUpdates(req) {
     {
       section.instructors = req.body.instructors;
     }
-    if(req.body.assistants){
-      section.teachingAssistants = req.body.assistants;
-     
-    }
-
     return section.saveAsync();
   }
 }
@@ -285,16 +257,13 @@ export function destroy(req, res) {
 
 export function getSectionsExtra(query, opts){
   opts = opts || {};
-  console.log(opts)
+
   //FIXME too many endpoints see #113
   if (opts.withSectionsCourse || opts.withSectionCourse){
     query = query.populate('course');
   }
   if (opts.withSectionsInstructors || opts.withSectionInstructors){
     query = query.populate('instructors');
-  }
-  if(opts.withSectionsAssistants || opts.withSectionAssistants){
-    query = query.populate('teachingAssistants');
   }
   if (opts.withSectionsStudents || opts.withSectionStudents){
     query = query.populate('students');

@@ -67,8 +67,8 @@ export function index(req, res) {
  */
 export function indexInstructors(req, res) {
   if (req.query.validOnly) {  // omit test, admin, and venue team instructors
-    User.findAsync({isInstructor: true, _id: {$nin: ["000000000000000000000000",
-                                                     "000000000000000000000001",
+    User.findAsync({isInstructor: true, _id: {$nin: ["000000000000000000000000", 
+                                                     "000000000000000000000001", 
                                                      "111111111111111111111112"]}})
       .then(users => {
         res.status(200).json(users);
@@ -461,8 +461,6 @@ export function unenrollInSection(req, res, next) {
     })
     .catch(err => next(err));
 }
-/**
-* Adds 
 
 /**
  * Get my info
@@ -578,44 +576,3 @@ export function updateEmailPreferences(req, res, next) {
     })
     .catch(err => next(err));
 }
-
-export function updateTASections(req, res, next) {
-  Section.findOneAsync({_id: req.body.sectionId})
-  .then(section => {
-
-    User.findOneAsync({ _id: req.body.userId })
-    .then(user => {
-      if (!user) {
-        return res.status(401).end();
-      }
-        user.taSections.push(section);
-        return user.saveAsync()
-          .then(() => {
-            res.status(204).end();
-          })
-          .catch(handleError(res));
-    })
-    .catch(err => next(err));
-  })
-  .catch(err => next(err));
-}
-
-function handleEntityNotFound(res) {
-  return function(entity) {
-    if (!entity) {
-      res.status(404).end();
-      return null;
-    }
-    return entity;
-  };
-}
-
-function responseWithResult(res, statusCode) {
-  statusCode = statusCode || 200;
-  return function(entity) {
-    if (entity) {
-      res.status(statusCode).json(entity);
-    }
-  };
-}
-
