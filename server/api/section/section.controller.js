@@ -219,8 +219,11 @@ function saveSectionUpdates(req) {
    
     if(req.body.pendingStudent){
       pendingStudent = req.body.pendingStudent;
-      if(section.pendingStudents.remove(pendingStudent)){
-        section.students.push(pendingStudent);
+      var index = section.pendingStudents.indexOf(pendingStudent);
+      if(index > -1)
+      {
+        section.pendingStudents.splice(index,1);
+        section.students = section.students.concat([pendingStudent]);
       }
       else{
         throw "Not a valid pending student";
