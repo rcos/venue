@@ -87,7 +87,7 @@ export function isSupervisor(){
               .then(section => {
                 Course.findByIdAsync(section.course)
                   .then(course => {
-                    if (!course)
+                    if(!course)
                       return res.status(401).end();
                     if (!(course.supervisorId.equals(req.user._id) || req.user.role=='admin'))
                       return res.status(403).send('Forbidden');
@@ -106,12 +106,13 @@ function isInstructorInSection(userId, sectionId) {
         if (instructorId.equals(userId))
           isInstructor = true;
       })
+      
       return isInstructor;
   }).catch(err => next(err));
 }
 
 /**
- * Checks if user is an instructor of a course
+ * Checks if user is an instructor of a course or a TA
  */
 export function isCourseInstructor(){
     return compose()
@@ -178,13 +179,82 @@ export function isStudent(){
     return compose()
         .use(isAuthenticated())
         .use(function meetsRequirements(req, res, next) {
-            if (!req.user.isInstructor){
+            if (req.user.isStudent){
                 next();
             }else{
                 res.status(403).send('Forbidden');
             }
         });
 }
+
+function isTAInSection(userId, sectionId) {
+  // console.log("isTAinSection called");
+  return Section.findByIdAsync(sectionId)
+    .then(section => {
+      var isTA = false;
+      section.teachingAssistants.forEach(function(TaId) {
+        if (TaId.equals(userId))
+          isTA = true;
+      })
+      return isTA;
+  }).catch(err => next(err));
+}
+
+export function isSectionTA(){
+  return compose()
+      .use(isAuthenticated())
+      .use(function meetsRequirements(req, res, next) {
+          if (!req.user.isTA)
+            res.status(403).send('Forbidden');
+          var userId = req.user._id;
+          if (req.baseUrl == '/api/submissions') {
+            if (req.body._id) {
+              Submission.findByIdAsync(req.body._id)
+                .then(submission => {
+                  SectionEvent.findByIdAsync(submission.sectionEvent)
+                    .then(sectionEvent => {
+                      isTAInSection(userId, sectionEvent.section)
+                        .then(inSection => {
+                          if (!inSection) {
+                            res.status(403).send('Forbidden');
+                          } else {
+                            next();
+                          }
+                        }).catch(err => next(err));
+                  }).catch(err => next(err));
+              }).catch(err => next(err));
+            }
+          } else if (req.baseUrl == '/api/sectionevents') {
+            SectionEvent.findByIdAsync(req.params.id)
+              .then(sectionEvent => {
+                isTAInSection(userId, sectionEvent.section)
+                  .then(inSection => {
+                    if (!inSection) {
+                      res.status(403).send('Forbidden');
+                    } else {
+                      next();
+                    }
+                  }).catch(err => next(err));
+            }).catch(err => next(err));
+          }
+      });
+}
+/**
+ * Checks if a user is a TA
+ */
+export function isTA(){
+  return compose()
+    .use(isAuthenticated())
+    .use(function meetsRequirements(req,res,next){
+      if(req.user.isStudent && req.user.taSections != undefined && req.user.taSections.length > 0){
+        next();
+      }else{
+        res.status(403).send('Forbidden');
+      }
+    });
+}
+
+
 
 /**
  * Returns a jwt token signed by the app secret
@@ -210,4 +280,42 @@ export function setTokenCookie(req, res) {
   else{
     res.redirect('/instructor/dashboard');
   }
+}
+
+/**
+ *checks if the user is an instructor or a TA for a course
+*/
+export function isInstructorOrTAInCourse(){
+  return compose()
+      .use(isAuthenticated())
+      .use(function meetsRequirements(req, res, next) {
+          if (req.user.isInstructor || isTA()){
+            var userId = req.user._id;
+              if (req.body._id) {
+                Submission.findByIdAsync(req.body._id)
+                  .then(submission => {
+                    SectionEvent.findByIdAsync(submission.sectionEvent)
+                      .then(sectionEvent => {
+                        isInstructorInSection(userId, sectionEvent.section)
+                          .then(instructorInSection => {
+                            if (!instructorInSection) {
+                              isTAInSection(userId, sectionEvent.section)
+                                .then(taInSection => {
+                                  if(!taInSection){
+                                    res.status(403).send('Forbidden');
+                                  } else {
+                                    next();
+                                  }
+                                }).catch(err => next(err));
+                            } else {
+                              next();
+                            }
+                          }).catch(err => next(err));
+                    }).catch(err => next(err));
+                }).catch(err => next(err));
+              }
+          } else {
+            res.status(403).send('Forbidden');
+          }
+      });
 }

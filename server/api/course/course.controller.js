@@ -124,6 +124,7 @@ export function show(req: $Request, res: $Response) {
       }
       course.getSections({
         withInstructors: req.query.withSectionInstructors || req.query.checkRoles,
+        withAssistants: req.query.withSectionAssistants,
         withEnrollmentStatus: req.query.withSectionEnrollmentStatus || req.query.checkRoles,
         studentId: req.query.studentid || req.query.checkRoles
       }, (sections) => {

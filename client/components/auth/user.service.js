@@ -3,7 +3,7 @@
 export function UserResource($resource) {
   'ngInject';
 
-  return $resource('/api/users/:id/:controller', {
+  var User = $resource('/api/users/:id/:controller', {
     id: '@_id'
   }, {
     changePassword: {
@@ -80,6 +80,13 @@ export function UserResource($resource) {
       params: {
         controller: 'unenroll'
       }
-    }
+    },
+    updateTASections: {
+      method: 'PUT',
+      params: {
+        controller: 'updateTASections'
+      }
+    } 
   });
+  return User;
 }
