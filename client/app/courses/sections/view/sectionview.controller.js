@@ -9,14 +9,12 @@ export default class SectionViewCtrl {
         withSectionsCourse:true,
         withSectionsEvent: true,
         withSectionsInstructors: true,
-        withSectionsAssistants: true,
         withSectionsStudents: true,
         withEnrollmentStatus: true,
         studentId: $scope.user._id
       }, section => {
         $scope.course = section.course;
         $scope.section = section;
-        console.log(section.teachingAssistants)
       }, () =>{
         $location.path('/courses');
       });
@@ -29,7 +27,6 @@ export default class SectionViewCtrl {
         $location.path('instructor/courses/'+$routeParams.id+'/sections/'+$routeParams.sectionId);
       }
       loadSection();
-      
     });
 
     $scope.selecteEvent = function(event){
@@ -47,7 +44,6 @@ export default class SectionViewCtrl {
       });
     };
     $scope.viewCourse = function(){
-       console.log(section)
       $location.path('/courses/'+$routeParams.id);
     };
   }

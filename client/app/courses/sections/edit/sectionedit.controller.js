@@ -14,6 +14,7 @@ export default class SectionEditCtrl {
       }, section => {
         $scope.course = section.course;
         $scope.section = section;
+    
       }, () =>{
         $location.path('/courses');
       });

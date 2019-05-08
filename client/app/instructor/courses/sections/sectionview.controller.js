@@ -23,7 +23,6 @@ export default class InstructorSectionViewCtrl implements OnInit{
         withSectionsInstructors: true,
         withSectionsStudents: true,
         withSectionsPendingStudents: true,
-        withSectionsAssistants: true,
         withEnrollmentStatus: true,
         studentId: $scope.user._id
       }, section => {

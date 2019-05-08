@@ -91,7 +91,6 @@ export function allUsers(){return {
       password: 'kelly',
       isVerified: true,
       isInstructor: false,
-      taSections: [mongoose.Types.ObjectId('000000000000000000000122')],
       _id: mongoose.Types.ObjectId('000000000000000000000006'),
       preferences: {emailNotifyAheadMinutes: [30]},
     },
@@ -176,7 +175,6 @@ export function allCourses(){return {
       semester: "Spring15",
       active: true,
       supervisorId: allUsers().travis._id,
-      teachingAssistants: allUsers().kelly._id, //Kelly
       _id: mongoose.Types.ObjectId('000000000000000000000012'),
     },
     art:{
@@ -273,7 +271,6 @@ export function allSections(){ return {
       sectionNumbers: [1],
       enrollmentPolicy: "approvalRequired",
       _id:mongoose.Types.ObjectId('000000000000000000000122'),
-      teachingAssistants: [allUsers().kelly._id], //Kelly
     },
     art1: {
       course : allCourses().art._id, //Art, Community and Technology
@@ -520,49 +517,7 @@ export function allEvents(){
         },
         radius : 0.0045490264892578125
       }
-    },
-    robotics:{
-      title: "First Robotics Event",
-      description: "This is a first robotics event",
-      imageURLs: ["/api/eventinfos/image/dancing-1470324472479.jpeg"], // url to image
-      author: allUsers().bob._id, //Bob
-      creationDate: new Date(new Date().getTime() + -2 * 24 * 60 * 60 * 1000),
-      location: {
-        address: "110 8th St, Troy, NY  12180, United States",
-        description: "Empac",
-        geo: {
-          coordinates: [-73.6842041,42.7288898], // [<longitude>, <latitude>]
-          type: "Point"
-        },
-        geobounds : {
-          coordinates : [[[
-            [
-                 -73.6794438867554,
-                42.731655780717645
-            ],[
-                -73.68399291324465,
-                42.731655780717645
-            ],[
-              -73.68399291324465,
-                42.73007960926878
-            ],[
-                 -73.6794438867554,
-                42.73007960926878
-            ],[
-                 -73.6794438867554,
-                42.731655780717645
-            ]
-          ]]],
-          type : "MultiPolygon"
-        },
-
-      },
-      times: [{
-          start: new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000 + 2*60*60*1000),
-          end: new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000 + 4*60*60*1000),
-      }],
-      _id: mongoose.Types.ObjectId('000000000000000000000022')
-    }    
+    }
   }
 }
 
@@ -644,15 +599,6 @@ export function allSectionEvents(){
       info : allEvents().medalGala._id,
       author : allUsers().venue._id,
       submissionInstructions : "Take a picture with the honorable Shirley Ann Jackson.",
-    },
-    mestizo1Robotics:{
-      section: allSections().robotics1._id,//Mestizo Robotis Section 1
-      course: allCourses().robotics._id,//Mestizo Robotics
-      submissionInstructions:"Submit to this robotics event",
-      author: allUsers().bob._id, //Bob
-      creationDate: new Date(),
-      info: allEvents().robotics._id,//Dancing Through the Years
-      _id: mongoose.Types.ObjectId('000000000000000000001007')
     }
 
   }
@@ -713,27 +659,6 @@ export function allSubmissions(){
       submitter: allUsers().jane._id,
       authors: [allUsers().jane._id],
       sectionEvent: allSectionEvents().netArt12Concerts._id,
-      instructorVerification: "none",
-      verified: false,
-      locationMatch: false,
-      location: {
-        geo: {
-          coordinates: [
-               -73.6794438867554,
-              42.731655780717645
-          ],
-          type: "Point"
-        }
-      }
-    },
-    submission4:{
-      _id : mongoose.Types.ObjectId("666666666666666666666662"),
-      content: "Foo's Robotics Submission",
-      images: ["/api/submissions/image/000000000000000000000004/000000000000000000001000/submission1.jpg"], // path to image on static image server?
-      time: Date.now(),
-      submitter: allUsers().foo._id,
-      authors: [allUsers().foo._id],
-      sectionEvent: allSectionEvents().mestizo1Robotics._id,
       instructorVerification: "none",
       verified: false,
       locationMatch: false,

@@ -9,11 +9,7 @@ class User {
   $promise = undefined;
 }
 
-class Oblah {
-  name: string = '';
-}
-
-export function AuthService(Util, $location, $http, $cookies, $q, appConfig, User, Section) {
+export function AuthService(Util, $location, $http, $cookies, $q, appConfig, User) {
   'ngInject';
   var safeCb = Util.safeCb;
   var currentUser: User = new User();
@@ -233,22 +229,7 @@ export function AuthService(Util, $location, $http, $cookies, $q, appConfig, Use
      * @return {Bool}
      */
     isStudentSync() {
-      return currentUser.hasOwnProperty('isInstructor') ? (currentUser.isInstructor === false ) : false;
-    },
-
-    isTA(callback: Function = () => {}) {
-      return Auth.getCurrentUser(undefined)
-        .then(user => {
-          var has = user.hasOwnProperty('taSections') ? (user.taSections != undefined && user.taSections.length > 0) : false;
-          safeCb(callback)(has);
-          return has;
-        });
-    },
-
-    isTASync() {
-      // console.log("TA SECTIONS: " + currentUser.taSections);
-      // if(currentUser.taSections != undefined) console.log("NUM SECTIONS: " + currentUser.taSections.length);
-      return currentUser.hasOwnProperty('taSections') ? (currentUser.taSections != undefined && currentUser.taSections.length > 0) : false;
+      return currentUser.hasOwnProperty('isInstructor') ? (currentUser.isInstructor === false) : false;
     },
 
     /**

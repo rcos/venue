@@ -2,34 +2,6 @@
     <div class="row">
       <div class="col-sm-12 dashboard">
         <h1 class="page-header">Dashboard</h1>
-          <div class="col-sm-12 top-rowst" ng-show="isTA" ng-cloak>
-          <h3>TA Sections</h3>
-          <h4 ng-hide="sections.length">You don't have any sections yet</h4>
-          <table class="course-section text-center table table-hover" ng-show="sections.length">
-            <tr>
-              <th class="text-center">Course</th>
-              <th class="text-center">Section</th>
-              <th class="text-center">Pending</th>
-              <th class="text-center">Students</th>
-              <th class="text-center">Edit</th>
-            </tr>
-            <tr class='btn-row-sm' ng-repeat="section in sections" ng-show="section.pendingStudents.length > 0">
-              <td>
-                <span class='studentCount'>{{section.course.name}}</span>
-              </td>
-              <td><span ng-repeat="number in section.sectionNumbers"><span ng-show="$last && !$first">& </span>{{number}}<span ng-hide="$last">, </span></span></td>
-              <td>
-                <span>{{section.pendingStudents.length}}</span>
-              </td>
-              <td>
-                <span>{{section.students.length}}</span>
-              </td>
-              <td>
-                <a href="#" class="btn btn-default btn-sm" ng-href="{{ viewSection(section) }}" role="button">View</a>
-              </td>
-            </tr>
-          </table>
-        </div>
         <div class="row">
           <div class="col-md-6 events" ng-cloak>
             <h3> Upcoming Events </h3>

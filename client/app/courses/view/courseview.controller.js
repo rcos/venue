@@ -44,7 +44,6 @@ export default class CourseViewCtrl {
             id: $routeParams.id,
             withSections:true,
             withSectionInstructors: true,
-            withSectionAssistants: true,
             withSectionEnrollmentStatus: true,
             studentid: user._id,
             checkRoles: true

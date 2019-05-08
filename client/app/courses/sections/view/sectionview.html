@@ -41,14 +41,6 @@
               </td>
             </tr>
             <tr>
-              <td class="text-right">Teaching Assistants<span ng-show="section.assistants.length > 1">s</span></td>
-              <td class="text-left">
-                <span ng-repeat="ta in section.assistants">
-                  <span ng-show="$last && !$first">& </span>{{ta.firstName}} {{ta.lastName}}<span ng-hide="$last">, </span>
-                </span>
-              </td>
-            </tr>
-            <tr>
               <td class="text-right">Section Number<span ng-show="section.sectionNumbers.length > 1">s</span></td>
               <td class="text-left">
                 <span ng-repeat="number in section.sectionNumbers track by $index" ng-show="number > -1">
@@ -68,7 +60,6 @@
               <td class="text-right">Enrollment Policy</td>
               <td class="text-left">{{(section.enrollmentPolicy === "approvalRequired")?"approval":section.enrollmentPolicy}}</td>
             </tr>
-
           </table>
         </div>
       </div>
