@@ -85,7 +85,7 @@ export default class InstructorSectionViewCtrl implements OnInit{
           loadPageSection();
         })
         .catch(err => {
-          alert("Student with id: " + pendingStudent._id + " did not save to section with id: " + section._id);
+          //alert("Student with id: " + pendingStudent._id + " did not save to section with id: " + section._id);
         });
     };
 

@@ -151,7 +151,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
             // alert("It worked!");
           })
           .catch(err => {
-            alert("Student with id: " + $scope.loadedStudent._id + " did not save");
+            //alert("Student with id: " + $scope.loadedStudent._id + " did not save");
           });
         }
       });
