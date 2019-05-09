@@ -3,7 +3,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
     "ngInject";
     $scope.prevSearchText = "";
     $scope.prevTASearchText = "";
-    console.log("routeparams ID: " + $routeParams.sectionId);
+    //console.log("routeparams ID: " + $routeParams.sectionId);
 
     Auth.getCurrentUser((user) => {
 
@@ -97,7 +97,7 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       //   "with size" + $scope.loadedStudent.taSections.length);
       $scope.submitted = true;
       var sectionNumbers = $scope.section.sectionNumbersText.split(',').map(Number);
-      console.log("sectionNumbers: " + sectionNumbers);
+      //console.log("sectionNumbers: " + sectionNumbers);
       angular.forEach(sectionNumbers, function(sectionNum) {
         var section = {
           course: $scope.course._id,
@@ -247,8 +247,8 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       $scope.addTA = true;
       $scope.loadedStudent = student;
       $scope.showStudentList = false;
-      console.log("Loaded student " + $scope.loadedStudent.firstName + " with TA sections " + $scope.loadedStudent.taSections +
-        "of size" + $scope.loadedStudent.taSections.length);
+      //console.log("Loaded student " + $scope.loadedStudent.firstName + " with TA sections " + $scope.loadedStudent.taSections +
+      //  "of size" + $scope.loadedStudent.taSections.length);
     }
 
     $scope.addInstructor = function(){
@@ -267,9 +267,9 @@ export function SectionFormController($scope, $location, $routeParams, $filter, 
       $scope.searchTA = "";
       $scope.addTA = false;
       $scope.loadedStudent.sectionTA = true;
-      console.log("Added student " + $scope.loadedStudent.firstName + " with TA sections " + $scope.loadedStudent.taSections +
-        "of size" + $scope.loadedStudent.taSections.length);
-      console.log("Student ID: " + $scope.loadedStudent._id);
+      //console.log("Added student " + $scope.loadedStudent.firstName + " with TA sections " + $scope.loadedStudent.taSections +
+      //  "of size" + $scope.loadedStudent.taSections.length);
+      //console.log("Student ID: " + $scope.loadedStudent._id);
     }
 
     $scope.deleteSection = (section) => {

@@ -35,7 +35,7 @@ export default class AdminController {
 
   uploadUserCSV(file){
     if (!file){
-      console.log("null file");
+      //console.log("null file");
       return;
     }
 

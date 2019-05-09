@@ -24,7 +24,7 @@ export default class NavbarComponent {
                 submissions.forEach(function(submission){
                     if(!submission.verified){
                         pendingSubmissions++;
-                        console.log("Submission not verified");
+                        //console.log("Submission not verified");
                     }
                 });
                 this.numPendingSubmissions = pendingSubmissions;

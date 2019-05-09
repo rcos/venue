@@ -16,7 +16,7 @@ export default class SectionViewCtrl {
       }, section => {
         $scope.course = section.course;
         $scope.section = section;
-        console.log(section.teachingAssistants)
+        //console.log(section.teachingAssistants)
       }, () =>{
         $location.path('/courses');
       });
@@ -47,7 +47,7 @@ export default class SectionViewCtrl {
       });
     };
     $scope.viewCourse = function(){
-       console.log(section)
+       //console.log(section)
       $location.path('/courses/'+$routeParams.id);
     };
   }
