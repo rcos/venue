@@ -16,23 +16,6 @@ export default class NavbarComponent {
     this.isCollapsed = true;
     this.numPendingSubmissions = 0;
 
-    // check if the instructor has any pending submissions
-    if(this.isInstructor){
-        this.refreshSubmissions = function() {
-            Submission.getAll({'onlyInstructor': 'me', 'withStudents': true, 'withSection': true, 'withSectionCourse': true}, (submissions)=>{
-                var pendingSubmissions = 0;
-                submissions.forEach(function(submission){
-                    if(!submission.verified){
-                        pendingSubmissions++;
-                        //console.log("Submission not verified");
-                    }
-                });
-                this.numPendingSubmissions = pendingSubmissions;
-            });
-        }
-        this.refreshSubmissions();
-    }
-
     this.help = () => {
         if (this.user.firstName && this.isStudent()){
             $window.location.href = "https://github.com/rcos/venue/wiki/Student-How-to";
