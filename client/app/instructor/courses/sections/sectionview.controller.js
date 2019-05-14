@@ -23,6 +23,7 @@ export default class InstructorSectionViewCtrl implements OnInit{
         withSectionsInstructors: true,
         withSectionsStudents: true,
         withSectionsPendingStudents: true,
+        withSectionsAssistants: true,
         withEnrollmentStatus: true,
         studentId: $scope.user._id
       }, section => {
@@ -84,7 +85,7 @@ export default class InstructorSectionViewCtrl implements OnInit{
           loadPageSection();
         })
         .catch(err => {
-          alert("Student with id: " + pendingStudent._id + " did not save to section with id: " + section._id);
+          //alert("Student with id: " + pendingStudent._id + " did not save to section with id: " + section._id);
         });
     };
 

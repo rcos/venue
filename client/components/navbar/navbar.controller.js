@@ -2,17 +2,19 @@
 
 export default class NavbarComponent {
   /*@ngInject*/
-  constructor($location, Auth, $window) {
+  constructor($location, Auth, $window, Submission) {
     this.$location = $location;
     this.isStudent = false;
     this.isInstructor = false;
+    //this.isTA = true;
     this.isLoggedIn = Auth.isLoggedInSync;
     this.isAdmin = Auth.isAdminSync;
     this.isStudent = Auth.isStudentSync;
     this.isInstructor = Auth.isInstructorSync;
+    this.isTA = Auth.isTASync;
     this.getCurrentUser = Auth.getCurrentUserSync;
-
     this.isCollapsed = true;
+    this.numPendingSubmissions = 0;
 
     this.help = () => {
         if (this.user.firstName && this.isStudent()){

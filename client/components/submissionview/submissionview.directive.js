@@ -22,6 +22,7 @@ export default angular.module('directives.submissionview', [showImage])
   .filter('visibleSubmission', function(){
     return (subs, selectedSections, event, submissionFilter, searchName) => {
       if (!subs) return [];
+      //filtering out errors within submissions
       return subs.filter((sub) => {
         if (!sub) return false;
         if (selectedSections.filter((sec) => sec._id == sub.sectionEvent.section._id).length == 0) return false;
