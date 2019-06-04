@@ -57,3 +57,5 @@ data/eventInfoImages/*
 !data/eventInfoImages/gala-1470287713130-large.jpeg
 !data/eventInfoImages/gala-1470287713130-preview.jpeg
 !data/eventInfoImages/gala-1470287713130.jpeg
+
+\.DS_Store
