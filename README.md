@@ -26,7 +26,7 @@ The instructions for running the docker image are available on docker hub.
 ### Prerequisites
 
 - [Git](https://git-scm.com/)
-- [Node.js and npm](nodejs.org) Node >= 4.x.x, npm >= 2.x.x
+- [Node.js and npm](nodejs.org) Node = 8.10.x, npm >= 2.x.x
 - [Gulp](http://gulpjs.com/) (`npm install --global gulp`)
 - [MongoDB](https://www.mongodb.org/) - Keep a running daemon with `mongod`
 
@@ -37,6 +37,8 @@ The instructions for running the docker image are available on docker hub.
 2. Run `mongod` in a separate shell to keep an instance of the MongoDB Daemon running
 
 3. Run `gulp serve` to start the development server. It should automatically open the client in your browser when ready.
+
+Note: if downgrading/updating to Node 8.10.x, it's recommended to clear wrong versions of modules by running `rm -rf node_modules` before `npm install`.
 
 ## Build & development
 
