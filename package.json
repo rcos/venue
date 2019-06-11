@@ -104,7 +104,7 @@
     "browser-sync": "^2.18.12",
     "bs-fullscreen-message": "^1.0.0",
     "chai": "^3.2.0",
-    "chai-as-promised": "^5.1.0",
+    "chai-as-promised": "^7.1.1",
     "chai-things": "^0.2.0",
     "css-loader": "^0.24.0",
     "del": "^2.0.2",
