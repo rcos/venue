@@ -87,10 +87,7 @@
             <a href="/login">Login</a>
           </li>
           <li ng-show="nav.isLoggedIn()">
-            <a ng-href="/settings">{{ nav.getCurrentUser().firstName }}</a>
-          </li>
-          <li ng-show="nav.isLoggedIn()" ng-class="{active: nav.isActive('/settings')}">
-            <a href="/settings"><span class="glyphicon glyphicon-cog"></span></a>
+            <a ng-href="/settings"><span class="glyphicon glyphicon-user"></span> {{ nav.getCurrentUser().firstName }}</a>
           </li>
           <li ng-show="nav.isLoggedIn()">
             <a href="/logout">Logout</a>
