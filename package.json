@@ -88,7 +88,7 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "angular-messages": "^1.5.8",
+    "angular-messages": "^1.7.8",
     "angular-mocks": "~1.6.4",
     "autoprefixer": "^6.0.0",
     "awesome-typescript-loader": "^1.1.1",
