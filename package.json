@@ -46,7 +46,7 @@
     "google-maps-utility-library-v3-infobox": "^1.1.14",
     "google-maps-utility-library-v3-keydragzoom": "^2.0.9",
     "google-maps-utility-library-v3-markerwithlabel": "^1.1.10",
-    "jquery": "^3.1.0",
+    "jquery": "^3.4.0",
     "js-rich-marker": "^1.1.2",
     "jsonwebtoken": "^7.0.0",
     "kerberos": "0.0.21",
