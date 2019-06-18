@@ -9,7 +9,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="/">
-          <img alt="Venue Icon" src="/assets/images/white_venue_small.png">
+          <img alt="Venue Icon" src="/assets/images/logo.svg">
         </a>
 
       </div>
@@ -73,24 +73,21 @@
           <li ng-show="nav.isAdmin()" ng-class="{active: nav.isActive('/admin')}"><a href="/admin">Admin</a></li>
         </ul>
 
-        <ul ng-hide="nav.isLoggedIn()" class="nav navbar-nav">
-          <li ng-class="{active: nav.isActive('/courses')}">
-            <a href="/courses">Search Courses</a>
+        <ul ng-hide="nav.isLoggedIn()" class="nav navbar-nav navbar-right">
+          <li ng-class="{active: nav.isActive('/courses')}" title="Search course list">
+            <a href="/courses"><span class="glyphicon glyphicon-search"></span></a>
           </li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-          <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/signup')}">
-            <a href="/signup">Sign up</a>
+          <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/login')}" title="Log in or sign up">
+            <a href="/login">Log In</a>
           </li>
-          <li ng-hide="nav.isLoggedIn()" ng-class="{active: nav.isActive('/login')}">
-            <a href="/login">Login</a>
-          </li>
-          <li ng-show="nav.isLoggedIn()">
+          <li ng-show="nav.isLoggedIn()" title="User settings">
             <a ng-href="/settings"><span class="glyphicon glyphicon-user"></span> {{ nav.getCurrentUser().firstName }}</a>
           </li>
-          <li ng-show="nav.isLoggedIn()">
-            <a href="/logout">Logout</a>
+          <li ng-show="nav.isLoggedIn()" title="Log out of Venue">
+            <a href="/logout">Log Out</a>
           </li>
         </ul>
       </div>

@@ -10,7 +10,7 @@
       <uib-tabset active="active">
           <uib-tab index="0" heading="Courses">
             <div class="card-container card-flex-container" ng-cloak>
-              <course-card class="card card-flex" ng-repeat='course in user.courses | orderBy:"name"' data="course" expandedsection="true" short="false" sections='course.sections'>  </course-card>
+              <course-card class="card card-flex student-course-card" ng-repeat='course in user.courses | orderBy:"name"' data="course" expandedsection="true" short="false" sections='course.sections'>  </course-card>
             </div>
           </uib-tab>
           <uib-tab index="1" heading="List">
