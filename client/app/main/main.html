@@ -14,30 +14,37 @@
             </p>
           </div>
           <div class="links row" ng-hide="loggedIn">
-            <a class='col-sm-4 btn-info' href="/courses">
-              Courses
+            <a href="/courses">
+              <button class="btn btn-info btn-block">Courses</button>
             </a>
-            <a class='col-sm-4 btn-success' href="/signup">
-              Sign Up
+            <a  href="/signup">
+              <button class="btn btn-success btn-block">Sign Up</button>
             </a>
-            <a class='col-sm-4 btn-info' href="/login">
-              Login
+            <a  href="/login">
+              <button class="btn btn-info btn-block">Login</button>
+              
             </a>
           </div>
           <div class="links row" ng-show="isStudent">
-            <a class='col-sm-4 btn-success' href="/student/dashboard">Dashboard
+            <a href="/student/dashboard">
+              <button class="btn btn-success btn-block">Dashboard</button>
             </a>
-            <a class='col-sm-4 btn-success' href="/student/courses">Courses
+            <a href="/student/courses">
+              <button class="btn btn-success btn-block">Courses</button>
             </a>
-            <a class='col-sm-4 btn-success' href="/student/events">Events
+            <a href="/student/events">
+              <button class="btn btn-success btn-block">Events</button>
             </a>
           </div>
           <div class="links row" ng-show="isInstructor">
-            <a class='col-sm-4 btn-primary' href="/instructor/dashboard">Dashboard
+            <a href="/instructor/dashboard">
+              <button class="btn btn-primary btn-block">Dashboard</button>
             </a>
-            <a class='col-sm-4 btn-primary' href="/instructor/courses">Courses
+            <a href="/instructor/courses">
+              <button class="btn btn-primary btn-block">Courses</button>
             </a>
-            <a class='col-sm-4 btn-primary' href="/instructor/events">Events
+            <a href="/instructor/events">
+              <button class="btn btn-primary btn-block">Events</button>
             </a>
           </div>
         </div>
