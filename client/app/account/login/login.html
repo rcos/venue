@@ -18,18 +18,10 @@
         <br/>
       </div>
     </div>
-    <div class="col-sm-12">
-      <hr/>
-      <div style='margin-bottom:10px;' ng-show="vm.CAS_ENABLED && vm.settings.login.cas">
-          <a href="/auth/cas" target="_self">
-              <button class="btn btn-primary btn-lg">
-                  <i class="fa fa-check-square-o"></i> Login with CAS
-              </button>
-          </a>
-      </div>
-    </div>
-    <div class="col-sm-12">
-      <hr/>
+    
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8 login-normal">
       <form ng-show="vm.LOCAL_LOGIN_ENABLED && vm.settings.login.local" class="form" name="form" ng-submit="vm.login(form)" novalidate>
 
         <div class="form-group">
@@ -46,10 +38,10 @@
 
         <div class="form-group has-error">
           <p class="help-block" ng-show="form.email.$error.required && form.password.$error.required && vm.submitted">
-             Please enter your email and password.
+            Please enter your email and password.
           </p>
           <p class="help-block" ng-show="form.email.$error.email && vm.submitted">
-             Please enter a valid email.
+            Please enter a valid email.
           </p>
 
           <p class="help-block">{{ vm.errors.other }}</p>
@@ -63,11 +55,23 @@
             Forgot Password
           </a>
         </div>
-        <hr>
-        <div>
+        
+        <div class="create-account">
           New to Venue? <a href="/signup">Create an account.</a>
         </div>
       </form>
+    </div>
+    <div class="col-4 login-cas">
+        <hr/>
+        <h4>Or:</h4>
+        <h5>Log in with your RPI student account to create a Venue account automatically.</h5>
+        <div style='margin-bottom:10px;' ng-show="vm.CAS_ENABLED && vm.settings.login.cas">
+            <a href="/auth/cas" target="_self">
+                <button class="btn btn-primary btn-lg">
+                    <i class="fa fa-check-square-o"></i> Login with CAS
+                </button>
+            </a>
+        </div>
     </div>
   </div>
 </div>

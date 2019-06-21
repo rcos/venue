@@ -1,0 +1,37 @@
+.login-cas h4,.login-cas h5,.login-cas .btn {
+    display: block;
+    margin: 15px auto auto auto;
+    text-align: center;
+  }
+
+  @media screen and (max-width:767px) {
+  .btn {
+    display: block;
+    margin: 5px auto auto auto;
+    width: 200px;
+  }
+  .create-account {
+    margin-top: 10px;
+    text-align: center;
+  }
+  }
+
+  @media screen and (min-width:768px) {
+    .login-cas h4 {
+      display: none;
+    }
+    .login-normal {
+      padding-right: 25px;
+      margin-right: 25px;
+      border-right: 1px solid rgb(43, 43, 43);
+    }
+
+    .login-normal:after {
+      content: 'or';
+      font-size: 1.5em;
+      background-color: white;
+      position: absolute;
+      top: 40%;
+      right: -10px;
+    }
+  }

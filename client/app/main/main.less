@@ -3,6 +3,9 @@
   h3{
     font-family:Raleway;
   }
+  a:hover {
+    text-decoration: none;
+  }
   .about{
     background-color: @colorDarkBackground;
     color:white;
@@ -31,18 +34,24 @@
       margin-bottom: 30px;
     }
     .links{
-      margin-bottom: 30px;
+      margin-bottom: 5px;
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;
       justify-content: center;
 
       button {
-        width: 20vw;
-        height: 2em;
+        width: 25vw;
+        min-width: 300px;
+        height: 2.5em;
         font-size: 1.5em;
         margin: 5px;
       }
+    }
+    .course-list {
+      color: white;
+      font-size: 1.1em;
+      margin-bottom: 30px;
     }
   }
 

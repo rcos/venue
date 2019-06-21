@@ -14,16 +14,9 @@
               can contain images or GPS data that verifies a student attended an event.
             </p>
           </div>
-          <div class="links row" ng-hide="loggedIn">
-            <a href="/courses">
-              <button class="btn btn-info btn-block">Courses</button>
-            </a>
-            <a  href="/signup">
-              <button class="btn btn-success btn-block">Sign Up</button>
-            </a>
+          <div class="links" ng-hide="loggedIn">
             <a  href="/login">
-              <button class="btn btn-info btn-block">Login</button>
-              
+              <button class="btn btn-info btn-block">Sign Up/Login</button>
             </a>
           </div>
           <div class="links row" ng-show="isStudent">
@@ -48,6 +41,10 @@
               <button class="btn btn-primary btn-block">Events</button>
             </a>
           </div>
+
+          <a href="/courses" class="links course-list">
+            View all courses
+          </a>
         </div>
       </div>
     </div>
