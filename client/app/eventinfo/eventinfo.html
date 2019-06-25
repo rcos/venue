@@ -35,7 +35,7 @@
       </div>
       <div class="col-md-6 right-column col-md-height" ng-hide='isInstructor || isStudent'>
           <div class="inside-full-height">
-              <h4>Your Sections assigned this Event</h4>
+              <h4>Your Section(s)</h4>
               <p ng-hide="event.yourEvents.length">No events assigned yet</p>
               <table class="table table-hover">
                   <tr ng-repeat="sectionEvent in event.yourEvents">
@@ -43,12 +43,12 @@
                         section{{sectionEvent.section.sectionNumbers.length > 1 ? "s": ""}}
                         <comma-list list="sectionEvent.section.sectionNumbers" ampersand="true"></comma-list></td>
                       <td class="small-text">
-                          <a href="#" class="btn btn-md btn-default" ng-href="{{ viewSectionEvent(sectionEvent) }}" role="button">View</a>
+                          <a href="#" class="btn btn-md btn-default" ng-href="{{ viewSectionEvent(sectionEvent) }}" role="button">Check In</a>
                       </td>
                   </tr>
               </table>
               <br/>
-              <h4>Other Sections assigned this Event</h4>
+              <h4>Other Section(s)</h4>
               <p ng-hide="event.otherEvents.length">None yet</p>
 
               <table class="table table-hover">
