@@ -49,7 +49,7 @@
                 <table class="course-section text-center table table-hover" ng-show="course.sections.length">
                     <tr>
                         <th char="" lass="text-center">Number</th>
-                        <th class="text-center">Instructor</th>			
+                        <th class="text-center">Instructor</th>
                         <th class="text-center">Teaching Assistants</th>
                         <th class="text-center">Students</th>
                         <th class="text-center">Pending</th>
@@ -63,7 +63,7 @@
                                 {{instructor.firstName}} {{instructor.lastName}}<span ng-hide="$last">, </span>
                             </span>
                         </td>
-		       
+
                         <td>
                             <span ng-repeat="assistant in section.teachingAssistants">
                                 {{assistant.firstName}} {{assistant.lastName}}<span ng-hide="$last">, </span>
@@ -84,7 +84,9 @@
                     </tr>
                 </table>
             </div>
-            <div ng-show='isStudent' class='col-md-6 right-column col-md-height col-md-top'>
+
+            <div ng-show= '!isInstructor' class='col-md-6 right-column col-md-height col-md-top'>
+
                 <h4 ng-show="course.sections.length">Sections</h4>
                 <h4 ng-show="!course.sections.length">No Sections Avalible</h4>
                 <table class="course-section text-center table table-hover" ng-show="course.sections.length">

@@ -3,6 +3,7 @@ export default class CourseViewCtrl {
 
   /*@ngInject*/
   constructor($scope, $location, $http, $routeParams, Auth, User, Course, Section) {
+    Auth.getCurrentUser((user) => {$scope.user = user});
     loadCourse();
 
     $scope.enroll = function(section){
@@ -74,9 +75,9 @@ export default class CourseViewCtrl {
           $location.path('/courses')
         });
       }
-      
-      
-      
+
+
+
     }
 
   }
