@@ -28,70 +28,80 @@
                     validate
     -->
     <div class="row classes submission-card" ng-repeat="event in selectedEvents track by $index" >
-      <div class="col-xs-12">
-        <h4>{{event.title}}</h4>
-        <!-- repeat the same code for each submission -->
-        <div ng-repeat="submission in submissions | visibleSubmission:selectedSections:event:submissionFilter:searchName">
+      <h4>{{event.title}}</h4>
+      <div ng-repeat="submission in submissions | visibleSubmission:selectedSections:event:submissionFilter:searchName">
+        <table style="width:100%">
+          <!-- TABLE COLUMNS -->
           <div class='row header' ng-show="$first">
-            <div class='col-xs-2'> <div class='column-name'> Student Name </div> </div>
-            <div class='col-xs-1'> <div class='column-name'> Submitted </div> </div>
-            <div class='col-xs-1'> <div class='column-name'> Validated </div> </div>
-            <!-- <div class='col-xs-1'> <div class='column-name'>  </div> </div> -->
-            <div class='col-xs-2'> <div class='column-name'> Course </div> </div>
-            <div class='col-xs-4'> <div class='column-name'> Submission Content </div> </div>
-            <div class='col-xs-1'> <div class='column-name'> Image </div> </div>
+            <tr>
+
+              <th> Student Name </th>
+              <th> Submitted </th>
+              <th> Validated </th>
+              <th> Course </th>
+              <th> Submission Content </th>
+              <th> Image </th>
+              </tr>
           </div>
 
-          <div class='item'>
-            <div class='row' ng-show="viewMode == 'small'">
-              <td class='col-xs-2 centered'> <!-- Student Name -->
-                {{submission.submitter.firstName}} {{submission.submitter.lastName}}
-              </td>
 
-              <td class='col-xs-1 centered'> <!-- Submitted -->
-                <div style='text-align:center'> <i ng-show='!submission.didNotSubmit' class='fa fa-check' aria-hidden="true"></i> </div>
-              </td>
+          <div class = 'item'>
+              <div class='row' ng-show="viewMode == small">
+                <!-- STUDENT NAME -->
+                <td>
+                  {{submission.submitter.firstName}} {{submission.submitter.lastName}}
+                </td>
 
-              <td class='col-xs-1 centered'> <!-- Validated -->
-                <div style='text-align:center'>
+                <!-- SUBMITTED -->
+                <td>
+                 <i ng-show='!submission.didNotSubmit' class='fa fa-check' aria-hidden="true"></i>
+                </td>
+
+                <!-- VALIDATED -->
+                <td>
                   <i ng-show='submission.verified' class='fa fa-check verified' title="verified"  aria-hidden="true"></i>
 
                   <i ng-show='!submission.verified && submission.instructorVerification==="rejected"' class='fa fa-times rejected' title="rejected"  aria-hidden="true"></i>
                   <i ng-show='!submission.verified && submission.instructorVerification==="none"' class='fa fa-hourglass pending' title="verification pending" aria-hidden="true"></i>
-                </div>
-                <!-- if the submission has not been verified then allow the instructor to verify the submission from this page -->
-                <a href="#" ng-show="!submission.verified && isInstructor" class="btn btn-primary btn-xs" ng-click="validateSubmission(submission)" role="button" type="button"> Validate </a>
-              </div>
+                  <!-- ALLOW INSTRUCTOR TO VERIFY SUBMISSION -->
+                  <a href="#" ng-show="!submission.verified && isInstructor" class="btn btn-primary btn-xs" ng-click="validateSubmission(submission)" role="button" type="button"> Validate </a>
+                </td>
 
-              <td class='col-xs-2 centered'> <!-- Section -->
-                {{ submission.sectionEvent.section.course.department }}
-                {{ submission.sectionEvent.section.course.courseNumber }}
-              </td>
+                <!-- COURSE -->
+                <td>
+                  {{ submission.sectionEvent.section.course.department }}
+                  {{ submission.sectionEvent.section.course.courseNumber }}
+                </td>
 
-              <td class='col-xs-4'> <!-- Submission Content -->
-                <span ng-show='submission.showAllContent'> {{ submission.content }} </span>
-                <span ng-show='!submission.showAllContent'>{{ submission.content | limitTo: 40 }}{{submission.content.length > 40 ? '...' : ''}}</span>
-                <!-- adding a show,hide button to display submission info if it is too long to fit in the table -->
-                <a href='#' ng-show='submission.content.length > 40 && !submission.showAllContent' ng-click='submission.showAllContent = true'> show </a>
-                <a href='#' ng-show='submission.content.length > 40 && submission.showAllContent' ng-click='submission.showAllContent = false'> hide </a>
-              </div>
-              <!-- creating a button to display the image that was submitted as well as the other info for that submission which is provided in the table-->
-              <div class='col-xs-1 centered'>
-                <div ng-show='submission.images.length > 0'>
-                  <a href='#' ng-show='!submission.showImage' ng-click='submission.showImage = true; submission.showAllContent = false'> Show </a>
-                  <a href='#' ng-show='submission.showImage' ng-click='submission.showImage = false'> Hide </a>
-                </div>
-                <div style='text-align:center' ng-show='submission.images.length == 0'> None </div>
-                <div ng-show='submission.showImage || viewMode == "large"' class='row submission-large'>
-                  <div class = 'col-xs-200'>
-                    <img ng-repeat="image in submission.images" src="{{image}}" class='submission-image'style="width:342px;height:192px;"/>
+                <!-- SUBMISSION CONTENT -->
+                <td>
+                  <span ng-show='submission.showAllContent'> {{ submission.content }} </span>
+                  <span ng-show='!submission.showAllContent'>{{ submission.content | limitTo: 40 }}{{submission.content.length > 40 ? '...' : ''}}</span>
+                  <!-- adding a show,hide button to display submission info if it is too long to fit in the table -->
+                  <a href='#' ng-show='submission.content.length > 40 && !submission.showAllContent' ng-click='submission.showAllContent = true'> show </a>
+                  <a href='#' ng-show='submission.content.length > 40 && submission.showAllContent' ng-click='submission.showAllContent = false'> hide </a>
+                </td>
+
+                <!-- SUBMISSION IMAGE -->
+                <td>
+                  <div ng-show='submission.images.length > 0'>
+                    <a href='#' ng-show='!submission.showImage' ng-click='submission.showImage = true; submission.showAllContent = false'> Show </a>
+                    <a href='#' ng-show='submission.showImage' ng-click='submission.showImage = false'> Hide </a>
                   </div>
-                </div>
-              </td>
+                  <div style='text-align:center' ng-show='submission.images.length == 0'> None </div>
+                  <div ng-show='submission.showImage || viewMode == "large"' class='row submission-large'>
+                    <div class = 'col-xs-200'>
+                      <img ng-repeat="image in submission.images" src="{{image}}" class='submission-image'style="width:342px;height:192px;"/>
+                    </div>
+                  </div>
+                </td>
+                
+              </div>
             </div>
-          </div>
-        </tr>
-      </table>
+          </table>
+        </div>
+      </div>
     </div>
+
   </div>
 </div>
