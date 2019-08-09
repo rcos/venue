@@ -1,6 +1,6 @@
 <div class='submissionview'>
   <!-- Control Buttons -->
-  <span ng-include="'components/submissionview/partials/controlbuttons.html'"></span>
+  <!--<span ng-include="'components/submissionview/partials/controlbuttons.html'"></span>-->
 
   <!-- Search Box -->
   <div class='content'>
@@ -29,23 +29,19 @@
     -->
     <div class="row classes submission-card" ng-repeat="event in selectedEvents track by $index" >
       <h4>{{event.title}}</h4>
-      <div ng-repeat="submission in submissions | visibleSubmission:selectedSections:event:submissionFilter:searchName">
-        <table style="width:100%">
-          <!-- TABLE COLUMNS -->
-          <div class='row header' ng-show="$first">
-            <tr>
-
-              <th> Student Name </th>
-              <th> Submitted </th>
-              <th> Validated </th>
-              <th> Course </th>
-              <th> Submission Content </th>
-              <th> Image </th>
+      <div>
+        <table class="table">
+            <thead ng-show="$first">
+              <tr>
+                <th style="min-width: 130px"> Student Name </th>
+                <th> Submitted </th>
+                <th> Validated </th>
+                <th style="min-width:100px"> Course </th>
+                <th> Submission Content </th>
+                <th> Image </th>
               </tr>
-          </div>
-
-
-          <div class = 'item'>
+            </thead>
+            <tbody ng-repeat="submission in submissions | visibleSubmission:selectedSections:event:submissionFilter:searchName" class = 'item'>
               <div class='row' ng-show="viewMode == small">
                 <!-- STUDENT NAME -->
                 <td>
@@ -54,15 +50,15 @@
 
                 <!-- SUBMITTED -->
                 <td>
-                 <i ng-show='!submission.didNotSubmit' class='fa fa-check' aria-hidden="true"></i>
+                  <i ng-show='!submission.didNotSubmit' class='fa fa-check subIcon' aria-hidden="true"></i>
                 </td>
 
                 <!-- VALIDATED -->
                 <td>
-                  <i ng-show='submission.verified' class='fa fa-check verified' title="verified"  aria-hidden="true"></i>
+                  <i ng-show='submission.verified' class='fa fa-check verified subIcon' title="verified"  aria-hidden="true"></i>
 
-                  <i ng-show='!submission.verified && submission.instructorVerification==="rejected"' class='fa fa-times rejected' title="rejected"  aria-hidden="true"></i>
-                  <i ng-show='!submission.verified && submission.instructorVerification==="none"' class='fa fa-hourglass pending' title="verification pending" aria-hidden="true"></i>
+                  <i ng-show='!submission.verified && submission.instructorVerification==="rejected"' class='fa fa-times rejected subIcon' title="rejected"  aria-hidden="true"></i>
+                  <i ng-show='!submission.verified && submission.instructorVerification==="none"' class='fa fa-hourglass pending subIcon' title="verification pending" aria-hidden="true"></i>
                   <!-- ALLOW INSTRUCTOR TO VERIFY SUBMISSION -->
                   <a href="#" ng-show="!submission.verified && isInstructor" class="btn btn-primary btn-xs" ng-click="validateSubmission(submission)" role="button" type="button"> Validate </a>
                 </td>
@@ -84,7 +80,7 @@
 
                 <!-- SUBMISSION IMAGE -->
                 <td>
-                  <div ng-show='submission.images.length > 0'>
+                  <div ng-show='submission.images.length > 0' class="show-hide-image">
                     <a href='#' ng-show='!submission.showImage' ng-click='submission.showImage = true; submission.showAllContent = false'> Show </a>
                     <a href='#' ng-show='submission.showImage' ng-click='submission.showImage = false'> Hide </a>
                   </div>
@@ -94,14 +90,11 @@
                       <img ng-repeat="image in submission.images" src="{{image}}" class='submission-image'style="width:342px;height:192px;"/>
                     </div>
                   </div>
-                </td>
-                
+                </td> 
               </div>
-            </div>
-          </table>
-        </div>
+            </tbody>
+        </table>
       </div>
     </div>
-
   </div>
 </div>
