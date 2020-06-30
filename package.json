@@ -36,7 +36,7 @@
     "ejs": "^2.5.3",
     "errorhandler": "^1.4.2",
     "express": "^4.13.3",
-    "express-jwt": "^5.0.0",
+    "express-jwt": "^6.0.0",
     "express-session": "^1.11.3",
     "fast-json-patch": "^1.0.0",
     "flat": "^2.0.1",
