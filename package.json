@@ -155,7 +155,7 @@
     "lazypipe": "^1.0.1",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
-    "mocha": "^3.0.2",
+    "mocha": "^8.1.1",
     "morgan": "^1.9.0",
     "ng-annotate-loader": "~0.1.0",
     "nodemon": "^1.3.7",
