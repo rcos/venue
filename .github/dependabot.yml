@@ -1,0 +1,22 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "10:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: mocha
+    versions:
+    - 8.2.1
+    - 8.3.0
+  - dependency-name: browser-sync
+    versions:
+    - 2.26.13
+  - dependency-name: lodash
+    versions:
+    - 4.17.20
+  - dependency-name: gulp-mocha
+    versions:
+    - 7.0.2
